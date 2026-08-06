@@ -769,8 +769,6 @@ table.insert(rightSidebar.modules, routeView)
 table.insert(rightSidebar.modules, searchBar)
 table.insert(rightSidebar.modules, bookmarkView)
 
-local shouldRefresh = true
-
 -- Renders the current system banner
 local function drawCurrentSystemName()
 	local window_offset_y = ui.theme.styles.MainButtonSize.y + ui.getWindowPadding().y * 2 + ui.theme.styles.ItemSpacing.y
@@ -839,12 +837,16 @@ local function hasActiveExclusiveLeftModule()
 	return false
 end
 
-ui.registerHandler("SectorView", function()
+local function refreshData()
+	leftSidebar:Refresh()
+	rightSidebar:Refresh()
+	hyperJumpPlanner.updateRouteList()
+end
+
+ui.registerHandler("SectorView", function(delta_t, refresh)
 	player = Game.player
 
-	if shouldRefresh then
-		shouldRefresh = false
-
+	if refresh then
 		-- Always show system info when entering SectorView, if we can. This helps the player find the hyperspace routing.
 		if not hasActiveExclusiveLeftModule() and not infoView.active then
 			infoView.active = true
@@ -852,9 +854,7 @@ ui.registerHandler("SectorView", function()
 			infoView.alpha = nil
 		end
 
-		leftSidebar:Refresh()
-		rightSidebar:Refresh()
-		hyperJumpPlanner.updateRouteList()
+		refreshData()
 	end
 
 	drawCurrentSystemName()
@@ -889,17 +889,13 @@ ui.registerHandler("SectorView", function()
 	end
 end)
 
-ui.registerModule('game', function()
-	if Game.CurrentView() ~= "SectorView" then
-		shouldRefresh = true
-	end
-end)
-
 Event.Register("onGameStart", onGameStart)
 Event.Register("onEnterSystem", function(ship)
 	hyperJumpPlanner.onEnterSystem(ship)
 	hyperspaceDetailsCache = {}
-	shouldRefresh = true
+	-- We don't need to reset UI state after a jump, but we do need to reload
+	-- data about the new system we just entered.
+	refreshData()
 end)
 
 -- reset cached data

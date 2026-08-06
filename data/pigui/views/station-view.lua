@@ -84,8 +84,8 @@ if not stationView then
 		end)
 	end
 
-	ui.registerHandler("StationView", function()
-		stationView:renderTabView()
+	ui.registerHandler("StationView", function(delta_t, refresh)
+		stationView:renderTabView(refresh)
 
 		if ui.escapeKeyReleased() then
 			Game.SetView("WorldView")

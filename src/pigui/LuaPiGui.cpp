@@ -70,12 +70,12 @@ namespace PiGui {
 		queue.Call("_Emit");
 	}
 
-	void RunHandler(double delta, const std::string &handler)
+	void RunHandler(double delta, const std::string &handler, bool activated)
 	{
 		PROFILE_SCOPED()
 		ScopedTable t(GetHandlers());
 		if (t.Get<bool>(handler)) {
-			t.Call<bool>(handler, delta);
+			t.Call<bool>(handler, delta, activated);
 			Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 		}
 	}

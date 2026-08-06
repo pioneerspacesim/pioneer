@@ -44,6 +44,7 @@ protected:
 
 	Graphics::Renderer *m_renderer;
 	std::string m_handlerName;
+	bool m_activated = false;
 };
 
 #endif /* _VIEW_H */

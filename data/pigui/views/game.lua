@@ -36,7 +36,6 @@ local IN_SPACE_INDICATOR_SHIP_MAX_DISTANCE = 1000000 -- ships farther away than 
 local gameView = {
 	center  = nil,
 	player  = nil,
-	shouldRefresh = false,
 
 	leftSidebar = Sidebar.New("##SidebarL", "left"),
 	rightSidebar = Sidebar.New("##SidebarR", "right"),
@@ -191,14 +190,12 @@ gameView.registerModule("onscreen-objects", {
 	end
 })
 
+function gameView:refresh()
+	self.leftSidebar:Refresh()
+	self.rightSidebar:Refresh()
+end
+
 function gameView:draw()
-	if self.shouldRefresh then
-		self.leftSidebar:Refresh()
-		self.rightSidebar:Refresh()
-
-		self.shouldRefresh = false
-	end
-
 	self:updateModules()
 
 	for i, module in ipairs(gameView.modules) do
@@ -250,7 +247,7 @@ local debugReload = function(t)
 end
 
 Event.Register("onGameStart", function()
-	gameView.shouldRefresh = true
+	-- Game view will be refreshed on first appearing
 	gameView.leftSidebar:Reset()
 	gameView.rightSidebar:Reset()
 end)
@@ -265,10 +262,14 @@ Event.Register("onPauseMenuClosed", function()
 	Input.EnableBindings()
 end)
 
-ui.registerHandler('WorldView', function()
+ui.registerHandler('WorldView', function(delta_t, refresh)
 	-- delta_t is ignored for now
 	gameView.player = Game.player
 	gameView.center = Vector2(ui.screenWidth / 2, ui.screenHeight / 2)
+
+	if refresh then
+		gameView:refresh()
+	end
 
 	-- Ensure we're wrapping the whole UI in a font that scales with the rest of the game
 	ui.withFont(pionillium.medium, function()
@@ -284,6 +285,7 @@ ui.registerHandler('WorldView', function()
 		gameView.debugReload()
 
 		debugReload(ui.getModules("game"))
+		debugReload(ui.getModules("world-view"))
 		debugReload(gameView.modules)
 		debugReload(gameView.hudModules)
 		debugReload(gameView.sidebarModules)
@@ -297,10 +299,6 @@ ui.registerHandler('game', function(delta_t)
 		-- icons = ui.theme.icons -- if the theme changes
 		-- keep a copy of the current view so modules can react to the escape key and change the view
 		-- without triggering the options dialog
-
-		if Game.CurrentView() ~= "WorldView" then
-			gameView.shouldRefresh = true
-		end
 
 		ui.callModules('game')
 		ui.callModules('modal')

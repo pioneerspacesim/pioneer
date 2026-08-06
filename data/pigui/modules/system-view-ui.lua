@@ -1126,39 +1126,43 @@ end
 
 local systemViewContents = ui.makeFullScreenHandler("SystemView", displayOnScreenObjects)
 
-local function displaySystemViewUI()
+local function displaySystemViewUI(delta_t, refresh)
 	if not systemView then onGameStart() end
+
+	if refresh then
+		leftSidebar:Refresh()
+		rightSidebar:Refresh()
+	end
 
 	if not ui.shouldDrawUI() then return end
 
 	player = Game.player
-	if Game.CurrentView() == "SystemView" then
-		if ui.isKeyReleased(ui.keys.tab) then
-			systemViewLayout.enabled = not systemViewLayout.enabled
-		end
 
-		plannerView.disabled = systemView:GetDisplayMode() ~= "Orrery"
-		plannerView.icon = plannerView.disabled and icons.square_dashed or icons.semi_major_axis
+	if ui.isKeyReleased(ui.keys.tab) then
+		systemViewLayout.enabled = not systemViewLayout.enabled
+	end
 
-		systemViewLayout:display()
-		if systemViewLayout.enabled then
-			ui.withStyleColors({ WindowBg = colors.transparent }, function()
-				leftSidebar:Draw()
-				rightSidebar:Draw()
-			end)
-		end
+	plannerView.disabled = systemView:GetDisplayMode() ~= "Orrery"
+	plannerView.icon = plannerView.disabled and icons.square_dashed or icons.semi_major_axis
 
-		systemViewContents()
+	systemViewLayout:display()
+	if systemViewLayout.enabled then
+		ui.withStyleColors({ WindowBg = colors.transparent }, function()
+			leftSidebar:Draw()
+			rightSidebar:Draw()
+		end)
+	end
 
-		if ui.escapeKeyReleased() then
-			Game.SetView("SectorView")
-		end
+	systemViewContents()
 
-		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
-			package.reimport 'pigui.modules.system-overview-window'
-			systemEconView = package.reimport('pigui.modules.system-econ-view').New()
-			package.reimport()
-		end
+	if ui.escapeKeyReleased() then
+		Game.SetView("SectorView")
+	end
+
+	if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
+		package.reimport 'pigui.modules.system-overview-window'
+		systemEconView = package.reimport('pigui.modules.system-econ-view').New()
+		package.reimport()
 	end
 end
 

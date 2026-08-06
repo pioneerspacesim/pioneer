@@ -20,6 +20,10 @@ View::~View()
 
 void View::Attach()
 {
+	// Store the fact that we were recently activated to trigger Lua UI to
+	// refresh its state.
+	m_activated = true;
+
 	OnSwitchTo();
 }
 
@@ -46,7 +50,9 @@ void View::DrawPiGui()
 
 	if (open) {
 		DrawUIContents();
-		PiGui::RunHandler(Pi::GetFrameTime(), m_handlerName);
+		PiGui::RunHandler(Pi::GetFrameTime(), m_handlerName, m_activated);
+
+		m_activated = false;
 	}
 
 	ImGui::End();

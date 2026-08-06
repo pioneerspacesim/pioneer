@@ -30,7 +30,6 @@ function PiGuiTabView.New(viewName)
 		name = viewName,
 		currentTab = 1,
 		viewCount = 0,
-		isActive = false,
 		tabs = {},
 		windowPadding = Vector2(0),
 		renderTab = drawTabWindow
@@ -97,11 +96,7 @@ local staticButtonFlags = ui.WindowFlags {"NoResize", "NoTitleBar", "NoMove", "N
 local vCenter = Vector2(0.5, 0.5)
 local mainWindowFlags = ui.WindowFlags {"NoResize", "NoTitleBar"}
 
-function PiGuiTabView.renderTabView(self)
-	local wasActive = self.isActive
-	self.isActive = Game.CurrentView() == self.name
-	if not self.isActive then return end
-
+function PiGuiTabView.renderTabView(self, refresh)
 	if not self.tabs[self.currentTab] then
 		self.currentTab = 1
 	end
@@ -110,7 +105,7 @@ function PiGuiTabView.renderTabView(self)
 	if not tab then return end
 
 	-- refresh the tab since we're swapping back to the view
-	if self.isActive and not wasActive then
+	if refresh then
 		self:refreshTab(self.currentTab)
 	end
 

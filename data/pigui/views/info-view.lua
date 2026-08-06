@@ -8,8 +8,8 @@ local TabView = require 'pigui.views.tab-view'
 local infoView = TabView.New("InfoView")
 infoView.windowPadding = ui.rescaleUI(Vector2(18, 18))
 
-ui.registerHandler("InfoView", function()
-	infoView:renderTabView()
+ui.registerHandler("InfoView", function(delta_t, refresh)
+	infoView:renderTabView(refresh)
 
 	if ui.escapeKeyReleased() then
 		Game.SetView("WorldView")
