@@ -3,6 +3,8 @@
 
 #include "ShipAICmd.h"
 
+#include "core/Log.h"
+
 #include "Frame.h"
 #include "Game.h"
 #include "JsonUtils.h"
@@ -1016,8 +1018,219 @@ void AICmdFlyTo::SaveToJson(Json &jsonObj)
 	jsonObj["ai_command"] = aiCommandObj; // Add ai command object to supplied object.
 }
 
+struct Telemetry {
+	Telemetry(vector3d position, vector3d velocity) : m_position(position), m_velocity(velocity) {
+		m_normalVelocity = position.Normalized() * position.Normalized().Dot(velocity);
+		m_tangentVelocity = velocity - m_normalVelocity;
+	}
+
+	vector3d m_position;
+	vector3d m_velocity;
+	vector3d m_normalVelocity;
+	vector3d m_tangentVelocity;
+};
+
+bool AICmdFlyTo::AIEnterOrbit(FrameId planetFrameId)
+{
+	// solving a three-body problem
+	// local body - a body which frame of reference we're in
+	// orbit body - a body we're flying around, can be changed any moment
+	// target body - a body we're trying to reach, does not change without a pilot's command
+
+	FrameId localFrameID = m_dBody->GetFrame();
+	FrameId orbitFrameID = planetFrameId;
+	FrameId targetFrameID = m_target ? m_target->GetFrame() : m_targframeId;
+
+	Telemetry shipLocalBody = Telemetry(
+		-Frame::GetFrame(localFrameID)->GetBody()->GetPositionRelTo(m_dBody),
+		-Frame::GetFrame(localFrameID)->GetBody()->GetVelocityRelTo(m_dBody)
+	);
+	Telemetry shipOrbitBody = Telemetry(
+		-Frame::GetFrame(orbitFrameID)->GetBody()->GetPositionRelTo(m_dBody),
+		-Frame::GetFrame(orbitFrameID)->GetBody()->GetVelocityRelTo(m_dBody)
+	);
+	Telemetry shipTargetBody = Telemetry(
+		-Frame::GetFrame(targetFrameID)->GetBody()->GetPositionRelTo(m_dBody),
+		-Frame::GetFrame(targetFrameID)->GetBody()->GetVelocityRelTo(m_dBody)
+	);
+
+	double localGravity = GetGravityAtPos(planetFrameId, shipOrbitBody.m_position);
+
+	SystemBody *planet = Frame::GetFrame(planetFrameId)->GetSystemBody();
+	double orbitHeight = (planet->GetRadius() + planet->GetAtmRadius()) * 1.05;
+	double dh = orbitHeight - shipOrbitBody.m_position.Length();
+
+	double tgAccel = shipOrbitBody.m_tangentVelocity.LengthSqr() / shipOrbitBody.m_position.Length();
+
+	double escapeVelocity = sqrt(localGravity * shipOrbitBody.m_position.Length());
+
+	vector3d upDir = shipOrbitBody.m_position.Normalized();
+	vector3d tgDir = vector3d(1.0, 0.0, 0.0);
+	if ((shipOrbitBody.m_position - shipLocalBody.m_position).LengthSqr() > 1e-6) {
+		// local and orbit bodies are not the same
+		tgDir = (shipOrbitBody.m_position - shipLocalBody.m_position.Normalized() * shipLocalBody.m_position.Normalized().Dot(shipOrbitBody.m_position)).NormalizedSafe();
+	} else {
+		// local and orbit bodies are the same
+		tgDir = shipOrbitBody.m_tangentVelocity.NormalizedSafe();
+	}
+
+	// avoid stopping ship at the orbit
+	if (shipOrbitBody.m_tangentVelocity.Dot(tgDir) < 0.0) {
+		tgDir = -tgDir;
+	}
+
+	double orbitGravity = localGravity - tgAccel;
+
+	double climbVelocity = 0.0;
+	if (0.01 > abs(dh)
+		&& 0.01 > shipOrbitBody.m_normalVelocity.LengthSqr()
+		&& 0.01 > abs(shipOrbitBody.m_tangentVelocity.Length() - escapeVelocity)) {
+		// do nothing, we're already at orbit
+		m_prop->AIFaceDirection(shipOrbitBody.m_velocity.Normalized());
+		m_prop->AIFaceUpdir(upDir);
+
+		m_prop->SetLinThrusterState(vector3d(0.0));
+	} else if (100.0 > abs(dh)
+			&& 100.0 > shipOrbitBody.m_normalVelocity.LengthSqr()) {
+		// fine tuning
+		double minThrust = m_prop->GetAccelMin();
+
+		if (dh > 0) {
+			climbVelocity = (minThrust - orbitGravity) * sqrt(2 * dh / (minThrust - orbitGravity));
+		} else {
+			climbVelocity = -(minThrust + orbitGravity) * sqrt(-2 * dh / (minThrust + orbitGravity));
+		}
+
+		vector3d v = upDir * climbVelocity + tgDir * escapeVelocity;
+		m_prop->AIMatchVel(v);
+
+		m_prop->AIFaceDirection(shipOrbitBody.m_velocity.Normalized());
+		m_prop->AIFaceUpdir(upDir);
+	} else {
+		// ascend/descend rate should be enough to stop exactly at orbit in worst case
+		double maxThrust = m_prop->GetAccelRev();
+		if (dh > 0) {
+			climbVelocity = (maxThrust - orbitGravity) * sqrt(2 * dh / (maxThrust - orbitGravity));
+		} else {
+			climbVelocity = -(maxThrust + orbitGravity) * sqrt(-2 * dh / (maxThrust + orbitGravity));
+		}
+
+		vector3d v = (upDir * climbVelocity + tgDir * escapeVelocity);
+
+		// clamp speed based on how many fuel we have
+		double maxFuelSpeed = m_prop->GetSpeedReachedWithFuel() * 0.5;
+		if (v.LengthSqr() > maxFuelSpeed * maxFuelSpeed) {
+			v = v.Normalized() * maxFuelSpeed;
+		}
+		m_prop->AIMatchVel(v);
+
+		// are we gaining speed or slowing down?
+		if (shipOrbitBody.m_normalVelocity.Length() < abs(climbVelocity)) {
+			// gaining speed, check if thrusters for VTOL are too weak for local gravity
+			// face upwards if they are
+			if (m_prop->GetAccelUp() < orbitGravity) {
+				m_prop->AIFaceDirection(shipLocalBody.m_position.Normalized());
+				m_prop->AIFaceUpdir(tgDir);
+			} else {
+				m_prop->AIFaceDirection(shipOrbitBody.m_velocity.Normalized());
+				m_prop->AIFaceUpdir(upDir);
+			}
+		} else {
+			m_prop->AIFaceDirection(shipOrbitBody.m_normalVelocity.Dot(shipLocalBody.m_position.Normalized()) < climbVelocity ? shipLocalBody.m_position.Normalized() : -shipLocalBody.m_position.Normalized());
+			m_prop->AIFaceUpdir(tgDir);
+		}
+
+		if (m_debugCounter % 100 == 0) {
+			Output("DEBUG: reference = %s, dist = %5.2lf m, dh = %5.2lf m, [vv = %5.2lf m/s, cv = %5.2lf m/s], [tv = %5.2lf m/s, ev = %5.2lf m/s], gravity = %1.4lf m/s^2, atg = %1.4lf m/s^2\n",
+				planet->GetName().c_str(), shipOrbitBody.m_position.Length(), dh,
+				shipOrbitBody.m_normalVelocity.Length() , climbVelocity,
+				shipOrbitBody.m_tangentVelocity.Length(), escapeVelocity,
+				localGravity, tgAccel);
+		}
+	}
+
+	return false;
+}
+
+bool AICmdFlyTo::TimeStepUpdatePlayer()
+{
+	m_debugCounter += 1;
+
+	// No need to check if we are not `Ship`
+	// we always are because we are `Player`
+	Ship *ship = static_cast<Ship *>(m_dBody);
+
+	// initiated hyperdrive, do nothing
+	if (ship->GetFlightState() == Ship::JUMPING) return false;
+
+	// undocked, forgot to retract landing gear
+	if (ship->GetFlightState() == Ship::FLYING) {
+		ship->SetWheelState(false);
+	} else {
+		LaunchShip(ship); // docked or landed
+		return false;
+	}
+
+	double timestep = Pi::game->GetTimeStep();
+
+	// ========== boolean switchers ==========
+
+	// are we there yet?
+	FrameId destFrameID = m_target ? m_target->GetFrame() : m_targframeId;
+	FrameId playerFrameID = m_dBody->GetFrame();
+	bool nearDestPlanet = (destFrameID == playerFrameID);
+
+	// we don't want to scratch our paint against terrain or landing pad
+	SystemBody* planet = Frame::GetFrame(playerFrameID)->GetSystemBody();
+	vector3d planetPosition = m_dBody->GetPosition();
+	double planetDist = planetPosition.Length();
+	double planetDistThreshold = (planet->GetRadius() + std::max(planet->GetAtmRadius(), 5000.0));
+	bool onPlanet = planetDist < planetDistThreshold;
+
+	vector3d destPosition = GetPosInFrame(m_dBody->GetFrame(), destFrameID, m_posoff);
+	bool destVisible = (MathUtil::DistanceFromLine(vector3f(planetPosition), vector3f(destPosition), vector3f(0.0)) > planetDistThreshold) | (planetPosition.Dot(destPosition) > 0);
+
+	// not even close, push as hard as we can
+	// TODO make it slowly approach target direction if it's visible
+	if (!nearDestPlanet && onPlanet) {
+		m_prop->AIFaceDirection(planetPosition);
+		m_prop->AIDirThrust(planetPosition.Normalized() * m_dBody->GetOrient());
+		return false;
+	}
+
+	// climb into orbit
+	if (!nearDestPlanet && !onPlanet && !destVisible) {
+		return AIEnterOrbit(playerFrameID);
+	}
+
+	if (!nearDestPlanet && !onPlanet && destVisible) {
+		// TOOD: make an intercepting body check
+		return AIEnterOrbit(destFrameID);
+	}
+
+	// descend into orbit
+	if (nearDestPlanet && !onPlanet) {
+		return AIEnterOrbit(destFrameID);
+	}
+
+	if (nearDestPlanet && onPlanet) {
+		m_prop->AIFaceDirection(planetPosition);
+		m_prop->AIDirThrust(planetPosition.Normalized() * m_dBody->GetOrient());
+		return false;
+	}
+
+	// fallback: stop all motion
+	m_prop->SetLinThrusterState(vector3d(0.0));
+	m_prop->SetAngThrusterState(vector3d(0.0));
+	return false;
+}
+
 bool AICmdFlyTo::TimeStepUpdate()
 {
+	if (m_dBody->IsType(ObjectType::PLAYER)) {
+		return TimeStepUpdatePlayer();
+	}
+
 	/* TODO: ship is used ONLY to calls
 	 * wheels, launch and flightstate, so
 	 * it is better to split them in a module
