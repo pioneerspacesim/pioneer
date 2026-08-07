@@ -354,7 +354,7 @@ local function getNumSlotsCompatibleWithType(def, type)
 	local count = 0
 
 	for _, slot in pairs(config.slots) do
-		if EquipSet.SlotTypeMatches(type, slot.type) then
+		if EquipSet.SlotTypeMatches(slot.type, type) then
 			count = count + (slot.count or 1)
 		end
 	end
@@ -493,14 +493,24 @@ local tradeMenu = function()
 						shipFormatAndCompare:draw_deltav_cell( l.DELTA_V_FULL, "fullMass", "massAtCapacity")
 						shipFormatAndCompare:draw_unformated_cell( l.MAXIMUM_CREW, "maxCrew" )
 						shipFormatAndCompare:draw_deltav_cell( l.DELTA_V_MAX, "fullMass", "hullMass")
-						shipFormatAndCompare:draw_equip_slot_cell( l.MISSILE_MOUNTS, "missile" )
+						shipFormatAndCompare:draw_equip_slot_cell( l.PASSENGER_CABIN_CAPACITY, "cabin" )
 						shipFormatAndCompare:draw_yes_no_equip_slot_cell( l.ATMOSPHERIC_SHIELDING, "hull.atmo_shield" )
 						shipFormatAndCompare:draw_atmos_pressure_limit_cell( l.ATMO_PRESS_LIMIT )
+
+						shipFormatAndCompare:draw_equip_slot_cell( l.SHIELD_MOUNTS, "shield" )
+						shipFormatAndCompare:draw_equip_slot_cell( l.HULL_MOUNTS, "hull" )
+						shipFormatAndCompare:draw_equip_slot_cell( l.WEAPON_MOUNTS, "weapon" )
+						shipFormatAndCompare:draw_equip_slot_cell( l.STRUCTURE_MOUNTS, "structure" )
+						shipFormatAndCompare:draw_equip_slot_cell( l.MISSILE_MOUNTS, "missile" )
+						shipFormatAndCompare:draw_equip_slot_cell( l.COMPUTER_MOUNTS, "computer" )
+						shipFormatAndCompare:draw_equip_slot_cell( l.MISSILE_PYLONS, "pylon" )
+						shipFormatAndCompare:draw_equip_slot_cell( l.SENSOR_MOUNTS, "sensor" )
+						shipFormatAndCompare:draw_equip_slot_cell( l.MISSILE_BAYS, "missile_bay" )
+
 						shipFormatAndCompare:draw_equip_slot_cell( l.SCOOP_MOUNTS, "scoop" )
-						shipFormatAndCompare:draw_equip_slot_cell( l.PASSENGER_CABIN_CAPACITY, "cabin" )
+						shipFormatAndCompare:draw_equip_slot_cell( l.UTILITY_MOUNTS, "utility" )
 
 						ui.endTable()
-
 					end)
 				end)
 
@@ -510,7 +520,7 @@ local tradeMenu = function()
 end
 
 shipMarket = Table.New("shipMarketWidget", false, {
-	columnCount = 4,
+	columnCount = 5,
 	initTable = function(self)
 		local iconColumnWidth = widgetSizes.iconSize.x + widgetSizes.itemSpacing.x
 		local columnWidth = (self.style.size.x - iconColumnWidth) / (self.columnCount-1)
@@ -518,6 +528,7 @@ shipMarket = Table.New("shipMarketWidget", false, {
 		ui.setColumnWidth(1, columnWidth)
 		ui.setColumnWidth(2, columnWidth)
 		ui.setColumnWidth(3, columnWidth)
+		ui.setColumnWidth(4, columnWidth)
 	end,
 	renderHeaderRow = function(_)
 		ui.withFont(orbiteer.heading, function()
@@ -528,6 +539,8 @@ shipMarket = Table.New("shipMarketWidget", false, {
 			ui.text(l.PRICE)
 			ui.nextColumn()
 			ui.text(l.CAPACITY)
+			ui.nextColumn()
+			ui.text(l.CARGO)
 			ui.nextColumn()
 		end)
 	end,
@@ -556,7 +569,10 @@ shipMarket = Table.New("shipMarketWidget", false, {
 			ui.text(Format.Money(advertDataCache[item].price, false))
 			ui.nextColumn()
 			ui.dummy(widgetSizes.rowVerticalSpacing)
-			ui.text(item.def.equipCapacity.." t")
+			ui.text(item.def.equipCapacity .." t")
+			ui.nextColumn()
+			ui.dummy(widgetSizes.rowVerticalSpacing)
+			ui.text(item.def.cargo .." t")
 			ui.nextColumn()
 		end)
 	end,
