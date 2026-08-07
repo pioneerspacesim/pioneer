@@ -1271,6 +1271,14 @@
     "description": "Mass",
     "message": "質量"
   },
+  "HUD_ORBIT_APOAPSIS": {
+    "description": "Tooltip: Current orbital apoapsis.",
+    "message": "Current orbit apoapsis"
+  },
+  "HUD_ORBIT_PERIAPSIS": {
+    "description": "Tooltip: Current orbital apoapsis.",
+    "message": "Current orbit periapsis"
+  },
   "HUD_RADAR_DISTANCE": {
     "description": "Tooltip: Current distance of the radar.",
     "message": "有効レーダー距離"

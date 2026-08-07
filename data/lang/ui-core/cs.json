@@ -1271,6 +1271,14 @@
     "description": "Mass",
     "message": "Hmotnost"
   },
+  "HUD_ORBIT_APOAPSIS": {
+    "description": "Tooltip: Current orbital apoapsis.",
+    "message": "Current orbit apoapsis"
+  },
+  "HUD_ORBIT_PERIAPSIS": {
+    "description": "Tooltip: Current orbital apoapsis.",
+    "message": "Current orbit periapsis"
+  },
   "HUD_RADAR_DISTANCE": {
     "description": "Tooltip: Current distance of the radar.",
     "message": "Active radar distance"
