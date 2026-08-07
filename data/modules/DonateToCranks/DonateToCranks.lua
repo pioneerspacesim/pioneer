@@ -55,7 +55,7 @@ local computeReputation = function (ad)
 			return donate
 		end
 	end
-	-- aught not come here unless player has maxed out reputation
+	-- aught not come here unless player has maxed out donation
 	return 0
 end
 
@@ -73,8 +73,13 @@ local onChat = function (form, ref, option)
 	end
 
 	if option == 0 then
-		form:SetMessage(string.interp(flavours[ad.n].message, ad.stringVariables) .. "\n\n" .. string.interp(
-			l.SALES_PITCH, {cash = Format.Money(computeReputation(ad), false)}))
+		local cash = computeReputation(ad)
+		if cash > 0 then
+			form:SetMessage(string.interp(flavours[ad.n].message, ad.stringVariables) .. "\n\n" .. string.interp(
+				l.SALES_PITCH, {cash = Format.Money(cash, false)}))
+		else
+			form:SetMessage(string.interp(flavours[ad.n].message, ad.stringVariables))
+		end
 
 	elseif PlayerState.GetMoney() < option then
 		form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_MONEY)
