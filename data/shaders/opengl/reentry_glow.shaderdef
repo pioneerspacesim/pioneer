@@ -1,0 +1,12 @@
+## Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
+## Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+Shader reentry_glow
+
+Buffer DrawData binding=1
+
+PushConstant vec4 ReentryFlight
+PushConstant float ReentryTime
+
+Vertex "reentry_glow.vert"
+Fragment "reentry_glow.frag"

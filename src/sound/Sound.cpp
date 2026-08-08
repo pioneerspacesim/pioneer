@@ -18,6 +18,7 @@
 #include "JobQueue.h"
 #include "Pi.h"
 #include "Player.h"
+#include "NullAudioBackend.h"
 #include "SdlAudioBackend.h"
 #include "utils.h"
 
@@ -34,6 +35,7 @@ namespace Sound {
 	static const double STREAM_IF_LONGER_THAN = 10.0;
 	constexpr std::string_view SDLBackendName = "SDL";
 	constexpr std::string_view OpenALBackendName = "OpenAL";
+	constexpr std::string_view NullBackendName = "Null";
 
 	static AudioBackend *m_backend = nullptr;
 	static std::vector<std::pair<std::string, Sample>> m_samples;
@@ -211,7 +213,9 @@ namespace Sound {
 
 	std::string_view GetBackend()
 	{
-		if (dynamic_cast<SdlAudioBackend *>(m_backend) != nullptr) {
+		if (dynamic_cast<NullAudioBackend *>(m_backend) != nullptr) {
+			return NullBackendName;
+		} else if (dynamic_cast<SdlAudioBackend *>(m_backend) != nullptr) {
 			return SDLBackendName;
 #if BUILD_WITH_OPENAL
 		} else if (dynamic_cast<AlAudioBackend *>(m_backend) != nullptr) {
@@ -231,6 +235,11 @@ namespace Sound {
 			} else {
 				Uninit();
 			}
+		}
+
+		if (Pi::GetApp()->HeadlessMode() || Pi::config->Int("DisableSound")) {
+			m_backend = new NullAudioBackend();
+			return true;
 		}
 
 		if (backend.empty()) {
