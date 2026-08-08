@@ -63,16 +63,17 @@ namespace {
 	// Reused each exhaust draw, cleared at the start of every pass.
 	std::map<ExhaustJetStreamKey, std::vector<Sfx *>> s_exhaustByJet;
 
-	// GPU instance record for instanced exhaust quads (40-byte stride, binding 1).
+	// GPU instance record for instanced exhaust quads (44-byte stride, binding 1).
 	struct ExhaustInstanceData {
 		vector3f center;
 		float size;
 		vector3f jetVectorCam;
 		float backboneCamZ;
 		float stretchScale;
+		float noiseStrength;
 		Color color;
 	};
-	static_assert(sizeof(ExhaustInstanceData) == 40);
+	static_assert(sizeof(ExhaustInstanceData) == 44);
 
 	Graphics::VertexFormatDesc BuildExhaustInstancedVertexFormat()
 	{
@@ -81,7 +82,8 @@ namespace {
 		vtxFormat.attribs[0] = { Graphics::ATTRIB_FORMAT_FLOAT4, 6, 0, 0 };
 		vtxFormat.attribs[1] = { Graphics::ATTRIB_FORMAT_FLOAT4, 7, 0, 16 };
 		vtxFormat.attribs[2] = { Graphics::ATTRIB_FORMAT_FLOAT, 8, 0, 32 };
-		vtxFormat.attribs[3] = { Graphics::ATTRIB_FORMAT_UBYTE4, 9, 0, 36 };
+		vtxFormat.attribs[3] = { Graphics::ATTRIB_FORMAT_FLOAT, 9, 0, 36 };
+		vtxFormat.attribs[4] = { Graphics::ATTRIB_FORMAT_UBYTE4, 10, 0, 40 };
 		vtxFormat.bindings[0] = { sizeof(ExhaustInstanceData), true, Graphics::ATTRIB_RATE_INSTANCE };
 		assert(vtxFormat.ValidateDesc() == Graphics::InvalidVertexFormatReason::OK);
 		return vtxFormat;
@@ -185,7 +187,9 @@ Sfx::Sfx(const vector3d &pos, const vector3d &vel, const float speed, const SFX_
 	m_exhaustDustTint(0, 0, 0, 0),
 	m_exhaustGroundRadius(0.0),
 	m_dragScale(1.0f),
-	m_windVel(vector3f::Zero)
+	m_windVel(vector3f::Zero),
+	m_exhaustMaxSpread(SfxParams::EXHAUST_MAX_SPREAD),
+	m_exhaustNoiseStrength(0.f)
 {
 }
 
@@ -213,6 +217,8 @@ Sfx::Sfx(const Json &jsonObj)
 		m_exhaustGroundRadius = sfxObj.value("exhaustGroundRadius", 0.0);
 		m_exhaustDustKick = sfxObj.value("exhaustDustKick", false);
 		m_exhaustDustTint = sfxObj.value("exhaustDustTint", Color(0, 0, 0, 0));
+		m_exhaustMaxSpread = sfxObj.value("exhaustMaxSpread", SfxParams::EXHAUST_MAX_SPREAD);
+		m_exhaustNoiseStrength = sfxObj.value("exhaustNoiseStrength", 0.f);
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
@@ -241,6 +247,8 @@ void Sfx::SaveToJson(Json &jsonObj, const Space *space)
 		sfxObj["exhaustGroundRadius"] = m_exhaustGroundRadius;
 		sfxObj["exhaustDustKick"] = m_exhaustDustKick;
 		sfxObj["exhaustDustTint"] = m_exhaustDustTint;
+		sfxObj["exhaustMaxSpread"] = m_exhaustMaxSpread;
+		sfxObj["exhaustNoiseStrength"] = m_exhaustNoiseStrength;
 	}
 	sfxObj["age"] = m_age;
 	sfxObj["seed"] = m_seed;
@@ -390,7 +398,7 @@ void SfxManager::AddThrustSmoke(const Body *b, const float speed, const vector3d
 	sfxman->AddInstance(sfx);
 }
 
-void SfxManager::AddExhaust(const Body *b, const Uint16 exhaustJetIndex, const bool exhaustSuppressStreakElongation, const vector3d &startPos, const vector3d &backboneVel, const vector3f &plumeOffset, const vector3f &plumeOffsetVel, const float intensity, const float dragScale, const float opacityScale, const vector3f &windVel, const double groundRadius, const Color &dustTint)
+void SfxManager::AddExhaust(const Body *b, const Uint16 exhaustJetIndex, const bool exhaustSuppressStreakElongation, const vector3d &startPos, const vector3d &backboneVel, const vector3f &plumeOffset, const vector3f &plumeOffsetVel, const float intensity, const float dragScale, const float opacityScale, const vector3f &windVel, const double groundRadius, const Color &dustTint, const float baseLifetime, const float maxSpread, const float noiseStrength)
 {
 	PROFILE_SCOPED()
 
@@ -412,13 +420,15 @@ void SfxManager::AddExhaust(const Body *b, const Uint16 exhaustJetIndex, const b
 	// Give each exhaust particle a random lifetime, except for the "marker" particles which only exist to pinpoint
 	// the start of an exhaust pulse. Those stay alive as long as possible because if they disappear early then the
 	// next particle may try to streak back to an earlier one instead of stopping where it should.
-	sfx.m_lifetime = SfxParams::EXHAUST_LIFETIME + 0.5f;
+	sfx.m_lifetime = baseLifetime + 0.5f;
 	if (!exhaustSuppressStreakElongation)
-		sfx.m_lifetime = SfxParams::EXHAUST_LIFETIME * float(std::pow(Pi::rng.Double(0.5, 1.0), 2.0));
+		sfx.m_lifetime = baseLifetime * float(std::pow(Pi::rng.Double(0.5, 1.0), 2.0));
 
 	sfx.m_exhaustGroundRadius = groundRadius;
 	sfx.m_exhaustDustKick = false;
 	sfx.m_exhaustDustTint = dustTint;
+	sfx.m_exhaustMaxSpread = maxSpread;
+	sfx.m_exhaustNoiseStrength = noiseStrength;
 	sfxman->AddInstance(sfx);
 }
 
@@ -573,7 +583,7 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId, 
 						// any thin lines coming from the thruster nozzle, preferring a later "emerging contrail" effect.
 						if (inst.m_age < SfxParams::EXHAUST_TIME_BEFORE_SPREAD) continue;
 
-						float size = std::max(0.01f, float(inst.m_plumeOffset.Length()));
+						float size = std::max(0.01f, inst.m_exhaustMaxSpread * ageNorm);
 						if (inst.m_exhaustDustKick)
 							size = SfxParams::EXHAUST_DUST_SIZE * ageNorm * std::max(inst.m_speed, 0.2f);
 
@@ -602,6 +612,7 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId, 
 							jetVectorCam,
 							interpBackboneCam.z,
 							stretchScale,
+							inst.m_exhaustNoiseStrength,
 							particleColor,
 						});
 					}

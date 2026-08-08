@@ -3,10 +3,13 @@
 
 #include "Missile.h"
 
+#include "Frame.h"
 #include "Game.h"
 #include "Lang.h"
 #include "Json.h"
 #include "Pi.h"
+#include "Planet.h"
+#include "Player.h"
 #include "Sfx.h"
 #include "Ship.h"
 #include "ShipAICmd.h"
@@ -48,6 +51,7 @@ void Missile::Init()
 	m_decelerating = false;
 
 	m_propulsion->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
+	m_exhaustSpawner.RefreshMounts(GetModel());
 }
 
 Missile::Missile(const Json &jsonObj, Space *space) :
@@ -79,6 +83,7 @@ Missile::Missile(const Json &jsonObj, Space *space) :
 	}
 
 	m_propulsion->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
+	m_exhaustSpawner.RefreshMounts(GetModel());
 }
 
 void Missile::SaveToJson(Json &jsonObj, Space *space)
@@ -112,6 +117,13 @@ void Missile::PostLoadFixup(Space *space)
 	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
 }
 
+void Missile::SetFrame(FrameId fId)
+{
+	if (fId != GetFrame())
+		m_exhaustSpawner.ClearChannelState();
+	DynamicBody::SetFrame(fId);
+}
+
 Missile::~Missile()
 {
 	if (m_curAICmd) delete m_curAICmd;
@@ -136,15 +148,49 @@ void Missile::StaticUpdate(const float timeStep)
 		delete m_curAICmd;
 		m_curAICmd = nullptr;
 	}
-	//Add smoke trails for missiles on thruster state
-	static double s_timeAccum = 0.0;
-	s_timeAccum += timeStep;
-	if (!is_equal_exact(m_propulsion->GetLinThrusterState().LengthSqr(), 0.0) && (s_timeAccum > 4 || 0.1 * Pi::rng.Double() < timeStep)) {
-		s_timeAccum = 0.0;
-		const vector3d pos = GetOrient() * vector3d(0, 0, 5);
-		const float speed = std::min(10.0 * GetVelocity().Length() * std::max(1.0, fabs(m_propulsion->GetLinThrusterState().z)), 100.0);
-		SfxManager::AddThrustSmoke(this, speed, pos);
+
+	SpawnThrusterExhaustParticles(timeStep);
+}
+
+void Missile::SpawnThrusterExhaustParticles(float timeStep)
+{
+	if (IsDead()) return;
+
+	if (is_equal_exact(m_propulsion->GetLinThrusterState().LengthSqr(), 0.0)) {
+		m_exhaustSpawner.ClearChannelState();
+		return;
 	}
+
+	constexpr double EXHAUST_MAX_PLAYER_DISTANCE_SQR = SfxParams::EXHAUST_MAX_PLAYER_DISTANCE * SfxParams::EXHAUST_MAX_PLAYER_DISTANCE;
+	const bool spawnExhaust = !Pi::player || (GetPositionRelTo(Pi::player).LengthSqr() <= EXHAUST_MAX_PLAYER_DISTANCE_SQR);
+	if (!spawnExhaust) {
+		m_exhaustSpawner.ClearChannelState();
+		return;
+	}
+
+	ExhaustEnvironment env;
+	env.opacityAtmosphereFactor = 1.0f;
+	env.baseLifetime = SfxParams::MISSILE_EXHAUST_LIFETIME;
+	env.maxSpread = SfxParams::MISSILE_EXHAUST_MAX_SPREAD;
+
+	Frame *frame = Frame::GetFrame(GetFrame());
+	Body *astro = frame ? frame->GetBody() : nullptr;
+	if (astro && astro->IsType(ObjectType::PLANET)) {
+		Planet *p = static_cast<Planet *>(astro);
+		const double dist = GetPosition().Length();
+		double pressureAtDist, density;
+		p->GetAtmosphericState(dist, &pressureAtDist, &density);
+		(void)pressureAtDist;
+		env.density = density;
+
+		const vector3f localUp = vector3f(GetPosition().NormalizedSafe());
+		vector3f windDir = vector3f(0.f, 1.f, 0.f).Cross(localUp);
+		if (windDir.LengthSqr() < 1e-8f) windDir = vector3f(1.f, 0.f, 0.f).Cross(localUp);
+		windDir = windDir.NormalizedSafe();
+		env.windVel = windDir * (SfxParams::EXHAUST_WIND_SPEED * float(Clamp(density, 0.0, 1.0)));
+	}
+
+	m_exhaustSpawner.Spawn(this, m_propulsion, timeStep, env, SfxParams::MISSILE_EXHAUST_PARTICLES_PER_SEC);
 }
 
 bool Missile::IsValidTarget(const Body *body)

@@ -30,12 +30,17 @@ enum SFX_TYPE {
 };
 
 namespace SfxParams {
+	inline constexpr float MISSILE_EXHAUST_PARTICLES_PER_SEC = 600.0f;
+	inline constexpr float MISSILE_EXHAUST_LIFETIME = 5.0f;
+	inline constexpr float MISSILE_EXHAUST_MAX_SPREAD = 20.0f;
+
 	inline constexpr float EXHAUST_MAX_PLAYER_DISTANCE = 5000.0f;
 	inline constexpr float EXHAUST_INITIAL_VELOCITY = 320.0f;
 	inline constexpr float EXHAUST_INITIAL_SPREAD = 0.1f;
 	inline constexpr float EXHAUST_TIME_BEFORE_SPREAD = 0.05f;
 	inline constexpr float EXHAUST_MAX_SPREAD = 50.0f;
 	inline constexpr float EXHAUST_DUST_SIZE = 200.0f;
+	inline constexpr float EXHAUST_NOISE_STRENGTH = 2.0f;	// Fragment noise amplitude at sea-level air density
 	inline constexpr float EXHAUST_LIFETIME = 10.0f;
 	inline constexpr float EXHAUST_WIND_SPEED = 32.0f;
 	inline constexpr float EXHAUST_PARTICLES_PER_SHIP_PER_SEC = 1800.0f;
@@ -103,6 +108,8 @@ struct Sfx {
 	// Atmospheric behaviour - if planet wind is implemented then this would be the hook for making thruster plumes blow about
 	float m_dragScale;   // per emitter (ship), constant for all jets on a spawn tick
 	vector3f m_windVel;  // per emitter, constant for all jets on a spawn tick
+	float m_exhaustMaxSpread; // per emitter, constant for all jets on a spawn tick
+	float m_exhaustNoiseStrength; // per emitter; scales procedural fragment noise with atmosphere density
 
 	static constexpr Uint32 INVALID_EXHAUST_SAVED_BODY_IDX = Uint32(0xffffffffu);
 };
@@ -114,7 +121,7 @@ public:
 	static void Add(const Body *, SFX_TYPE);
 	static void AddExplosion(Body *);
 	static void AddThrustSmoke(const Body *b, float speed, const vector3d &adjustpos);
-	static void AddExhaust(const Body *b, Uint16 exhaustJetIndex, bool exhaustSuppressStreakElongation, const vector3d &backboneAdjustPos, const vector3d &backboneVel, const vector3f &plumeOffset, const vector3f &plumeOffsetVel, float intensity, float dragScale, float opacityScale, const vector3f &windVel, double groundRadius, const Color &dustTint);
+	static void AddExhaust(const Body *b, Uint16 exhaustJetIndex, bool exhaustSuppressStreakElongation, const vector3d &startPos, const vector3d &backboneVel, const vector3f &plumeOffset, const vector3f &plumeOffsetVel, float intensity, float dragScale, float opacityScale, const vector3f &windVel, double groundRadius, const Color &dustTint, float baseLifetime = SfxParams::EXHAUST_LIFETIME, float maxSpread = SfxParams::EXHAUST_MAX_SPREAD, float noiseStrength = 0.f);
 	static void TimeStepAll(const float timeStep, FrameId f);
 	static void RenderAll(Graphics::Renderer *r, FrameId f, FrameId camFrame, float illuminationFactor = 1.f);
 	static void ToJson(Json &jsonObj, const FrameId f, const Space *space);
