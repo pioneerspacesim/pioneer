@@ -410,6 +410,19 @@ void Pi::App::OnStartup()
 	if (!m_noGui)
 		QueueLifecycle(m_mainMenu);
 
+	Output("Lua::Init()\n");
+	Lua::Init(Pi::GetAsyncJobQueue());
+
+	Pi::luaConsole.reset(new LuaConsole());
+	Pi::luaConsole->SetupBindings();
+
+#ifdef REMOTE_LUA_REPL
+#ifndef REMOTE_LUA_REPL_PORT
+#define REMOTE_LUA_REPL_PORT 12345
+#endif
+	Pi::luaConsole->OpenTCPDebugConnection(REMOTE_LUA_REPL_PORT);
+#endif
+
 	startupTimer.Stop();
 	Output("\n\nEngine startup took %.2fms\n", startupTimer.milliseconds());
 }
@@ -425,6 +438,10 @@ void Pi::App::OnShutdown()
 {
 	PROFILE_SCOPED()
 	Output("Pi shutting down.\n");
+
+#ifdef REMOTE_LUA_REPL
+	Pi::luaConsole->CloseTCPDebugConnection();
+#endif
 
 	// This function should only be called at the very end of the shutdown procedure.
 	assert(Pi::game == nullptr);
@@ -514,13 +531,7 @@ void StartupScreen::Start()
 	m_loadTimer.Start();
 
 	Output("ShipType::Init()\n");
-	// XXX early, Lua init needs it
 	ShipType::Init();
-
-	// XXX UI requires Lua  but Pi::ui must exist before we start loading
-	// templates. so now we have crap everywhere :/
-	Output("Lua::Init()\n");
-	Lua::Init(Pi::GetAsyncJobQueue());
 
 	// TODO: Get the lua state responsible for drawing the init progress up as fast as possible
 	// Investigate using a pigui-only Lua state that we can initialize without depending on
@@ -600,13 +611,11 @@ void StartupScreen::Start()
 	});
 
 	AddStep("PostLoad", []() {
-		Pi::luaConsole.reset(new LuaConsole());
-		Pi::luaConsole->SetupBindings();
-
 		Pi::planner = new TransferPlanner();
 
 		perfInfoDisplay.reset(new PiGui::PerfInfo());
 	});
+
 }
 
 void StartupScreen::Update(float deltaTime)
@@ -883,6 +892,9 @@ void Pi::App::PreUpdate()
 {
 	PROFILE_SCOPED()
 	Pi::frameTime = DeltaTime();
+#ifdef REMOTE_LUA_REPL
+	Pi::luaConsole->HandleTCPDebugConnections();
+#endif
 }
 
 void Pi::App::PostUpdate()
@@ -917,13 +929,6 @@ void GameLoop::Start()
 	Pi::player->onLanded.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
 	Pi::DrawGUI = true;
 	Pi::SetView(Pi::game->GetWorldView());
-
-#ifdef REMOTE_LUA_REPL
-#ifndef REMOTE_LUA_REPL_PORT
-#define REMOTE_LUA_REPL_PORT 12345
-#endif
-	Pi::luaConsole->OpenTCPDebugConnection(REMOTE_LUA_REPL_PORT);
-#endif
 
 	// fire event before the first frame
 	LuaEvent::Queue("onGameStart");
@@ -1039,10 +1044,6 @@ void GameLoop::Update(float deltaTime)
 	// capable of handling that eventuality and it prevents application-scope crashes
 	Pi::renderer->FlushCommandBuffers();
 
-#ifdef REMOTE_LUA_REPL
-	Pi::luaConsole->HandleTCPDebugConnections();
-#endif
-
 	// Ask ImGui to hide OS cursor if we're capturing it for input:
 	// it will do this if GetMouseCursor == ImGuiMouseCursor_None.
 	if (Pi::input->IsCapturingMouse()) {
@@ -1140,10 +1141,6 @@ void GameLoop::End()
 
 	// Clean up any left-over mouse state
 	Pi::input->SetCapturingMouse(false);
-
-#ifdef REMOTE_LUA_REPL
-	Pi::luaConsole->CloseTCPDebugConnection();
-#endif
 
 	// we have to make sure to autosave the game before the end game process starts
 	LuaEvent::Queue("onAutoSaveBeforeGameEnds");
