@@ -1273,11 +1273,11 @@
   },
   "HUD_ORBIT_APOAPSIS": {
     "description": "Tooltip: Current orbital apoapsis.",
-    "message": "Current orbit apoapsis"
+    "message": "Apoapse de l'orbite courante"
   },
   "HUD_ORBIT_PERIAPSIS": {
     "description": "Tooltip: Current orbital apoapsis.",
-    "message": "Current orbit periapsis"
+    "message": "Périapse de l'orbite courante"
   },
   "HUD_RADAR_DISTANCE": {
     "description": "Tooltip: Current distance of the radar.",
