@@ -1273,11 +1273,11 @@
   },
   "HUD_ORBIT_APOAPSIS": {
     "description": "Tooltip: Current orbital apoapsis.",
-    "message": "Current orbit apoapsis"
+    "message": "Текуща апоапсида"
   },
   "HUD_ORBIT_PERIAPSIS": {
     "description": "Tooltip: Current orbital apoapsis.",
-    "message": "Current orbit periapsis"
+    "message": "Текуща периапсида"
   },
   "HUD_RADAR_DISTANCE": {
     "description": "Tooltip: Current distance of the radar.",
@@ -1929,7 +1929,7 @@
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
-    "message": "Апсида"
+    "message": "Апоапсида"
   },
   "ORBIT_PERIAPSIS": {
     "description": "Label for the point of an orbit nearest to the orbited body",
