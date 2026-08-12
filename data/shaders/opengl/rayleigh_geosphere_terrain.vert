@@ -65,7 +65,7 @@ void main(void)
 		vec4 lightColor = toLinear(uLight[i].diffuse);
 
 		// start with diffuse terrain color
-		vec3 terrain = vertexColor.xyz * intensity;
+		vec3 terrain = vertexColor.xyz * intensity * diff.xyz;
 		terrain *= max(0.f, dot(L, I));
 
 #ifdef ATMOSPHERE
