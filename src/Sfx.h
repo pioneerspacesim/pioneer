@@ -47,6 +47,9 @@ namespace SfxParams {
 	inline constexpr float EXHAUST_LOG_SCALE = 2.0f;	// The log scale factor determining how opaque manouvering thruster exhaust is compared to main thruster exhaust
 	inline constexpr float EXHAUST_ANGULAR_FACTOR = 0.2f;	// Rotational thruster exhaust is reduced by this factor, otherwise it looks far too strong
 	inline constexpr float EXHAUST_DRAG_FACTOR = 0.5f;	// Increase to have more atmospheric drag, so the jets shoot out less far before becoming cloud-like
+
+	inline constexpr float REENTRY_GLOW_MIN_SPEED = 100.0f;  // Minimum speed at 1.0 atm where the re-entry shield glow effect will start to show
+	inline constexpr float REENTRY_GLOW_MAX_SPEED = 200.0f;  // Speed at 1.0 atm at which the re-entry shield glow effect will max out
 }
 
 struct Sfx {
