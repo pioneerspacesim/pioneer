@@ -442,7 +442,7 @@ void Camera::Draw(const Body *excludeBody)
 		illuminationFactor = Clamp(float(amb + direct), 0.08f, 1.0f);
 		illuminationFactor = std::pow(illuminationFactor, 1.5);
 	}
-	SfxManager::RenderAll(m_renderer, rootFrameId, camFrameId, illuminationFactor);
+	SfxManager::RenderAll(m_renderer, rootFrameId, camFrameId, illuminationFactor, this);
 }
 
 // Calculates the ambiently and directly lit portions of the lighting model taking into account the atmosphere and sun positions at a given location
