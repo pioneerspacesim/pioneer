@@ -4,8 +4,11 @@
 #ifndef _TERRAINLOCALLIGHTS_H
 #define _TERRAINLOCALLIGHTS_H
 
+#include "Color.h"
+
 class Camera;
 class Planet;
+class Ship;
 
 namespace Graphics {
 	class Material;
@@ -18,6 +21,10 @@ public:
 		const Camera *camera,
 		const Planet *planet,
 		double planetRadius);
+
+	// Additive RGB from this ship's nav/thruster lights, night-gated like terrain local lights.
+	// Used to brighten the ship's own exhaust/dust particles.
+	static Color4f CalcShipSelfIllumination(const Camera *camera, const Ship *ship);
 };
 
 #endif

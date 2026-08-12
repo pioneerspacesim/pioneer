@@ -130,6 +130,7 @@ namespace {
 		// When a ship is docked, or close to a station, the blinking nav lights are kind of annoying and also don't
 		// look realistic because the station is covered in lights so should be illuminated pretty well already.
 		// So we dim the ship's lights as it gets closer to the centre of the station's illumination range.
+		static constexpr float CITY_LIGHT_MIN_FACTOR = 0.25f;
 
 		const Ship::FlightState flightState = ship->GetFlightState();
 		if (flightState == Ship::DOCKED || flightState == Ship::DOCKING || flightState == Ship::UNDOCKING)
@@ -154,7 +155,7 @@ namespace {
 			const float t = span > 0.f
 				? std::max(0.f, std::min(1.f, (dist - suppressMin) / span))
 				: 0.f;
-			factor = std::min(factor, t);
+			factor = std::min(factor, CITY_LIGHT_MIN_FACTOR + (1.f - CITY_LIGHT_MIN_FACTOR) * t);
 		}
 
 		return factor;
@@ -283,4 +284,44 @@ void TerrainLocalLights::UploadToMaterial(
 		FillLightGPU(block.lights[i], candidates[i], planetRadius);
 
 	UploadBlock(material, block);
+}
+
+Color4f TerrainLocalLights::CalcShipSelfIllumination(const Camera *camera, const Ship *ship)
+{
+	Color4f contrib(0.f, 0.f, 0.f, 0.f);
+
+	Body *astro = Frame::GetFrame(ship->GetFrame())->GetBody();
+	if (!astro || !astro->IsType(ObjectType::PLANET))
+		return contrib;
+
+	const Planet *planet = static_cast<const Planet *>(astro);
+	const FrameId planetFrame = planet->GetFrame();
+	const vector3d shipPosPlanet = ship->GetInterpPositionRelTo(planetFrame);
+	const float nightTime = CalcNightTime(camera, planet, shipPosPlanet);
+	if (nightTime <= 0.f)
+		return contrib;
+
+	const float stationAtten = CalcShipStationLightAttenuation(ship, planet, planetFrame);
+	if (stationAtten <= 0.f)
+		return contrib;
+
+	const Color4f navColor = ship->GetNavLightTerrainColor();
+	if (navColor.r + navColor.g + navColor.b > 0.f) {
+		const float strength = SHIP_NAV_LIGHT_STRENGTH * nightTime * stationAtten;
+		contrib.r += navColor.r * strength;
+		contrib.g += navColor.g * strength;
+		contrib.b += navColor.b * strength;
+	}
+
+	Color4f thrusterColor;
+	float thrustLevel = 0.f;
+	if (ship->GetThrusterTerrainLight(thrusterColor, thrustLevel)) {
+		const float strength =
+			SHIP_THRUSTER_LIGHT_STRENGTH * thrustLevel * CalcThrusterLightFlicker(ship) * nightTime * stationAtten;
+		contrib.r += thrusterColor.r * strength;
+		contrib.g += thrusterColor.g * strength;
+		contrib.b += thrusterColor.b * strength;
+	}
+
+	return contrib;
 }
