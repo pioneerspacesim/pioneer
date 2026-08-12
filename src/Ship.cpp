@@ -1074,6 +1074,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 
 	// fuel use decreases mass, so do this as the last thing in the frame
 	UpdateFuel(timeStep);
+	UpdateHullTemperature(timeStep);
 
 	m_navLights->SetEnabled(m_wheelState > 0.01f);
 	m_navLights->Update(timeStep);
@@ -1130,15 +1131,57 @@ void Ship::TimeAccelAdjust(const float timeStep)
 	SetVelocity(GetVelocity() + vdiff);
 }
 
+void Ship::UpdateHullTemperature(const float timeStep)
+{
+	if (GetFlightState() == Ship::HYPERSPACE)
+		return;
+
+	if (timeStep != timeStep)
+		return;
+
+	double currentTemperature = m_hullTemperature;
+
+	double topCrossSec = GetShipType()->topCrossSection;
+	double sideCrossSec = GetShipType()->sideCrossSection;
+	double frontCrossSec = GetShipType()->frontCrossSection;
+
+	double surfaceHalf = (topCrossSec + frontCrossSec + sideCrossSec);
+	double surfaceArea = surfaceHalf * 2;
+
+	// emission: gain heat
+	double emission = 0.0;
+	for (auto body : Pi::game->GetSpace()->GetBodies()) {
+		const SystemBody *sbody = body->GetSystemBody();
+		if (!sbody) continue;
+
+		if (sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
+			double radius = sbody->GetRadius();
+			int temp = sbody->GetAverageTemp();
+			double distanceSqr = GetPositionRelTo(body).LengthSqr();
+
+			double emissionGain = surfaceHalf * pow(radius, 2) * pow(temp, 4) * 5.67e-8 / distanceSqr; // per m^2
+			emission += emissionGain;
+		}
+	}
+
+	// dissipate heat
+	double emissionLoss = surfaceArea * pow(currentTemperature, 4) * 5.67e-8;
+	emission -= emissionLoss;
+
+	double heatEnergy = timeStep * emission;          // J
+	const double heatCapacity = 449.458;              // J / (kg * K)
+	double hullMass = GetShipType()->hullMass * 1000; // kg
+
+	double deltaT = heatEnergy / (heatCapacity * hullMass);
+	m_hullTemperature = std::max(0.0, currentTemperature + deltaT);
+}
+
 double Ship::GetHullTemperature() const
 {
-	// TODO: fix this to calculate appropriate skin friction and heating.
-	//const double dragCoeff = DynamicBody::DEFAULT_DRAG_COEFF * 1.25;
-	//const double dragGs = CalcAtmosphericDrag(GetVelocity().LengthSqr(), GetClipRadius(), dragCoeff) / (GetMass() * 9.81);
-	//return dragGs / 25.0;
-	// TODO: fix this to properly account for heating due to air friction instead of G-force.
-	double dragGs = GetAtmosForce().Length() / (GetMass() * 9.81);
-	return dragGs / (15.0 * (1.0 + m_stats.atmo_shield_cap + (2.0 * (1.0 - m_wheelState))));
+	// all constants are based on pure iron
+	double meltingTemperature = 1812.0;
+
+	return m_hullTemperature / meltingTemperature;
 }
 
 void Ship::SetAlertState(AlertState as)
