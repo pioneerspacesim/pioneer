@@ -733,7 +733,7 @@ theme.icons = {
 	filter_ships = 120,
 	equip_scanner = 60,
 	equip_generic = 145,
-	radar_landing_loc = 242,
+	radar_landing_loc = 73,
 
 	-- TODO: distinct icons for these
 	equip_thrusters_basic = 300,
