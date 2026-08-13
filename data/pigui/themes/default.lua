@@ -296,6 +296,7 @@ theme.colors = {
 	radarNavTarget			= styleColors.success_500,
 	radarShip				= styleColors.warning_500,
 	radarStation			= styleColors.accent_300,
+	radarLandingGuide		= styleColors.accent_300:opacity(0.6),
 	radarUnknown			= styleColors.gray_500,
 
 	systemMapGrid			= styleColors.panel_900,
@@ -732,6 +733,7 @@ theme.icons = {
 	filter_ships = 120,
 	equip_scanner = 60,
 	equip_generic = 145,
+	radar_landing_loc = 242,
 
 	-- TODO: distinct icons for these
 	equip_thrusters_basic = 300,

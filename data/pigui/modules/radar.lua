@@ -18,7 +18,7 @@ local icons = ui.theme.icons
 local SCREEN_BORDER = 6
 
 local MAX_RADAR_SIZE = 1000000000
-local MIN_RADAR_SIZE = 1000
+local MIN_RADAR_SIZE = 500
 local DEFAULT_RADAR_SIZE = 10000
 
 local shouldDisplay2DRadar = false
@@ -249,6 +249,28 @@ local function drawTarget(target, scale, center, color)
 	return tooltip
 end
 
+-- Return distance of line-circle intersection.
+local function line_circle_clip(origin, dir, radius)
+	local c_sqr = origin:lengthSqr()
+	local b = -dir:dot(origin)
+	local d = b * b - c_sqr + (radius * radius)
+	return b + math.sqrt(d)
+end
+
+local function locating_line(center, pos, dir, offset)
+	local inv_radius = Vector2(1) / radar.radius
+
+	local pos_start = pos + dir * offset * inv_radius
+	local line_a_len = line_circle_clip(pos_start, dir, 1)
+
+	if line_a_len > 0 then
+		ui.addLine(
+			pos_start * radar.radius + center,
+			(pos_start + dir * line_a_len) * radar.radius + center,
+			colors.radarLandingGuide, 2)
+	end
+end
+
 radar3d.draw = function(self, center)
 	local targets = ui.getTargetsNearby(MAX_RADAR_SIZE)
 	local tooltip = {}
@@ -299,6 +321,33 @@ radar3d.draw = function(self, center)
 	}, function()
 		radar:Draw()
 	end)
+
+	-- Display landing navaid
+	if navTarget and navTarget:GetAssignedBayNumber(Game.player) >= 0 then
+
+		local pos_err = navTarget:GetAssignedBayNavError(Game.player)
+
+		local rel_pos = Vector2(pos_err.x / radar.zoom, pos_err.z / radar.zoom)
+
+		if rel_pos:lengthSqr() < 1.0 then
+
+			local pos = rel_pos * radar.radius + center
+
+			local offset = Vector2(ui.getTextLineHeight() * 0.6)
+			locating_line(center, rel_pos, Vector2(0, 1), offset)
+			locating_line(center, rel_pos, Vector2(1, 0), offset)
+			locating_line(center, rel_pos, Vector2(0, -1), offset)
+			locating_line(center, rel_pos, Vector2(-1, 0), offset)
+
+			local font = ui.fonts.pionicons.medium
+			ui.withFont(font, function()
+				local offset = Vector2(-font.size * 0.5)
+				ui.addText(pos + offset, colors.radarStation, ui.get_icon_glyph(icons.radar_landing_loc))
+			end)
+
+		end
+
+	end
 
 	-- draw targets above the plane
 	for k, v in pairs(targets) do

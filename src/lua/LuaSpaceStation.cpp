@@ -126,8 +126,10 @@ static int l_spacestation_get_assigned_bay_nav_error(lua_State *l)
 	matrix4x4f dockedTransform = ss->GetStationType()->GetStageTransform(number, DockStage::DOCKED);
 
 	const matrix3x3d &orient = ss->GetInterpOrient();
+	const vector3d dock_location = orient * vector3d(dockedTransform.GetTranslate());
+	const vector3d pos_error = ss->GetInterpPositionRelTo(s);
 	const matrix3x3d ship_orient = s->GetInterpOrientRelTo(ss->GetFrame());
-	LuaPush(l, orient * vector3d(dockedTransform.GetTranslate()) * ship_orient);
+	LuaPush(l, (pos_error * s->GetInterpOrient()) + dock_location * ship_orient);
 
 	const matrix3x3d bay_orient = orient * matrix3x3d(dockedTransform.GetOrient());
 
