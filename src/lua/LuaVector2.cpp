@@ -225,7 +225,7 @@ void LuaVector2::Register(lua_State *L)
 		.AddFunction("lengthSqr", &vector2d::LengthSqr)
 		.AddFunction("rotate", &vector2d::Rotate)
 		.AddFunction("angle", [](lua_State *L, vector2d *v) {
-			lua_pushnumber(L, M_PI * 2 - atan2(v->x, v->y));
+			lua_pushnumber(L, atan2(v->y, v->x));
 			return 1;
 		})
 		.AddFunction("left", [](lua_State *L, vector2d *v) {

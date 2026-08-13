@@ -49,8 +49,8 @@ local function displayDirectionalMarkers()
 	local forward = Engine.ShipSpaceToScreenSpace(aux) - Vector3(center)
 	local showDirection = displayDirectionalMarker(aux, icons.forward, true)
 	showDirection = displayDirectionalMarker(aux(0, 0, 1), icons.backward, showDirection)
-	showDirection = displayDirectionalMarker(aux(0, 1, 0), icons.up, showDirection, angle(forward, ui.pi))
-	showDirection = displayDirectionalMarker(aux(0, -1, 0), icons.down, showDirection, angle(forward, 0))
+	showDirection = displayDirectionalMarker(aux(0, 1, 0), icons.up, showDirection, angle(forward, ui.pi_2))
+	showDirection = displayDirectionalMarker(aux(0, -1, 0), icons.down, showDirection, angle(forward, -ui.pi_2))
 	showDirection = displayDirectionalMarker(aux(1, 0, 0), icons.right, showDirection)
 	showDirection = displayDirectionalMarker(aux(-1, 0, 0), icons.left, showDirection)
 
@@ -264,5 +264,8 @@ gameView.registerModule("indicators", {
 		if frame then
 			displayFrameIndicators(frame, navTarget)
 		end
+	end,
+	debugReload = function()
+		package.reimport()
 	end
 })
