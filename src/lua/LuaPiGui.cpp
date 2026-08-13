@@ -1182,6 +1182,15 @@ static int l_pigui_path_stroke(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_path_fill_convex(lua_State *l)
+{
+	PROFILE_SCOPED()
+	ImDrawList *draw_list = ImGui::GetWindowDrawList();
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 1).Value);
+	draw_list->PathFillConvex(color);
+	return 0;
+}
+
 /*
  * Function: selectable
  *
@@ -3859,6 +3868,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "GetMouseWheel", l_pigui_get_mouse_wheel },
 		{ "PathArcTo", l_pigui_path_arc_to },
 		{ "PathStroke", l_pigui_path_stroke },
+		{ "PathFillConvex", l_pigui_path_fill_convex },
 		{ "PushItemWidth", l_pigui_push_item_width },
 		{ "PopItemWidth", l_pigui_pop_item_width },
 		{ "NextItemWidth", l_pigui_next_item_width },

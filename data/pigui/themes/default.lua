@@ -182,6 +182,7 @@ theme.colors = {
 	mouseMovementDirection	= styleColors.accent_100,
 	landingAsstHorizon      = styleColors.success_500,
 	landingAsstYawTick      = styleColors.gray_300,
+	landingAsstGround       = styleColors.warning_700:opacity(0.1),
 
 	overlayWindowBg         = styleColors.panel_900:opacity(0.90),
 

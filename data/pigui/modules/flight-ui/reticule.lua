@@ -286,8 +286,9 @@ end
 local function displayReticuleLandingAssist()
 	local target = Game.player:GetNavTarget()
 
-	local displayLandingAsst = target and target:IsStation()
-		and Game.player:GetFlightState() == "FLYING"
+	if not target or not target:IsStation() then return end
+
+	local displayLandingAsst = Game.player:GetFlightState() == "FLYING"
 		and target:GetAssignedBayNumber(Game.player) >= 0
 
 	if displayLandingAsst then
@@ -311,8 +312,8 @@ local function displayReticuleLandingAssist()
 		local proj_center = center + line_origin + orient * b
 		local extent = orient * d
 
-		local pos_a = proj_center - extent
-		local pos_b = proj_center + extent
+		local pos_a = proj_center + extent
+		local pos_b = proj_center - extent
 
 		ui.addLine(pos_a, pos_b, colors.landingAsstHorizon, 1)
 
@@ -326,8 +327,19 @@ local function displayReticuleLandingAssist()
 		local yaw_col = yaw_aligned and colors.landingAsstHorizon or colors.landingAsstYawTick
 		ui.addLine(heading_line_pos, heading_line_pos + heading_line_dir * 6, yaw_col, yaw_aligned and 2 or 1)
 
-		-- TODO: render artificial-horizon shaded area helper by deriving angle-on-circle of line end positions
-		-- and manually submitting points on the circle edge between the two angles.
+		-- Render downwards half of artificial horizon indicator with a slight tint
+		-- to indicate the ground.
+		if target:IsGroundStation() then
+
+			local theta_a = (pos_a - center):angle()
+			local theta_b = (pos_b - center):angle()
+
+			if theta_b < theta_a then theta_b = theta_b + math.pi * 2 end
+
+			ui.pathArcTo(center, reticuleCircleRadius - 1, theta_a, theta_b, 32)
+			ui.pathFillConvex(colors.landingAsstGround)
+
+		end
 
 	end
 end
@@ -925,7 +937,6 @@ gameView.registerModule("reticule", {
 	end,
 	debugReload = function()
 		package.reimport()
-		package.reimport('pigui.modules.flight-ui.body-icons')
 	end
 })
 

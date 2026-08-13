@@ -74,6 +74,7 @@ ui.addText = pigui.AddText ---@type fun(pos: Vector2, col: Color, text: string, 
 ui.addTextShadowed = pigui.AddTextShadowed ---@type fun(pos: Vector2, col: Color, text: string, shadow: Color?, offset: Vector2?, wrapWidth: number?)
 ui.pathArcTo = pigui.PathArcTo
 ui.pathStroke = pigui.PathStroke
+ui.pathFillConvex = pigui.PathFillConvex
 ui.setCursorPos = pigui.SetCursorPos ---@type fun(pos: Vector2)
 ui.getCursorPos = pigui.GetCursorPos ---@type fun(): Vector2
 ui.addCursorPos = pigui.AddCursorPos ---@type fun(add: Vector2)
