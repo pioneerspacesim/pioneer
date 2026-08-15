@@ -93,6 +93,11 @@ static int l_vector_mul(lua_State *L)
 	} else {
 		const vector2d *v1 = LuaVector2::CheckFromLua(L, 1);
 		const vector2d *v2 = LuaVector2::CheckFromLua(L, 2);
+
+		if (!v1 || !v2) {
+			return luaL_error(L, "Invalid parameter to Vector2 multiply");
+		}
+
 		LuaVector2::PushToLua(L, (*v1) * (*v2));
 	}
 	return 1;
@@ -100,15 +105,21 @@ static int l_vector_mul(lua_State *L)
 
 static int l_vector_div(lua_State *L)
 {
-	if (lua_isnumber(L, 2)) {
-		const vector2d *v = LuaVector2::CheckFromLua(L, 1);
-		const double s = lua_tonumber(L, 2);
-		LuaVector2::PushToLua(L, *v / s);
-		return 1;
+	if (const vector2d *v = LuaVector2::CheckFromLua(L, 1)) {
+		if (lua_isnumber(L, 2)) {
+			const double s = lua_tonumber(L, 2);
+			LuaVector2::PushToLua(L, *v / s);
+			return 1;
+		} else if (const vector2d *v2 = LuaVector2::CheckFromLua(L, 2)) {
+			LuaVector2::PushToLua(L, *v / *v2);
+			return 1;
+		}  else {
+			return luaL_error(L, "attempt to divide a Vector2 by an unrecognized type");
+		}
 	} else if (lua_isnumber(L, 1)) {
 		return luaL_error(L, "cannot divide a scalar by a vector");
 	} else {
-		return luaL_error(L, "vector div not involving a vector (huh?)");
+		return luaL_error(L, "attempt to divide an unrecognized type by Vector2");
 	}
 }
 
@@ -225,7 +236,7 @@ void LuaVector2::Register(lua_State *L)
 		.AddFunction("lengthSqr", &vector2d::LengthSqr)
 		.AddFunction("rotate", &vector2d::Rotate)
 		.AddFunction("angle", [](lua_State *L, vector2d *v) {
-			lua_pushnumber(L, M_PI * 2 - atan2(v->x, v->y));
+			lua_pushnumber(L, atan2(v->y, v->x));
 			return 1;
 		})
 		.AddFunction("left", [](lua_State *L, vector2d *v) {
@@ -236,6 +247,7 @@ void LuaVector2::Register(lua_State *L)
 			LuaVector2::PushToLua(L, vector2d(v->y, -v->x));
 			return 1;
 		})
+		.AddFunction("dot", &vector2d::Dot)
 		.StopRecording();
 
 	metaType.GetMetatable();
