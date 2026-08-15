@@ -219,6 +219,7 @@ function SpaceStation:GetCommodityMarket()
 	if not marketCache[self.path] then
 		marketCache[self.path] = Economy.CreateStationMarket(assert(self:GetSystemBody()), Game.time)
 		logWarning("Creating transient station market for station {}; any changes to the market will not persist!" % { self.label })
+		logWarning(debug.dumpstack())
 	end
 
 	return marketCache[self.path]
@@ -842,7 +843,7 @@ local function destroySystem ()
 	equipmentPrice = {}
 
 	commodityPrice = utils.automagic()
-	marketCache = utils.automagic()
+	marketCache = {}
 
 	visited = {}
 

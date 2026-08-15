@@ -10,7 +10,7 @@
 require 'Constants.lua'
 
 --- Dump all relevant variables and parameters for the current lua stack trace.
----@param level number stack level to start the stack dump at
+---@param level? number stack level to start the stack dump at. Defaults to 1.
 debug.dumpstack = function(level) end
 
 --- Convert the angle `a` from degrees to radians

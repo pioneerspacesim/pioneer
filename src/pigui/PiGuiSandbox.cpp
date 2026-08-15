@@ -14,7 +14,14 @@ const char *s_meta_name = "PiGui.SavedImguiStackInfo";
 static int l_new_stack_info(lua_State *L)
 {
 	auto *savedStackInfo = static_cast<ImGuiErrorRecoveryState *>(lua_newuserdata(L, sizeof(ImGuiErrorRecoveryState)));
-	ImGui::ErrorRecoveryStoreState(savedStackInfo);
+
+	// Check to ensure we're within frame scope
+	if (ImGui::GetCurrentContext()->WithinFrameScope) {
+		ImGui::ErrorRecoveryStoreState(savedStackInfo);
+	} else {
+		Log::Debug("ui.pcall stack trace:\n{}", pi_lua_dumpstack(L, 1));
+		return luaL_error(L, "Attempt to call pigui.GetImGuiStack() outside of an ImGui frame.");
+	}
 
 	luaL_setmetatable(L, s_meta_name);
 	return 1;
@@ -31,6 +38,12 @@ static int l_stack_cleanup(lua_State *L)
 	auto *state = static_cast<ImGuiErrorRecoveryState *>(luaL_checkudata(L, 1, s_meta_name));
 
 	ImGuiContext &g = *ImGui::GetCurrentContext();
+
+	if (!g.WithinFrameScope) {
+		Log::Debug("pigui.CleanupImGuiStack stack trace:\n{}", pi_lua_dumpstack(L, 1));
+		return luaL_error(L, "Attempt to call pigui.CleanupImGuiStack() outside of an ImGui frame.");
+	}
+
 	ImGuiErrorCallback prev_callback = g.ErrorCallback;
 	void *prev_udata = g.ErrorCallbackUserData;
 
