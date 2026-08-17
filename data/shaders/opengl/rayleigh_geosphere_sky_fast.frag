@@ -4,7 +4,7 @@
 #include "attributes.glsl"
 #include "lib.glsl"
 #include "basesphere_uniforms.glsl"
-#include "rayleigh.glsl"
+#include "rayleigh-lib.glsl"
 
 in vec4 varyingEyepos;
 in vec4 vertexColor;

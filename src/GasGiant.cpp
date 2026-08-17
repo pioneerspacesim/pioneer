@@ -684,7 +684,7 @@ void GasGiant::SetUpMaterials()
 	surfDesc.textures = 1;
 
 	//planetoid with atmosphere
-	m_atmosphereParameters = GetSystemBody()->CalcAtmosphereParams();
+	GetSystemBody()->CalcAtmosphereParams(m_atmosphereParameters);
 	assert(m_atmosphereParameters.atmosDensity > 0.0);
 	assert(m_surfaceTextureSmall.Valid() || m_surfaceTexture.Valid());
 
@@ -713,10 +713,10 @@ void GasGiant::SetUpMaterials()
 		const int scattering = Pi::config->Int("RealisticScattering");
 		switch (scattering) {
 		case 1:
-			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_fast", skyDesc, rsd, atmosVtxFmt));
+			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_geosphere_sky_fast", skyDesc, rsd, atmosVtxFmt));
 			break;
 		case 2:
-			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_accurate", skyDesc, rsd, atmosVtxFmt));
+			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_geosphere_sky_full", skyDesc, rsd, atmosVtxFmt));
 			break;
 		default:
 			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("geosphere_sky", skyDesc, rsd, atmosVtxFmt));
