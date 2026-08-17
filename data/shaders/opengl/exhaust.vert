@@ -8,10 +8,12 @@
 layout (location = 6) in vec4 a_instCenterSize;
 layout (location = 7) in vec4 a_instJetVector;
 layout (location = 8) in float a_instStretchScale;
-layout (location = 9) in vec4 a_instColor;
+layout (location = 9) in float a_instNoiseStrength;
+layout (location = 10) in vec4 a_instColor;
 
 out vec2 v_uv;
 out vec4 v_color;
+out float v_noiseStrength;
 
 vec3 normalizedSafe(vec3 v)
 {
@@ -57,4 +59,5 @@ void main(void)
 	gl_Position = uViewProjectionMatrix * vec4(worldPos, 1.0);
 	v_uv = uv;
 	v_color = a_instColor;
+	v_noiseStrength = a_instNoiseStrength;
 }
