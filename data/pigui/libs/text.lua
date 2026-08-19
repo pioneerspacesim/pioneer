@@ -356,6 +356,10 @@ ui.Format = {
 	Volume = function(number, places)
 		return ui.Format.Number(number, places or 1) .. " " .. lc.UNIT_CUBIC_METERS
 	end,
+	-- Format a cargo quantity in cu
+	Cargo = function(number)
+		return ui.Format.Number(number, 0) .. " cu"
+	end,
 	-- Format an Area quantity, scaling from square meters to square megameters
 	-- Returns the formatted value, the units, and the number of digits following the decimal point
 	AreaUnit= function(area, digits)
@@ -391,6 +395,20 @@ ui.Format = {
 	Area = function(area, digits)
 		local a, u = ui.Format.AreaUnit(area, digits)
 		return a .. ' ' .. u
+	end,
+	--- Format a thrust-to-weight ratio for display.
+	---@param twr number?
+	---@param places integer number of decimal places
+	---@param infinity_threshold number? values above this format as infinity
+	---@return string
+	TWR = function(twr, places, infinity_threshold)
+		places = places or 2
+		infinity_threshold = infinity_threshold or 99.9
+		if twr == nil or twr > infinity_threshold then
+			return "Ꝏ"
+		end
+		local minDisplay = 10 ^ -places
+		return string.format("%0." .. places .. "f", twr >= minDisplay and twr or 0)
 	end,
 	SystemPath = function(path)
 		local sectorString = "("..path.sectorX..", "..path.sectorY..", "..path.sectorZ..")"

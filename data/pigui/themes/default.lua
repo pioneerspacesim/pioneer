@@ -258,6 +258,7 @@ theme.colors = {
 
 	alertYellow				= styleColors.warning_300,
 	alertRed				= styleColors.danger_500,
+	alertBrightRed			= styleColors.danger_300,
 	hyperspaceInfo			= styleColors.success_300,
 
 	notificationInfo		= styleColors.gray_500,
@@ -276,6 +277,7 @@ theme.colors = {
 	gaugeJettison           = styleColors.danger_500,
 
 	gaugeBackground			= styleColors.panel_900:opacity(0.85),
+	gaugeBarBackground		= styleColors.primary_900,
 	gaugePressure			= styleColors.primary_600,
 	gaugeScanner			= styleColors.primary_500,
 	gaugeTemperature		= styleColors.danger_500,
@@ -287,6 +289,10 @@ theme.colors = {
 	gaugeThrustLight		= styleColors.gray_500,
 	gaugeThrustDark			= styleColors.panel_900,
 	gaugeEquipmentMarket	= styleColors.primary_600,
+	gaugeTWR				= styleColors.primary_500,
+	gaugeTWRLow				= styleColors.warning_500,
+	gaugeTWRVeryLow			= styleColors.danger_500,
+
 
 	radarCargo				= styleColors.primary_200,
 	radarCloud				= styleColors.primary_200,

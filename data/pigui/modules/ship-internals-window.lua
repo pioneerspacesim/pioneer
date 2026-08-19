@@ -3,6 +3,8 @@
 
 local Engine = require 'Engine'
 local Game = require 'Game'
+local Gravity = require 'pigui.libs.gravity'
+local TwrGauge = require 'pigui.libs.twr-gauge'
 
 local Lang = require 'Lang'
 local lc = Lang.GetResource("core");
@@ -79,23 +81,8 @@ local function button_thrustIndicator()
 end
 
 local function gravity_indicator(diameter)
-
-	local parentBody = Game.player.frameBody
-	local gravity = 0.0
-	local maxG = Game.player:GetAcceleration("up")
-
-	if parentBody then
-		local sbody = assert(parentBody:GetSystemBody())
-
-		while sbody.superType == "STARPORT" and sbody.parent do
-			sbody = sbody.parent
-			parentBody = assert(sbody).body
-		end
-	end
-
-	if parentBody then
-		gravity = 6.67428e-11 * (parentBody:GetSystemBody().mass / Game.player:GetPositionRelTo(parentBody):lengthSqr())
-	end
+	local gravity = Gravity.GetGravityAtBody(player) or 0.0
+	local maxG = player:GetAcceleration("up")
 
 	thrustStyle:withStyle(function()
 		local gEarth = gravity / 9.8066
@@ -119,6 +106,34 @@ local function gravity_indicator(diameter)
 
 	if ui.isItemHovered() then
 		ui.setTooltip(lui.HUD_GRAVITY_INDICATOR)
+	end
+end
+
+local function twr_indicator(diameter)
+	local localGravity = Gravity.GetGravityAtBody(player)
+	local upAccel = player:GetAcceleration("up")
+	local twr = localGravity and (upAccel / localGravity) or math.huge
+
+	local places = twr >= 10 and 1 or 2
+	local label = ui.Format.TWR(twr, places)
+	local innerBg = ui.theme.styleColors.primary_700:opacity(0.75)
+	local arcColor = TwrGauge.GetHudArcColor(twr)
+
+	thrustStyle:withStyle(function()
+		ui.withStyleColors({
+			FrameBg = innerBg,
+			FrameBgHovered = innerBg,
+			SliderGrab = arcColor,
+			Text = TwrGauge.GetTextColor(twr),
+		}, function()
+			local frac = TwrGauge.GetHudCircleFraction(twr)
+			-- Offset phase so the arc grows symmetrically about HUD_ARC_PHASE (6 o'clock).
+			ui.circleIndicator("twr", diameter, frac, 0, TwrGauge.HUD_ARC_PHASE + math.pi * frac, label, lui.TWR)
+		end)
+	end)
+
+	if ui.isItemHovered() then
+		ui.setTooltip(lui.TWR_CURRENT_TOOLTIP)
 	end
 end
 
@@ -159,7 +174,9 @@ local function displayShipFunctionWindow()
 	player = Game.player
 	local current_view = Game.CurrentView()
 	local buttons = 3
-	local thrust_widget_size = Vector2(thrustWidgetDiameter * 1.2 + thrustWidgetDiameter, thrustWidgetDiameter)
+	local circleCount = 3 -- thrust, TWR, gravity
+	local itemSpacing = ui.getItemSpacing().x
+	local thrust_widget_size = Vector2(thrustWidgetDiameter * circleCount + itemSpacing * (circleCount - 1), thrustWidgetDiameter)
 	assert(thrust_widget_size.y >= mainButtonSize.y)
 	local window_width = ui.getWindowPadding().x * 2 + (mainButtonSize.x + ui.getItemSpacing().x) * buttons + thrust_widget_size.x
 	local window_height = thrust_widget_size.y + ui.getWindowPadding().y * 2
@@ -168,7 +185,7 @@ local function displayShipFunctionWindow()
 	ui.setNextWindowPos(Vector2(window_posx, window_posy), "Always")
 	ui.window("ShipFunctions", windowFlags, function()
 		if current_view == "WorldView" then
-			local shift = Vector2(thrustWidgetDiameter * 2 - thrust_widget_size.x, thrust_widget_size.y - mainButtonSize.y)
+			local shift = Vector2(0, thrust_widget_size.y - mainButtonSize.y)
 			ui.addCursorPos(shift)
 			button_wheelstate()
 			ui.sameLine()
@@ -179,7 +196,10 @@ local function displayShipFunctionWindow()
 			ui.addCursorPos(-shift)
 			button_thrustIndicator()
 			ui.sameLine()
-			ui.addCursorPos(Vector2(0, mainButtonSize.y - thrustWidgetDiameter))
+			ui.addCursorPos(-shift)
+			twr_indicator(thrustWidgetDiameter)
+			ui.sameLine()
+			ui.addCursorPos(-shift)
 			gravity_indicator(thrustWidgetDiameter)
 			if ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f8) then
 				show_thrust_slider = not show_thrust_slider
