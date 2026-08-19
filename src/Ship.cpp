@@ -1723,6 +1723,65 @@ bool Ship::SetWheelState(bool down)
 	return true;
 }
 
+Color4f Ship::GetNavLightTerrainColor() const
+{
+	if (!m_navLights)
+		return Color4f(0.f, 0.f, 0.f, 0.f);
+	return m_navLights->GetActiveLightColor();
+}
+
+bool Ship::GetThrusterTerrainLight(Color4f &color, float &intensity) const
+{
+	const SceneGraph::Model *model = GetModel();
+	const float displayPower = model ? model->GetMaxThrusterDisplayedPower() : 0.f;
+	if (displayPower < 0.01f)
+		return false;
+
+	const vector3d actualLin = m_propulsion->GetActualLinThrust();
+	const vector3d actualAng = m_propulsion->GetActualAngThrust();
+	const double linPower = actualLin.Length();
+	const double angPower = actualAng.Length() * 0.5;
+	const double currentPower = std::max(linPower, angPower);
+
+	double maxPower = 0.0;
+	for (int t = THRUSTER_REVERSE; t < THRUSTER_MAX; ++t)
+		maxPower = std::max(maxPower, m_propulsion->GetThrust(Thruster(t)));
+
+	if (maxPower <= 0.0)
+		return false;
+
+	static const Color defaultColor(178, 153, 255, 255);
+	Color c = defaultColor;
+
+	if (linPower >= angPower && linPower > 0.0) {
+		const vector3d lin = m_propulsion->GetLinThrusterState();
+		int axis = 0;
+		double maxComp = std::fabs(lin.x);
+		if (std::fabs(lin.y) > maxComp) {
+			axis = 1;
+			maxComp = std::fabs(lin.y);
+		}
+		if (std::fabs(lin.z) > maxComp)
+			axis = 2;
+
+		static const Thruster posThrusters[3] = { THRUSTER_RIGHT, THRUSTER_UP, THRUSTER_REVERSE };
+		static const Thruster negThrusters[3] = { THRUSTER_LEFT, THRUSTER_DOWN, THRUSTER_FORWARD };
+		const Thruster t = lin[axis] >= 0.0 ? posThrusters[axis] : negThrusters[axis];
+
+		if (m_type->isGlobalColorDefined)
+			c = m_type->globalThrusterColor;
+		else if (m_type->isDirectionColorDefined[t])
+			c = m_type->directionThrusterColor[t];
+	} else if (m_type->isGlobalColorDefined) {
+		c = m_type->globalThrusterColor;
+	}
+
+	color = Color4f(c.r / 255.f, c.g / 255.f, c.b / 255.f, 1.f);
+	const float thrustScale = float(std::min(currentPower / maxPower, 1.0));
+	intensity = displayPower * thrustScale;
+	return true;
+}
+
 void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if (IsDead()) return;

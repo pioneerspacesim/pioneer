@@ -42,6 +42,7 @@ public:
 	void Render(Graphics::Renderer *r, const CameraContext *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	inline Planet *GetPlanet() const { return m_planet; }
 	float GetClipRadius() const { return m_clipRadius; }
+	double GetCityRadius() const { return m_cityRadius; }
 
 	static void Init();
 	static void Uninit();

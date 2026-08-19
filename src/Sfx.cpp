@@ -13,7 +13,9 @@
 #include "MathUtil.h"
 #include "ModelBody.h"
 #include "Pi.h"
+#include "Ship.h"
 #include "Space.h"
+#include "TerrainLocalLights.h"
 #include "matrix3x3.h"
 #include "matrix4x4.h"
 
@@ -459,7 +461,7 @@ void SfxManager::Cleanup()
 	}
 }
 
-void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId, float illuminationFactor)
+void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId, float illuminationFactor, const Camera *camera)
 {
 	PROFILE_SCOPED()
 
@@ -532,9 +534,28 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId, 
 				std::vector<ExhaustInstanceData> exhaustInstances;
 				exhaustInstances.reserve(numInstances);
 
+				const Body *cachedEmitter = nullptr;
+				Color4f shipLocalLight(0.f, 0.f, 0.f, 0.f);
+				vector3f shipCamPos(0.f);
+				bool haveShipLocalLight = false;
+
 				for (const auto &jetBucket : s_exhaustByJet) {
 					const Sfx *prevStreakParticle = nullptr;
 					vector3f prevInterpBackboneCam = vector3f(0.f);
+
+					const Body *emitter = jetBucket.second.empty() ? nullptr : jetBucket.second.front()->m_exhaustEmitter;
+					if (emitter != cachedEmitter) {
+						cachedEmitter = emitter;
+						shipLocalLight = Color4f(0.f, 0.f, 0.f, 0.f);
+						haveShipLocalLight = false;
+						if (camera && emitter && emitter->IsType(ObjectType::SHIP)) {
+							const Ship *ship = static_cast<const Ship *>(emitter);
+							shipLocalLight = TerrainLocalLights::CalcShipSelfIllumination(camera, ship);
+							// Exhaust particles are stored in the emitter's frame - match that for illumination distance falloff
+							shipCamPos = vector3f(ftran * ship->GetInterpPositionRelTo(fId));
+							haveShipLocalLight = (shipLocalLight.r + shipLocalLight.g + shipLocalLight.b) > 0.f;
+						}
+					}
 
 					for (Sfx *instPtr : jetBucket.second) {
 						Sfx &inst(*instPtr);
@@ -590,9 +611,19 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId, 
 							particleColor = Color(255, 255, 255, opacityA);
 						}
 
-						particleColor.r = Uint8(Clamp(int(float(particleColor.r) * illuminationFactor), 0, 255));
-						particleColor.g = Uint8(Clamp(int(float(particleColor.g) * illuminationFactor), 0, 255));
-						particleColor.b = Uint8(Clamp(int(float(particleColor.b) * illuminationFactor), 0, 255));
+						// At night time we add ship nav-lights and thruster glow to the exhaust illumination, using a distance falloff.
+						float addR = 0.f, addG = 0.f, addB = 0.f;
+						if (haveShipLocalLight) {
+							const float dist = (pos - shipCamPos).Length();
+							const float radial = 1.f - Clamp(dist / SfxParams::EXHAUST_ILLUMINATION_DISTANCE, 0.f, 1.f);
+							addR = shipLocalLight.r * radial;
+							addG = shipLocalLight.g * radial;
+							addB = shipLocalLight.b * radial;
+						}
+
+						particleColor.r = Uint8(Clamp(int(float(particleColor.r) * illuminationFactor + addR * 255.f), 0, 255));
+						particleColor.g = Uint8(Clamp(int(float(particleColor.g) * illuminationFactor + addG * 255.f), 0, 255));
+						particleColor.b = Uint8(Clamp(int(float(particleColor.b) * illuminationFactor + addB * 255.f), 0, 255));
 
 						const float stretchScale = (prevWasDust || inst.m_exhaustDustKick) ? 0.f : 1.f;
 
@@ -650,7 +681,7 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId, 
 	}
 
 	for (FrameId kid : f->GetChildren()) {
-		RenderAll(renderer, kid, camFrameId, illuminationFactor);
+		RenderAll(renderer, kid, camFrameId, illuminationFactor, camera);
 	}
 }
 
