@@ -175,6 +175,7 @@ public:
 	bool IsHyperspaceActive() const { return (m_hyperspace.countdown > 0.0); }
 
 	// 0 to 1.0 is alive, > 1.0 = death
+	void UpdateHullTemperature(const float timeStep);
 	double GetHullTemperature() const;
 
 	enum ECMResult {
@@ -317,6 +318,7 @@ private:
 	shipstats_t m_stats;
 	const ShipType *m_type;
 	SceneGraph::ModelSkin m_skin;
+	double m_hullTemperature; // in kelvins
 
 	std::unique_ptr<SceneGraph::Model> m_shieldModel;
 
