@@ -27,14 +27,7 @@ local ads = {}
 local addReputation = function (money, character)
 	local char = character or Character.persistent.player
 	local curRep = char.reputation
-	local newRep
-
-	if curRep >= 1 then
-		local exp = math.log(money)/math.log(10) - (math.log(curRep)/math.log(2) - 1)
-		newRep = curRep + 2^exp
-	else
-		newRep = curRep + 2^(math.log(money)/math.log(10))
-	end
+	local newRep = curRep + math.sqrt(money * 0.004) + 0.00236 * money
 	char.reputation = newRep
 	return newRep
 end
@@ -44,7 +37,7 @@ local computeReputation = function (ad)
 	-- compute money to get to next level of reputation
 
 	local current_reputation = 	Character.persistent.player:GetReputationRating()
-	print("\n\nCURRENT:", current_reputation)
+	print("CURRENT REPUTATION:", current_reputation)
 
 	for i=0,5,1 do
 		local donate = math.floor(10^i)
@@ -73,8 +66,13 @@ local onChat = function (form, ref, option)
 	end
 
 	if option == 0 then
-		form:SetMessage(string.interp(flavours[ad.n].message, ad.stringVariables) .. "\n\n" .. string.interp(
-			l.SALES_PITCH, {cash = Format.Money(computeReputation(ad), false)}))
+		local cash = computeReputation(ad)
+		if cash > 0 then
+			form:SetMessage(string.interp(flavours[ad.n].message, ad.stringVariables) .. "\n\n" .. string.interp(
+				l.SALES_PITCH, {cash = Format.Money(cash, false)}))
+		else
+			form:SetMessage(string.interp(flavours[ad.n].message, ad.stringVariables))
+		end
 
 	elseif PlayerState.GetMoney() < option then
 		form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_MONEY)
