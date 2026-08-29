@@ -18,7 +18,7 @@ local icons = ui.theme.icons
 local SCREEN_BORDER = 6
 
 local MAX_RADAR_SIZE = 1000000000
-local MIN_RADAR_SIZE = 500
+local MIN_RADAR_SIZE = 50
 local DEFAULT_RADAR_SIZE = 10000
 
 local shouldDisplay2DRadar = false
