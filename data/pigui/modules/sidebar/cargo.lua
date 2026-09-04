@@ -19,7 +19,7 @@ local style = {
 	jettisonColor = colors.gaugeJettison
 }
 
-local AMT_OF_AMT = "%st / %st"
+local AMT_OF_AMT = "%s / %s"
 
 local gameView = require 'pigui.views.game'
 
@@ -204,10 +204,10 @@ function module:drawCargoRow(v, rowWidth, totalSpace)
 		local fontCol = transferAmt > 0 and self.transferMode.color or colors.font
 
 		ui.withStyleColors({ Text = fontCol }, function()
-			ui.text(transferAmt .. "t")
+			ui.text(transferAmt .. "cu")
 		end)
 	else
-		ui.text(v.count .. "t")
+		ui.text(v.count .. "cu")
 	end
 
 	-- Draw cargo gauge
@@ -255,8 +255,6 @@ function module:drawBody()
 	local totalSpace = cargoMgr:GetTotalSpace()
 
 	ui.alignTextToButtonPadding()
-	ui.text(lui.CARGO_CAPACITY .. ": " .. totalSpace .. "t")
-	ui.sameLine()
 
 	self:drawModeButtons()
 
@@ -288,7 +286,7 @@ function module:drawBody()
 	ui.spacing()
 
 	ui.alignTextToButtonPadding()
-	ui.text("{} {}t {} / {}t {}" % {
+	ui.text("{} {} {} / {} {}" % {
 		lui.TOTAL,
 		cargoMgr:GetUsedSpace(), lui.USED,
 		cargoMgr:GetFreeSpace(), lui.FREE
@@ -298,7 +296,7 @@ function module:drawBody()
 		ui.sameLine()
 		local amount = self:countTransfer()
 
-		local buttonText = string.format("%s %st", self.transferMode.label, amount)
+		local buttonText = string.format("%s %s", self.transferMode.label, amount)
 		ui.addCursorPos(Vector2(ui.getContentRegion().x - ui.calcButtonSize(buttonText).x, 0))
 
 		if ui.button(buttonText) then

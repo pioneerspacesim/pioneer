@@ -72,11 +72,11 @@ local function displayTargetScannerFor(target, maxWidth)
 	local uiPos = ui.getCursorScreenPos()
 
 	if shield then
-		ui.gauge(uiPos + yOff, shield, nil, nil, 0, 100, icons.shield,
+		ui.gauge(uiPos + yOff, shield, nil, nil, 0, 100, icons.shield, true,
 			colors.gaugeShield, lui.HUD_SHIELD_STRENGTH, maxWidth)
 		yOff.y = yOff.y + spacing
 	end
-	ui.gauge(uiPos + yOff, hull, nil, nil, 0, 100, icons.hull,
+	ui.gauge(uiPos + yOff, hull, nil, nil, 0, 100, icons.hull, true,
 		colors.gaugeHull, lui.HUD_HULL_STRENGTH, maxWidth)
 	yOff.y = yOff.y + spacing
 end

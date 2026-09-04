@@ -24,6 +24,7 @@ local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local colors = ui.theme.colors
 local icons = ui.theme.icons
+local gaugeSpacing = ui.getTextLineHeight() * 0.8
 
 local Lang = require 'Lang'
 local l = Lang.GetResource("ui-core")
@@ -189,11 +190,12 @@ local function lobbyMenu()
 	-- internal tank fuel gauge
 	local gaugePos = ui.getCursorScreenPos()
 	local gaugeHeight = widgetSizes.buttonSizeBase.y
+	gaugePos.x = gaugePos.x + gaugeSpacing;
 	gaugePos.y = gaugePos.y + widgetSizes.buttonSizeBase.y/2
 	local gaugeWidth = ui.getContentRegion().x
-	ui.gauge(gaugePos, Game.player.fuel, '', string.format(l.FUEL .. ": %d t \t" .. l.DELTA_V .. ": %d km/s",
+	ui.gauge(gaugePos, Game.player.fuel, '', string.format(l.FUEL .. ": %0.1f t \t" .. l.DELTA_V .. ": %d km/s",
 		shipDef.fuelTankMass/100 * Game.player.fuel, Game.player:GetRemainingDeltaV()/1000),
-		0, 100, icons.fuel,
+		0, 100, icons.fuel, true,
 		colors.gaugeEquipmentMarket, '', gaugeWidth, gaugeHeight, pionillium.body)
 
 	-- hyperspace fuel
@@ -225,11 +227,12 @@ local function lobbyMenu()
 
 	-- hyperspace fuel gauge
 	gaugePos = ui.getCursorScreenPos()
+	gaugePos.x = gaugePos.x + gaugeSpacing;
 	gaugePos.y = gaugePos.y + widgetSizes.buttonSizeBase.y/2
 	ui.gauge(gaugePos, stored_hyperfuel, '', string.format(l.FUEL .. ": %0.1f t \t" .. l.HYPERSPACE_RANGE .. ": %d " .. l.LY,
 		stored_hyperfuel, Game.player:GetHyperspaceRange()),
 		0, hyperdrive:GetMaxFuel(),
-		icons.hyperspace, colors.gaugeEquipmentMarket, '',
+		icons.hyperspace, true, colors.gaugeEquipmentMarket, '',
 		gaugeWidth, gaugeHeight, pionillium.body)
 
 	ui.columns(1, '', false)
