@@ -26,20 +26,13 @@ namespace Graphics {
 		RendererDummy() :
 			Renderer(0, 0, 0),
 			m_identity(matrix4x4f::Identity)
-		{
-			m_width = 1024;
-			m_height = 768;
-		}
+		{}
 
 		const char *GetName() const final { return "Dummy"; }
 		RendererType GetRendererType() const final { return RENDERER_DUMMY; }
 		bool SupportsInstancing() final { return false; }
 		int GetMaximumNumberAASamples() const final { return 0; }
-		bool GetNearFarRange(float &near_, float &far_) const final {
-			near_ = 0.001;
-			far_ = 100'000'000;
-			return true;
-		}
+		bool GetNearFarRange(float &near_, float &far_) const final { return true; }
 
 		void SetVSyncEnabled(bool) override {}
 

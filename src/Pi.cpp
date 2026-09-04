@@ -56,7 +56,6 @@
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/opengl/RendererGL.h"
-#include "graphics/dummy/RendererDummy.h"
 
 #include "core/GuiApplication.h"
 #include "core/Log.h"
@@ -358,13 +357,8 @@ void Pi::App::OnStartup()
 	Pi::detail.planets = config->Int("DetailPlanets");
 	Pi::detail.cities = config->Int("DetailCities");
 
-	if (m_noGui) {
-		Graphics::RendererDummy::RegisterRenderer();
-		Pi::renderer = StartupRenderer(Pi::config, Graphics::RendererType::RENDERER_DUMMY, false, config->Int("DebugWindowResize"));
-	} else {
-		Graphics::RendererOGL::RegisterRenderer();
-		Pi::renderer = StartupRenderer(Pi::config, Graphics::RendererType::RENDERER_OPENGL_3x, false, config->Int("DebugWindowResize"));
-	}
+	Graphics::RendererOGL::RegisterRenderer();
+	Pi::renderer = StartupRenderer(Pi::config, false, config->Int("DebugWindowResize"));
 
 	Pi::rng.IncRefCount(); // so nothing tries to free it
 	Pi::rng.seed(time(0));
