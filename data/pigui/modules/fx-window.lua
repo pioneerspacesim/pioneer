@@ -102,7 +102,8 @@ end
 local windowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoScrollbar", "NoBackground"}
 
 local function displayFxWindow()
-	if ui.optionsWindow.isOpen then return end
+	if not ui.shouldDrawUI() or ui.optionsWindow.isOpen then return end
+
 	player = Game.player
 	local current_view = Game.CurrentView()
 
