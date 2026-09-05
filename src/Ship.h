@@ -9,13 +9,20 @@
 
 #include "DynamicBody.h"
 #include "ShipType.h"
+#include "ThrusterExhaust.h"
 #include "galaxy/SystemPath.h"
 #include "lua/LuaRef.h"
 #include "scenegraph/ModelSkin.h"
 #include "sound/Sound.h"
 
+#include "graphics/Material.h"
 #include "ship/Propulsion.h"
-#include "ThrusterExhaust.h"
+
+namespace SceneGraph {
+	class MatrixTransform;
+	class Thruster;
+	class StaticGeometry;
+}
 
 class AICommand;
 class Camera;
@@ -36,6 +43,7 @@ struct HeatGradientParameters_t;
 
 namespace Graphics {
 	class Renderer;
+	struct VertexFormatDesc;
 }
 
 struct shipstats_t {
@@ -287,6 +295,7 @@ protected:
 	Shields *m_shields;
 
 private:
+	friend struct ReentryGlowSetupVisitor;
 	float GetECMRechargeTime();
 	void DoThrusterSounds() const;
 	void Init();
@@ -295,6 +304,16 @@ private:
 	void UpdateFuel(float timeStep);
 	void SetShipId(const ShipType::Id &shipId);
 	void SetupShields();
+	struct ReentryGlowMatPair {
+		uint64_t formatHash = 0;
+		RefCountedPtr<Graphics::Material> backShellPass;  // CULL_FRONT: far side of shell first
+		RefCountedPtr<Graphics::Material> frontShellPass; // CULL_BACK: near side on top
+	};
+	std::vector<ReentryGlowMatPair> m_reentryGlowMaterials;
+
+	ReentryGlowMatPair *FindOrCreateReentryGlowMats(Graphics::Renderer *r, const Graphics::VertexFormatDesc &vfmt);
+	void BindReentryGlowMaterials(bool backShellPass);
+	float CalcReentryGlowIntensity() const;
 	void EnterHyperspace();
 	void InitMaterials();
 
@@ -309,6 +328,8 @@ private:
 	SceneGraph::ModelSkin m_skin;
 
 	std::unique_ptr<SceneGraph::Model> m_shieldModel;
+	std::unique_ptr<SceneGraph::Model> m_reentryGlowModel;
+	std::vector<SceneGraph::StaticGeometry *> m_reentryGlowGeoms;
 
 	Sound::Event m_beamLaser[2];
 
