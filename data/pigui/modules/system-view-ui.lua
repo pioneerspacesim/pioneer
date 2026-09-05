@@ -1012,6 +1012,9 @@ local expanded_hover_body = nil -- body with expanded hover area (atlas view onl
 local function displayOnScreenObjects()
 	local isOrrery = systemView:GetDisplayMode() == 'Orrery'
 
+	Windows.unexplored.visible = not systemView:GetSystem().explored
+	if Windows.unexplored.visible then return end
+
 	local should_show_label = isOrrery and ui.shouldShowLabels()
 
 	local label_offset = 14 -- enough so that the target rectangle fits
@@ -1024,10 +1027,6 @@ local function displayOnScreenObjects()
 	-- to prevent overlap of selection regions
 	local objectCounter = 0
 	local objects_grouped = systemView:GetProjectedGrouped(collapse, 1e64)
-
-	-- if there's nothing to display, we're an unexplored system
-	Windows.unexplored.visible = #objects_grouped == 0
-	if Windows.unexplored.visible then return end
 
 	local hoveredObject = nil
 	local was_hovered = false
