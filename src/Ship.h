@@ -294,6 +294,10 @@ protected:
 	GunManager *m_gunManager;
 	Shields *m_shields;
 
+	float m_lastDamageSound;
+
+	static constexpr float k_damageSoundInterval = 0.75f;
+
 private:
 	friend struct ReentryGlowSetupVisitor;
 	float GetECMRechargeTime();

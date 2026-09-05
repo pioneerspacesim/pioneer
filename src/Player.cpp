@@ -94,7 +94,7 @@ bool Player::DoDamage(float kgDamage)
 
 	// Don't fire audio on EVERY iteration (aka every 16ms, or 60fps), only when exceeds a value randomly
 	const float dam = kgDamage * 0.01f;
-	if (Pi::rng.Double() < dam) {
+	if (Pi::rng.Double() < dam && m_lastDamageSound > k_damageSoundInterval) {
 		if (!IsDead() && (GetPercentHull() < 25.0f)) {
 			Sound::BodyMakeNoise(this, "warning", .5f);
 		}
@@ -102,6 +102,8 @@ bool Player::DoDamage(float kgDamage)
 			Sound::BodyMakeNoise(this, "Hull_hit_Small", 1.0f);
 		else
 			Sound::BodyMakeNoise(this, "Hull_Hit_Medium", 1.0f);
+
+		m_lastDamageSound = 0.f;
 	}
 	return r;
 }
