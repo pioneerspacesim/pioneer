@@ -29,7 +29,7 @@ local function displayHyperspaceCountdown()
 	if player:IsHyperspaceActive() then
 		local countdown = math.ceil(player:GetHyperspaceCountdown())
                 local path,destName = player:GetHyperspaceDestination()
-		local uiPos = Vector2(ui.screenWidth / 2, ui.screenHeight / 3)
+		local uiPos = Vector2(ui.screenWidth / 2, ui.screenHeight / 3 - 20)
 		ui.addStyledText(uiPos, ui.anchor.center, ui.anchor.bottom, string.interp(lui.HUD_HYPERSPACING_TO_N_IN_N_SECONDS ,{ destination = destName, countdown = countdown }), colors.hyperspaceInfo, pionillium.large)
 	end
 end

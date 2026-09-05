@@ -304,11 +304,17 @@ bool AICmdKamikaze::TimeStepUpdate()
 		sqrt(aimCollisionSpeed * aimCollisionSpeed + 2 * dist * brake);
 
 	const vector3d aimVel = aimRelSpeed * targetDir + m_target->GetVelocityRelTo(m_dBody->GetFrame());
-	const vector3d accelDir = (aimVel - m_dBody->GetVelocity()).NormalizedSafe();
+	const vector3d velError = aimVel - m_dBody->GetVelocity();
+	// When nearly matched to the desired intercept velocity, velError is tiny and its
+	// direction is numerically unstable. Point at the target instead to avoid terminal wobble.
+	const double faceDirThreshold = aimCollisionSpeed * 0.1;
+	const vector3d faceDir = (velError.LengthSqr() <= faceDirThreshold * faceDirThreshold)
+		? targetDir
+		: velError.NormalizedSafe();
 
 	m_prop->ClearLinThrusterState();
 	m_prop->ClearAngThrusterState();
-	m_prop->AIFaceDirection(accelDir);
+	m_prop->AIFaceDirection(faceDir);
 
 	m_prop->AIAccelToModelRelativeVelocity(aimVel * m_dBody->GetOrient());
 

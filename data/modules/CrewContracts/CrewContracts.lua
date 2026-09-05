@@ -250,10 +250,15 @@ local onChat = function (form,ref,option)
 			response = response,
 		}))
 		form:AddOption(l.MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT,1)
-		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer+10))}),2)
-		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer+5))}),3)
-		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer-5))}),4)
-		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer-10))}),5)
+
+		local i = 10
+		for n = 2, 5 do
+			local m = checkOffer(offer + i)
+			form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(m)}),n)
+			if m == 1 then break end
+			i = i == 5 and -5 or i - 5 -- skip i = 0
+		end
+
 		form:AddOption(l.ASK_CANDIDATE_TO_SIT_A_TEST,6)
 		form:AddOption(l.GO_BACK, 0)
 	end

@@ -1,47 +1,47 @@
 {
   "FINES_ADMONISHING_1": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "Please visit the nearest {policeforce} office to pay your fines."
+    "message": "Bitte besuchen Sie die nächste Dienststelle von {policeforce] um Ihe Strafe zu zahlen."
   },
   "FINES_ADMONISHING_2": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "Visit the nearest {policeforce} office and resolve this."
+    "message": "Besuchen Sie die nächste {policeforce}-Dienststelle und kümmern Sie sich darum."
   },
   "FINES_ADMONISHING_3": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "You need to sort this out or it will only get worse."
+    "message": "Kümmern Sie sich besser jetzt darum, bevor das Problem für sie noch größer wird."
   },
   "FINES_ADMONISHING_4": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "There's a {policeforce} office on every large station. Pay your fines!"
+    "message": "Es gibt eine {policeforce}-Dienststelle auf jeder größeren Station. Zahlen Sie Ihr Bußgeld!"
   },
   "FINES_ADMONISHING_HARSH_1": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "This needs to be resolved or there will be consequences!"
+    "message": "Kümmern Sie sich darum, oder es wird schwerwiegende Konsequenzen für Sie haben!"
   },
   "FINES_ADMONISHING_HARSH_2": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "Unpaid fines will be prosecuted to the fullest extent of the law."
+    "message": "Unbezahlte Strafen werden mit allen verfügbaren juristischen Mitteln verfolgt."
   },
   "FINES_ADMONISHING_HARSH_3": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "This is serious and you need to resolve it. The sooner the better."
+    "message": "Das ist eine ernste Angelegenheit und Sie müssen sich darum kümmern. Je früher, desto besser."
   },
   "FINES_ADMONISHING_HARSH_4": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "If you don't pay your fines you will end up as an outlaw. Pay your fines today!"
+    "message": "Wenn Sie Ihre Strafen nicht zahlen, werden Sie ein Outlaw. Zahlen Sie Ihre Strafe am besten noch heute!"
   },
   "FINES_INTRO_1": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "Wait, there's more."
+    "message": "Einen Moment, wir sind noch nicht fertig."
   },
   "FINES_INTRO_2": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "One more thing {ship_label}."
+    "message": "Noch eine Sache, {ship_label}."
   },
   "FINES_INTRO_3": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "Wait!"
+    "message": "Halt!"
   },
   "FINES_INTRO_4": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
@@ -49,19 +49,19 @@
   },
   "FINES_MESSAGE_1": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "You have outstanding fines."
+    "message": "Sie haben unbezahlte Geldstrafen."
   },
   "FINES_MESSAGE_2": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "You are flagged with outstanding fines."
+    "message": "Sie sind im System wegen unbezahlter Geldstrafen markiert."
   },
   "FINES_MESSAGE_3": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "We see that you have fines to pay."
+    "message": "Wir sehen, dass Sie ausstehende Strafzahlungen haben."
   },
   "FINES_MESSAGE_4": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "You have a total of ${fine} in unpaid fines."
+    "message": "Sie haben in Summe {fine}$ an unbezahlten Geldstrafen."
   },
   "ILLEGAL_GOODS_DETECTED": {
     "description": "",

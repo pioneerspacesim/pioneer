@@ -105,6 +105,7 @@ public:
 			return vector2(x / invlen, y / invlen);
 		}
 	}
+	T Dot(const vector2 &rhs) const { return x * rhs.x + y * rhs.y; }
 	vector2 Rotate(T alpha) // Rotate around center
 	{
 		return vector2(x * cos(alpha) - y * sin(alpha), y * cos(alpha) + x * sin(alpha));

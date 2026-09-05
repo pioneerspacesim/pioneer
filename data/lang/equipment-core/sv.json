@@ -961,7 +961,7 @@
   },
   "UNOCCUPIED_CABIN": {
     "description": "",
-    "message": "Extra passagerarkabin"
+    "message": "Passenger Cabin"
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",

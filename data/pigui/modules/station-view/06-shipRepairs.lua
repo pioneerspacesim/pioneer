@@ -227,7 +227,7 @@ local function drawShipRepair()
 			gaugePos.y = gaugePos.y + ui.getTextLineHeightWithSpacing() * 0.5
 			ui.dummy(Vector2(widgetSizes.gaugeWidth, ui.getTextLineHeightWithSpacing()))
 
-			ui.gauge(gaugePos, hullPercent, '', l.HULL_INTEGRITY, 0, 100, icons.hull, colors.gaugeEquipmentMarket, l.HUD_HULL_STRENGTH, widgetSizes.gaugeWidth, ui.getTextLineHeightWithSpacing())
+			ui.gauge(gaugePos, hullPercent, '', l.HULL_INTEGRITY, 0, 100, icons.hull, true, colors.gaugeEquipmentMarket, l.HUD_HULL_STRENGTH, widgetSizes.gaugeWidth, ui.getTextLineHeightWithSpacing())
 
 			ui.newLine()
 

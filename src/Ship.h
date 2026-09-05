@@ -9,6 +9,7 @@
 
 #include "DynamicBody.h"
 #include "ShipType.h"
+#include "ThrusterExhaust.h"
 #include "galaxy/SystemPath.h"
 #include "lua/LuaRef.h"
 #include "scenegraph/ModelSkin.h"
@@ -213,12 +214,6 @@ public:
 	void AIBodyDeleted(const Body *const body){}; // Note: defined in Ship-AI.cpp // todo: signals
 
 	const AICommand *GetAICommand() const { return m_curAICmd; }
-	void SetAICommand(AICommand *cmd)
-	{
-		if (AIIsActive()) AIClearInstructions();
-		m_curAICmd = cmd;
-	}
-
 	bool IsAIAttacking(const Ship *target) const;
 
 	void PostLoadFixup(Space *space) override;
@@ -372,17 +367,7 @@ private:
 
 	double m_latestSpawnTime = 0.0;
 
-	// Per-thruster atmospheric exhaust (nozzle anchor + jet backbone)
-	struct ExhaustThrusterChannel {
-		bool hasLastNozzle = false;
-		vector3d lastNozzleWorld = vector3d::Zero;
-		vector3d lastBackboneVel = vector3d::Zero;
-		bool wasThrusterFiring = false;
-	};
-	std::vector<SceneGraph::MatrixTransform *> m_thrusterExhaustMounts;
-	std::vector<SceneGraph::Thruster *> m_thrusterExhaustThrusters;
-	std::vector<ExhaustThrusterChannel> m_exhaustThrusterChannels;
-	void RefreshThrusterExhaustMounts();
+	ThrusterExhaustSpawner m_exhaustSpawner;
 	void SpawnThrusterExhaustParticles(float timeStep);
 
 	std::deque<CargoBody *> m_cargoSpawnQueue;

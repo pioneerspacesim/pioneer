@@ -283,6 +283,67 @@ local function displayReticulePitchHorizonCompass()
 	displayReticuleCompass(heading_degrees)
 end
 
+local function displayReticuleLandingAssist()
+	local target = Game.player:GetNavTarget()
+
+	if not target or not target:IsStation() then return end
+
+	local displayLandingAsst = Game.player:GetFlightState() == "FLYING"
+		and target:GetAssignedBayNumber(Game.player) >= 0
+
+	if displayLandingAsst then
+		-- position and { heading, pitch, roll } deviation from the target
+		local _, dev = target:GetAssignedBayNavError(Game.player)
+		assert(dev)
+
+		local roll = dev.z
+
+		-- Render a line inside the reticle indicating the plane of the landing pad relative to the ship's orientation.
+		-- Use the line-circle intersection quadratic algorithm to compute the endpoints of the line segment
+		local line_origin = Vector2(0, reticuleCircleRadius * math.sin(dev.y)):rotate(roll)
+		local center_sqr = line_origin:lengthSqr()
+		local orient = Vector2(math.cos(roll), math.sin(roll))
+
+		local b = orient:dot(-line_origin)
+		-- because the origin point of the line is always inside the circle, the determinant
+		-- (b^2 - c^2 + r^2) will always be >= 0
+		local d = math.sqrt(b * b - center_sqr + (reticuleCircleRadius - 2)^2)
+
+		local proj_center = center + line_origin + orient * b
+		local extent = orient * d
+
+		local pos_a = proj_center + extent
+		local pos_b = proj_center - extent
+
+		ui.addLine(pos_a, pos_b, colors.landingAsstHorizon, 1)
+
+		-- Render the yaw error tick below the line.
+		-- This tick does not indicate direction to the pad, but rather the ship's
+		-- rotation error relative to the pad's orientation.
+		local heading_line_pos = proj_center - extent * (dev.x / ui.pi)
+		local heading_line_dir = orient:left()
+
+		local yaw_aligned = math.abs(dev.x) < math.deg2rad(10)
+		local yaw_col = yaw_aligned and colors.landingAsstHorizon or colors.landingAsstYawTick
+		ui.addLine(heading_line_pos, heading_line_pos + heading_line_dir * 6, yaw_col, yaw_aligned and 2 or 1)
+
+		-- Render downwards half of artificial horizon indicator with a slight tint
+		-- to indicate the ground.
+		if target:IsGroundStation() then
+
+			local theta_a = (pos_a - center):angle()
+			local theta_b = (pos_b - center):angle()
+
+			if theta_b < theta_a then theta_b = theta_b + math.pi * 2 end
+
+			ui.pathArcTo(center, reticuleCircleRadius - 1, theta_a, theta_b, 32)
+			ui.pathFillConvex(colors.landingAsstGround)
+
+		end
+
+	end
+end
+
 local function makeTargetData(target, inv_approach)
 	local velocity = player:GetVelocityRelTo(target)
 	local position = player:GetPositionRelTo(target)
@@ -862,6 +923,7 @@ local function displayReticule()
 	displayFlightAssist(radius)
 	displayManeuverData(radius)
 	displayReticulePitchHorizonCompass()
+	displayReticuleLandingAssist()
 	displayReticuleDeltaV()
 	displayAlertMarker()
 end
@@ -875,7 +937,6 @@ gameView.registerModule("reticule", {
 	end,
 	debugReload = function()
 		package.reimport()
-		package.reimport('pigui.modules.flight-ui.body-icons')
 	end
 })
 

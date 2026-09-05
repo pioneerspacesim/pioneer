@@ -5,8 +5,10 @@ local Event = require 'Event'
 local Game = require 'Game'
 local Lang = require 'Lang'
 local ShipDef = require 'ShipDef'
+local HullConfig = require 'HullConfig'
 local InfoView = require 'pigui.views.info-view'
 local Passengers = require 'Passengers'
+local Gravity = require 'pigui.libs.gravity'
 local Vector2 = Vector2
 
 local ui = require 'pigui'
@@ -22,13 +24,14 @@ local function shipStats()
 
 	-- Taken directly from ShipInfo.lua.
 	local shipDef       =  ShipDef[player.shipId]
+	local hullConfig    =  HullConfig.GetHullConfig(player.shipId)
 	local shipLabel     =  player:GetLabel()
 	local hyperdrive    =  equipSet:GetInstalledOfType("hyperdrive")[1]
 	local frontWeapon   =  equipSet:GetInstalledOfType("weapon")[1]
 	local rearWeapon    =  equipSet:GetInstalledOfType("weapon")[2]
 	local cabinEmpty    =  Passengers.CountFreeBerths(player)
 	local cabinOccupied =  Passengers.CountOccupiedBerths(player)
-	local cabinMaximum  =  cabinEmpty + cabinOccupied
+	local cabinMaximum  =  Passengers.GetMaxPassengersForHull(hullConfig)
 
 	hyperdrive =  hyperdrive  or nil
 	frontWeapon = frontWeapon or nil
@@ -55,10 +58,10 @@ local function shipStats()
 		},
 		false,
 		{ l.WEIGHT_EMPTY..":",     string.format("%d t", player.staticMass - player.loadedMass) },
-		{ l.CAPACITY_USED..":",    string.format("%s (%s "..l.MAX..")", ui.Format.Volume(player.equipVolume), ui.Format.Volume(player.totalVolume) ) },
-		{ l.CARGO_SPACE_USED..":", string.format("%d cu (%d cu "..l.MAX..")", player.usedCargo, player.cargo_cap) },
 		{ l.FUEL_WEIGHT..":",      string.format("%.1f t (%.1f t "..l.MAX..")", player.fuelMassLeft, shipDef.fuelTankMass ) },
 		{ l.ALL_UP_WEIGHT..":",    string.format("%d t", mass_with_fuel ) },
+		{ l.EQUIPMENT_USED..":",   string.format("%s (%s "..l.MAX..")", ui.Format.Volume(player.equipVolume), ui.Format.Volume(player.totalVolume) ) },
+		{ l.CARGO_SPACE_USED..":", string.format("%s (%s %s)", ui.Format.Cargo(player.usedCargo), ui.Format.Cargo(player.cargo_cap), l.MAX) },
 		false,
 		{ l.FRONT_WEAPON..":", frontWeapon and frontWeapon:GetName() or l.NONE },
 		{ l.REAR_WEAPON..":",  rearWeapon and rearWeapon:GetName() or l.NONE },
@@ -68,6 +71,7 @@ local function shipStats()
 		{ l.FORWARD_ACCEL..":",  string.format("%.2f m/s² (%.1f g)", fwd_acc, fwd_acc / 9.81) },
 		{ l.BACKWARD_ACCEL..":", string.format("%.2f m/s² (%.1f g)", bwd_acc, bwd_acc / 9.81) },
 		{ l.UP_ACCEL..":",       string.format("%.2f m/s² (%.1f g)", up_acc, up_acc / 9.81) },
+		{ l.TWR_CURRENT..":",    ui.Format.TWR(up_acc / (Gravity.GetGravityAtBody(player) or math.huge), 2) },
 		false,
 		{ l.MINIMUM_CREW..":",                shipDef.minCrew },
 		{ l.CREW_CABINS..":",                 shipDef.maxCrew },

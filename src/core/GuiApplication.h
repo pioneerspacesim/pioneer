@@ -22,7 +22,6 @@ namespace PiGui {
 namespace Graphics {
 	class Renderer;
 	class RenderTarget;
-	enum RendererType;
 }
 
 class GuiApplication : public Application {
@@ -45,7 +44,7 @@ protected:
 
 	// TODO: unify config handling, possibly make the config an Application member
 	// Call this from your OnStartup() method
-	Graphics::Renderer *StartupRenderer(IniConfig *config, Graphics::RendererType rendererType, bool hidden = false, bool resizable = false);
+	Graphics::Renderer *StartupRenderer(IniConfig *config, bool hidden = false, bool resizable = false);
 
 	// Call this from your OnStartup() method
 	Input::Manager *StartupInput(IniConfig *config);

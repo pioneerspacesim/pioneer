@@ -6,6 +6,7 @@
 
 #include "DynamicBody.h"
 #include "ShipType.h"
+#include "ThrusterExhaust.h"
 
 class AICommand;
 
@@ -42,6 +43,7 @@ public:
 	bool OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData) override;
 	void NotifyRemoved(const Body *const removedBody) override;
 	void PostLoadFixup(Space *space) override;
+	void SetFrame(FrameId fId) override;
 	void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 	void ECMAttack(int power_val);
 
@@ -58,7 +60,10 @@ protected:
 
 private:
 	void Explode();
+	void SpawnThrusterExhaustParticles(float timeStep);
 	bool IsValidTarget(const Body *body);
+
+	ThrusterExhaustSpawner m_exhaustSpawner;
 
 	AICommand *m_curAICmd;
 	Body *m_owner;

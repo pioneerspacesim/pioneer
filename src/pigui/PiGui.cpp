@@ -492,8 +492,15 @@ void Instance::Init(Graphics::Renderer *renderer)
 	// unused, but that is slated to change very soon.
 	// We will need to fill this with a valid pointer to the OpenGL context.
 	ImGui_ImplSDL2_InitForOpenGL(m_renderer->GetSDLWindow(), NULL);
-
-	m_instanceRenderer->Initialize();
+	switch (m_renderer->GetRendererType()) {
+	default:
+	case Graphics::RENDERER_DUMMY:
+		Error("RENDERER_DUMMY is not a valid renderer, aborting.");
+		return;
+	case Graphics::RENDERER_OPENGL_3x:
+		m_instanceRenderer->Initialize();
+		break;
+	}
 
 	FileSystem::FileEnumerator dir(FileSystem::gameDataFiles, "fonts/");
 	for(const FileSystem::FileInfo &fileInfo : dir) {

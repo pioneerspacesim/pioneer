@@ -56,6 +56,11 @@ function Vector2:left() end
 ---@return Vector2
 function Vector2:right() end
 
+--- Return the dot product between two vectors.
+---@param o Vector2
+---@return number
+function Vector2:dot(o) end
+
 -- ============================================================================
 
 ---@class Vector3

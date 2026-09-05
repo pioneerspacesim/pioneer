@@ -263,7 +263,7 @@ namespace FileSystem {
 				case ENOENT: {
 					size_t pos = path.rfind('/');
 					if (pos != std::string::npos) {
-						const std::string dirname = path.substr(0, pos);
+						const std::string dirname = path.substr(0, pos - 1);
 						if (dirname.empty() || !make_directory_raw(dirname)) {
 							return false;
 						}

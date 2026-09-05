@@ -729,7 +729,7 @@
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "lediga passagerarhytter"
+    "message": "unoccupied passenger berths"
   },
   "WHERE_IS_THE_TARGET": {
     "description": "",

@@ -285,7 +285,11 @@ function Sidebar:Refresh()
 	local activeModules = utils.filter_array(self.modules, function(v) return v.active and not v.disabled end)
 
 	for i, v in ipairs(activeModules) do
-		self:SafeCall(v, v.refresh)
+		-- note that we cannot and should not use ui.pcall here as Refresh() is
+		-- not guaranteed to be called only during the ImGui frame.
+		if not v.disabled and v.refresh then
+			v.disabled = not pcall(v, v.refresh)
+		end
 	end
 
 	-- Handle the case where an exclusive module is default-open at startup or e.g. after hot-reload

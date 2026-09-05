@@ -1,3 +1,20 @@
+August
+  * New Features
+    * Improve flight reticle display, add orbit apoapsis/periapsis information (#6397)
+    * Thruster exhaust plumes (#6346)
+    * Improve calculations in AIMatchVel (AIChangeVelBy) (#6296)
+    * Add docking aid to flight reticle (#6373)
+    * Missile exhaust improvements (#6411)
+    * Decreasing radar minimum range to 50m (#6419)
+
+  * Fixes
+    * Adding missing DSMiner engines, adjusting plume sizes (#6403)
+    * Crew Contracts: Do not show the $1 button twice (#6416)
+    * Fix nil lastStockUpdate value, crash when exiting hyperspace (#6417)
+
+  * Internal
+    * Null audio backend for running headless unit tests (#6413)
+
 July
   * New Features
     * Autopilot can now fly to the vicinity of a landed ship (#6379)

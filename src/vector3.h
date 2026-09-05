@@ -156,6 +156,19 @@ public:
 		}
 	}
 
+	// Return the projection of this vector onto the line defined by the passed unit normal vector.
+	// (This is the opposite of ProjectPlane)
+	inline vector3 ProjectLine(const vector3 &normal) const
+	{
+		return Dot(normal) * normal;
+	}
+
+	// Return the projection of this vector onto the 2d plane defined by the passed unit normal vector.
+	inline vector3 ProjectPlane(const vector3 &normal) const
+	{
+		return *this - Dot(normal) * normal;
+	}
+
 	/* Rotate this vector about point o, in axis defined by v. */
 	void ArbRotateAroundPoint(const vector3 &o, const vector3 &__v, T ang)
 	{

@@ -33,7 +33,7 @@
   },
   "ALL_UP_WEIGHT": {
     "description": "",
-    "message": "Tam yüklü ağırlık"
+    "message": "Current total weight"
   },
   "AMOUNT": {
     "description": "",
@@ -69,7 +69,7 @@
   },
   "AUDIO_BACKEND": {
     "description": "Audio backend label in settings menu",
-    "message": "Audio Backend"
+    "message": "Ses Sistemi"
   },
   "AUTOMATED_MESSAGE": {
     "description": "For comm messages from bots",
@@ -97,11 +97,11 @@
   },
   "BINAURAL_RENDERING": {
     "description": "Label of the binaural rendering checkbox in the audio settings menu",
-    "message": "Binaural Rendering"
+    "message": "Binaural İşleme"
   },
   "BINAURAL_RENDERING_DESC": {
     "description": "Tooltip of the binaural rendering checkbox in the audio settings menu",
-    "message": "When enabled, HRTF filters are applied to the audio output. Works best with headphones."
+    "message": "Etkinleştirildiği zaman, ses çıkışına HRTF filteleri uygulanır. Kulaklıklarla daha iyi çalışır."
   },
   "BODY_IN_ROUTE": {
     "description": "Label indicating a star is part of a planned hyperjump route",
@@ -137,7 +137,7 @@
   },
   "CABINS": {
     "description": "For passengers",
-    "message": "Kabinler"
+    "message": "Berths"
   },
   "CABIN_FREE": {
     "description": "Free capacity for passengers",
@@ -637,15 +637,19 @@
   },
   "EQUIPMENT_ALREADY_INSTALLED_HERE": {
     "description": "Message indicating this equipment item is already installed.",
-    "message": "This equipment item is already installed here."
+    "message": "Bu ekipman ögesi halihazırda kurulu."
   },
   "EQUIPMENT_CAPACITY": {
     "description": "The equipment capacity of a ship",
-    "message": "Ekipman Kapasitesi"
+    "message": "Equipment capacity"
   },
   "EQUIPMENT_MARKET": {
     "description": "",
     "message": "Ekipman Pazarı"
+  },
+  "EQUIPMENT_USED": {
+    "description": "",
+    "message": "Equipment space used"
   },
   "EQUIPPED": {
     "description": "",
@@ -1205,7 +1209,7 @@
   },
   "HUD_GRAVITY_INDICATOR": {
     "description": "Tooltip: describe what the gravity indicator shows",
-    "message": "Local gravity acceleration (scale: ship maximum acceleration)"
+    "message": "Yerel kütleçekim ivmesi (ölçek: geminin maksimum ivmesi)"
   },
   "HUD_HULL_STRENGTH": {
     "description": "Tooltip: Hull Strength.",
@@ -1273,11 +1277,11 @@
   },
   "HUD_ORBIT_APOAPSIS": {
     "description": "Tooltip: Current orbital apoapsis.",
-    "message": "Current orbit apoapsis"
+    "message": "Anlık yörünge yerötesi"
   },
   "HUD_ORBIT_PERIAPSIS": {
     "description": "Tooltip: Current orbital apoapsis.",
-    "message": "Current orbit periapsis"
+    "message": "Anlık yörünge yerberisi"
   },
   "HUD_RADAR_DISTANCE": {
     "description": "Tooltip: Current distance of the radar.",
@@ -1333,7 +1337,7 @@
   },
   "HUD_THRUST_INDICATOR": {
     "description": "Tooltip: describe what the thrust indicator shows",
-    "message": "Show current thrust levels for maneuvering (outer ring) and primary or retro engines (center circle)"
+    "message": "Manevra için anlık itki seviyelerini (dış çember) ve ana veya retro itkiyi göster (merkez daire)"
   },
   "HUD_WARNING_DESCENT_RATE": {
     "description": "Shown on HUD as a warning flasher",
@@ -1346,6 +1350,10 @@
   "HUD_WARNING_IMPACT_IMMINENT": {
     "description": "Alert tooltip",
     "message": "Yüksek çarpışma riski"
+  },
+  "HUD_WARNING_TWR_DESTINATION": {
+    "description": "TWR (Thrust to Weight Ratio) HUD warning",
+    "message": "TWR at destination is {value}"
   },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
@@ -1578,6 +1586,10 @@
   "LOCAL_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Yerel kol"
+  },
+  "LOCAL_GRAVITY": {
+    "description": "Gravity at the ship's current location, shown in the mass/TWR widget",
+    "message": "Local gravity"
   },
   "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
     "description": "",
@@ -1851,6 +1863,10 @@
     "description": "",
     "message": "Tamir denemesi için yeterince {alloy} yok"
   },
+  "NOT_ENOUGH_SPACE_FOR_EQUIPMENT": {
+    "description": "",
+    "message": "Not enough space to install this equipment"
+  },
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
     "message": "{equipment} bu gemi modelini tarafından desteklenmiyor"
@@ -1887,21 +1903,13 @@
     "description": "",
     "message": "{range} ışık yılı ({maxRange} en çok)"
   },
-  "N_OCCUPIED_PASSENGER_CABINS": {
-    "description": "",
-    "message": "{quantity} Dolu Yolcu Kabini"
-  },
   "N_SHIELD_GENERATORS": {
     "description": "",
     "message": "{quantity} Kalkan Jeneratörü"
   },
-  "N_UNOCCUPIED_PASSENGER_CABINS": {
-    "description": "",
-    "message": "{quantity} Dolu Yolcu Kabini"
-  },
   "OCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Dolu Yolcu Kabinleri"
+    "message": "Occupied passenger berths"
   },
   "OFF": {
     "description": "",
@@ -1993,7 +2001,7 @@
   },
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
-    "message": "Yolcu kabini kapasitesi"
+    "message": "Max passenger capacity"
   },
   "PASTE": {
     "description": "As for clipboard",
@@ -2377,7 +2385,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set destination as navigation target"
+    "message": "Varış noktasını navigasyon hedefi olarak seç"
   },
   "SET_JUMP_TARGET": {
     "description": "Button tooltip which sets the jump route to the selected body",
@@ -2569,7 +2577,7 @@
   },
   "SYSTEM_FACTION": {
     "description": "Tooltip indicating the faction controlling this system",
-    "message": "Controlling faction jurisdiction"
+    "message": "Kontrol eden organizasyon"
   },
   "SYSTEM_INFORMATION": {
     "description": "Tooltip / label indicating information about a selected star system",
@@ -2577,11 +2585,11 @@
   },
   "SYSTEM_NUM_STARS": {
     "description": "Tooltip indicating the system stellar arrangement",
-    "message": "Number of stars in system"
+    "message": "Sistemdeki yıldız sayısı"
   },
   "SYSTEM_SECURITY_1": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
-    "message": "Safe"
+    "message": "Güvenli"
   },
   "SYSTEM_SECURITY_2": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
@@ -2593,7 +2601,7 @@
   },
   "SYSTEM_SECURITY_4": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
-    "message": "Very Dangerous"
+    "message": "Çok Tehlikeli"
   },
   "SYSTEM_SECURITY_5": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
@@ -2601,7 +2609,7 @@
   },
   "SYSTEM_SECURITY_TOOLTIP": {
     "description": "Tooltip introducing the system security rating",
-    "message": "System safety rating"
+    "message": "Sistem güvenlik derecesi"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
@@ -2735,6 +2743,30 @@
     "description": "",
     "message": "Kapat"
   },
+  "TWR": {
+    "description": "Short label for the current thrust-to-weight ratio readout on the flight HUD",
+    "message": "TWR"
+  },
+  "TWR_AT_SURFACE": {
+    "description": "TWR (Thrust to Weight Ratio) at planet surface",
+    "message": "TWR at surface"
+  },
+  "TWR_CURRENT": {
+    "description": "TWR (Thrust to Weight Ratio) at current location",
+    "message": "TWR (current)"
+  },
+  "TWR_CURRENT_TOOLTIP": {
+    "description": "",
+    "message": "Thrust to Weight Ratio (TWR) of the ship in its current location.\nIf the TWR is below 1.0, the ship will not be able to take off."
+  },
+  "TWR_TARGET": {
+    "description": "TWR (Thrust to Weight Ratio) at target nav location",
+    "message": "TWR (target)"
+  },
+  "TWR_TARGET_TOOLTIP": {
+    "description": "",
+    "message": "Thrust to Weight Ratio (TWR) of the ship at the target location.\nIf the TWR is below 1.0, the ship will not be able to take off."
+  },
   "TYPE": {
     "description": "",
     "message": "Tür"
@@ -2769,7 +2801,7 @@
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Boş Yolcu Kabinleri"
+    "message": "Unoccupied passenger berths"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",
@@ -2787,9 +2819,13 @@
     "description": "",
     "message": "Yukarı ivme"
   },
-  "USED": {
+  "UP_ACCEL_EMPTY": {
     "description": "",
-    "message": "Kullanılan"
+    "message": "Up accel (empty)"
+  },
+  "USED": {
+    "description": "Usually shown with FREE as a pair, e.g. 4t used / 7t free",
+    "message": "used"
   },
   "VERY_HIGH": {
     "description": "Game settings option: graphic resolution",
@@ -2821,7 +2857,7 @@
   },
   "VIEW_DESTINATION": {
     "description": "Tooltip indicating the button will change the current view to the destination of a route.",
-    "message": "View Destination"
+    "message": "Varış Noktasını Gör"
   },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",

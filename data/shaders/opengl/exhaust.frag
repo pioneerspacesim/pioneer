@@ -6,6 +6,7 @@
 
 in vec2 v_uv;
 in vec4 v_color;
+in float v_noiseStrength;
 
 out vec4 frag_color;
 
@@ -39,7 +40,7 @@ void main(void)
 	// Increase noise_cells for smaller blobs, decrease for larger ones.
 	const float noise_cells = 3.0;
 	vec2 pos = v_uv * noise_cells;
-	float noise_val = noise(pos) * 2.0 + 0.5;
+	float noise_val = noise(pos) * v_noiseStrength + 0.5;
 
 	float alpha = v_color.a * edge * noise_val;
 	frag_color = vec4(v_color.rgb, alpha);

@@ -36,6 +36,9 @@ ui.RoundCornersAll = 0x0F
 -- A detailed stack dump of the error will be written to the game's output log
 -- and a traceback returned with the error message.
 --
+-- ui.pcall MUST be called inside of the ImGui frame. Attempts to call it in
+-- other states will produce fatal errors.
+--
 -- Example:
 --
 -- > local ok, err = ui.pcall(fun, ...)

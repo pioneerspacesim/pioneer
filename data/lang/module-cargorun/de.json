@@ -657,7 +657,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "We have loaded the cargo onto your ship."
+    "message": "Wir haben die Fracht auf Ihr Schiff geladen."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -745,6 +745,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Please contact me when you have sufficient cargo space."
+    "message": "Bitte kontaktieren Sie mich, wenn Sie ausreichenden Frachtraum haben."
   }
 }
