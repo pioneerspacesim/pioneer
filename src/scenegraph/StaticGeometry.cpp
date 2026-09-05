@@ -53,10 +53,14 @@ namespace SceneGraph {
 		PROFILE_SCOPED()
 		Graphics::Renderer *r = GetRenderer();
 		r->SetTransform(trans);
-		for (auto &it : m_meshes)
-			r->DrawMesh(it.meshObject.Get(), it.material.Get());
-
-		//DrawBoundingBox(m_boundingBox);
+		Graphics::Material *overrideMat = rd ? rd->overrideMaterial : nullptr;
+		if (overrideMat) {
+			for (auto &it : m_meshes)
+				r->DrawMesh(it.meshObject.Get(), overrideMat);
+		} else {
+			for (auto &it : m_meshes)
+				r->DrawMesh(it.meshObject.Get(), it.material.Get());
+		}
 	}
 
 	void StaticGeometry::RenderInstanced(const std::vector<matrix4x4f> &trans, const RenderData *rd)

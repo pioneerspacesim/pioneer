@@ -66,7 +66,7 @@ public:
 	FrameId GetTempFrame() const { return m_camFrame; }
 
 	// apply projection and modelview transforms to the renderer
-	void ApplyDrawTransforms(Graphics::Renderer *r);
+	void ApplyDrawTransforms(Graphics::Renderer *r) const;
 
 private:
 	float m_width;
@@ -161,6 +161,10 @@ private:
 		bool calcAtmosphereLighting;
 		// if true, calculate interior light intensity for the body
 		bool calcInteriorLighting;
+		// if true, cast a planar ground shadow when near a planet surface
+		bool castsGroundShadow;
+		// if true, skip Render() but still participate in shadow casting etc.
+		bool drawExcluded;
 
 		// if true, draw object as billboard of billboardSize at billboardPos
 		bool billboard;

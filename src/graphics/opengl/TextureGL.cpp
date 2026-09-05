@@ -15,6 +15,7 @@ namespace Graphics {
 			switch (format) {
 			case TEXTURE_RGB_888: return GL_RGB;
 			case TEXTURE_RGBA_8888: return GL_RGBA;
+			case TEXTURE_RG32F: return GL_RG32F;
 			case TEXTURE_RG_88: return GL_RG;
 			case TEXTURE_R8: return GL_RED;
 			case TEXTURE_DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
@@ -31,6 +32,7 @@ namespace Graphics {
 			switch (format) {
 			case TEXTURE_RGBA_8888: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
 			case TEXTURE_RGB_888: return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
+			case TEXTURE_RG32F: return GL_RG32F;
 			case TEXTURE_RG_88: return GL_RG;
 			case TEXTURE_R8: return GL_RED;
 			case TEXTURE_DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
@@ -43,6 +45,7 @@ namespace Graphics {
 		{
 			switch (format) {
 			case TEXTURE_RGBA_8888: return GL_RGBA;
+			case TEXTURE_RG32F: return GL_RG;
 			case TEXTURE_RGB_888: return GL_RGB;
 			case TEXTURE_RG_88: return GL_RG;
 			case TEXTURE_R8: return GL_RED;
@@ -65,6 +68,8 @@ namespace Graphics {
 
 		inline GLint GLImageType(TextureFormat format)
 		{
+			if (format == TEXTURE_DEPTH || format == TEXTURE_RG32F)
+				return GL_FLOAT;
 			return GL_UNSIGNED_BYTE;
 		}
 

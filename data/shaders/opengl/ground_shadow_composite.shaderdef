@@ -1,0 +1,17 @@
+## Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
+## Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+## Fullscreen composite of the mask pass onto the main framebuffer.
+## Mask texture R = shadow depth, G = shadow strength.
+
+Shader ground_shadow_composite
+
+Texture sampler2D texture0 name=shadowMask
+
+PushConstant float shadowAlpha
+PushConstant float depthBias
+
+Buffer DrawData binding=1
+
+Vertex "ground_shadow_composite.vert"
+Fragment "ground_shadow_composite.frag"

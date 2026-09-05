@@ -52,13 +52,15 @@ namespace SceneGraph {
 		float boundingRadius; //updated by model and passed to submodels
 		uint32_t nodemask;
 		double renderTime;
+		Graphics::Material *overrideMaterial;
 
 		RenderData() :
 			linthrust(),
 			angthrust(),
 			boundingRadius(0.f),
 			nodemask(NODE_SOLID), //draw solids
-			renderTime(0.0)
+			renderTime(0.0),
+			overrideMaterial(nullptr)
 		{
 		}
 	};
