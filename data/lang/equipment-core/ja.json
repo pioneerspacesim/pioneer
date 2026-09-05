@@ -961,7 +961,7 @@
   },
   "UNOCCUPIED_CABIN": {
     "description": "",
-    "message": "追加客室"
+    "message": "Passenger Cabin"
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",

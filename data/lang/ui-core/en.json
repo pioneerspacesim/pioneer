@@ -1855,10 +1855,6 @@
     "description": "",
     "message": "Notes:"
   },
-  "NOT_ENOUGH_SPACE_FOR_EQUIPMENT": {
-    "description": "",
-    "message": "Not enough space to install this equipment"
-  },
   "NOTORIETY": {
     "description": "Character parameter",
     "message": "Notoriety"
@@ -1866,6 +1862,10 @@
   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
     "description": "",
     "message": "Not enough {alloy} to attempt a repair"
+  },
+  "NOT_ENOUGH_SPACE_FOR_EQUIPMENT": {
+    "description": "",
+    "message": "Not enough space to install this equipment"
   },
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
@@ -2743,17 +2743,13 @@
     "description": "",
     "message": "Turn off"
   },
-  "TYPE": {
-    "description": "",
-    "message": "Type"
+  "TWR": {
+    "description": "Short label for the current thrust-to-weight ratio readout on the flight HUD",
+    "message": "TWR"
   },
   "TWR_AT_SURFACE": {
     "description": "TWR (Thrust to Weight Ratio) at planet surface",
     "message": "TWR at surface"
-  },
-  "TWR": {
-    "description": "Short label for the current thrust-to-weight ratio readout on the flight HUD",
-    "message": "TWR"
   },
   "TWR_CURRENT": {
     "description": "TWR (Thrust to Weight Ratio) at current location",
@@ -2770,6 +2766,10 @@
   "TWR_TARGET_TOOLTIP": {
     "description": "",
     "message": "Thrust to Weight Ratio (TWR) of the ship at the target location.\nIf the TWR is below 1.0, the ship will not be able to take off."
+  },
+  "TYPE": {
+    "description": "",
+    "message": "Type"
   },
   "UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",

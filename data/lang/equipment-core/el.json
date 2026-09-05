@@ -961,7 +961,7 @@
   },
   "UNOCCUPIED_CABIN": {
     "description": "",
-    "message": "Επιπλέον καμπίνα επιβάτη"
+    "message": "Passenger Cabin"
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",

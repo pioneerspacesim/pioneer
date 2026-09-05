@@ -729,7 +729,7 @@
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "空置客舱"
+    "message": "unoccupied passenger berths"
   },
   "WHERE_IS_THE_TARGET": {
     "description": "",
