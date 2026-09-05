@@ -8,11 +8,12 @@ local Game = require 'Game'
 local Gravity = {}
 
 --- Surface gravity for a body, walking up through starports if needed.
+---@param body Body|SystemBody
 function Gravity.GetSurfaceGravity(body)
 	if not body then return nil end
 
 	local root = body
-	local sbody = root:GetSystemBody()
+	local sbody = root:isa("SystemBody") and root or root:GetSystemBody()
 	if not sbody then
 		root = body.frameBody
 		if not root then return nil end

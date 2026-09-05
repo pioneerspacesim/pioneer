@@ -675,6 +675,8 @@ local infoView = {
 
 			local data = getObjectData(obj)
 			tabular(data, 0)
+		else
+			ui.textColored(colors.fontDim, lc.SELECT_A_TARGET .. "...")
 		end
 	end
 }
@@ -1155,6 +1157,10 @@ local function displaySystemViewUI(delta_t, refresh)
 	if refresh then
 		leftSidebar:Refresh()
 		rightSidebar:Refresh()
+
+		if not leftSidebar.active and not infoView.active then
+			leftSidebar:MakeActive(infoView)
+		end
 	end
 
 	if not ui.shouldDrawUI() then return end
@@ -1183,6 +1189,7 @@ local function displaySystemViewUI(delta_t, refresh)
 	end
 
 	if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
+		package.reimport 'pigui.libs.sidebar'
 		package.reimport 'pigui.modules.system-overview-window'
 		systemEconView = package.reimport('pigui.modules.system-econ-view').New()
 		package.reimport()
