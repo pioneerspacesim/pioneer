@@ -684,7 +684,7 @@ void GasGiant::SetUpMaterials()
 	surfDesc.textures = 1;
 
 	//planetoid with atmosphere
-	m_atmosphereParameters = GetSystemBody()->CalcAtmosphereParams();
+	GetSystemBody()->CalcAtmosphereParams(m_atmosphereParameters);
 	assert(m_atmosphereParameters.atmosDensity > 0.0);
 	assert(m_surfaceTextureSmall.Valid() || m_surfaceTexture.Valid());
 

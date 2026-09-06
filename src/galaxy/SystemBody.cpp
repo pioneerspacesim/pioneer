@@ -455,10 +455,9 @@ vector3f SystemBody::GetCoefficients(const double radius, const double atmHeight
 }
 
 // Calculate parameters used in the atmospheric model for shaders
-AtmosphereParameters SystemBody::CalcAtmosphereParams() const
+void SystemBody::CalcAtmosphereParams(AtmosphereParameters &params) const
 {
 	PROFILE_SCOPED()
-	AtmosphereParameters params;
 
 	double atmosDensity;
 
@@ -517,8 +516,6 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 	params.rayleighCoefficients = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, atmosScaleHeight);
 	params.mieCoefficients = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, atmosScaleHeight / 6.66); // 7994 / 1200 = 6.61
 	params.scaleHeight = vector2f(atmosScaleHeight, atmosScaleHeight / 6.66);
-
-	return params;
 }
 
 SystemBody::BodySuperType SystemBody::GetSuperType() const

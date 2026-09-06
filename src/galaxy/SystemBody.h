@@ -315,7 +315,7 @@ public:
 	double ComputeDensity(const double radius, const double atmosphereHeight, const double h, const double scaleHeight) const;
 	vector3f GetCoefficients(const double radius, const double atmHeight, const double scaleHeight) const;
 
-	AtmosphereParameters CalcAtmosphereParams() const;
+	void CalcAtmosphereParams(AtmosphereParameters &params) const;
 
 	bool IsScoopable() const;
 	Color CalcSurfaceDustColor() const;
