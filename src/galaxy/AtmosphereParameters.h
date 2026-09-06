@@ -13,9 +13,6 @@ struct AtmosphereParameters {
 	float planetRadius;
 	Color atmosCol;
 	vector3d center;
-	vector3f rayleighCoefficients;
-	vector3f mieCoefficients;
-	vector2f scaleHeight;
 	vector2f logDensityMap[DENSITY_STEPS + 1];
 	float logDensityMapR[(DENSITY_STEPS + 1)*(DENSITY_STEPS + 1)];
 	float logDensityMapM[(DENSITY_STEPS + 1)*(DENSITY_STEPS + 1)];
