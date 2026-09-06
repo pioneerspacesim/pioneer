@@ -4,6 +4,8 @@
 #include "Color.h"
 #include "vector3.h"
 
+#define DENSITY_STEPS 255
+
 struct AtmosphereParameters {
 	float atmosRadius;
 	float atmosInvScaleHeight;
@@ -11,9 +13,9 @@ struct AtmosphereParameters {
 	float planetRadius;
 	Color atmosCol;
 	vector3d center;
-	vector3f rayleighCoefficients;
-	vector3f mieCoefficients;
-	vector2f scaleHeight;
+	vector2f logDensityMap[DENSITY_STEPS + 1];
+	float logDensityMapR[(DENSITY_STEPS + 1)*(DENSITY_STEPS + 1)];
+	float logDensityMapM[(DENSITY_STEPS + 1)*(DENSITY_STEPS + 1)];
 };
 
 #endif // ATMOSPHEREPARAMETERS_H_INCLUDED
