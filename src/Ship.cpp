@@ -163,6 +163,7 @@ Ship::Ship(const ShipType::Id &shipId) :
 	m_shipNear = false;
 	m_shipFiring = false;
 	m_missileDetected = false;
+	m_lastDamageSound = 0.f;
 
 	m_testLanded = false;
 	m_launchLockTimeout = 0;
@@ -242,6 +243,7 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 		m_shipNear = false;		   // alertstate check cache value
 		m_shipFiring = false;	   // alertstate check cache value
 		m_missileDetected = false; // alertstate check cache value
+		m_lastDamageSound = 0.f;
 
 		m_alertState = shipObj["alert_state"];
 		m_lastFiringAlert = shipObj["last_firing_alert"];
@@ -552,7 +554,6 @@ vector3d Ship::CalcAtmoTorque() const
 bool Ship::OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData)
 {
 	if (m_invulnerable) {
-		Sound::BodyMakeNoise(this, "Hull_hit_Small", 0.5f);
 		return true;
 	}
 
@@ -590,11 +591,13 @@ bool Ship::OnDamage(Body *attacker, float kgDamage, const CollisionContact &cont
 			if (Pi::rng.Double() < kgDamage)
 				SfxManager::Add(this, TYPE_DAMAGE);
 
-			if (dam > float(GetShipType()->hullMass / 1000.)) {
+			if (dam > float(GetShipType()->hullMass / 1000.) && m_lastDamageSound > k_damageSoundInterval) {
 				if (dam < 0.01 * float(GetShipType()->hullMass))
 					Sound::BodyMakeNoise(this, "Hull_hit_Small", 1.0f);
 				else
 					Sound::BodyMakeNoise(this, "Hull_Hit_Medium", 1.0f);
+
+				m_lastDamageSound = 0.f;
 			}
 		}
 	}
@@ -1036,6 +1039,9 @@ void Ship::SetFrame(FrameId fId)
 void Ship::TimeStepUpdate(const float timeStep)
 {
 	PROFILE_SCOPED()
+
+	m_lastDamageSound += timeStep;
+
 	// If docked, station is responsible for updating position/orient of ship
 	// but we call this crap anyway and hope it doesn't do anything bad
 
@@ -1640,7 +1646,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 			vector3f flight = matrix3x3f(viewTransform.GetOrient()).Inverse().Transpose() * vector3f(vel);
 			flight = flight.Normalized();
 			// Use Game::GetTime() as the streak seed to achieve a highly variable random streak distribution effect.
-			// If the game is paused we don't draw streaks at all - pass in -1 to signify this. 
+			// If the game is paused we don't draw streaks at all - pass in -1 to signify this.
 			const double simT = Pi::game->GetTime();
 			const float reentryPhaseT = Pi::game->IsPaused() ? -1.f	: float(std::fmod(simT, 2048.0));
 			for (ReentryGlowMatPair &mats : m_reentryGlowMaterials) {

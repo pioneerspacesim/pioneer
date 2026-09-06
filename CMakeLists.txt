@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Version identifier for current compiled build
 # Do not cache this variable
-set(PIONEER_VERSION "20260203-dev")
+set(PIONEER_VERSION "20260907")
 
 set(PROJECT_VERSION_INFO ""
 	CACHE STRING "Additional version information (optional)")

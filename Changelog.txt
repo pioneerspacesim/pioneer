@@ -1,16 +1,31 @@
+September
+  * New Features
+    * Add thrust-to-weight ratio display to flight UI and station screen (#6382)
+	* Shield heating effect when flying at high speed in atmosphere (#6408)
+	* Terrain lighting now uses the Rayleigh-Mie atmospheric model (#6285)
+	* System view frames the entire system at default zoom level (#6422)
+
+  * Fixes
+    * Donation advertisements display amount of gained reputation and have a more even curve. (#6197)
+	* Revert "Improve calculations in AIMatchVel (AIChangeVelBy)" (#6296)
+	* Fix ImGui nag messages related to extending parent boundaries (#6422)
+	* Automatically open the System View body info window when switching to it (#6422)
+	* Fix debug-mode invulnerable ships playing damage sounds (#6422)
+	* Fix system view showing explored systems as unexplored (#6422)
+
 August
   * New Features
     * Improve flight reticle display, add orbit apoapsis/periapsis information (#6397)
     * Thruster exhaust plumes (#6346)
-    * Improve calculations in AIMatchVel (AIChangeVelBy) (#6296)
     * Add docking aid to flight reticle (#6373)
-    * Missile exhaust improvements (#6411)
-    * Decreasing radar minimum range to 50m (#6419)
+    * Improved missile exhaust plumes and trails (#6411)
 
   * Fixes
     * Adding missing DSMiner engines, adjusting plume sizes (#6403)
     * Crew Contracts: Do not show the $1 button twice (#6416)
     * Fix nil lastStockUpdate value, crash when exiting hyperspace (#6417)
+    * Improve calculations in AIMatchVel (AIChangeVelBy) (#6296)
+    * Decreasing radar minimum range to 50m (#6419)
 
   * Internal
     * Null audio backend for running headless unit tests (#6413)

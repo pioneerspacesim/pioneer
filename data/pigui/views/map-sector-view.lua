@@ -600,7 +600,6 @@ local routeView = {
 	end,
 
 	drawBody = function(self)
-
 		local route = hyperJumpPlanner.getJumpRouteList()
 		---@type SystemPath?
 		local current = sectorView:GetCurrentSystemPath()
@@ -828,15 +827,6 @@ local function drawEdgeButtons()
 
 end
 
-local function hasActiveExclusiveLeftModule()
-	for _, module in ipairs(leftSidebar.modules) do
-		if module.exclusive and module.active and not module.closing then
-			return true
-		end
-	end
-	return false
-end
-
 local function refreshData()
 	leftSidebar:Refresh()
 	rightSidebar:Refresh()
@@ -848,10 +838,8 @@ ui.registerHandler("SectorView", function(delta_t, refresh)
 
 	if refresh then
 		-- Always show system info when entering SectorView, if we can. This helps the player find the hyperspace routing.
-		if not hasActiveExclusiveLeftModule() and not infoView.active then
-			infoView.active = true
-			infoView.closing = false
-			infoView.alpha = nil
+		if not leftSidebar.active and not infoView.active then
+			leftSidebar:MakeActive(infoView)
 		end
 
 		refreshData()

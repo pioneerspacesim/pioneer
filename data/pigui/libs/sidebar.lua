@@ -78,6 +78,21 @@ function Sidebar:SafeCall(module, fn, ...)
 	module.disabled = not ui.pcall(fn, module, ...)
 end
 
+-- Manually force a module to become active without a transition.
+function Sidebar:MakeActive(module)
+	module.active = true
+	module.closing = false
+	module.alpha = nil
+
+	if self.active and self.active ~= module then
+		self.active.active = false
+		self.active.closing = false
+		self.active.alpha = nil
+	end
+
+	self.active = module.exclusive and module or nil
+end
+
 -- Update positions and sizes for the sidebar windows
 function Sidebar:UpdateCoords()
 	self.buttonPos.x = self.side == "right" and (ui.screenWidth - self.offset.x) or self.offset.x
@@ -288,7 +303,10 @@ function Sidebar:Refresh()
 		-- note that we cannot and should not use ui.pcall here as Refresh() is
 		-- not guaranteed to be called only during the ImGui frame.
 		if not v.disabled and v.refresh then
-			v.disabled = not pcall(v, v.refresh)
+			v.disabled = not xpcall(v.refresh, function(msg)
+				logWarning("Error in sidebar refresh() function:\n\t" .. msg)
+				logWarning(debug.dumpstack(2))
+			end, v)
 		end
 	end
 

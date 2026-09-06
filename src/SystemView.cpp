@@ -402,6 +402,12 @@ void SystemMapViewport::ResetViewpoint()
 	m_rot_y_to = 0;
 	m_rot_x_to = 50;
 	m_zoomTo = 1.0f / float(AU);
+
+	SystemBody *rootBody = m_system ? m_system->GetRootBody().Get() : nullptr;
+	if (rootBody && rootBody->HasChildren()) {
+		m_zoomTo = 1.0f / (rootBody->GetChildren()[rootBody->GetNumChildren() - 1]->GetOrbMax() * float(AU) * 0.5f);
+	}
+
 	m_timeStep = 1.0f;
 	m_time = m_refTime;
 	m_transTo *= 0.0;

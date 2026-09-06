@@ -19,7 +19,7 @@ local windowFlags = ui.WindowFlags {"NoDecoration", "NoMove", "NoSavedSettings",
 
 local function displayTimeWindow()
 	-- HACK: Don't display the time window if we're in a bespoke view
-	if Game.CurrentView() == nil then return end
+	if Game.CurrentView() == nil or Game.CurrentView() == "WorldView" and not ui.shouldDrawUI() then return end
 
 	local year, month_num, day, hour, minute, second = Game.GetDateTime()
 	local month = lc[months[month_num]]
