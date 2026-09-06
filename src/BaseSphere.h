@@ -65,6 +65,9 @@ protected:
 	static std::unique_ptr<Graphics::Drawables::Sphere3D> m_atmos; // always created with the same parameters so can be shared by all atmospheres
 	AtmosphereParameters m_atmosphereParameters;
 
+	RefCountedPtr<Graphics::Texture> m_densityTexture;
+	RefCountedPtr<Graphics::Texture> m_scatterTexture;
+
 private:
 	static void ResetAtmosphereGeometry(Graphics::Renderer *renderer);
 };
