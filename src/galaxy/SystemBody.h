@@ -301,6 +301,7 @@ public:
 	double GetAtmSurfaceDensity() const { return m_volatileGas.ToDouble(); }
 	double GetAtmSurfacePressure() const { return m_atmosPressure; }
 	double GetAtmRadius() const { return m_atmosRadius; }
+	double GetTropopause() const { return m_tropopause; }
 
 	// Calculate atmosphere pressure at given altitude (atm)
 	double GetAtmPressure(double altitude) const;
@@ -358,8 +359,10 @@ private:
 
 	// atmosphere surface pressure, unit: atm
 	double m_atmosPressure;
-	// atmosphere radius at 0.01atm, unit: meters
+	// atmosphere radius at 1e-15atm, unit: meters
 	double m_atmosRadius;
+	// tropopause height at 0.1atm, unit: meters
+	double m_tropopause;
 };
 
 #endif // SYSTEMBODY_H
