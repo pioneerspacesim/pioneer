@@ -16,9 +16,9 @@
 #include "Body.h"
 #include "FileSystem.h"
 #include "JobQueue.h"
+#include "NullAudioBackend.h"
 #include "Pi.h"
 #include "Player.h"
-#include "NullAudioBackend.h"
 #include "SdlAudioBackend.h"
 #include "utils.h"
 
@@ -39,25 +39,29 @@ namespace Sound {
 
 	static AudioBackend *m_backend = nullptr;
 	static std::vector<std::pair<std::string, Sample>> m_samples;
+	static float m_master_volume = 1.F;
+	static float m_sfx_volume = 1.F;
 
 	void SetMasterVolume(const float vol)
 	{
-		m_backend->SetMasterVolume(vol);
+		m_master_volume = vol;
+		m_backend->SetMasterVolume(ScaleVolumeToLogarithmic(m_master_volume));
 	}
 
 	float GetMasterVolume()
 	{
-		return m_backend->GetMasterVolume();
+		return m_master_volume;
 	}
 
 	void SetSfxVolume(const float vol)
 	{
-		m_backend->SetSfxVolume(vol);
+		m_sfx_volume = vol;
+		m_backend->SetSfxVolume(ScaleVolumeToLogarithmic(m_sfx_volume));
 	}
 
 	float GetSfxVolume()
 	{
-		return m_backend->GetSfxVolume();
+		return m_sfx_volume;
 	}
 
 	void CalculateStereo(const Body *b, float vol, float *volLeftOut, float *volRightOut)
@@ -383,6 +387,17 @@ namespace Sound {
 	void EnableBinaural(bool enabled)
 	{
 		m_backend->EnableBinaural(enabled);
+	}
+
+	float ScaleVolumeToLogarithmic(float level)
+	{
+		level = Clamp(level, 0.F, 1.F);
+		if (level == 0.F) {
+			return 0.F;
+		}
+		constexpr float dB_min = 40.F;
+		const float dB = (level * dB_min) - dB_min;
+		return std::pow(10.F, dB / 20.F);
 	}
 
 } /* namespace Sound */
