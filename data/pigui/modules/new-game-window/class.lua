@@ -29,37 +29,12 @@ StartVariants.register({
 	desc       = lui.START_AT_MARS_DESC,
 	location   = SystemPath.New(0,0,0,0,18),
 	logmsg     = lui.START_LOG_ENTRY_1,
-	shipType   = 'coronatrix',
+	shipType   = 'pumpkinseed',
 	money      = 600,
 	equipment = {
 		computer_1     = "misc.autopilot",
-		laser_front_s2 = "laser.pulsecannon_1mw",
-		shield_s1_1    = "shield.basic_s1",
-		shield_s1_2    = "shield.basic_s1",
-		sensor         = "sensor.radar",
-		hull_mod       = "hull.atmospheric_shielding_s1",
-		hyperdrive     = "hyperspace.hyperdrive_2",
-		thruster       = "thruster.default_s1",
-		missile_bay_1  = "missile_bay.opli_internal_s2",
-		missile_bay_2  = "missile_bay.opli_internal_s2",
-	},
-	cargo      = {
-	},
-	pattern    = 1,
-	colors     = { Color('000000'), Color('000000'), Color('000000') }
-})
-
-StartVariants.register({
-	name       = lui.START_AT_NEW_HOPE,
-	desc       = lui.START_AT_NEW_HOPE_DESC,
-	location   = SystemPath.New(1,-1,-1,0,4),
-	logmsg     = lui.START_LOG_ENTRY_2,
-	shipType   = 'pumpkinseed',
-	money      = 400,
-	hyperdrive = true,
-	equipment = {
-		computer_1     = "misc.autopilot",
 		laser_front_s1 = "laser.pulsecannon_1mw",
+		shield_s1_1    = "shield.basic_s1",
 		sensor         = "sensor.radar",
 		hull_mod       = "hull.atmospheric_shielding_s1",
 		hyperdrive     = "hyperspace.hyperdrive_1",
@@ -72,11 +47,32 @@ StartVariants.register({
 })
 
 StartVariants.register({
+	name       = lui.START_AT_NEW_HOPE,
+	desc       = lui.START_AT_NEW_HOPE_DESC,
+	location   = SystemPath.New(1,-1,-1,0,4),
+	logmsg     = lui.START_LOG_ENTRY_2,
+	shipType   = 'xylophis',
+	money      = 400,
+	hyperdrive = true,
+	equipment = {
+		computer_1     = "misc.autopilot",
+		sensor         = "sensor.radar",
+		hull_mod       = "hull.atmospheric_shielding_s0",
+		hyperdrive     = "hyperspace.hyperdrive_1",
+		thruster       = "thruster.default_s1",
+	},
+	cargo      = {
+	},
+	pattern    = 6,
+	colors     = { Color('E17F00'), Color('FFFFFF'), Color('FF7F00') }
+})
+
+StartVariants.register({
 	name       = lui.START_AT_BARNARDS_STAR,
 	desc           = lui.START_AT_BARNARDS_STAR_DESC,
 	location       = SystemPath.New(-1,0,0,0,16),
 	logmsg         = lui.START_LOG_ENTRY_3,
-	shipType       = 'xylophis',
+	shipType       = 'varada',
 	money          = 100,
 	hyperdrive     = false,
 	equipment = {
@@ -87,8 +83,8 @@ StartVariants.register({
 	},
 	cargo          = {
 	},
-	pattern    = 6,
-	colors     = { Color('E17F00'), Color('FFFFFF'), Color('FF7F00') }
+	pattern    = 1,
+	colors     = { Color('007FE1'), Color('FFFFFF'), Color('007FFF') }
 })
 
 -- synchronize parameter views with updated values
