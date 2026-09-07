@@ -1491,6 +1491,10 @@
     "description": "Flight State",
     "message": "Jumping"
   },
+  "JUMP_REACHABLE": {
+    "description": "Tooltip indicating the jump listed in the route planner is possible under the current ship configuration.",
+    "message": "Jump is reachable"
+  },
   "KILLS": {
     "description": "",
     "message": "قتلي:"
