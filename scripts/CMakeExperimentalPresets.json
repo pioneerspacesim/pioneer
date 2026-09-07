@@ -1,0 +1,68 @@
+{
+	"version": 2,
+	"configurePresets": [
+		{
+			"name": "RPi-Linux-Debug",
+			"displayName": "Linux RPi Debug",
+			"description": "Use system compiler; Profiler=no",
+			"binaryDir": "${sourceDir}/build/",
+			"cacheVariables": {
+				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
+				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+				"CMAKE_BUILD_TYPE": "Debug",
+				"USE_SSE42": false,
+				 "USE_AVX2": false,
+				 "PIONEER_TARGET_RASPBERRY_PI": true
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Linux"
+					]
+				}
+			}
+		},
+		{
+			"name": "RPi-Linux-Profiler",
+			"displayName": "Linux RPi Profiling",
+			"description": "Use system compiler; Profiler=yes",
+			"binaryDir": "${sourceDir}/build/",
+			"cacheVariables": {
+				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
+				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+				"CMAKE_BUILD_TYPE": "RelWithDebInfo",
+				"PROFILER_ENABLED": "1",
+				"USE_SSE42": false,
+				"USE_AVX2": false,
+				"PIONEER_TARGET_RASPBERRY_PI": true
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Linux"
+					]
+				}
+			}
+		},
+		{
+			"name": "RPi-linux-release",
+			"displayName": "Linux RPi Release",
+			"description": "Use system compiler; Opt=yes; Profiler=no",
+			"binaryDir": "${sourceDir}/build/",
+			"cacheVariables": {
+				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+				"CMAKE_BUILD_TYPE": "Release",
+				"USE_SSE42": false,
+				"USE_AVX2": false,
+				"PIONEER_TARGET_RASPBERRY_PI": true
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Linux"
+					]
+				}
+			}
+		}
+	]
+}
