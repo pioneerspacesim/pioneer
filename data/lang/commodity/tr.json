@@ -33,11 +33,11 @@
   },
   "CHEMICALS": {
     "description": "",
-    "message": "chemicals"
+    "message": "kimyasallar"
   },
   "CHEMICALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Industrial precursors, caustic cleaning agents, and biochemical feedstock, chemicals are used in both consumer and industrial settings. Chemicals are shipped in industrial-strength containers to prevent corrosion of a ship's cargo hold."
+    "message": "Endüstriyel öncül maddeler, kostik temizlik maddeleri ve biyokimyasal hammaddeler de dahil olmak üzere kimyasallar hem tüketici hem de endüstriyel alanlarda kullanılmaktadır. Kimyasallar, geminin kargo ambarında aşınmayı önlemek için endüstriyel mukavemete sahip konteynerlerde sevk edilir.\n\n "
   },
   "COMPUTERS": {
     "description": "",

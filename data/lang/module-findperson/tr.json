@@ -533,7 +533,7 @@
   },
   "STATUS": {
     "description": "Label indicating the status display of a requested passenger.",
-    "message": "Status:"
+    "message": "Durum:"
   },
   "SUCCESS_ATK_1": {
     "description": "",

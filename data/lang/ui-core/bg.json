@@ -1493,7 +1493,7 @@
   },
   "JUMP_REACHABLE": {
     "description": "Tooltip indicating the jump listed in the route planner is possible under the current ship configuration.",
-    "message": "Jump is reachable"
+    "message": "Хиперскокът е възможен"
   },
   "KILLS": {
     "description": "",
@@ -1685,7 +1685,7 @@
   },
   "MAXIMUM_CREW": {
     "description": "",
-    "message": "Максимален екипаж"
+    "message": "Максимален брой на екипажа"
   },
   "MEDIUM": {
     "description": "Game settings option: graphics resolution",
@@ -1729,7 +1729,7 @@
   },
   "MINIMUM_CREW": {
     "description": "",
-    "message": "Минимален екипаж"
+    "message": "Минимален брой на екипажа"
   },
   "MINOR_EXPORT": {
     "description": "For displaying commodity information",
@@ -2005,7 +2005,7 @@
   },
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
-    "message": "Максимален капацитет на пасажерите"
+    "message": "Максимален брой на пасажерите"
   },
   "PASTE": {
     "description": "As for clipboard",
