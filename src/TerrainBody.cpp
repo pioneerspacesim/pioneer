@@ -150,6 +150,11 @@ double TerrainBody::GetTerrainHeight(const vector3d &pos_) const
 	}
 }
 
+void TerrainBody::AddTerrainFlattenRegion(const vector3d &centre, double radiusMeters)
+{
+	m_baseSphere->GetTerrain()->AddFlattenRegion(centre, radiusMeters);
+}
+
 //static
 void TerrainBody::OnChangeDetailLevel(Graphics::Renderer *r)
 {

@@ -28,6 +28,7 @@
 #include "profiler/Profiler.h"
 
 #include <algorithm>
+#include <cmath>
 
 //#define DEBUG_CACHE
 
@@ -154,6 +155,25 @@ static void RelocateStarportIfNecessary(SystemBody *sbody, Planet *planet, vecto
 			Output("Error: Lua custom Systems definition: Surface starport is underwater (height not greater than 0.0) and has been automatically relocated. Please move the starport to another location by changing latitude and longitude fields.\n      Surface starport name: %s, Body name: %s, In sector: x = %i, y = %i, z = %i.\n",
 				sbody->GetName().c_str(), sbody->GetParent()->GetName().c_str(), p.sectorX, p.sectorY, p.sectorZ);
 		}
+	}
+}
+
+static void FlattenTerrainUnderPlanetStarports(Space *space, Planet *planet, SystemBody *planetSbody)
+{
+	for (Body *b : space->GetBodies()) {
+		if (!b->IsType(ObjectType::SPACESTATION))
+			continue;
+		const SystemBody *sb = b->GetSystemBody();
+		if (sb->GetType() != SystemBody::TYPE_STARPORT_SURFACE || sb->GetParent() != planetSbody)
+			continue;
+
+		// Calculate a flat disc radius that would lie under the station's XZ footprint (model origin = starport centre).
+		const Aabb &aabb = static_cast<const SpaceStation *>(b)->GetAabb();
+		const double radiusMeters = std::max({ sqrt(aabb.min.x * aabb.min.x + aabb.min.z * aabb.min.z),
+			sqrt(aabb.min.x * aabb.min.x + aabb.max.z * aabb.max.z),
+			sqrt(aabb.max.x * aabb.max.x + aabb.min.z * aabb.min.z),
+			sqrt(aabb.max.x * aabb.max.x + aabb.max.z * aabb.max.z) });
+		planet->AddTerrainFlattenRegion(b->GetPosition().Normalized(), radiusMeters);
 	}
 }
 
@@ -300,6 +320,8 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, doub
 					posAccum.push_back(pos);
 				}
 			}
+			// After all surface starports are placed, flatten the terrain under them.
+			FlattenTerrainUnderPlanetStarports(this, planet, sbody.Get());
 		}
 	}
 
@@ -897,6 +919,11 @@ void Space::GenBody(const double at_time, SystemBody *sbody, FrameId fId, std::v
 	PROFILE_STOP()
 	for (SystemBody *kid : sbody->GetChildren()) {
 		GenBody(at_time, kid, fId, posAccum);
+	}
+
+	// Flatten the terrain under any surface starports
+	if (sbody->GetSuperType() == SystemBody::SUPERTYPE_ROCKY_PLANET) {
+		FlattenTerrainUnderPlanetStarports(this, static_cast<Planet *>(b), sbody);
 	}
 }
 

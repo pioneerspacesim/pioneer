@@ -615,6 +615,69 @@ Terrain::~Terrain()
 {
 }
 
+void Terrain::GetHeights(const vector3d *vP, double *heightsOut, const size_t count) const
+{
+	// First get the raw heights from the terrain generation
+	GetHeightsRaw(vP, heightsOut, count);
+
+	if (m_flattenRegions.empty())
+		return;
+
+	// Now apply additional transforms
+
+	// Flatten any areas underneath a surface starport, so that no part
+	// of the starport is clipping into the ground or hovering above it.
+	for (size_t i = 0; i < count; i++) {
+		for (const FlattenRegion &region : m_flattenRegions) {
+			const double d = vP[i].Dot(region.centre);
+			if (d < region.minDotOuter)
+				continue;
+			if (d >= region.minDotInner) {
+				heightsOut[i] = region.height;
+				break;
+			}
+			// The area directly under the starport is flattened. Then we apply a
+			// falloff beyond that to blend the edge with the underlying terrain.
+			const double theta = acos(Clamp(d, -1.0, 1.0));
+			double t = (theta - region.innerAngle) * region.invFalloffAngle;
+			t = Clamp(t, 0.0, 1.0);
+			const double s = t * t * (3.0 - 2.0 * t);
+			heightsOut[i] += (region.height - heightsOut[i]) * (1.0 - s);
+			break;
+		}
+	}
+}
+
+void Terrain::AddFlattenRegion(const vector3d &centre, double radiusMeters)
+{
+	// We will flatten a circular area directly under the starport.
+	// Then apply a fall-off so that there isn't a hard edge.
+	// Unless it's a tiny asteroid in which case a hard edge is more
+	// plausible as the edge of a man-made flattened area.
+	// 
+	// i.e. no blend on small worlds; 1000 m falloff once radius reaches 600 km.
+
+	constexpr double falloffMinPlanetRadius = 100000.0;
+	constexpr double falloffMaxPlanetRadius = 600000.0;
+	constexpr double falloffMaxMeters = 1000.0;
+	double falloffMeters = 0.0;
+	if (m_planetRadius >= falloffMaxPlanetRadius)
+		falloffMeters = falloffMaxMeters;
+	else if (m_planetRadius > falloffMinPlanetRadius)
+		falloffMeters = falloffMaxMeters * (m_planetRadius - falloffMinPlanetRadius) / (falloffMaxPlanetRadius - falloffMinPlanetRadius);
+
+	FlattenRegion region;
+	region.centre = centre.Normalized();
+	GetHeightsRaw(&region.centre, &region.height, 1);
+
+	region.innerAngle = Clamp(radiusMeters * m_invPlanetRadius, 0.0, M_PI);
+	const double outerAngle = Clamp((radiusMeters + falloffMeters) * m_invPlanetRadius, 0.0, M_PI);
+	region.minDotInner = cos(region.innerAngle);
+	region.minDotOuter = cos(outerAngle);
+	region.invFalloffAngle = (outerAngle > region.innerAngle) ? 1.0 / (outerAngle - region.innerAngle) : 0.0;
+	m_flattenRegions.push_back(region);
+}
+
 /**
  * Feature width means roughly one perlin noise blob or grain.
  * This will end up being one hill, mountain or continent, roughly.
