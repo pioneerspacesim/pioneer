@@ -167,13 +167,24 @@ static void FlattenTerrainUnderPlanetStarports(Space *space, Planet *planet, Sys
 		if (sb->GetType() != SystemBody::TYPE_STARPORT_SURFACE || sb->GetParent() != planetSbody)
 			continue;
 
-		// Calculate a flat disc radius that would lie under the station's XZ footprint (model origin = starport centre).
-		const Aabb &aabb = static_cast<const SpaceStation *>(b)->GetAabb();
+		const SpaceStation *station = static_cast<const SpaceStation *>(b);
+		const SpaceStationType *type = station->GetStationType();
+		double lowestPadHeight = type->GetStageTransform(0, DockStage::DOCKED).GetTranslate().y;
+		for (unsigned int bay = 1; bay < type->NumDockingPorts(); ++bay) {
+			const double padY = type->GetStageTransform(int(bay), DockStage::DOCKED).GetTranslate().y;
+			if (padY < lowestPadHeight)
+				lowestPadHeight = padY;
+		}
+		if (lowestPadHeight < 0.0)
+			lowestPadHeight = 0.0;
+
+		// Calculate a disc radius that would lie under the station's XZ footprint (model origin = starport centre).
+		const Aabb &aabb = station->GetAabb();
 		const double radiusMeters = std::max({ sqrt(aabb.min.x * aabb.min.x + aabb.min.z * aabb.min.z),
 			sqrt(aabb.min.x * aabb.min.x + aabb.max.z * aabb.max.z),
 			sqrt(aabb.max.x * aabb.max.x + aabb.min.z * aabb.min.z),
 			sqrt(aabb.max.x * aabb.max.x + aabb.max.z * aabb.max.z) });
-		planet->AddTerrainFlattenRegion(b->GetPosition().Normalized(), radiusMeters);
+		planet->AddTerrainFlattenRegion(station->GetPosition().Normalized(), radiusMeters, lowestPadHeight);
 	}
 }
 

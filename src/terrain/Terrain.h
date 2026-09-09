@@ -49,16 +49,18 @@ public:
 	void GetHeights(const vector3d *vP, double *heightsOut, const size_t count) const;
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const = 0;
 
-	// Flatten a circular region after fractal height generation has run for surface starports to sit comfortably.
+	// Reduce fractal amplitude in a circular region so a surface building sits on
+	// terrain whose max height variation is within building tolerance.
 	struct FlattenRegion {
 		vector3d centre;		// unit vector
-		double minDotInner;		// cos(inner angular radius) - fully flat if dot(centre, p) >= this
+		double minDotInner;		// cos(inner angular radius) - fully scaled if dot(centre, p) >= this
 		double minDotOuter;		// cos(outer angular radius) - ignored if dot(centre, p) < this
 		double innerAngle;		// radians
 		double invFalloffAngle; // 1 / (outer - inner), or 0 if hard-edged
-		double height;			// GetHeights units
+		double height;			// raw fractal height at centre (GetHeights units)
+		double amplitudeScale;	// 1 = unchanged, less than 1 reduces amplitude of terrain bumps
 	};
-	void AddFlattenRegion(const vector3d &centre, double radiusMeters);
+	void AddFlattenRegion(const vector3d &centre, double radiusMeters, double maxVariationMeters);
 	void SetFlattenRegions(std::vector<FlattenRegion> regions) { m_flattenRegions = std::move(regions); }
 	const std::vector<FlattenRegion> &GetFlattenRegions() const { return m_flattenRegions; }
 
