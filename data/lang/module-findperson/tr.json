@@ -225,11 +225,11 @@
   },
   "INTROTEXT_DELIVER_DOCUMENT_FEMALE_3": {
     "description": "",
-    "message": "Good day! I'm {client}. I represent {company} and we need help to track down a person in {system}. We bought her company last year but she is still in possession of some vital documents and has since relocated. Please track her down and have her hand over the documents. Her name is {wanted}, and she is somewhere in the {system} ({sectorx}, {sectory}, {sectorz}) system."
+    "message": "İyi günler! Ben {client}. {company} şirketini temsil ediyorum, {system} sisteminde bir kişiyi takip etmek için yardım gerekiyor. Şirketini geçtiğimiz yıl satın aldık fakat hayati öneme sahip bazı belgeler halen elinde ve yerini değiştirdi. İsmi {wanted} ve  {system} ({sectorx}, {sectory}, {sectorz}) sisteminde bir yerlerde."
   },
   "INTROTEXT_DELIVER_DOCUMENT_FEMALE_4": {
     "description": "",
-    "message": "Good day! I'm {client} and I represent {company}. We need to have a document delivered to {wanted} in {system}. We also need to see it signed and returned to us at this location. We don't know her precise location but she is somewhere in the {system} ({sectorx}, {sectory}, {sectorz}) system."
+    "message": "İyi günler! Ben {client}. {company} şirketini temsil ediyorum, Bir belgeyi {system} sisteminde {wanted} tarafına teslim etmemiz gerekiyor. Ayrıca belgenin şu anki lokasyonumuza geri getirilip, imzalandığını görmemiz şart. Tam konumu bilmiyoruz fakat o {system} ({sectorx}, {sectory}, {sectorz}) sisteminde bir yerlerde."
   },
   "INTROTEXT_DELIVER_DOCUMENT_MALE_1": {
     "description": "",
