@@ -241,35 +241,35 @@
   },
   "INTROTEXT_DELIVER_DOCUMENT_MALE_3": {
     "description": "",
-    "message": "Good day! I'm {client}. I represent {company} and we need help to track down a person in {system}. We bought his company last year but he is still in possession of some vital documents and has since relocated. Please track him down and have him hand over the documents. His name is {wanted}, and he is somewhere in the {system} ({sectorx}, {sectory}, {sectorz}) system."
+    "message": "İyi günler! Ben {client}. {company} şirketini temsil ediyorum, {system} sisteminde bir kişiyi takip etmek için yardım gerekiyor. Şirketini geçtiğimiz yıl satın aldık fakat hayati öneme sahip bazı belgeler halen elinde ve yerini değiştirdi. İsmi {wanted} ve  {system} ({sectorx}, {sectory}, {sectorz}) sisteminde bir yerlerde."
   },
   "INTROTEXT_DELIVER_DOCUMENT_MALE_4": {
     "description": "",
-    "message": "Good day! I'm {client} and I represent {company}. We need to have a document delivered to {wanted} in {system}. We also need to see it signed and returned to us at this location. We don't know his precise location but he is somewhere in the {system} ({sectorx}, {sectory}, {sectorz}) system."
+    "message": "İyi günler! Ben {client}. {company} şirketini temsil ediyorum, Bir belgeyi {system} sisteminde {wanted} tarafına teslim etmemiz gerekiyor. Ayrıca belgenin şu anki lokasyonumuza geri getirilip, imzalandığını görmemiz şart. Tam konumu bilmiyoruz fakat o {system} ({sectorx}, {sectory}, {sectorz}) sisteminde bir yerlerde."
   },
   "INTROTEXT_DELIVER_MESSAGE_FEMALE_1": {
     "description": "",
-    "message": "Hi, my name is {client}. I'm looking for {relative}, {wanted}. She left the family in anger a few years ago. A friend of mine has seen her recently in the {system} ({sectorx}, {sectory}, {sectorz}) system. I would like to see if she is ready for a reconciliation. I pay you {cash} if you can deliver a message to her and return to {domicile} with an answer. Please do it! Will you?"
+    "message": "Merhaba, adım {client}. {relative} olan {wanted} kişisini arıyorum. Birkaç yıl önce öfkeyle aileyi terk etti. Bir arkadaşım onu yakın zamanda {system} ({sectorx}, {sectory}, {sectorz}) sisteminde görmüş. Barışmaya hazır olup olmadığını öğrenmek istiyorum. Ona bir mesaj iletip {domicile} noktasına bir cevapla geri dönerseniz size {cash} öderim. Lütfen yapın! Yapar mısınız?"
   },
   "INTROTEXT_DELIVER_MESSAGE_FEMALE_2": {
     "description": "",
-    "message": "Hello. I'm {client}. I'm looking for {friend}. Her name is {wanted}. I know she resides in the {system} ({sectorx}, {sectory}, {sectorz}) system, but I don't know her exact location. I will pay you {cash} if you can deliver a message to her."
+    "message": "Merhaba. Ben {client}. Eski bir arkadaşımı arıyorum. Adı {wanted}. {system} ({sectorx}, {sectory}, {sectorz}) sisteminde yaşadığını biliyorum ama tam olarak nerede olduğunu bilmiyorum. Ona bir mesaj iletebilirseniz size {cash} öderim."
   },
   "INTROTEXT_DELIVER_MESSAGE_FEMALE_3": {
     "description": "",
-    "message": "Hello. My name is {client}. I need to get in contact with {friend}, {wanted}. The last time I heard from her she was living in the {system} ({sectorx}, {sectory}, {sectorz}) system, and I've heard she's still there but don't know precisely where. I will pay you {cash} if you can deliver a message to her."
+    "message": "Merhaba. Ben {client}. {friend} olan {wanted} ile iletişime geçmem gerekiyor.  Ondan son haber aldığımda {system} ({sectorx}, {sectory}, {sectorz}) sisteminde yaşıyordu. Hala orada yaşadığını duydum ama tam olarak neresinde bilmiyorum. Ona bir mesaj iletebilirseniz size {cash} öderim."
   },
   "INTROTEXT_DELIVER_MESSAGE_FEMALE_4": {
     "description": "",
-    "message": "Hello. My name is {client}. {relative}, {wanted}, accepted a position in the {system} ({sectorx}, {sectory}, {sectorz}) system some years ago. After a year we stopped hearing from her and now the mail is being returned so something must have happened. My family will pay {cash} if you can track her down and deliver a message."
+    "message": "Merhaba. Adım {client}. {relative} bir kaç yıl önce {wanted} {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki bir rolü kabul etti. Bir yıl sonra iletişimimiz kesildi ve artık gönderdiğimiz postalar geri dönüyor. Bir şeyler olmuş olmalı. Eğer izini sürüp ona bir mesaj iletebilirsen, ailem {cash} ödeyecek."
   },
   "INTROTEXT_DELIVER_MESSAGE_FEMALE_5": {
     "description": "",
-    "message": "Good day, I'm {client}! I need to get a message delivered to my professor, {wanted}, who is doing research in the {system} ({sectorx}, {sectory}, {sectorz}) system. I haven't heard from her in six months, and the contact information I have is no longer valid. I'm prepared to pay {cash} for the service."
+    "message": "İyi günler. Ben {client}!  {system} ({sectorx}, {sectory}, {sectorz}) sisteminde araştırma yapan {wanted} adındaki profesörüme bir mesaj ulaştırılması gerekiyor. Ondan altı aydır haber alamıyorum ve elimdeki iletişim bilgileri artık geçerli değil. Bu hizmet karşılığında {cash} ödemeye hazırım."
   },
   "INTROTEXT_DELIVER_MESSAGE_MALE_1": {
     "description": "",
-    "message": "Hi, my name is {client}. I'm looking for {relative}, {wanted}. He left the family in anger a few years ago. A friend of mine has seen him recently in the {system} ({sectorx}, {sectory}, {sectorz}) system. I would like to see if he is ready for a reconciliation. I pay you {cash} if you can deliver a message to him and return to {domicile} with an answer. Please do it! Will you?"
+    "message": "Merhaba, adım {client}. {relative} olan {wanted} kişisini arıyorum. Birkaç yıl önce öfkeyle aileyi terk etti. Bir arkadaşım onu yakın zamanda {system} ({sectorx}, {sectory}, {sectorz}) sisteminde görmüş. Barışmaya hazır olup olmadığını öğrenmek istiyorum. Ona bir mesaj iletip {domicile} noktasına bir cevapla geri dönerseniz size {cash} öderim. Lütfen yapın! Yapar mısınız?"
   },
   "INTROTEXT_DELIVER_MESSAGE_MALE_2": {
     "description": "",
@@ -277,47 +277,47 @@
   },
   "INTROTEXT_DELIVER_MESSAGE_MALE_3": {
     "description": "",
-    "message": "Hello. My name is {client}. I need to get in contact with {friend}, {wanted}. The last time I heard from him he was living in the {system} ({sectorx}, {sectory}, {sectorz}) system, and I've heard he's still there but don't know precisely where. I will pay you {cash} if you can deliver a message to him."
+    "message": "Merhaba. Ben {client}. {friend} olan {wanted} ile iletişime geçmem gerekiyor.  Ondan son haber aldığımda {system} ({sectorx}, {sectory}, {sectorz}) sisteminde yaşıyordu. Hala orada yaşadığını duydum ama tam olarak neresinde bilmiyorum. Ona bir mesaj iletebilirseniz size {cash} öderim."
   },
   "INTROTEXT_DELIVER_MESSAGE_MALE_4": {
     "description": "",
-    "message": "Hello. My name is {client}. {relative}, {wanted}, accepted a position in the {system} ({sectorx}, {sectory}, {sectorz}) system some years ago. After a year we stopped hearing from him and now the mail is being returned so something must have happened. My family will pay {cash} if you can track him down and deliver a message."
+    "message": "Merhaba. Adım {client}. {relative} bir kaç yıl önce {wanted} {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki bir rolü kabul etti. Bir yıl sonra iletişimimiz kesildi ve artık gönderdiğimiz postalar geri dönüyor. Bir şeyler olmuş olmalı. Eğer izini sürüp ona bir mesaj iletebilirsen, ailem {cash} ödeyecek."
   },
   "INTROTEXT_DELIVER_MESSAGE_MALE_5": {
     "description": "",
-    "message": "Good day, I'm {client}! I need to get a message delivered to my professor, {wanted}, who is doing research in the {system} ({sectorx}, {sectory}, {sectorz}) system. I haven't heard from him in six months, and the contact information I have is no longer valid. I'm prepared to pay {cash} for the service."
+    "message": "İyi günler. Ben {client}!  {system} ({sectorx}, {sectory}, {sectorz}) sisteminde araştırma yapan {wanted} adındaki profesörüme bir mesaj ulaştırılması gerekiyor. Ondan altı aydır haber alamıyorum ve elimdeki iletişim bilgileri artık geçerli değil. Bu hizmet karşılığında {cash} ödemeye hazırım."
   },
   "INTROTEXT_EVACUATION_FEMALE_1": {
     "description": "",
-    "message": "Hi. The {company} is in big trouble. Negotiations with an aggressive market competitor in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly, went very badly. Our envoy, {wanted}, must be evacuated. Communication with her is very limited, so we don't know her exact location. We pay {cash} for this run."
+    "message": "Merhaba. {company} büyük bir sıkıntı içinde. {dist} ıy mesafedeki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki agresif bir pazar rakibiyle görüşmeler çok kötü gitti. {wanted} adlı elçimiz tahliye edilmeli. Onunla iletişimimiz çok sınırlı, bu yüzden tam yerini bilmiyoruz. Bu sefer için {cash} ödüyoruz."
   },
   "INTROTEXT_EVACUATION_FEMALE_2": {
     "description": "",
-    "message": "Hello. Call me {client}. I'm employed by the {company}. Our sales representative, {wanted}, in the {system} ({sectorx}, {sectory}, {sectorz}) system, distance {dist} ly, has come into conflict with some dangerous crooks. She doesn't trust the local authorities, so she's gone into hiding. We pay {cash} if you can find her and bring her back to {domicile} safely."
+    "message": "Merhaba. Bana {client} deyin. {company} personeliyim. {dist} ıy mesafedeki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {wanted} isimli satış temsilcimiz tehlikeli dolandırıcılarla çatışmaya girdi. Yerel yetkililere güvenmiyor, bu yüzden saklanıyor. Onu bulup {domicile} noktasına güvenli bir şekilde geri getirebilirseniz {cash} ödüyoruz."
   },
   "INTROTEXT_EVACUATION_FEMALE_3": {
     "description": "",
-    "message": "Hello, I'm {client}. I represent {company}. We need to get one of our employees out of the {system} system immediately. I can't go into greater details due to security concerns, but there is a credible threat to her safety. She has gone into hiding at one of the spaceports in the system, but she was unable to safely tell us which one. Her name is {wanted}, and she's somewhere in the {system} ({sectorx}, {sectory}, {sectorz}) system."
+    "message": "Merhaba, ben {client}. {company} şirketini temsil ediyorum. Çalışanlarımızdan birini {system} sisteminden kaçırmamız gerekiyor. Güvenlik endişeleri nedeniyle detay veremiyorum, fakat can güvenliğine yönelmiş ciddi bir tehdit  mevcut. Sistemdeki uzay limanlarında birine saklanmış fakat bize hangisine saklandığını güvenli bir biçimde iletemiyor. Adı {wanted} ve {system} ({sectorx}, {sectory}, {sectorz}) sisteminde bir yerde."
   },
   "INTROTEXT_EVACUATION_FEMALE_4": {
     "description": "",
-    "message": "Hello! My name is {client}. I have been reached by the news that {relative}, {wanted}, have been targeted by criminals and had to leave her home in a hurry. She is hiding somewhere in the {system} ({sectorx}, {sectory}, {sectorz}) system, distance {dist} ly. The family wants to solve this discretely. We will pay {cash} if you can find her and bring her back to {domicile}."
+    "message": "Merhaba! Adım {client}. Öğrendiğime göre {relative}, {wanted} suçlular tarafından hedef alınmış ve evini aceleyle terk etmek zorunda kalmış. {dist} ıy mesafesindeki {system} ({sectorx}, {sectory}, {sectorz}) sisteminde bir yerde saklanıyor. Ailem bu konunun gizlice çözüme kavuşturulmasını istiyor. Eğer onu bulabilir ve {domicile} noktasına getirebilirsen {cash} ödeyeceğiz."
   },
   "INTROTEXT_EVACUATION_MALE_1": {
     "description": "",
-    "message": "Hi. The {company} is in big trouble. Negotiations with an aggressive market competitor in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly, went very badly. Our envoy, {wanted}, must be evacuated. Communication with him is very limited, so we don't know his exact location. We pay {cash} for this run."
+    "message": "Merhaba. {company} büyük bir sıkıntı içinde. {dist} ıy mesafedeki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki agresif bir pazar rakibiyle görüşmeler çok kötü gitti. {wanted} adlı elçimiz tahliye edilmeli. Onunla iletişimimiz çok sınırlı, bu yüzden tam yerini bilmiyoruz. Bu sefer için {cash} ödüyoruz."
   },
   "INTROTEXT_EVACUATION_MALE_2": {
     "description": "",
-    "message": "Hello. Call me {client}. I'm employed by the {company}. Our sales representative, {wanted}, in the {system} ({sectorx}, {sectory}, {sectorz}) system, distance {dist} ly, has come into conflict with some dangerous crooks. He doesn't trust the local authorities, so he's gone into hiding. We pay {cash} if you can find him and bring him back to {domicile} safely."
+    "message": "Merhaba. Bana {client} deyin. {company} personeliyim. {dist} ıy mesafedeki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {wanted} isimli satış temsilcimiz tehlikeli dolandırıcılarla çatışmaya girdi. Yerel yetkililere güvenmiyor, bu yüzden saklanıyor. Onu bulup {domicile} noktasına güvenli bir şekilde geri getirebilirseniz {cash} ödüyoruz."
   },
   "INTROTEXT_EVACUATION_MALE_3": {
     "description": "",
-    "message": "Hello, I'm {client}. I represent {company}. We need to get one of our employees out of the {system} system immediately. I can't go into greater details due to security concerns, but there is a credible threat to his safety. He has gone into hiding at one of the spaceports in the system, but he was unable to safely tell us which one. His name is {wanted}, and he's somewhere in the {system} ({sectorx}, {sectory}, {sectorz}) system."
+    "message": "Merhaba, ben {client}. {company} şirketini temsil ediyorum. Çalışanlarımızdan birini {system} sisteminden kaçırmamız gerekiyor. Güvenlik endişeleri nedeniyle detay veremiyorum, fakat can güvenliğine yönelmiş ciddi bir tehdit  mevcut. Sistemdeki uzay limanlarında birine saklanmış fakat bize hangisine saklandığını güvenli bir biçimde iletemiyor. Adı {wanted} ve {system} ({sectorx}, {sectory}, {sectorz}) sisteminde bir yerde."
   },
   "INTROTEXT_EVACUATION_MALE_4": {
     "description": "",
-    "message": "Hello! My name is {client}. I have been reached by the news that {relative}, {wanted}, have been targeted by criminals and had to leave his home in a hurry. He is hiding somewhere in the {system} ({sectorx}, {sectory}, {sectorz}) system, distance {dist} ly. The family wants to solve this discretely. We will pay {cash} if you can find him and bring him back to {domicile}."
+    "message": "Merhaba! Adım {client}. Öğrendiğime göre {relative}, {wanted} suçlular tarafından hedef alınmış ve evini aceleyle terk etmek zorunda kalmış. {dist} ıy mesafesindeki {system} ({sectorx}, {sectory}, {sectorz}) sisteminde bir yerde saklanıyor. Ailem bu konunun gizlice çözüme kavuşturulmasını istiyor. Eğer onu bulabilir ve {domicile} noktasına getirebilirsen {cash} ödeyeceğiz."
   },
   "INTROTEXT_PRIVATEER_FEMALE_1": {
     "description": "",
@@ -329,7 +329,7 @@
   },
   "INTROTEXT_PRIVATEER_FEMALE_3": {
     "description": "",
-    "message": "Hi there! My name is {client} and I need help to get a message through to {wanted} in the {system} ({sectorx}, {sectory}, {sectorz}) system. She flies missions there and her ship is registered as {shipid}. I will pay you {cash} upon returning to {domicile} with an answer."
+    "message": "Merhaba! Adım {client} ve {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {wanted} tarafına bir mesaj ulaştırmam gerekiyor. Sistemde görev uçuşları yapıyor ve gemisi {shipid} numarasıyla kayıtlı. Cevapla birlikte {domicile} noktasına döndüğünde sana {cash} ödeyeceğim."
   },
   "INTROTEXT_PRIVATEER_MALE_1": {
     "description": "",
@@ -341,7 +341,7 @@
   },
   "INTROTEXT_PRIVATEER_MALE_3": {
     "description": "",
-    "message": "Hi there! My name is {client} and I need help to get a message through to {wanted} in the {system} ({sectorx}, {sectory}, {sectorz}) system. He flies missions there and his ship is registered as {shipid}. I will pay you {cash} upon returning to {domicile} with an answer."
+    "message": "Merhaba! Adım {client} ve {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {wanted} tarafına bir mesaj ulaştırmam gerekiyor. Sistemde görev uçuşları yapıyor ve gemisi {shipid} numarasıyla kayıtlı. Cevapla birlikte {domicile} noktasına döndüğünde sana {cash} ödeyeceğim."
   },
   "INTROTEXT_TAXI_FEMALE_1": {
     "description": "",
@@ -425,7 +425,7 @@
   },
   "ON_BOARD": {
     "description": "Status indicator showing if a passenger is currently onboard the player's ship.",
-    "message": "On board"
+    "message": "Güvertede"
   },
   "PIRATE_ANSWER_1": {
     "description": "",
