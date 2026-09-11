@@ -8,6 +8,7 @@
 #include "GasGiant.h"
 #include "GeoSphere.h"
 #include "Json.h"
+#include "Planet.h"
 #include "Space.h"
 #include "galaxy/SystemBody.h"
 #include "graphics/Renderer.h"
@@ -114,7 +115,8 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 	ftran.Scale(rad, rad, rad);
 
 	// translation not applied until patch render to fix jitter
-	m_baseSphere->Render(renderer, ftran, -campos, m_sbody->GetRadius(), shadows);
+	m_baseSphere->Render(renderer, ftran, -campos, m_sbody->GetRadius(), shadows, camera,
+		IsType(ObjectType::PLANET) ? static_cast<const Planet *>(this) : nullptr);
 
 	ftran.Translate(campos.x, campos.y, campos.z);
 	SubRender(renderer, ftran, campos);
