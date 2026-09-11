@@ -9,7 +9,8 @@
 namespace Sound {
 
 	MusicPlayer::MusicPlayer() :
-		m_volume(0.8f),
+		m_controlVolume(0.8f),
+		m_actualVolume(Sound::ScaleVolumeToLogarithmic(m_controlVolume)),
 		m_playing(false),
 		m_eventOnePlaying(false),
 		m_currentSongName(""),
@@ -23,17 +24,18 @@ namespace Sound {
 
 	float MusicPlayer::GetVolume() const
 	{
-		return m_volume;
+		return m_controlVolume;
 	}
 
 	void MusicPlayer::SetVolume(const float vol)
 	{
-		m_volume = Clamp(vol, 0.f, 1.f);
+		m_controlVolume = Clamp(vol, 0.f, 1.f);
+		m_actualVolume = Sound::ScaleVolumeToLogarithmic(m_controlVolume);
 		//the other song might be fading out so don't set its volume
 		if (m_eventOnePlaying && m_eventOne.IsPlaying())
-			m_eventOne.SetVolume(m_volume);
+			m_eventOne.SetVolume(m_actualVolume);
 		else if (m_eventTwo.IsPlaying())
-			m_eventTwo.SetVolume(m_volume);
+			m_eventTwo.SetVolume(m_actualVolume);
 	}
 
 	void MusicPlayer::Play(const std::string &name, const bool repeat /* = false */, const float fadeDelta /* = 1.f */)
@@ -50,7 +52,7 @@ namespace Sound {
 			current = &m_eventTwo;
 			next = &m_eventOne;
 		}
-		next->PlayMusic(name.c_str(), m_volume, fadeDelta, repeat, current);
+		next->PlayMusic(name.c_str(), m_actualVolume, fadeDelta, repeat, current);
 		m_playing = true;
 		m_repeating = repeat;
 		m_currentSongName = name;
