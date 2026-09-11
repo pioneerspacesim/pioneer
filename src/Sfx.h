@@ -48,7 +48,7 @@ namespace SfxParams {
 	inline constexpr float EXHAUST_STREAM_TIMESTEP_CAP = 0.05f;
 	inline constexpr float EXHAUST_DUST_RADIAL_KICK_SPEED = 24.0f;
 	inline constexpr float EXHAUST_DUST_TANGENT_KICK_SPEED = 38.0f;
-	inline constexpr float EXHAUST_DUST_LOWEST_NON_CULL_PROB = 0.05f;	// Keep at least one in 20 particles
+	inline constexpr float EXHAUST_DUST_NON_CULL_PROB = 0.05f; // Keep one in 20 particles as dust kick up
 	inline constexpr float EXHAUST_LOG_SCALE = 2.0f;	// The log scale factor determining how opaque manouvering thruster exhaust is compared to main thruster exhaust
 	inline constexpr float EXHAUST_ANGULAR_FACTOR = 0.2f;	// Rotational thruster exhaust is reduced by this factor, otherwise it looks far too strong
 	inline constexpr float EXHAUST_DRAG_FACTOR = 0.5f;	// Increase to have more atmospheric drag, so the jets shoot out less far before becoming cloud-like
