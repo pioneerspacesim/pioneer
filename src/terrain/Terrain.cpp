@@ -615,6 +615,96 @@ Terrain::~Terrain()
 {
 }
 
+void Terrain::GetHeights(const vector3d *vP, double *heightsOut, const size_t count) const
+{
+	// First get the raw heights from the terrain generation
+	GetHeightsRaw(vP, heightsOut, count);
+
+	if (m_flattenRegions.empty())
+		return;
+
+	// Now apply additional transforms
+
+	// Compress height variation under surface starports so pads are not buried
+	// or left hovering, while keeping existing bumpiness when it is already mild.
+	for (size_t i = 0; i < count; i++) {
+		for (const FlattenRegion &region : m_flattenRegions) {
+			const double d = vP[i].Dot(region.centre);
+			if (d < region.minDotOuter)
+				continue;
+			const double compressed = region.height + (heightsOut[i] - region.height) * region.amplitudeScale;
+			if (d >= region.minDotInner) {
+				heightsOut[i] = compressed;
+				break;
+			}
+			const double theta = acos(Clamp(d, -1.0, 1.0));
+			double t = (theta - region.innerAngle) * region.invFalloffAngle;
+			t = Clamp(t, 0.0, 1.0);
+			const double s = t * t * (3.0 - 2.0 * t);
+			heightsOut[i] = compressed + (heightsOut[i] - compressed) * s;
+			break;
+		}
+	}
+}
+
+void Terrain::AddFlattenRegion(const vector3d &centre, double radiusMeters, double maxVariationMeters)
+{
+	// Compress fractal amplitude in a disc under a building so max height
+	// variation stays within a limit suitable for that building.
+	// So mildly bumpy sites under buildings on stilts can keep their shape,
+	// while steep ones are scaled down around the model origin.
+	// Falloff blends that scaled field back to raw terrain.
+	// Small worlds keep a hard edge, to make them look more terraformed.
+	// Larger worlds have a max 1000 m falloff.
+
+	constexpr double falloffMinPlanetRadius = 100000.0;
+	constexpr double falloffMaxPlanetRadius = 600000.0;
+	constexpr double falloffMaxMeters = 1000.0;
+	double falloffMeters = 0.0;
+	if (m_planetRadius >= falloffMaxPlanetRadius)
+		falloffMeters = falloffMaxMeters;
+	else if (m_planetRadius > falloffMinPlanetRadius)
+		falloffMeters = falloffMaxMeters * (m_planetRadius - falloffMinPlanetRadius) / (falloffMaxPlanetRadius - falloffMinPlanetRadius);
+
+	FlattenRegion region;
+	region.centre = centre.Normalized();
+	GetHeightsRaw(&region.centre, &region.height, 1);
+
+	// Calculate the raw terrain bumpiness in this to-be-flattened region
+	const vector3d tangent = MathUtil::OrthogonalDirection(region.centre);
+	const vector3d bitangent = region.centre.Cross(tangent);
+	double maxH = region.height;
+	const int halfSteps = Clamp(int(ceil(radiusMeters / 20.0)), 4, 20);
+	const double step = radiusMeters / double(halfSteps);
+	for (int iz = -halfSteps; iz <= halfSteps; ++iz) {
+		for (int ix = -halfSteps; ix <= halfSteps; ++ix) {
+			const double x = ix * step;
+			const double z = iz * step;
+			if (x * x + z * z > radiusMeters * radiusMeters)
+				continue;
+			vector3d p = (region.centre + (tangent * x + bitangent * z) * m_invPlanetRadius).Normalized();
+			double h;
+			GetHeightsRaw(&p, &h, 1);
+			if (h > maxH)
+				maxH = h;
+		}
+	}
+
+	const double range = maxH - region.height;
+	const double targetRange = maxVariationMeters * m_invPlanetRadius;
+	region.amplitudeScale = (maxH > targetRange) ? targetRange / range : 1.0;
+	if (region.amplitudeScale >= 1.0)
+		return; // Raw terrain bumpiness is within the building tolerance, so no flattening needed.
+
+	// Pre calculate dot-product values for inner and outer radii
+	region.innerAngle = Clamp(radiusMeters * m_invPlanetRadius, 0.0, M_PI);
+	const double outerAngle = Clamp((radiusMeters + falloffMeters) * m_invPlanetRadius, 0.0, M_PI);
+	region.minDotInner = cos(region.innerAngle);
+	region.minDotOuter = cos(outerAngle);
+	region.invFalloffAngle = (outerAngle > region.innerAngle) ? 1.0 / (outerAngle - region.innerAngle) : 0.0;
+	m_flattenRegions.push_back(region);
+}
+
 /**
  * Feature width means roughly one perlin noise blob or grain.
  * This will end up being one hill, mountain or continent, roughly.
