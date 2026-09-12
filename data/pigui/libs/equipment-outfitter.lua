@@ -213,12 +213,10 @@ end
 --==================
 
 function Outfitter:stationHasTech(level)
-	if level ~= "MILITARY" then
-		return self.station.techLevel >= level
-	else
-		level = 11
-		return self.station.techLevel == level
+	if level == "MILITARY" then
+		return self.station.techLevel == 11
 	end
+	return self.station.techLevel >= level
 end
 
 -- Override to support e.g. custom equipment shops
@@ -282,6 +280,9 @@ function Outfitter:getInstallPrice(e)
 end
 
 local function fmt_number(val) return ui.Format.Number(val, 0) end
+local function fmt_tech_level(val)
+	return val == "MILITARY" and l.MILITARY or fmt_number(val)
+end
 
 -- Prepend information about the current station's stocking information to an equipment item's detailed stats
 ---@param data UI.EquipCard.Data
@@ -289,7 +290,7 @@ function Outfitter:modifyEquipmentStats(data)
 	local stock = self:getStock(data.equip) or 0
 
 	table.insert(data.stats, 1, { l.AVAILABLE_STOCK, icons.cargo_crate, stock, fmt_number })
-	table.insert(data.stats, 2, { l.TECH_LEVEL, icons.station_orbital_large, data.equip.tech_level, fmt_number })
+	table.insert(data.stats, 2, { l.TECH_LEVEL, icons.station_orbital_large, data.equip.tech_level, fmt_tech_level })
 end
 
 function Outfitter:buildEquipmentList()
@@ -520,7 +521,7 @@ function Outfitter:renderCompareRow(label, stat_a, stat_b)
 
 	local icon_size = Vector2(ui.getTextLineHeight())
 	local default = type((stat_a or stat_b)[3]) == "number" and 0 or ""
-	local cmp_a, cmp_b = default, default
+	local cmp_a, cmp_b = 0, 0
 
 	if stat_a then
 		cmp_a = stat_a[3] == "MILITARY" and 11 or stat_a[3]
@@ -534,8 +535,8 @@ function Outfitter:renderCompareRow(label, stat_a, stat_b)
 	local icon = (stat_a or stat_b)[2]
 	local format = (stat_a or stat_b)[4]
 
-	local val_a = stat_a and format(stat_a[3]) or format(default)
-	local val_b = stat_b and format(stat_b[3]) or format(default)
+	local val_a = stat_a and format(stat_a[3]) or (default ~= "" and format(default) or default)
+	local val_b = stat_b and format(stat_b[3]) or (default ~= "" and format(default) or default)
 
 	ui.tableNextColumn()
 	ui.icon(icon, icon_size, colors.font)
