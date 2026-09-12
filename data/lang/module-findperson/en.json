@@ -47,6 +47,10 @@
     "description": "",
     "message": "SHIP FOR SEARCH REQUIRED"
   },
+  "ALIVE": {
+    "description": "A person's status",
+    "message": "Alive"
+  },
   "CLIENT": {
     "description": "",
     "message": "Client:"
@@ -86,6 +90,10 @@
   "DEADLINE": {
     "description": "Must be delivered by",
     "message": "Deadline:"
+  },
+  "DECEASED": {
+    "description": "A person's status",
+    "message": "Deceased"
   },
   "DENY_1": {
     "description": "",
@@ -547,6 +555,18 @@
     "description": "",
     "message": "You met {wanted} and survived? Great! Here's your money."
   },
+  "SUCCESS_DEC_1": {
+    "description": "",
+    "message": "What do you mean? {wanted} has passed away? Oh no! I paid you anyway."
+  },
+  "SUCCESS_DEC_2": {
+    "description": "",
+    "message": "That's bad news! {wanted} passed away way too soon. You'll still get paid, though."
+  },
+  "SUCCESS_DEC_3": {
+    "description": "",
+    "message": "I am deeply shocked. {wanted} is dead? I wish I could pay you for some better news!"
+  },
   "SUCCESS_INT_1": {
     "description": "",
     "message": "I heard you had trouble. Good to see you after all. I've paid you in full."
@@ -582,6 +602,54 @@
   "SYSTEM": {
     "description": "",
     "message": "System:"
+  },
+  "TIP_DECEASED_DELIVER_MESSAGE_FEMALE_1": {
+    "description": "",
+    "message": "You're a few months too late to meet {wanted}. She passed away from a rare disease. It's a very sad story. Buy me a drink and I'll tell you about it."
+  },
+  "TIP_DECEASED_DELIVER_MESSAGE_MALE_1": {
+    "description": "",
+    "message": "I knew {wanted}. He was a good guy. But he lost his life in the big accident that killed so many people. Maybe you've already read about it in the local media."
+  },
+  "TIP_DECEASED_TRAITOR_FEMALE_1": {
+    "description": "",
+    "message": "I only knew {wanted} briefly, but she seems to have tried to do business with the wrong people. She didn't survive."
+  },
+  "TIP_DECEASED_TRAITOR_MALE_1": {
+    "description": "",
+    "message": "I knew {wanted}. He was a fool who thought he could pull the wool over everyone's eyes. I think there was even a report in the local media about his violent death."
+  },
+  "TIP_DECEASED_PRIVATEER_FEMALE_1": {
+    "description": "",
+    "message": "{wanted} no longer exists. Her ship was destroyed in a firefight with mercenaries."
+  },
+  "TIP_DECEASED_PRIVATEER_MALE_1": {
+    "description": "",
+    "message": "You won't be meeting {wanted} anymore. His ship was destroyed in a firefight with pirates. He didn't survive."
+  },
+  "TIP_DECEASED_DELIVER_DOCUMENT_FEMALE_1": {
+    "description": "",
+    "message": "{wanted} is no longer alive. She accidentally got caught up in a fight between pirates and mercenaries."
+  },
+  "TIP_DECEASED_DELIVER_DOCUMENT_MALE_1": {
+    "description": "",
+    "message": "{wanted} has died. His reckless piloting of his ship cost him his life."
+  },
+  "TIP_DECEASED_TAXI_FEMALE_1": {
+    "description": "",
+    "message": "I've heard that you're looking for {wanted}. I'm sorry to have to tell you that she has passed away. Sometimes even modern medicine is powerless."
+  },
+  "TIP_DECEASED_TAXI_MALE_1": {
+    "description": "",
+    "message": "Are you looking for {wanted}? I'm sorry, but he died on a hiking trip. It was a tragic accident."
+  },
+  "TIP_DECEASED_EVACUATION_FEMALE_1": {
+    "description": "",
+    "message": "I knew {wanted} very well. She died when the life support system in her hotel room malfunctioned. Such incidents are extremely rare, but sometimes you just have bad luck."
+  },
+  "TIP_DECEASED_EVACUATION_MALE_1": {
+    "description": "",
+    "message": "I met {wanted} a few times on business. He died in a shuttle accident. If you like, I can give you the link to the official police report."
   },
   "TIP_FEMALE_1": {
     "description": "",
