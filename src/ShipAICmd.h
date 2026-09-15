@@ -118,6 +118,8 @@ private:
 class AICmdFlyTo : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
+	bool AIEnterOrbit(FrameId planetFrameId);
+	bool TimeStepUpdatePlayer();
 	AICmdFlyTo(DynamicBody *dBody, FrameId targframeId, const vector3d &posoff, double endvel, bool tangent);
 	AICmdFlyTo(DynamicBody *dBody, Body *target);
 
@@ -141,6 +143,8 @@ private:
 	vector3d m_reldir; // target direction relative to ship at last frame change
 	FrameId m_frameId; // last frame of ship
 	bool m_suicideRecovery;
+
+	int m_debugCounter = 0;
 };
 
 class AICmdFlyAround : public AICommand {
