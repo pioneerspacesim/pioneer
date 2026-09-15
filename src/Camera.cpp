@@ -513,13 +513,13 @@ void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> 
 		const vector3d projectedCentre = (b2pos - perpDist * lightDir) / bRadius;
 		if (projectedCentre.Length() < 1 + srad + lrad) {
 			// some part of b is (partially) eclipsed
-			Camera::Shadow shadow = { projectedCentre, static_cast<float>(srad), static_cast<float>(lrad) };
+			Camera::Shadow shadow = { projectedCentre, srad, lrad };
 			shadowsOut.push_back(shadow);
 		}
 	}
 }
 
-float discCovered(const float dist, const float rad)
+float discCovered(const double dist, const double rad)
 {
 	// proportion of unit disc covered by a second disc of radius rad placed
 	// dist from centre of first disc.
@@ -529,19 +529,19 @@ float discCovered(const float dist, const float rad)
 	// xs = normalised leftwards distance from centre of second disc to intersection.
 	// d = vertical distance to an intersection point
 	// The clampings handle the cases where one disc contains the other.
-	const float radsq = rad * rad;
-	const float xl = Clamp((dist * dist + 1.f - radsq) / (2.f * std::max(0.001f, dist)), -1.f, 1.f);
-	const float xs = Clamp((dist - xl) / std::max(0.001f, rad), -1.f, 1.f);
-	const float d = sqrt(std::max(0.f, 1.f - xl * xl));
+	const double radsq = rad * rad;
+	const double xl = Clamp((dist * dist + 1.0 - radsq) / (2.0 * std::max(0.001, dist)), -1.0, 1.0);
+	const double xs = Clamp((dist - xl) / std::max(0.001, rad), -1.0, 1.0);
+	const double d = sqrt(std::max(0.0, 1.0 - xl * xl));
 
-	const float th = Clamp(acosf(xl), 0.f, float(M_PI));
-	const float th2 = Clamp(acosf(xs), 0.f, float(M_PI));
+	const double th = Clamp(acos(xl), 0.0, M_PI);
+	const double th2 = Clamp(acos(xs), 0.0, M_PI);
 
 	assert(!is_nan(d) && !is_nan(th) && !is_nan(th2));
 
 	// covered area can be calculated as the sum of segments from the two
 	// discs plus/minus some triangles, and it works out as follows:
-	return Clamp((th + radsq * th2 - dist * d) / float(M_PI), 0.f, 1.f);
+	return Clamp((th + radsq * th2 - dist * d) / M_PI, 0.0, 1.0);
 }
 
 static std::vector<Camera::Shadow> shadows;
@@ -551,10 +551,10 @@ float Camera::ShadowedIntensity(const int lightNum, const Body *b) const
 	shadows.clear();
 	shadows.reserve(16);
 	CalcShadows(lightNum, b, shadows);
-	float product = 1.0;
+	double product = 1.0;
 	for (std::vector<Camera::Shadow>::const_iterator it = shadows.begin(), itEnd = shadows.end(); it != itEnd; ++it)
 		product *= 1.0 - discCovered(it->centre.Length() / it->lrad, it->srad / it->lrad);
-	return product;
+	return float(product);
 }
 
 // PrincipalShadows(b,n): returns the n biggest shadows on b in order of size
