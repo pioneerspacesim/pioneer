@@ -207,11 +207,6 @@ void Sound::AlAudioBackend::SetMasterVolume(float vol)
 	CHECK_OPENAL_ERROR(alListenerf, AL_GAIN, m_masterVolume);
 }
 
-float Sound::AlAudioBackend::GetMasterVolume()
-{
-	return m_masterVolume;
-}
-
 void Sound::AlAudioBackend::SetSfxVolume(float vol)
 {
 	m_sfxVolume = vol;
@@ -220,11 +215,6 @@ void Sound::AlAudioBackend::SetSfxVolume(float vol)
 			ev.SetVolume(m_sfxVolume);
 		}
 	}
-}
-
-float Sound::AlAudioBackend::GetSfxVolume()
-{
-	return m_sfxVolume;
 }
 
 void Sound::AlAudioBackend::AddSample(std::string_view key, Sample &&sample)

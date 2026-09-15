@@ -188,7 +188,7 @@ Sound::AudioBackend::eventid Sound::SdlAudioBackend::Play(std::string_view key, 
 		Warning("Could not find sample with key %s", key_str.c_str());
 		return 0;
 	}
-	const float mix_volume = sample_it->second.isMusic ? 1.0F : GetSfxVolume();
+	const float mix_volume = sample_it->second.isMusic ? 1.0F : m_sfxVolume;
 	AudioDeviceGuard guard(m_audioDevice);
 	SoundEvent &empty_event = FindFreeEventForSample(sample_it->second);
 	empty_event.sample = &sample_it->second;
