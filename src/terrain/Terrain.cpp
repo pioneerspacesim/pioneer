@@ -654,17 +654,7 @@ void Terrain::AddFlattenRegion(const vector3d &centre, double radiusMeters, doub
 	// So mildly bumpy sites under buildings on stilts can keep their shape,
 	// while steep ones are scaled down around the model origin.
 	// Falloff blends that scaled field back to raw terrain.
-	// Small worlds keep a hard edge, to make them look more terraformed.
-	// Larger worlds have a max 1000 m falloff.
-
-	constexpr double falloffMinPlanetRadius = 100000.0;
-	constexpr double falloffMaxPlanetRadius = 600000.0;
-	constexpr double falloffMaxMeters = 1000.0;
-	double falloffMeters = 0.0;
-	if (m_planetRadius >= falloffMaxPlanetRadius)
-		falloffMeters = falloffMaxMeters;
-	else if (m_planetRadius > falloffMinPlanetRadius)
-		falloffMeters = falloffMaxMeters * (m_planetRadius - falloffMinPlanetRadius) / (falloffMaxPlanetRadius - falloffMinPlanetRadius);
+	constexpr double falloffMeters = 1000.0;
 
 	FlattenRegion region;
 	region.centre = centre.Normalized();
