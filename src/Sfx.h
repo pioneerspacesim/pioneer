@@ -43,15 +43,22 @@ namespace SfxParams {
 	inline constexpr float EXHAUST_NOISE_STRENGTH = 2.0f;	// Fragment noise amplitude at sea-level air density
 	inline constexpr float EXHAUST_LIFETIME = 10.0f;
 	inline constexpr float EXHAUST_WIND_SPEED = 32.0f;
-	inline constexpr float EXHAUST_PARTICLES_PER_SHIP_PER_SEC = 1800.0f;
+	inline constexpr float EXHAUST_PARTICLES_PER_SHIP_PER_SEC = 800.0f;
 	inline constexpr float EXHAUST_MIN_REACTION_POWER = 0.02f;
-	inline constexpr float EXHAUST_STREAM_TIMESTEP_CAP = 0.1f;
+	inline constexpr float EXHAUST_STREAM_TIMESTEP_CAP = 0.05f;
 	inline constexpr float EXHAUST_DUST_RADIAL_KICK_SPEED = 24.0f;
 	inline constexpr float EXHAUST_DUST_TANGENT_KICK_SPEED = 38.0f;
-	inline constexpr float EXHAUST_DUST_LOWEST_NON_CULL_PROB = 0.05f;	// Keep at least one in 20 particles
+	inline constexpr float EXHAUST_DUST_NON_CULL_PROB = 0.05f; // Keep one in 20 particles as dust kick up
 	inline constexpr float EXHAUST_LOG_SCALE = 2.0f;	// The log scale factor determining how opaque manouvering thruster exhaust is compared to main thruster exhaust
 	inline constexpr float EXHAUST_ANGULAR_FACTOR = 0.2f;	// Rotational thruster exhaust is reduced by this factor, otherwise it looks far too strong
 	inline constexpr float EXHAUST_DRAG_FACTOR = 0.5f;	// Increase to have more atmospheric drag, so the jets shoot out less far before becoming cloud-like
+	// Exhaust jets are built from the model thruster nodes, but nearby nozzles are collapsed:
+	// tiny thrusters next to a larger one are ignored, and packed groups of small thrusters share a jet.
+	inline constexpr float EXHAUST_CLUSTER_MIN_DIR_DOT = 0.85f;			// Same-direction threshold for merging / ignoring
+	inline constexpr float EXHAUST_CLUSTER_MERGE_DIST_SCALE = 0.65f;	// Merge small thrusters if closer than this times the largest one
+	inline constexpr float EXHAUST_CLUSTER_IGNORE_SIZE_RATIO = 0.75f;	// Ignore a thruster smaller than this fraction of a neighbour
+	inline constexpr float EXHAUST_CLUSTER_IGNORE_DIST_SCALE = 2.0f;	// Search radius (times the large thruster scale) when dropping tiny neighbours
+	inline constexpr float EXHAUST_CLUSTER_SMALL_SIZE_FRACTION = 0.75f;	// Only glob thrusters below this fraction of the ship's largest thruster
 
 	inline constexpr float REENTRY_GLOW_MIN_SPEED = 350.0f;  // Minimum speed at 1.0 atm where the re-entry shield glow effect will start to show
 	inline constexpr float REENTRY_GLOW_MAX_SPEED = 600.0f;  // Speed at 1.0 atm at which the re-entry shield glow effect will max out
