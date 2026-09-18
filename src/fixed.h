@@ -13,6 +13,7 @@ class fixedf {
 public:
 	static const int FRAC = FRAC_BITS;
 	static const Uint64 MASK = (Uint64(1UL) << FRAC_BITS) - 1;
+	static const fixedf PI;
 
 	fixedf() :
 		v(0) {}
@@ -224,19 +225,37 @@ public:
 		return (fixedf(root));
 	}
 
-	static fixedf CubeRootOf(const fixedf &a)
+	static fixedf CubeRootOf(const fixedf &a_orig)
 	{
+		fixedf a = a_orig;
+		if (a == fixedf(0, 1)) return fixedf(0, 1);
+
+		// In order to prevent over or underflow in the (x * x) calculation
+		// below, we first scale the parameter into a reasonable range
+		int k = 0;
+		while (a.v > (Sint64(1) << 60)) { a >>= 3; k++; }
+		while (a < fixedf(1,1024)) { a <<= 3; k--; }
+
 		/* NR method. XXX very bad initial estimate (we get there in
 		 * the end... XXX */
 		fixedf x = a;
 		for (int i = 0; i < 48; i++)
 			x = fixedf(1, 3) * ((a / (x * x)) + 2 * x);
-		return x;
+
+		// We've got the cube root of the normalized parameter, now
+		// un-scale it back to get the real answer
+		return k >= 0 ? x << k : x >> -k;
 	}
 
 	Sint64 v;
 };
 
 typedef fixedf<32> fixed;
+
+template<>
+constexpr fixed fixed::PI = fixed(13493037705LL);
+
+template<>
+constexpr fixedf<48> fixedf<48>::PI = fixedf<48>(884279719003555LL);
 
 #endif /* _FIXED_H */
