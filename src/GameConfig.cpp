@@ -58,6 +58,7 @@ GameConfig::GameConfig(const map_string &override_)
 	map["ProfilerZoneOutput"] = "0";
 	map["CameraSmoothing"] = "0";
 	map["AimingSensitivity"] = "1.0";
+	map["SortGeoPatches"] = "1";
 
 	Read(FileSystem::userFiles, "config.ini");
 
