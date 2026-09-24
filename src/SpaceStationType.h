@@ -67,7 +67,7 @@ enum class DockStage { // <enum scope='DockStage' name=DockStage public>
 
 class SpaceStationType {
 public:
-	typedef std::map<DockStage, matrix4x4f> TMapBayIDMat;
+	typedef std::map<DockStage, matrix4x4d> TMapBayIDMat;
 	struct BayPath {
 		TMapBayIDMat m_docking;
 		TMapBayIDMat m_leaving;
@@ -149,7 +149,7 @@ public:
 	// Call functions in the station .lua
 	bool GetShipApproachWaypoints(const unsigned int port, DockStage stage, positionOrient_t &outPosOrient) const;
 
-	matrix4x4f GetStageTransform(int bay, DockStage stage) const;
+	matrix4x4d GetStageTransform(int bay, DockStage stage) const;
 
 	const std::string &ModelName() const { return modelName; }
 	float AngVel() const { return angVel; }
