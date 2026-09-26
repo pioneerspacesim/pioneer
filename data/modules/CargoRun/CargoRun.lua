@@ -65,20 +65,9 @@ local isQualifiedFor = function(reputation, ad)
 		false
 end
 
--- This function returns the number of flavours of the given string str
--- It is assumed that the first flavour has suffix '_1'
-local getNumberOfFlavours = function (str)
-	local num = 1
-
-	while l:get(str .. "_" .. num) do
-		num = num + 1
-	end
-	return num - 1
-end
-
 local getRiskMsg = function (mission)
 	local cargo = mission.cargotype.l10n_key .. "_RISK_MESSAGE"
-	local num_custom_risk = getNumberOfFlavours(cargo)
+	local num_custom_risk = MissionUtils.getNumberOfFlavours(l, cargo)
 	local test_custom = num_custom_risk > 0 and Engine.rand:Integer(1,10) < 2 -- 1 in 10
 	if mission.localdelivery then
 		return test_custom and l[cargo .. "_" .. Engine.rand:Integer(1, num_custom_risk)]
@@ -89,8 +78,8 @@ local getRiskMsg = function (mission)
 		if test_custom and mission.risk < 0.2 then
 			return l[cargo .. "_" .. Engine.rand:Integer(1, num_custom_risk)]
 		else
-			return l:get("RISK_" .. branch .. "_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1)
-			or l["RISK_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK") - 1)) + 1]
+			return l:get("RISK_" .. branch .. "_" .. math.floor(mission.risk * (MissionUtils.getNumberOfFlavours(l, "RISK_" .. branch) - 1)) + 1)
+			or l["RISK_" .. math.floor(mission.risk * (MissionUtils.getNumberOfFlavours(l, "RISK") - 1)) + 1]
 		end
 	end
 end
@@ -140,14 +129,14 @@ onChat = function (form, ref, option)
 	form:SetFace(ad.client)
 
 	if not qualified then
-		form:SetMessage(l["DENY_" .. Engine.rand:Integer(1, getNumberOfFlavours("DENY"))])
+		form:SetMessage(l["DENY_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "DENY"))])
 		return
 	end
 
 	-- check if we already have a deal
 	for _, m in pairs(missions) do
 		if ad.client == m.client then
-			form:SetMessage(l["DENY_AGAIN_" .. Engine.rand:Integer(1, getNumberOfFlavours("DENY_AGAIN"))])
+			form:SetMessage(l["DENY_AGAIN_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "DENY_AGAIN"))])
 			return
 		end
 	end
@@ -179,29 +168,29 @@ onChat = function (form, ref, option)
 		form:SetMessage(introtext)
 
 	elseif option == 1 then
-		local n = getNumberOfFlavours("WHYSOMUCH_" .. ad.branch)
+		local n = MissionUtils.getNumberOfFlavours(l, "WHYSOMUCH_" .. ad.branch)
 		local whysomuch
 		if n >= 1 then
 			whysomuch = string.interp(l["WHYSOMUCH_" .. ad.branch .. "_" .. Engine.rand:Integer(1, n)], { cargoname = ad.cargotype:GetName() })
 		elseif ad.urgency >= 0.8 then
-			whysomuch = string.interp(l["WHYSOMUCH_URGENT_" .. Engine.rand:Integer( 1, getNumberOfFlavours("WHYSOMUCH_URGENT"))], { cargoname = ad.cargotype:GetName() })
+			whysomuch = string.interp(l["WHYSOMUCH_URGENT_" .. Engine.rand:Integer( 1, MissionUtils.getNumberOfFlavours(l, "WHYSOMUCH_URGENT"))], { cargoname = ad.cargotype:GetName() })
 		else
-			whysomuch = string.interp(l["WHYSOMUCH_" .. Engine.rand:Integer( 1, getNumberOfFlavours("WHYSOMUCH"))], { cargoname = ad.cargotype:GetName() })
+			whysomuch = string.interp(l["WHYSOMUCH_" .. Engine.rand:Integer( 1, MissionUtils.getNumberOfFlavours(l, "WHYSOMUCH"))], { cargoname = ad.cargotype:GetName() })
 		end
 		form:SetMessage(whysomuch:scase())
 
 	elseif option == 2 then
 		local howmuch
 		if ad.wholesaler then
-			howmuch = string.interp(l["HOWMUCH_WHOLESALER_" .. Engine.rand:Integer(1, getNumberOfFlavours("HOWMUCH_WHOLESALER"))], {
+			howmuch = string.interp(l["HOWMUCH_WHOLESALER_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "HOWMUCH_WHOLESALER"))], {
 				amount    = ad.amount,
 				cargoname = ad.cargotype:GetName()})
 		else
 			if ad.amount > 1 then
-				howmuch = string.interp(l["HOWMUCH_" .. Engine.rand:Integer(1,getNumberOfFlavours("HOWMUCH"))],
+				howmuch = string.interp(l["HOWMUCH_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "HOWMUCH"))],
 					{amount = ad.amount})
 			else
-				howmuch = string.interp(l["HOWMUCH_SINGULAR_" .. Engine.rand:Integer(1,getNumberOfFlavours("HOWMUCH_SINGULAR"))],
+				howmuch = string.interp(l["HOWMUCH_SINGULAR_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "HOWMUCH_SINGULAR"))],
 					{amount = ad.amount})
 			end
 		end
@@ -269,15 +258,15 @@ onChat = function (form, ref, option)
 		end
 
 		if ad.pickup then
-			form:SetMessage(l["ACCEPTED_PICKUP_" .. Engine.rand:Integer(1, getNumberOfFlavours("ACCEPTED_PICKUP"))])
+			form:SetMessage(l["ACCEPTED_PICKUP_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "ACCEPTED_PICKUP"))])
 		else
-			form:SetMessage(l["ACCEPTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("ACCEPTED"))])
+			form:SetMessage(l["ACCEPTED_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "ACCEPTED"))])
 		end
 		return
 
 	elseif option == 4 then
-		form:SetMessage(string.interp(l:get("URGENCY_" .. ad.branch .. "_" .. math.floor(ad.urgency * (getNumberOfFlavours("URGENCY_" .. ad.branch) - 1)) + 1)
-			or l["URGENCY_" .. math.floor(ad.urgency * (getNumberOfFlavours("URGENCY") - 1)) + 1], { date = Format.Date(ad.due) }))
+		form:SetMessage(string.interp(l:get("URGENCY_" .. ad.branch .. "_" .. math.floor(ad.urgency * (MissionUtils.getNumberOfFlavours(l, "URGENCY_" .. ad.branch) - 1)) + 1)
+			or l["URGENCY_" .. math.floor(ad.urgency * (MissionUtils.getNumberOfFlavours(l, "URGENCY") - 1)) + 1], { date = Format.Date(ad.due) }))
 
 	elseif option == 5 then
 		form:SetMessage(getRiskMsg(ad))
@@ -285,10 +274,10 @@ onChat = function (form, ref, option)
 	elseif option == 6 then
 		local howmuch
 		if ad.amount == 1 then
-			howmuch = string.interp(l["NEGOTIABLE_SINGULAR_" .. Engine.rand:Integer(1,getNumberOfFlavours("NEGOTIABLE_SINGULAR"))],
+			howmuch = string.interp(l["NEGOTIABLE_SINGULAR_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "NEGOTIABLE_SINGULAR"))],
 				{amount = ad.amount})
 		elseif ad.negotiable then
-			howmuch = string.interp(l["NEGOTIABLE_" .. Engine.rand:Integer(1, getNumberOfFlavours("NEGOTIABLE"))], {
+			howmuch = string.interp(l["NEGOTIABLE_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "NEGOTIABLE"))], {
 				amount    = ad.amount,
 				cargoname = ad.cargotype:GetName()})
 
@@ -307,7 +296,7 @@ onChat = function (form, ref, option)
 				form:AddOption(string.interp(l.OFFER, { amount = val, reward = Format.Money(math.ceil(ad.reward * val/ad.amount), false) }), 10+val)
 			end
 		else
-			howmuch = string.interp(l["NEGOTIABLE_NO_" .. Engine.rand:Integer(1,getNumberOfFlavours("NEGOTIABLE_NO"))],
+			howmuch = string.interp(l["NEGOTIABLE_NO_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "NEGOTIABLE_NO"))],
 				{amount = ad.amount})
 		end
 		form:SetMessage(howmuch:scase())
@@ -429,13 +418,13 @@ local makeAdvert = function (station)
 	reward = utils.round(reward, 25)
 	due = utils.round(due, 900)
 
-	local n = getNumberOfFlavours("INTROTEXT_" .. missiontype)
+	local n = MissionUtils.getNumberOfFlavours(l, "INTROTEXT_" .. missiontype)
 	local introtext
 
 	if n >= 1 then
 		introtext = "INTROTEXT_" .. missiontype .. "_" .. Engine.rand:Integer(1, n)
 	else
-		introtext = "INTROTEXT_" .. Engine.rand:Integer(1, getNumberOfFlavours("INTROTEXT"))
+		introtext = "INTROTEXT_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "INTROTEXT"))
 	end
 
 	local ad = {
@@ -460,13 +449,13 @@ local makeAdvert = function (station)
 		faceseed      = Engine.rand:Integer(),
 	}
 
-	n = getNumberOfFlavours("ADTEXT_" .. missiontype)
+	n = MissionUtils.getNumberOfFlavours(l, "ADTEXT_" .. missiontype)
 	if n >= 1 then
 		local rand = Engine.rand:Integer(1, n)
 		ad.text = "ADTEXT_" .. missiontype .. "_" .. rand
 		ad.title = "ADTITLE_" .. missiontype .. "_" .. rand
 	else
-		local rand = Engine.rand:Integer(1, getNumberOfFlavours("ADTEXT"))
+		local rand = Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "ADTEXT"))
 		ad.text = "ADTEXT_" .. rand
 		ad.title = "ADTITLE_" .. rand
 	end
@@ -537,7 +526,7 @@ local onEnterSystem = function (player)
 			end
 
 			if pirate then
-				local pirate_greeting = string.interp(l["PIRATE_TAUNTS_" .. Engine.rand:Integer(1, getNumberOfFlavours("PIRATE_TAUNTS"))], {
+				local pirate_greeting = string.interp(l["PIRATE_TAUNTS_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "PIRATE_TAUNTS"))], {
 					client = mission.client.name, location = mission.location:GetSystemBody().name,})
 				Comms.ImportantMessage(pirate_greeting, pirate.label)
 				pirate_gripes_time = Game.time
@@ -555,7 +544,7 @@ local onEnterSystem = function (player)
 					escort:AIKill(pirate)
 					table.insert(escort_ships, escort)
 
-					Comms.ImportantMessage(l["ESCORT_CHATTER_" .. Engine.rand:Integer(1, getNumberOfFlavours("ESCORT_CHATTER"))], escort.label)
+					Comms.ImportantMessage(l["ESCORT_CHATTER_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "ESCORT_CHATTER"))], escort.label)
 					escort_chatter_time = Game.time
 					escort_switch_target = Game.time + Engine.rand:Integer(90, 120)
 					pirate_switch_target = Game.time + Engine.rand:Integer(90, 120)
@@ -650,7 +639,7 @@ local onShipHit = function (ship, attacker)
 	elseif isPirateShip(ship) then
 		if attacker:IsPlayer() then
 			if Game.time >= pirate_gripes_time then -- don't flood the control panel with messages
-				Comms.ImportantMessage(l["PIRATE_GRIPES_" .. Engine.rand:Integer(1, getNumberOfFlavours("PIRATE_GRIPES"))], ship.label)
+				Comms.ImportantMessage(l["PIRATE_GRIPES_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "PIRATE_GRIPES"))], ship.label)
 				pirate_gripes_time = Game.time + Engine.rand:Integer(30, 90)
 			end
 		elseif isEscortShip(attacker) then
@@ -700,11 +689,11 @@ local onPlayerDocked = function (player, station)
 			local amount = cargoMgr:RemoveCommodity(mission.cargotype, mission.amount)
 
 			if Game.time <= mission.due and amount == mission.amount then
-				local n = getNumberOfFlavours("SUCCESSMSG_" .. mission.branch)
+				local n = MissionUtils.getNumberOfFlavours(l, "SUCCESSMSG_" .. mission.branch)
 				if n >= 1 then
 					Comms.ImportantMessage(l["SUCCESSMSG_" .. mission.branch .. "_" .. Engine.rand:Integer(1, n)], mission.client.name)
 				else
-					Comms.ImportantMessage(l["SUCCESSMSG_" .. Engine.rand:Integer(1, getNumberOfFlavours("SUCCESSMSG"))], mission.client.name)
+					Comms.ImportantMessage(l["SUCCESSMSG_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "SUCCESSMSG"))], mission.client.name)
 				end
 
 				Character.persistent.player.reputation = Character.persistent.player.reputation + reputation
@@ -715,11 +704,11 @@ local onPlayerDocked = function (player, station)
 					PlayerState.AddMoney((amount - mission.amount) * mission.cargotype.price) -- pay for the missing
 					Comms.ImportantMessage(l.I_HAVE_DEBITED_YOUR_ACCOUNT, mission.client.name)
 				else
-					local n = getNumberOfFlavours("FAILUREMSG_" .. mission.branch)
+					local n = MissionUtils.getNumberOfFlavours(l, "FAILUREMSG_" .. mission.branch)
 					if n >= 1 then
 						Comms.ImportantMessage(l["FAILUREMSG_" .. mission.branch .. "_" .. Engine.rand:Integer(1, n)], mission.client.name)
 					else
-						Comms.ImportantMessage(l["FAILUREMSG_" .. Engine.rand:Integer(1, getNumberOfFlavours("FAILUREMSG"))], mission.client.name)
+						Comms.ImportantMessage(l["FAILUREMSG_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "FAILUREMSG"))], mission.client.name)
 					end
 				end
 
