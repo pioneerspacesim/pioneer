@@ -171,17 +171,6 @@ local sortGoods = function (goods)
 	return legal_goods, illegal_goods
 end
 
--- Returns the number of flavours of the given string (assuming first flavour has suffix '_1').
-local getNumberOfFlavours = function (str)
-	local num = 1
-
-	while l:get(str .. "_" .. num) do
-		num = num + 1
-	end
-
-	return num - 1
-end
-
 -- Create a debris field in a random distance to a system body
 local spawnDebris = function (debris, amount, sbody, min, max, lifetime)
 	local list = {}
@@ -383,7 +372,7 @@ local onChat = function (form, ref, option)
 	form:SetFace(ad.client)
 
 	if not qualified then
-		form:SetMessage(l["DENY_" .. Engine.rand:Integer(1, getNumberOfFlavours("DENY"))])
+		form:SetMessage(l["DENY_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "DENY"))])
 		return
 	end
 
