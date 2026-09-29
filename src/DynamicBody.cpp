@@ -236,10 +236,11 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		const vector3d appliedForce = m_force; //Save current m_force to use in second half kick after m_force is zeroed out
 		const vector3d totalForce = appliedForce + m_externalForce;
 
-		//Half kick using force evaluated at old position
+		//Half kick using force evaluated at old position (Split velocity update into two steps to do second order "Leapfrog integration"
 		m_vel += halfTimeStep * totalForce * (1.0 / m_mass);
 
 
+		//Angular velocity calculated over whole timestep, does not use leapfrog method
 		m_angVel += double(timeStep) * m_torque * (1.0 / m_angInertia);
 
 		double len = m_angVel.Length();
