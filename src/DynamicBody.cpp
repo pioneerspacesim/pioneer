@@ -230,9 +230,16 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 {
 	m_oldPos = GetPosition();
 	if (m_isMoving) {
-		m_force += m_externalForce;
+		const double halfTimeStep = 0.5 * double(timeStep);
 
-		m_vel += double(timeStep) * m_force * (1.0 / m_mass);
+		//Applied forces (thrust) assumed constant over timestep
+		const vector3d appliedForce = m_force; //Save current m_force to use in second half kick after m_force is zeroed out
+		const vector3d totalForce = appliedForce + m_externalForce;
+
+		//Half kick using force evaluated at old position
+		m_vel += halfTimeStep * totalForce * (1.0 / m_mass);
+
+
 		m_angVel += double(timeStep) * m_torque * (1.0 / m_angInertia);
 
 		double len = m_angVel.Length();
@@ -243,6 +250,7 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		}
 		m_oldAngDisplacement = m_angVel * timeStep;
 
+		//drift, using the half stepped velocity
 		SetPosition(GetPosition() + m_vel * double(timeStep));
 
 		//if (this->IsType(ObjectType::PLAYER))
@@ -250,11 +258,20 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		//	pos.x, pos.y, pos.z, m_vel.x, m_vel.y, m_vel.z, m_force.x, m_force.y, m_force.z,
 		//	m_externalForce.x, m_externalForce.y, m_externalForce.z);
 
-		m_lastForce = m_force;
+
 		m_lastTorque = m_torque;
 		m_force = vector3d(0.0);
 		m_torque = vector3d(0.0);
 		CalcExternalForce(); // regenerate for new pos/vel
+
+		//second half kick using updated m_externalForce
+		const vector3d newTotalForce = appliedForce + m_externalForce;
+		m_vel += halfTimeStep * newTotalForce * (1.0 / m_mass);
+
+		//take average of total force before and after kick to make m_lastForce behave the same as in previous Euler integration method. 
+		m_lastForce = 0.5 * (totalForce + newTotalForce); 
+
+
 	} else {
 		m_oldAngDisplacement = vector3d(0.0);
 	}
@@ -337,14 +354,13 @@ bool DynamicBody::OnCollision(Body *o, Uint32 flags, double relVel)
 
 // return parameters for orbit of any body, gives both elliptic and hyperbolic trajectories
 Orbit DynamicBody::ComputeOrbit() const
-{
-	auto f = Frame::GetFrame(GetFrame());
-	// if we are in a rotating frame, then dynamic body currently under the
-	// influence of a rotational frame, therefore getting the orbital parameters
-	// is not appropriate, return the orbit as a fixed point
-	if (f->IsRotFrame()) return Orbit::ForStaticBody(GetPosition());
-	FrameId nrFrameId = f->GetId();
+{	
+	//Get non rotating frame (Orbit calcs assume inertial frame)
+	const Frame *frame = Frame::GetFrame(GetFrame());
+	const FrameId nrFrameId = frame->GetNonRotFrame();
 	const Frame *nrFrame = Frame::GetFrame(nrFrameId);
+
+	//Get mass of body being orbited
 	const double mass = nrFrame->GetSystemBody()->GetMass();
 
 	// current velocity and position with respect to non-rotating frame
@@ -352,4 +368,5 @@ Orbit DynamicBody::ComputeOrbit() const
 	const vector3d pos = GetPositionRelTo(nrFrameId);
 
 	return Orbit::FromBodyState(pos, vel, mass);
+	
 }
