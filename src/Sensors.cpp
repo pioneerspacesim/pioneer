@@ -183,6 +183,13 @@ void Sensors::ResetTrails()
 		it->trail->Reset(Pi::player->GetFrame());
 }
 
+void Sensors::ClearContacts()
+{
+	PROFILE_SCOPED();
+	m_radarContacts.clear();
+	m_staticContacts.clear();
+}
+
 void Sensors::PopulateStaticContacts()
 {
 	PROFILE_SCOPED();

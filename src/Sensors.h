@@ -57,6 +57,7 @@ public:
 	void Update(float time);
 	void UpdateIFF(Body *);
 	void ResetTrails();
+	void ClearContacts();
 
 private:
 	Ship *m_owner;
