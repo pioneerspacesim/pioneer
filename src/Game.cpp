@@ -415,6 +415,7 @@ bool Game::UpdateTimeAccel()
 
 			// if not forced - check if we aren't too near to objects for timeaccel
 			else {
+
 				for (const Body *b : m_space->GetBodies()) {
 					if (b == m_player.get()) continue;
 					if (b->IsType(ObjectType::HYPERSPACECLOUD)) continue;
@@ -434,6 +435,7 @@ bool Game::UpdateTimeAccel()
 					} else if (dist < std::min(rad + 0.1 * AU, rad * 500.0)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10000X);
 					}
+					
 				}
 			}
 
