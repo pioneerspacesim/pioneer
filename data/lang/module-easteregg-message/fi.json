@@ -1,0 +1,38 @@
+{
+  "FLAVOUR_0_BODY": {
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC. It is formated as a list",
+    "message": "Soittakaa 362 436, olen aina kotona. Kaupustelen:\n - Betonikengät,\n - Syanidi,\n - TNT,\n - Kravatit,\n - Sopimukset,\n - Korkeajännite,\n\n ... tai tulkaa käymään."
+  },
+  "FLAVOUR_0_DESC": {
+    "description": "Second line for an easter-egg AC/DC song title reference.",
+    "message": "Jos teillä on hankaluuksia, soittakaa minulle koska hyvänsä."
+  },
+  "FLAVOUR_0_TITLE": {
+    "description": "The 'all caps' title should probably not be translated, as it's an AC/DC song title reference. Either way, it's a very rare 'Easter egg'",
+    "message": "DIRTY DEEDS DONE DIRT CHEAP"
+  },
+  "FLAVOUR_1_BODY": {
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to https://en.wikipedia.org/wiki/867-5309/Jenny",
+    "message": "Ette tunne minua, mutta soittakaa minulle; 867 5309 / Jenny"
+  },
+  "FLAVOUR_1_DESC": {
+    "description": "A very rare Easter egg, and reference to a line from a famous song.",
+    "message": "Everyone needs a listening ear once in a while."
+  },
+  "FLAVOUR_1_TITLE": {
+    "description": "A very rare Easter egg, and reference to a line from a famous song.",
+    "message": "NEED SOMEONE TO TURN TO?"
+  },
+  "FLAVOUR_2_BODY": {
+    "description": "A very rare easter egg, referencing a online myth from 90s: https://en.wikipedia.org/wiki/John_Titor",
+    "message": "Olen John Titor Aikamatkustusinstituutista, vuodesta 4036. Olen menossa vuoteen 1975 hakemaan IBM 5100 –tietokonetta, jolla debugata vanhoja ohjelmia joita ei ole portattu kunnolla oman aikani koneille, mutta käyn täällä oppimassa teidän ajastanne, ennen kuin se katoaa suuressa mullistuksessa.\n\nAikomukseni on palata kuusiosaisen selvityksen kanssa aikakoneiden toimintaperiaatteista. Lyhyesti, aikakoneeni on kiinteä massa, aikasiirtymäyksikkö, jonka voimanlähde on kaksi ylä–spin tuplapositiivista singulariteettia, jotka tuottavat tipler–sinusoidin tavanomaisella siirtymällä. Aikasiirtymäyksikkö kulkee ajan halki, ei avaruuden.\n\nVoin pyydettäessä mielelläni jakaa kuvia yksiköstä."
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "Note: string has quotes",
+    "message": "\"Jos aikamatkustus on totta, missä kaikki aikamatkustajat ovat?\""
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "A very rare Easter egg, referencing Internet myth of John Titor.",
+    "message": "Menneisyyden ihmiset, varokaa SUURTA MULLISTUSTA!"
+  }
+}

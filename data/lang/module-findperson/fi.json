@@ -1,0 +1,634 @@
+{
+  "ACCEPTED_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "Hyvä on. Olen siirtänyt asiakirjan teille."
+  },
+  "ACCEPTED_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "Mainiota. Olen kopioinut viestin tietokoneellenne."
+  },
+  "ACCEPTED_EVACUATION": {
+    "description": "",
+    "message": "Mainiota. Pitäkää huolta itsestänne!"
+  },
+  "ACCEPTED_PRIVATEER": {
+    "description": "",
+    "message": "Hyvä. Luulen, että löydätte aluksen hyvin pian."
+  },
+  "ACCEPTED_TAXI": {
+    "description": "",
+    "message": "No hyvä. Kiirehtikää!"
+  },
+  "ACCEPTED_TRAITOR": {
+    "description": "",
+    "message": "Selvä. Olen siirtänyt tiedot aluksenne tietokoneelle."
+  },
+  "ADTEXT_1": {
+    "description": "",
+    "message": "Etsikää henkilö {system} –järjestelmässä. Palkkio {cash}."
+  },
+  "ADTEXT_2": {
+    "description": "",
+    "message": "Etsintätehtävä {system} –järjestelmässä. Palkkio {cash}."
+  },
+  "ADTEXT_3": {
+    "description": "",
+    "message": "Kulukorvaus {cash}."
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "KADONNUT HENKILÖ"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "TARVITAAN PILOTTI ETSINTÄTEHTÄVÄÄN"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "TARVITAAN ALUS ETSINTÄÄN"
+  },
+  "CLIENT": {
+    "description": "",
+    "message": "Asiakas:"
+  },
+  "COMPANY": {
+    "description": "",
+    "message": "Yritys:"
+  },
+  "COMPANY_1": {
+    "description": "Name of a company",
+    "message": "{name} astrioniikka"
+  },
+  "COMPANY_2": {
+    "description": "Name of a company",
+    "message": "{name} tuliaseet"
+  },
+  "COMPANY_3": {
+    "description": "Name of a company",
+    "message": "{name} laivuesysteemisäätiö"
+  },
+  "COMPANY_4": {
+    "description": "Name of a company",
+    "message": "{name} puolustusjärjestelmät"
+  },
+  "COMPANY_5": {
+    "description": "Name of a company",
+    "message": "{name} valvontalaitteet"
+  },
+  "COMPANY_6": {
+    "description": "Name of a company",
+    "message": "{name} tietopalvelut"
+  },
+  "DANGER": {
+    "description": "The risk level",
+    "message": "Vaara:"
+  },
+  "DEADLINE": {
+    "description": "Must be delivered by",
+    "message": "Määräaika:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Anteeksi, mutta tarvitsen kokeneemman pilotin."
+  },
+  "DISTANCE": {
+    "description": "Distance in space, between two locations",
+    "message": "Etäisyys:"
+  },
+  "FAILUREMSG_1": {
+    "description": "",
+    "message": "En ole tyytyväinen toimintaanne. En maksa teille!"
+  },
+  "FAILUREMSG_2": {
+    "description": "",
+    "message": "Olette myöhässä! Anteeksi, ette saa palkkiota!"
+  },
+  "FIND_PERSON": {
+    "description": "Name of mission type",
+    "message": "Etsi henkilö"
+  },
+  "GREETING_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "Pahus, tavoititte minut. Ok, allekirjoitin asiakirjan. Olkaa hyvä ja palauttakaa se {client}:lle!"
+  },
+  "GREETING_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "Kiitos viestistänne. Olen lähettänyt vastauksen {client}:lle aluksenne tietokoneeseen."
+  },
+  "GREETING_EVACUATION": {
+    "description": "",
+    "message": "Taivas, onpa mukavaa nähdä teidät! Voimme lähteä heti. Mikään täällä ei enää pidättele minua."
+  },
+  "GREETING_PRIVATEER": {
+    "description": "",
+    "message": "Ai työskentelet {client}:lle? Olen kopioinut arvokasta tietoa aluksenne tietokoneelle. {client} tulee pitämään sitä hyödyllisenä!"
+  },
+  "GREETING_TAXI": {
+    "description": "",
+    "message": "Voi ei. Tuo on huono uutinen. Lennetäänheti takaisin."
+  },
+  "GREETING_TRAITOR": {
+    "description": "",
+    "message": "Mitä? {client} haluaa lausunnon? Selvä, palatkaa ja luovuttakaa sitten tämä asiakirja!"
+  },
+  "HOW_CAN_I_FIND_HER": {
+    "description": "",
+    "message": "Miten löydän hänet?"
+  },
+  "HOW_CAN_I_FIND_HIM": {
+    "description": "",
+    "message": "Miten löydän hänet?"
+  },
+  "HOW_MUCH_TIME": {
+    "description": "",
+    "message": "Paljonko minulla on aikaa?"
+  },
+  "HOW_MUCH_TIME_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "Palaattehan {date} mennessä."
+  },
+  "HOW_MUCH_TIME_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "Jos en kuule teistä vielä {date}, palkkaan toisen pilotin!"
+  },
+  "HOW_MUCH_TIME_EVACUATION": {
+    "description": "",
+    "message": "Teidän tulee palata viimeistään {date}! Muuten olemme suurissa vaikeuksissa."
+  },
+  "HOW_MUCH_TIME_PRIVATEER": {
+    "description": "",
+    "message": "Jos ette tule takaisin {date} mennessä, sopimuksemme purkautuu!"
+  },
+  "HOW_MUCH_TIME_TAXI": {
+    "description": "",
+    "message": "Sopimuksemme on ohi {date}."
+  },
+  "HOW_MUCH_TIME_TRAITOR": {
+    "description": "",
+    "message": "Aika on oleellinen! Jos ette palaa viimeistään {date}, olemme mennyttä."
+  },
+  "HOW_TO_DELIVER_DOCUMENT_FEMALE": {
+    "description": "",
+    "message": "Etsikää hänen aluksensa. Siten löydätte hänet."
+  },
+  "HOW_TO_DELIVER_DOCUMENT_MALE": {
+    "description": "",
+    "message": "Etsitte vain hänen aluksensa. Hänen ei pitäisi olla kaukana siitä."
+  },
+  "HOW_TO_DELIVER_MESSAGE_FEMALE": {
+    "description": "",
+    "message": "Tiedän vain, että hän työskentelee avaruusasemalla."
+  },
+  "HOW_TO_DELIVER_MESSAGE_MALE": {
+    "description": "",
+    "message": "Tiedän vain, että hän työskentelee avaruusasemalla."
+  },
+  "HOW_TO_EVACUATION_FEMALE": {
+    "description": "",
+    "message": "Hän ottaa teihin varmasti yhteyttä, kun huomaa että olette saapuneet!"
+  },
+  "HOW_TO_EVACUATION_MALE": {
+    "description": "",
+    "message": "Hän ottaa teihin varmasti yhteyttä, kun huomaa että olette saapuneet!"
+  },
+  "HOW_TO_PRIVATEER_FEMALE": {
+    "description": "",
+    "message": "Hänen aluksensa vaurioituu usein komennuksilla. Hänen aluksensa on usein avaruusaseman verstaalla."
+  },
+  "HOW_TO_PRIVATEER_MALE": {
+    "description": "",
+    "message": "Hänen aluksensa vaurioituu usein komennuksilla. Hänen aluksensa on usein avaruusaseman verstaalla."
+  },
+  "HOW_TO_TAXI_FEMALE": {
+    "description": "",
+    "message": "Ei aavistustakaan. Se on teidän tehtävänne!"
+  },
+  "HOW_TO_TAXI_MALE": {
+    "description": "",
+    "message": "Ei aavistustakaan. Se on teidän tehtävänne!"
+  },
+  "HOW_TO_TRAITOR_FEMALE": {
+    "description": "",
+    "message": "Hänet tuntien, jostakin avaruusbaarista."
+  },
+  "HOW_TO_TRAITOR_MALE": {
+    "description": "",
+    "message": "Hänet tuntien, jostakin avaruusbaarista."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_FEMALE_1": {
+    "description": "",
+    "message": "Päivää! Olen {client}, edustaja, asiakkaani on {company}. Eräs aluksistamme on törmännyt toiseen alukseen sekunteja ennen hyperajoa. Hyperavaruuteen siirtymistä ei ollut riittävästi aikaa estää. Nyt tarvitsemme jonkun, joka voi paikallistaa aluksen, rekisteritunnus {shipid}, {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä ja toimittaa ehdotuksen sovintoratkaisusta komentaja {wanted}:lle. Palatkaa {domicile}:n {cash}:n maksua varten. Matkaa tälle kertyy {dist} vv."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_FEMALE_2": {
+    "description": "",
+    "message": "Hauska tavata teidät. Nimeni on {client}. Etsimme vanhaa liiketuttavaa, joka on meille yhä palveluksen velkaa. Hänen nimensä on {wanted}. Hän piileksii {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. Jos löydätte hänet, luovuttakaa salattu asiakirja ja palatkaa sitten {company}:n toimistoon täällä {domicile}:ssa. Jos onnistutte, maksamme {cash}. {system} on {dist}:n vv:n päässä."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_FEMALE_3": {
+    "description": "",
+    "message": "Hyvää päivää! Olen {client}, edustaja, asiakkaani on {company} ja tarvitsemme apua henkilön löytämiseksi {system}:ssa. Ostimme hänen yrityksensä viime vuonna, mutta hänellä on yhä hallussaan tärkeitä asiakirjoja, ja hän on muuttanut. Etsikää hänet ja saakaa hänet luovuttamaan asiakirjat. Hänen nimensä on {wanted} ja hän oleskelee jossakin {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_FEMALE_4": {
+    "description": "",
+    "message": "Päivää! Olen {client}, asiakkaani on {company}. Meidän täytyy saada asiakirja toimitettua {wanted}:lle {system} –järjestelmässä. Meidän täytyy myös saada se tänne ja nähdä se allekirjoitettuna. Emme tiedä hänen tarkkaa sijaintiansa, hän on kuitenkin {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_MALE_1": {
+    "description": "",
+    "message": "Päivää! Olen {client}, edustaja, asiakkaani on {company}. Eräs aluksistamme on törmännyt toiseen alukseen sekunteja ennen hyperajoa. Hyperavaruuteen siirtymistä ei ollut riittävästi aikaa estää. Nyt tarvitsemme jonkun, joka voi paikallistaa aluksen, rekisteritunnus {shipid}, {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä ja toimittaa ehdotuksen sovintoratkaisusta komentaja {wanted}:lle. Palatkaa {domicile}:n {cash}:n maksua varten. Matkaa tälle kertyy {dist} vv."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_MALE_2": {
+    "description": "",
+    "message": "Hauska tavata teidät. Nimeni on {client}. Etsimme vanhaa liiketuttavaa, joka on meille yhä palveluksen velkaa. Hänen nimensä on {wanted}. Hän piileksii {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. Jos löydätte hänet, luovuttakaa salattu asiakirja ja palatkaa sitten {company}:n toimistoon täällä {domicile}:ssa. Jos onnistutte, maksamme {cash}. {system} on {dist}:n vv:n päässä."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_MALE_3": {
+    "description": "",
+    "message": "Hyvää päivää! Olen {client}, edustaja, asiakkaani on {company} ja tarvitsemme apua henkilön löytämiseksi {system}:ssa. Ostimme hänen yrityksensä viime vuonna, mutta hänellä on yhä hallussaan tärkeitä asiakirjoja, ja hän on muuttanut. Etsikää hänet ja saakaa hänet luovuttamaan asiakirjat. Hänen nimensä on {wanted} ja hän oleskelee jossakin {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_MALE_4": {
+    "description": "",
+    "message": "Päivää! Olen {client}, asiakkaani on {company}. Meidän täytyy saada asiakirja toimitettua {wanted}:lle {system} –järjestelmässä. Meidän täytyy myös saada se tänne ja nähdä se allekirjoitettuna. Emme tiedä hänen tarkkaa sijaintiansa, hän on kuitenkin {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_1": {
+    "description": "",
+    "message": "Hei, nimenin on {client}. Tahdon löytää {relative}, {wanted}. Hän jätti perheen vihaisena muutama vuosi sitten. Ystäväni näki hänet hiljattain {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. Tahtoisin tietää, olisiko hän valmis sopimaan. Maksan {cash} jos toimitatte hänelle viestin ja palaatte vastauksen kera. Odotan {domicile}:ssa. Pyydän teitä! Tekisittekö tämän?"
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_2": {
+    "description": "",
+    "message": "Hei. Olen {client}. Etsin {friend}. Hänen nimensä on {wanted}. Tiedän hänen majailevan {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, mutta sen tarkemmin en tiedä. Maksan {cash}, jos voitte toimittaa hänelle viestin."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_3": {
+    "description": "",
+    "message": "Päivää. Minä olen {client}. Minun pitäisi saada yhteys {friend}, {wanted}. Viimeksi kun hänestä kuulin, hän asui {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, ja tietääkseni hän on siellä yhä, mutta en tiedä, missä tarkalleen. Maksan {cash}, jos saatte toimitettua hänelle viestini."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_4": {
+    "description": "",
+    "message": "Hei. Minun nimeni on {client}. {relative}, {wanted}, otti muutama vuosi sitten vastaan viran {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. Vuoden jälkeen lakkasimme kuulemasta mitään, ja nyt posti palautetaan, joten jotain on täytynyt sattua. Perheeni maksaa {cash}, jos jäljitätte hänet ja annatte hänelle viestin."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_5": {
+    "description": "",
+    "message": "Hyvää päivää, olen {client}! Minun pitäisi saada viesti toimitettua professorilleni, {wanted}, joka tekee tutkimusta {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. En ole kuullut hänestä kuuteen kuukauteen, ja yhteystietoni eivät ole enää ajan tasalla. Voin maksaa työstä {cash}."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_1": {
+    "description": "",
+    "message": "Hei, nimenin on {client}. Tahdon löytää {relative}, {wanted}. Hän jätti perheen vihaisena muutama vuosi sitten. Ystäväni näki hänet hiljattain {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. Tahtoisin tietää, olisiko hän valmis sopimaan. Maksan {cash} jos toimitatte hänelle viestin ja palaatte vastauksen kera. Odotan {domicile}:ssa. Pyydän teitä! Tekisittekö tämän?"
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_2": {
+    "description": "",
+    "message": "Hei. Olen {client}. Etsin {friend}. Hänen nimensä on {wanted}. Tiedän hänen majailevan {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, mutta sen tarkemmin en tiedä. Maksan {cash}, jos voitte toimittaa hänelle viestin."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_3": {
+    "description": "",
+    "message": "Päivää. Minä olen {client}. Minun pitäisi saada yhteys {friend}, {wanted}. Viimeksi kun hänestä kuulin, hän asui {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, ja tietääkseni hän on siellä yhä, mutta en tiedä, missä tarkalleen. Maksan {cash}, jos saatte toimitettua hänelle viestini."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_4": {
+    "description": "",
+    "message": "Hei. Minun nimeni on {client}. {relative}, {wanted}, otti muutama vuosi sitten vastaan viran {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. Vuoden jälkeen lakkasimme kuulemasta mitään, ja nyt posti palautetaan, joten jotain on täytynyt sattua. Perheeni maksaa {cash}, jos jäljitätte hänet ja annatte hänelle viestin."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_5": {
+    "description": "",
+    "message": "Hyvää päivää, olen {client}! Minun pitäisi saada viesti toimitettua professorilleni, {wanted}, joka tekee tutkimusta {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. En ole kuullut hänestä kuuteen kuukauteen, ja yhteystietoni eivät ole enää ajan tasalla. Voin maksaa työstä {cash}."
+  },
+  "INTROTEXT_EVACUATION_FEMALE_1": {
+    "description": "",
+    "message": "Hei. {company} on pahoissa vaikeuksissa. Neuvottelut agressiivisen suoran kilpailijan kanssa {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, etäisyys {dist} vv, menivät puihin. Lähettiläämme {wanted} on evakuoitava. Tietoliikenne hänen kanssaan on hyvin rajallista, joten emme tiedä hänen tarkkaa sijaintiaan. Maksamme tästä hommasta {cash}."
+  },
+  "INTROTEXT_EVACUATION_FEMALE_2": {
+    "description": "",
+    "message": "Hei. Kutsukaa minua nimellä {client}. Olen töissä organisaatiossa {company}. Myyntiedustajamme {wanted} {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, etäisyys {dist} vv, on riitaantunut eräiden vaarallisten roistojen kanssa. Hän ei luota paikallisiin viranomaisiin, vaan on piiloutunut. Maksamme {cash}, jos voitte löytää hänet ja tuoda turvallisesti {domicile}:n."
+  },
+  "INTROTEXT_EVACUATION_FEMALE_3": {
+    "description": "",
+    "message": "Hei, olen {client}. Edustan yhteisöä {company}. Meidän täytyy saada työntekijämme heti pois {system} –järjestelmästä. Turvallisuussyistä en voi avata yksityiskohtia, mutta hänen turvallisuuteensa kohdistuu uskottava uhka. Hän on piiloutunut erääseen avaruussatamaan, mutta ei voinut turvallisesti kertoa meille, mihin niistä. Hänen nimensä on {wanted}, ja hän on jossain {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä."
+  },
+  "INTROTEXT_EVACUATION_FEMALE_4": {
+    "description": "",
+    "message": "Päivää! Minun nimeni on {client}. Olen saanut tietooni, että {relative} {wanted} on rikollisten jahtaama, ja että hän on joutunut poistumaan kiireesti kotoaan. Hän piileksii jossain {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, etäisyys {dist} vv. Perhe haluaa ratkaista tämän tahdikkaasti. Maksamme {cash} jos voitte löytää hänet ja tuoda takaisin {domicile}:n."
+  },
+  "INTROTEXT_EVACUATION_MALE_1": {
+    "description": "",
+    "message": "Hei. {company} on pahoissa vaikeuksissa. Neuvottelut agressiivisen suoran kilpailijan kanssa {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, etäisyys {dist} vv, menivät puihin. Lähettiläämme {wanted} on evakuoitava. Tietoliikenne hänen kanssaan on hyvin rajallista, joten emme tiedä hänen tarkkaa sijaintiaan. Maksamme tästä hommasta {cash}."
+  },
+  "INTROTEXT_EVACUATION_MALE_2": {
+    "description": "",
+    "message": "Hello. Call me {client}. I'm employed by the {company}. Our sales representative, {wanted}, in the {system} ({sectorx}, {sectory}, {sectorz}) system, distance {dist} ly, has come into conflict with some dangerous crooks. He doesn't trust the local authorities, so he's gone into hiding. We pay {cash} if you can find him and bring him back to {domicile} safely."
+  },
+  "INTROTEXT_EVACUATION_MALE_3": {
+    "description": "",
+    "message": "Hei, olen {client}. Edustan yhteisöä {company}. Meidän täytyy saada työntekijämme heti pois {system} –järjestelmästä. Turvallisuussyistä en voi avata yksityiskohtia, mutta hänen turvallisuuteensa kohdistuu uskottava uhka. Hän on piiloutunut erääseen avaruussatamaan, mutta ei voinut turvallisesti kertoa meille, mihin niistä. Hänen nimensä on {wanted}, ja hän on jossain {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä."
+  },
+  "INTROTEXT_EVACUATION_MALE_4": {
+    "description": "",
+    "message": "Päivää! Minun nimeni on {client}. Olen saanut tietooni, että {relative} {wanted} on rikollisten jahtaama, ja että hän on joutunut poistumaan kiireesti kotoaan. Hän piileksii jossain {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, etäisyys {dist} vv. Perhe haluaa ratkaista tämän tahdikkaasti. Maksamme {cash} jos voitte löytää hänet ja tuoda takaisin {domicile}:n."
+  },
+  "INTROTEXT_PRIVATEER_FEMALE_1": {
+    "description": "",
+    "message": "Terve! Nimeni on {client}. Pitäisi löytää eräs {wanted}. Hän on minulle velkaa ison summan. Viimeisimpien tietojen mukaan hän suorittaa tehtäviä {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. Kertokaahan hänelle, että kärsivällisyyteni alkaa olla lopussa. {domicile}:ssa saatte palattuanne palkkiona {cash}."
+  },
+  "INTROTEXT_PRIVATEER_FEMALE_2": {
+    "description": "",
+    "message": "Tervehdys. Olen yksityisetsivä {client}. Minun pitäisi löytää {wanted} {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä ja kysyä häneltä joitain kysymyksiä. Hänen aluksensa rekisterinumero on {shipid}. {domicile} ja toinen rikostapaus vaativat kuitenkin huomiotani, ja siksi haluaisin lisävoimia tätä tehtävää varten. Maksan tehtävästä {cash}."
+  },
+  "INTROTEXT_PRIVATEER_FEMALE_3": {
+    "description": "",
+    "message": "Hei! Nimeni on {client} ja tarvitsen apua: {wanted} pitäisi tavoittaa {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. Hän lentää siellä tehtäviä ja hänen aluksensa on rekisteröity tunnuksella {shipid}. Maksan {cash}, kun palaatte vastauksen kanssa. {domicile} on paikka, josta löydätte minut."
+  },
+  "INTROTEXT_PRIVATEER_MALE_1": {
+    "description": "",
+    "message": "Terve! Nimeni on {client}. Pitäisi löytää eräs {wanted}. Hän on minulle velkaa ison summan. Viimeisimpien tietojen mukaan hän suorittaa tehtäviä {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. Kertokaahan hänelle, että kärsivällisyyteni alkaa olla lopussa. {domicile}:ssa saatte palattuanne palkkiona {cash}."
+  },
+  "INTROTEXT_PRIVATEER_MALE_2": {
+    "description": "",
+    "message": "Tervehdys. Olen yksityisetsivä {client}. Minun pitäisi löytää {wanted} {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä ja kysyä häneltä joitain kysymyksiä. Hänen aluksensa rekisterinumero on {shipid}. {domicile} ja toinen rikostapaus vaativat kuitenkin huomiotani, ja siksi haluaisin lisävoimia tätä tehtävää varten. Maksan tehtävästä {cash}."
+  },
+  "INTROTEXT_PRIVATEER_MALE_3": {
+    "description": "",
+    "message": "Hei! Nimeni on {client} ja tarvitsen apua: {wanted} pitäisi tavoittaa {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. Hän lentää siellä tehtäviä ja hänen aluksensa on rekisteröity tunnuksella {shipid}. Maksan {cash}, kun palaatte vastauksen kanssa. {domicile} on paikka, josta löydätte minut."
+  },
+  "INTROTEXT_TAXI_FEMALE_1": {
+    "description": "",
+    "message": "Hei. Olen {client}. Etsin sukulaista {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmästä. Hänen nimensä on {wanted}. Sairastapaus perheessä tekee asiasta aikakriittisen. Etsikää hänet ja tuokaa {domicile}:n. Maksan teille {cash}."
+  },
+  "INTROTEXT_TAXI_FEMALE_2": {
+    "description": "",
+    "message": "Hyvää päivää. Olen asessori {client}. Suurnopeusdrooni eksyi kurssilta, rikkoi ikkunan ja vahingoitti pahoin asunnossa olevia puisia antiikkihuonekaluja. Onneksi kukaan ei sentään loukkaantunut. Mutta emme ole toistaiseksi löytäneet asunnon omistajaa {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmästä. Siispä maksan {cash}, jos voitte löytää hänet. Hänen on oltava läsnä henkilökohtaisesti korvausasian selvittämiseksi."
+  },
+  "INTROTEXT_TAXI_FEMALE_3": {
+    "description": "",
+    "message": "Hei. Olen {client}. Tarvitsen apua {relative} nimeltä {wanted}, löytämiseksi. Teidän tarvitsisi tuoda hänet tänne, sillä häntä tarvitaan perheyrityksessä. Maksamme palveluksesta teille {cash}. Hän on jossakin {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. Kiitos!"
+  },
+  "INTROTEXT_TAXI_MALE_1": {
+    "description": "",
+    "message": "Hei. Olen {client}. Etsin sukulaista {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmästä. Hänen nimensä on {wanted}. Sairastapaus perheessä tekee asiasta aikakriittisen. Etsikää hänet ja tuokaa {domicile}:n. Maksan teille {cash}."
+  },
+  "INTROTEXT_TAXI_MALE_2": {
+    "description": "",
+    "message": "Hyvää päivää. Olen asessori {client}. Suurnopeusdrooni eksyi kurssilta, rikkoi ikkunan ja vahingoitti pahoin asunnossa olevia puisia antiikkihuonekaluja. Onneksi kukaan ei sentään loukkaantunut. Mutta emme ole toistaiseksi löytäneet asunnon omistajaa {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmästä. Siispä maksan {cash}, jos voitte löytää hänet. Hänen on oltava läsnä henkilökohtaisesti korvausasian selvittämiseksi."
+  },
+  "INTROTEXT_TAXI_MALE_3": {
+    "description": "",
+    "message": "Hei. Olen {client}. Tarvitsen apua {relative} nimeltä {wanted}, löytämiseksi. Teidän tarvitsisi tuoda hänet tänne, sillä häntä tarvitaan perheyrityksessä. Maksamme palveluksesta teille {cash}. Hän on jossakin {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. Kiitos!"
+  },
+  "INTROTEXT_TRAITOR_FEMALE_1": {
+    "description": "",
+    "message": "Hei, minun nimeni on {client}. {wanted} ei ole palannut lomamatkaltaan työpaikalleen, joka on {company}. Hänet on viimeksi nähty {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. {wanted} tietää eräitä tärkeitä liikesalaisuuksia. Joten tarvitsemme jonkun, joka voi saada muutamia vastauksia koskien hänen jatkuvaa poissaoloaan. Maksamme tästä tehtävästä {cash}. {system} on {dist}:n valovuoden päässä."
+  },
+  "INTROTEXT_TRAITOR_FEMALE_2": {
+    "description": "",
+    "message": "Hyvää päivää. {company} etsii työntekijää, joka varasti salaiseksi määrättyjä asiakirjoja. Hänen nimensä on {wanted}. Johto kutsuu häntä jo petturiksi, mutta haluaa antaa hänelle tilaisuuden harkita uudelleen ja katua tekoaan. Maksamme {cash}, jos löydätte hänet ja toimitatte viestin; {system} ({sectorx}, {sectory}, {sectorz}) on {dist}:n valovuoden päässä."
+  },
+  "INTROTEXT_TRAITOR_FEMALE_3": {
+    "description": "",
+    "message": "Hyvää päivää. Olen {client} ja työnantajani on {company}. Olemme yrittäneet löytää entistä työntekijäämme nimeltä {employee}, joka teki hiljan töitä kanssamme yhden hankkeen parissa. Hänen nimensä on {wanted}. Maksamme {cash}, jos voitte löytää hänet {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmästä, jonne on matkaa {dist} vv, ja toimittaa viestin. Tietäkää, että hän ei tule pitämään tästä viestistä."
+  },
+  "INTROTEXT_TRAITOR_MALE_1": {
+    "description": "",
+    "message": "Hei, minun nimeni on {client}. {wanted} ei ole palannut lomamatkaltaan työpaikalleen, joka on {company}. Hänet on viimeksi nähty {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. {wanted} tietää eräitä tärkeitä liikesalaisuuksia. Joten tarvitsemme jonkun, joka voi saada muutamia vastauksia koskien hänen jatkuvaa poissaoloaan. Maksamme tästä tehtävästä {cash}. {system} on {dist}:n valovuoden päässä."
+  },
+  "INTROTEXT_TRAITOR_MALE_2": {
+    "description": "",
+    "message": "Hyvää päivää. {company} etsii työntekijää, joka varasti salaiseksi määrättyjä asiakirjoja. Hänen nimensä on {wanted}. Johto kutsuu häntä jo petturiksi, mutta haluaa antaa hänelle tilaisuuden harkita uudelleen ja katua tekoaan. Maksamme {cash}, jos löydätte hänet ja toimitatte viestin; {system} ({sectorx}, {sectory}, {sectorz}) on {dist}:n valovuoden päässä."
+  },
+  "INTROTEXT_TRAITOR_MALE_3": {
+    "description": "",
+    "message": "Hyvää päivää. Olen {client} ja työnantajani on {company}. Olemme yrittäneet löytää entistä työntekijäämme nimeltä {employee}, joka teki hiljan töitä kanssamme yhden hankkeen parissa. Hänen nimensä on {wanted}. Maksamme {cash}, jos voitte löytää hänet {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmästä, jonne on matkaa {dist} vv, ja toimittaa viestin. Tietäkää, että hän ei tule pitämään tästä viestistä."
+  },
+  "IS_THERE_A_RISK": {
+    "description": "",
+    "message": "Minkälaisesta riskistä on kyse?"
+  },
+  "MERCENARY_GREETING_FEMALE_1": {
+    "description": "",
+    "message": "Anteeksi. Kuolemanne on työtäni!"
+  },
+  "MERCENARY_GREETING_FEMALE_2": {
+    "description": "",
+    "message": "Teen sinusta silppua!"
+  },
+  "MERCENARY_GREETING_FEMALE_3": {
+    "description": "",
+    "message": "Haluat tavata {wanted}:n? Laitan sinut ensin tapaamaan luojasi!"
+  },
+  "MERCENARY_GREETING_MALE_1": {
+    "description": "",
+    "message": "Ei mitään henkilökohtaista. Tapan sinut maksua vastaan!"
+  },
+  "MERCENARY_GREETING_MALE_2": {
+    "description": "",
+    "message": "Lähetän sinut helvettiin!"
+  },
+  "MERCENARY_GREETING_MALE_3": {
+    "description": "",
+    "message": "Haluat tavata {wanted}:n? Vain kuolleen ruumiisi yli!"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Selvä, sovittu."
+  },
+  "ON_BOARD": {
+    "description": "Status indicator showing if a passenger is currently onboard the player's ship.",
+    "message": "Aluksessa"
+  },
+  "PIRATE_ANSWER_1": {
+    "description": "",
+    "message": "Olen lähettänyt sinulle vastauksen, jota {client} odottanee. Hyvästi."
+  },
+  "PIRATE_ANSWER_2": {
+    "description": "",
+    "message": "Olkaa hyvä ja välittäkää nyt lähettämäni viesti {client}:lle. Hei."
+  },
+  "PIRATE_ANSWER_3": {
+    "description": "",
+    "message": "Hah, kertokaa tälle tyypille, {client}, että minulla ei ole mitään sanottavaa. Hyvää päivänjatkoa."
+  },
+  "PIRATE_GREETING_1": {
+    "description": "",
+    "message": "Kuulin, että etsit minua. Sinulla on huomioni. Mitä haluat?"
+  },
+  "PIRATE_GREETING_2": {
+    "description": "",
+    "message": "OK, löysitte minut. Älkää tuhlatko aikaa vaan kertokaa mitä minusta haluatte!"
+  },
+  "PIRATE_GREETING_3": {
+    "description": "",
+    "message": "Kuulin, että teillä olisi antaa minulle viesti?"
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "Haluat vastauksen? No tässäpä tämä!"
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "Nyt riittää! Valmistaudu helvettiin!"
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "Tulit tosiaan tänne saakka tuon typerän viestin kanssa? Nyt sinun on parasta häipyä!"
+  },
+  "REPEAT_THE_REQUEST": {
+    "description": "",
+    "message": "Voisitteko toistaa pyynnön?"
+  },
+  "RISK_EVACUATION_FEMALE_1": {
+    "description": "",
+    "message": "Tilanne on jännittynyt. Me luulemme, että {wanted} on vaarassa."
+  },
+  "RISK_EVACUATION_FEMALE_2": {
+    "description": "",
+    "message": "{wanted} on äärimmäisessä vaarassa. Hänen pitäisi poistua järjestelmästä mahdollisimman pian."
+  },
+  "RISK_EVACUATION_MALE_1": {
+    "description": "",
+    "message": "{wanted} on sitä mieltä, että hänen pitäisi poistua koko järjestelmästä hyvin pian."
+  },
+  "RISK_EVACUATION_MALE_2": {
+    "description": "",
+    "message": "{wanted} on suurissa vaikeuksissa! Hänen olisi parasta poistua viipymättä järjestelmästä."
+  },
+  "RISK_FEMALE_1": {
+    "description": "",
+    "message": "Ei minkäänlaisesta."
+  },
+  "RISK_FEMALE_2": {
+    "description": "",
+    "message": "En usko, että tässä on vaaraa."
+  },
+  "RISK_FEMALE_3": {
+    "description": "",
+    "message": "En tiedä. Hän on oudohko."
+  },
+  "RISK_FEMALE_4": {
+    "description": "",
+    "message": "No, {wanted} voi joskus olla äkkipikainen."
+  },
+  "RISK_FEMALE_5": {
+    "description": "",
+    "message": "Minun mielestäni {wanted} on sekopää. Suosittelen varovaisuutta!"
+  },
+  "RISK_MALE_1": {
+    "description": "",
+    "message": "Ei minkäänlaisesta."
+  },
+  "RISK_MALE_2": {
+    "description": "",
+    "message": "En odota hankaluuksia, mutta kuka tietää?"
+  },
+  "RISK_MALE_3": {
+    "description": "",
+    "message": "En tiedä. Hän on oudohko."
+  },
+  "RISK_MALE_4": {
+    "description": "",
+    "message": "{wanted} on luulosairas. Olkaa varovainen!"
+  },
+  "RISK_MALE_5": {
+    "description": "",
+    "message": "Huomattavasta. {wanted} on hullu. Teidän pitää varautua kaikkeen!"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Alus:"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Avaruussatama:"
+  },
+  "STATUS": {
+    "description": "Label indicating the status display of a requested passenger.",
+    "message": "Tilanne:"
+  },
+  "SUCCESS_ATK_1": {
+    "description": "",
+    "message": "Mitä? {wanted} hyökkäsi? Tässä korvaus siitä harmista!"
+  },
+  "SUCCESS_ATK_2": {
+    "description": "",
+    "message": "Niinkö? {wanted} hyökkäsi kimppuunne? Uskomatonta! No kuitenkin. Olen siirtänyt rahat."
+  },
+  "SUCCESS_ATK_3": {
+    "description": "",
+    "message": "{wanted} kohtasi teidät ja te selviydyitte? Upeaa! Tässä rahanne."
+  },
+  "SUCCESS_INT_1": {
+    "description": "",
+    "message": "Kuulin, että teillä oli vaikeuksia. Hyvä kuitenkin nähdä teidät. Olen suorittanut maksun kokonaisuudessaan."
+  },
+  "SUCCESS_INT_2": {
+    "description": "",
+    "message": "Teillä oli erimielisyyksiä palkkasotilaan kanssa? No, tässä on korvauksenne!"
+  },
+  "SUCCESS_INT_3": {
+    "description": "",
+    "message": "Maksoin teille juuri. Kuulin, että teillä oli palkkasotilas kimpussanne. Loistotyötä!"
+  },
+  "SUCCESS_MSG_1": {
+    "description": "",
+    "message": "Kiitos tästä suorituksesta. Olen maksanut palkkion."
+  },
+  "SUCCESS_MSG_2": {
+    "description": "",
+    "message": "Kiitos palveluksesta. Palkkionne on siirretty."
+  },
+  "SUCCESS_MSG_3": {
+    "description": "",
+    "message": "Hyvää työtä! Siirsin jo rahat."
+  },
+  "SUCCESS_MSG_4": {
+    "description": "",
+    "message": "Kiitos oikein paljon! Maksoin kaiken."
+  },
+  "SUCCESS_MSG_5": {
+    "description": "",
+    "message": "{wanted} löytyi? Loistavaa! Tässä teille palkkio."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Järjestelmä:"
+  },
+  "TIP_FEMALE_1": {
+    "description": "",
+    "message": "En ole varma, mutta luulen että {wanted} on hankkinut itselleen paikan: {station}."
+  },
+  "TIP_FEMALE_2": {
+    "description": "",
+    "message": "Luulen tietäväni henkilön, jota etsitte. {station} se oli, missä näin hänet äskettäin."
+  },
+  "TIP_FEMALE_3": {
+    "description": "",
+    "message": "Tunnen {wanted}:n. Löydätte hänet {station} –asemalta."
+  },
+  "TIP_FEMALE_4": {
+    "description": "",
+    "message": "Luulen tietäväni henkilön, joka vastaa kuvausta. {station} on paikka, josta voitte saada selvyyden."
+  },
+  "TIP_MALE_1": {
+    "description": "",
+    "message": "Taitaa {wanted} olla nyt {station}:lla. Mutta en ole varma!"
+  },
+  "TIP_MALE_2": {
+    "description": "",
+    "message": "Tietänen {wanted}:n. {station}, siellä näin hänet."
+  },
+  "TIP_MALE_3": {
+    "description": "",
+    "message": "{wanted} on siis etsimänne henkilö? Hän on nyt {station} –asemalla."
+  },
+  "TIP_MALE_4": {
+    "description": "",
+    "message": "Kuvauksenne täsmää johonkuhun, jonka näin lähellä {station} –asemaa."
+  },
+  "TRANSMITTING_MSG": {
+    "description": "Message from the ship's computer",
+    "message": "Lähetetään viestiä alukseen {shipid}"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "Tuntematon"
+  },
+  "WANTED": {
+    "description": "",
+    "message": "Halutaan henkilö:"
+  },
+  "YOU_DO_NOT_HAVE_A_CABIN": {
+    "description": "",
+    "message": "Valitettavasti sinulla ei ole hyttiä matkustajalle."
+  }
+}

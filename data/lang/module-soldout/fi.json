@@ -1,0 +1,34 @@
+{
+  "ADTEXT": {
+    "description": "",
+    "message": "Halutaan: {commodity}. Maksan {price} tonnilta"
+  },
+  "AMOUNT": {
+    "description": "The amount (for now in tonne) of goods person wants to buy",
+    "message": "Ostan mitä teillä on, aina {amount}:een tonniin asti."
+  },
+  "MESSAGE": {
+    "description": "",
+    "message": "Olen {name}. {commodity} on nyt minulle niin kiireellinen asia, että maksan kaksi kertaa markkinahinnan, {price}."
+  },
+  "NOT_IN_STOCK": {
+    "description": "Regarding selling more than the player has",
+    "message": "{commodity} ei riitä."
+  },
+  "SELL_1": {
+    "description": "Sell one single unit (probably tonne)",
+    "message": "Myy 1"
+  },
+  "SELL_ALL": {
+    "description": "Sell everything player has of the good/commodity",
+    "message": "Myy ne kaikki"
+  },
+  "SELL_N": {
+    "description": "Sell several units (probably in tonne), i.e. N > 1",
+    "message": "Myy {N}"
+  },
+  "TITLE": {
+    "description": "",
+    "message": "HALUTAAN MÄÄRÄ"
+  }
+}

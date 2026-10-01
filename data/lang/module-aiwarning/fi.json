@@ -1,0 +1,22 @@
+{
+  "ATMO_PRESSURE_OVER_LIMIT": {
+    "description": "",
+    "message": "Kaasunpaine ylittää turvallisen rajan"
+  },
+  "AUTOPILOT": {
+    "description": "",
+    "message": "Autopilotti"
+  },
+  "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY": {
+    "description": "",
+    "message": "Ei pysty huomioimaan painovoimaa"
+  },
+  "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
+    "description": "",
+    "message": "Ei voi laskea toimivaa kiertorataa"
+  },
+  "STARPORT_REFUSED_DOCKING_PERMISSION": {
+    "description": "",
+    "message": "Avaruussatama eväsi telakointiluvan"
+  }
+}

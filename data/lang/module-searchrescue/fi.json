@@ -1,0 +1,738 @@
+{
+  "ACCIDENT_DESTROYED_TARGET": {
+    "description": "",
+    "message": "Olemme saaneet suru–uutisen: {shiplabel} on tuhoutunut. Maksamme puolet sovitusta palkkiosta vaivoistanne."
+  },
+  "AU": {
+    "description": "",
+    "message": "au"
+  },
+  "BOARDED_PASSENGER": {
+    "description": "",
+    "message": "{name} on tullut alukselle."
+  },
+  "COMMODITIES": {
+    "description": "",
+    "message": "Hyödykkeet"
+  },
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Voisitteko toistaa alkuperäisen pyynnön?"
+  },
+  "CREW": {
+    "description": "",
+    "message": "Miehistö"
+  },
+  "DEADLINE": {
+    "description": "",
+    "message": "Määräaika:"
+  },
+  "DELIVERED_PASSENGER": {
+    "description": "",
+    "message": "{name} on poistunut alukselta."
+  },
+  "DELIVERY": {
+    "description": "",
+    "message": "TOIMITUS"
+  },
+  "DISTANCE": {
+    "description": "",
+    "message": "Etäisyys:"
+  },
+  "ENTITY_FAMILY_BUSINESS_1": {
+    "description": "",
+    "message": "{name} ja pojat"
+  },
+  "ENTITY_FAMILY_BUSINESS_10": {
+    "description": "",
+    "message": "{name} taksipalvelu"
+  },
+  "ENTITY_FAMILY_BUSINESS_2": {
+    "description": "",
+    "message": "{name} ja tyttäret"
+  },
+  "ENTITY_FAMILY_BUSINESS_3": {
+    "description": "",
+    "message": "{name} {locality}–kukat"
+  },
+  "ENTITY_FAMILY_BUSINESS_4": {
+    "description": "",
+    "message": "{name} maalatut ohjukset"
+  },
+  "ENTITY_FAMILY_BUSINESS_5": {
+    "description": "",
+    "message": "{name} kuriiripalvelu"
+  },
+  "ENTITY_FAMILY_BUSINESS_6": {
+    "description": "",
+    "message": "{name} avaruuslemmikit"
+  },
+  "ENTITY_FAMILY_BUSINESS_7": {
+    "description": "",
+    "message": "{name} & {name}"
+  },
+  "ENTITY_FAMILY_BUSINESS_8": {
+    "description": "",
+    "message": "{name} oikea {locality}–ruoka"
+  },
+  "ENTITY_FAMILY_BUSINESS_9": {
+    "description": "",
+    "message": "{name} kuljetusliike"
+  },
+  "ENTITY_GENERAL_1": {
+    "description": "",
+    "message": "Maanmittaus {locality} Oy"
+  },
+  "ENTITY_GENERAL_10": {
+    "description": "",
+    "message": "{locality}n energiaykkönen"
+  },
+  "ENTITY_GENERAL_2": {
+    "description": "",
+    "message": "Syväekologiaseura {locality}"
+  },
+  "ENTITY_GENERAL_3": {
+    "description": "",
+    "message": "Korko–oikeusryhmien {locality} –kattojärjestö"
+  },
+  "ENTITY_GENERAL_4": {
+    "description": "",
+    "message": "Kaivosoikeustoimisto {locality}"
+  },
+  "ENTITY_GENERAL_5": {
+    "description": "",
+    "message": "Maanomistajayhdistys {locality}"
+  },
+  "ENTITY_GENERAL_6": {
+    "description": "",
+    "message": "Tilastokeskus {locality}"
+  },
+  "ENTITY_GENERAL_7": {
+    "description": "",
+    "message": "Spacecruise Inc:n {locality} –sivukonttori"
+  },
+  "ENTITY_GENERAL_8": {
+    "description": "",
+    "message": "{locality} iSatellite Ltd"
+  },
+  "ENTITY_GENERAL_9": {
+    "description": "",
+    "message": "Hautauspalveluyhtiö {locality}"
+  },
+  "ENTITY_RESEARCH_1": {
+    "description": "",
+    "message": "Biologinen seura {locality}"
+  },
+  "ENTITY_RESEARCH_10": {
+    "description": "",
+    "message": "Eläintiedetutkimuskeskus {locality}"
+  },
+  "ENTITY_RESEARCH_2": {
+    "description": "",
+    "message": "Mikrobiologinen seura {locality}"
+  },
+  "ENTITY_RESEARCH_3": {
+    "description": "",
+    "message": "Kemiaseura {locality}"
+  },
+  "ENTITY_RESEARCH_4": {
+    "description": "",
+    "message": "Astrobiologinen seura {locality}"
+  },
+  "ENTITY_RESEARCH_5": {
+    "description": "",
+    "message": "Geologinen seura {locality}"
+  },
+  "ENTITY_RESEARCH_6": {
+    "description": "",
+    "message": "Astropaleontologiaseura {locality}"
+  },
+  "ENTITY_RESEARCH_7": {
+    "description": "",
+    "message": "Astrofysiikan tutkimuskeskus {locality}"
+  },
+  "ENTITY_RESEARCH_8": {
+    "description": "",
+    "message": "Astrokemian tutkimuskeskus {locality}"
+  },
+  "ENTITY_RESEARCH_9": {
+    "description": "",
+    "message": "Kasvitieteellinen keskus {locality}"
+  },
+  "EQUIPMENT": {
+    "description": "",
+    "message": "Teillä ei ole tarvittavaa varustusta tähän tehtävään. {unit} {equipment} vaaditaan."
+  },
+  "FLAVOUR_1_ADTEXT": {
+    "description": "",
+    "message": "Paikallinen liikenteenohjaus tiedottaa {planet} –planeetalle pakkolaskun tehneestä aluksesta. Apua tarvitaan."
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "ALUS TEHNYT PAKKOLASKUN"
+  },
+  "FLAVOUR_1_FAILUREMSG": {
+    "description": "",
+    "message": "En saata uskoa, että palaatte vasta nyt! Aikaa on tärvätty riittämiin!"
+  },
+  "FLAVOUR_1_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "Täydellisen korvauksen saamiseksi teidän on palattava {due} mennessä."
+  },
+  "FLAVOUR_1_INTROTEXT": {
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{starport} liikenteenohjaus tarvitsee VÄLITÖNTÄ apuanne vastaamaan pakkolaskutilanteeseen. {ship_indef} on {planet} –planeetalla. Elossapitojärjestelmien tilannetta ei tunneta. Alus on vakuutettu {starport} –avaruussataman vakuutuksella ja se kattaa {cash} suuruisen korvauksen koskien pelastustoimia."
+  },
+  "FLAVOUR_1_LOCATIONTEXT": {
+    "description": "",
+    "message": "Tämän aluksen viimeinen tunnettu sijainti on {planet} pintakoordinateissa: {lat} / {long}. Aluksen tunnus on {shiplabel}."
+  },
+  "FLAVOUR_1_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos teille, tämä on suuri helpotus! Lähetämme teille rahat pian."
+  },
+  "FLAVOUR_1_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} on tullut alukselle."
+  },
+  "FLAVOUR_1_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "{crew}:n hengen miehistö ja {pass} matkustajaa ovat tiettävästi aluksen matkassa. Tarvitsemme jonkun paikallistamaan aluksen, ottamaan mahdolliset selviytyneet mukaan ja tuomaan heidät heti tänne."
+  },
+  "FLAVOUR_2_ADTEXT": {
+    "description": "",
+    "message": "{starport} liikenteenohjaus on vastaanottanut lähestyvältä alukselta viestin vähäisestä polttoaineesta. Apua pyydetty."
+  },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "POLTTOAINE LOPPU"
+  },
+  "FLAVOUR_2_FAILUREMSG": {
+    "description": "",
+    "message": "Uskomatonta että annoitte minun odottaa täällä näin kauan! Unohtakaa maksu!"
+  },
+  "FLAVOUR_2_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "Toimittakaa polttoaine {due} mennessä täysimääräisen palkkion saadaksenne."
+  },
+  "FLAVOUR_2_INTROTEXT": {
+    "description": "",
+    "message": "{starport} liikenteenohjaus on juuri saanut tiedon, että saapumasa ollut {shiplabel} on käyttänyt kaiken polttoaineensa ja on joutunut tekemään pakkolaskun. Pilotti on valmis maksamaan polttoaineen toimituksesta {cash}."
+  },
+  "FLAVOUR_2_LOCATIONTEXT": {
+    "description": "",
+    "message": "Alus odottaa koordinaateissa {lat} / {long} {planet} –planeetalla."
+  },
+  "FLAVOUR_2_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos paljon! Olen siirtänyt palkkion kokonaisuudessaan."
+  },
+  "FLAVOUR_2_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} tonnia polttoainetta on siirretty."
+  },
+  "FLAVOUR_2_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "Pilotti pyytää {unit} tonnia {cargo}."
+  },
+  "FLAVOUR_3_ADTEXT": {
+    "description": "",
+    "message": "Alus {starport}:n läheisyydessä on ilmoittanut terveydellisestä hätätilanteesta. Kuljetus sairaalaan kiireellisesti tarpeen."
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "HÄTÄTILANNE"
+  },
+  "FLAVOUR_3_FAILUREMSG": {
+    "description": "",
+    "message": "Ala–arvoista toimintaa! Päivitämme tietokantamme."
+  },
+  "FLAVOUR_3_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "Varapilotin on päästävä alukseen {due} mennessä."
+  },
+  "FLAVOUR_3_INTROTEXT": {
+    "description": "",
+    "message": "Minun nimeni on {name} ja olen {starport} liikenteenohjauksesta. Pyydän apua hätätapauksessa, joka koskee lennon {shiplabel} lentäjää, joka oli matkalla {starport} –avaruussatamaan."
+  },
+  "FLAVOUR_3_LOCATIONTEXT": {
+    "description": "",
+    "message": "Aluksen piti tehdä pakkolasku koordinaateissa: {lat} / {long}. "
+  },
+  "FLAVOUR_3_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos, komentaja! Apunne on pantu merkille."
+  },
+  "FLAVOUR_3_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} on poistunut alukselta."
+  },
+  "FLAVOUR_3_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "Kuljettakaa varalentäjä {starport} –avaruussatamasta alukseen, jotta he voivat lentää sen takaisin {starport} –avaruussatamaan."
+  },
+  "FLAVOUR_4_ADTEXT": {
+    "description": "",
+    "message": "Hätäkutsu: alus haaksirikkoutunut ilman polttoainetta {planet} –planeetalla."
+  },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "POLTTOAINE LOPPU"
+  },
+  "FLAVOUR_4_FAILUREMSG": {
+    "description": "",
+    "message": "Lähetän jonkun toisen. Voitte luovuttaa."
+  },
+  "FLAVOUR_4_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "Pilotti makssaa täyden palkkion, jos toimitatte polttoaineen {due} mennessä."
+  },
+  "FLAVOUR_4_INTROTEXT": {
+    "description": "",
+    "message": "{starport} liikenteenohjaus on saanut yhteydenoton lennon {shiplabel} pilotilta. He ovat jääneet ilman polttoainetta ja ovat luvanneet maksaa toimituksesta {cash} kenelle tahansa."
+  },
+  "FLAVOUR_4_LOCATIONTEXT": {
+    "description": "",
+    "message": "Alus on jäänyt {planet} –planeetalla koordinaateissa {lat} / {long}."
+  },
+  "FLAVOUR_4_SUCCESSMSG": {
+    "description": "",
+    "message": "Hienoa. Suosittelemme teitä edelleen."
+  },
+  "FLAVOUR_4_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} tonnia polttoainetta on siirretty."
+  },
+  "FLAVOUR_4_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "Pilotti pyytää {unit} tonnia {cargo}. {high_gravity}"
+  },
+  "FLAVOUR_5_ADTEXT": {
+    "description": "",
+    "message": "Avuton alus pyytää polttoainetta {starport}:n tuntumassa."
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "POLTTOAINE LOPPU"
+  },
+  "FLAVOUR_5_FAILUREMSG": {
+    "description": "",
+    "message": "Ihmiset eivät ole enää luottamuksen arvoisia."
+  },
+  "FLAVOUR_5_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "Saatattehan tankkauksen loppuun {due} mennessä."
+  },
+  "FLAVOUR_5_INTROTEXT": {
+    "description": "",
+    "message": "{starport} liikenteenohjaus on havainnut tähtialuksen, rekisteritunnus {shiplabel}, ajelehtivan lähistöllä ajoaineetta. Maksamme {cash} kenelle tahansa, joka toimittaa alukseen polttoainetta jotta he voivat poistua {starport} –aseman läheisyydestä."
+  },
+  "FLAVOUR_5_LOCATIONTEXT": {
+    "description": "",
+    "message": "Kohdealus ajelehtii {dist}:n kilometrin päässä. Teidän täytyy selvittää tarkka sijainti."
+  },
+  "FLAVOUR_5_SUCCESSMSG": {
+    "description": "",
+    "message": "Teemme merkinnän täsmällisesti suoritetusta tehtävästänne."
+  },
+  "FLAVOUR_5_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} tonnia polttoainetta on siirretty."
+  },
+  "FLAVOUR_5_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "Pyydämme {unit} tonnia {cargo}."
+  },
+  "FLAVOUR_6_ADTEXT": {
+    "description": "",
+    "message": "Hätätilanne: kaupallinen alus toimimaton {system} –järjestelmässä."
+  },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "AVUTON ALUS"
+  },
+  "FLAVOUR_6_FAILUREMSG": {
+    "description": "",
+    "message": "Kamalaa! Tämä on kollegoillemme kuolemantuomio!"
+  },
+  "FLAVOUR_6_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "Teidän on palattava {due} mennessä."
+  },
+  "FLAVOUR_6_INTROTEXT": {
+    "description": "{ship_base} is translated in /data/lang/ships/",
+    "message": "Minun nimeni on {name} ja olen {entity}:sta. Menetimme yhteyden {ship_base} {shiplabel} –alukseemme sen jälkeen, kun  {problem}. Voimme maksaa {cash} välittömästä avunannosta."
+  },
+  "FLAVOUR_6_LOCATIONTEXT": {
+    "description": "",
+    "message": "Viimeinen tunnettu sijainti oli lähellä {planet} –planeettaa {system} [{sectorx},{sectory},{sectorz}] –järjestelmässä, {dist} vv täältä."
+  },
+  "FLAVOUR_6_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos! Ette voi kuvitella kuinka helpottuneita olemme."
+  },
+  "FLAVOUR_6_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} on tullut alukselle."
+  },
+  "FLAVOUR_6_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "Tarvitsen jonkun lähtemään heti hakemaan kollegamme takaisin {starport} –avaruussatamaan, jos he ovat elossa. Aluksella oli mukanaan {crew}:n hengen miehistö sekä {pass} matkustajaa."
+  },
+  "FLAVOUR_7_ADTEXT": {
+    "description": "",
+    "message": "Pyydetään välitöntä miehistönkuljetusta ajelehtivalle alukselle {system} –järjestelmässä."
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "HÄTÄKULJETUS"
+  },
+  "FLAVOUR_7_FAILUREMSG": {
+    "description": "",
+    "message": "Kiitos paljon, mutta olette myöhässä!"
+  },
+  "FLAVOUR_7_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "Varamiehistön on tavoitettava alus {due} mennessä."
+  },
+  "FLAVOUR_7_INTROTEXT": {
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "Minun nimeni on {name} ja työnantajani on {entity}. Ainoa aluksemme, {ship_indef} {shiplabel}, ajelehtii {crew}:n hengen miehistöllä sen jälkeen, kun {problem}. Olen valmis maksamaan välittömästä avunannosta {cash}."
+  },
+  "FLAVOUR_7_LOCATIONTEXT": {
+    "description": "",
+    "message": "Löydätte aluksen {system} [{sectorx},{sectory},{sectorz}] –järjestelmästä, täältä on sinne {dist} valovuotta. Se on {planet} –planeetan kiertoradalla."
+  },
+  "FLAVOUR_7_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos teille! Minulla on lupa siirtää teille maksu kokonaisuudessaan."
+  },
+  "FLAVOUR_7_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} on siirretty kohdealukseen."
+  },
+  "FLAVOUR_7_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "Emme voi tuoda alusta takaisin ilman vähimmäismiehistöä. Etsin jotakuta, joka voi heti viedä varamiehistön ({deliver_crew}) tähtialuksellemme."
+  },
+  "FULL_CARGO": {
+    "description": "",
+    "message": "Alus täynnä. Ei tilaa lisäkuormalle."
+  },
+  "FULL_CREW": {
+    "description": "",
+    "message": "Miehistö täysi, ei voi ottaa lisää."
+  },
+  "FULL_PASSENGERS": {
+    "description": "",
+    "message": "Kaikki hytit täynnä. Lisämatkustajille ei ole tilaa."
+  },
+  "HIGHGRAVITY_0": {
+    "description": "",
+    "message": "Planeetan {planet} pintapainovoima on {gravity} g. Huomioittehan tämän."
+  },
+  "HIGHGRAVITY_1": {
+    "description": "",
+    "message": "Teidän on syytä pitää mielessä, että {planet} –planeetan painovoima on jopa {gravity} g."
+  },
+  "HIGHGRAVITY_2": {
+    "description": "",
+    "message": "Laskeutuminen ja nousu ovat painovoimassa {gravity} g."
+  },
+  "HIGHGRAVITY_3": {
+    "description": "",
+    "message": "{planet} –planeetalla painovoima on {gravity} g."
+  },
+  "HOW_FAR": {
+    "description": "",
+    "message": "Kuinka kaukana kohde on?"
+  },
+  "HOW_MUCH_TIME": {
+    "description": "",
+    "message": "Paljonko minulla on aikaa?"
+  },
+  "INTERACTION_ABORTED": {
+    "description": "",
+    "message": "Toiminto peruttu. Tulkaa lähemmäksi ja yrittäkää uudelleen."
+  },
+  "INTERACTION_DISTANCE_REACHED": {
+    "description": "",
+    "message": "Toimintoetäisyys saavutettu."
+  },
+  "IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "Määräaika on "
+  },
+  "KM": {
+    "description": "",
+    "message": "km"
+  },
+  "LAST_KNOWN_LOCATION": {
+    "description": "",
+    "message": "Viimeinen tunnettu sijainti:"
+  },
+  "LAT": {
+    "description": "",
+    "message": "Lev.:"
+  },
+  "LON": {
+    "description": "",
+    "message": "Pit.:"
+  },
+  "MISSING_COMM": {
+    "description": "",
+    "message": "Ei voida suorittaa siirtoa. Puuttuu {cargotype}."
+  },
+  "MISSING_CREW": {
+    "description": "",
+    "message": "Ei voida suorittaa siirtoa. Miehistöä puuttuu."
+  },
+  "MISSING_PASS": {
+    "description": "",
+    "message": "Ei voida suorittaa siirtoa. Matkustajia puuttuu."
+  },
+  "MISSING_PASSENGER": {
+    "description": "",
+    "message": "Ei voida suorittaa siirtoa. Matkustaja puuttuu."
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Selvä, sovittu."
+  },
+  "ORBIT": {
+    "description": "",
+    "message": "Kiertorata"
+  },
+  "PARTIAL": {
+    "description": "",
+    "message": "Kiitos vaivoistanne. Toivon, että palaatte viimeistelemään työn!"
+  },
+  "PASSENGERS": {
+    "description": "",
+    "message": "Matkustajat"
+  },
+  "PAYMENT_LOCATION": {
+    "description": "",
+    "message": "Maksupaikka:"
+  },
+  "PICKUP": {
+    "description": "",
+    "message": "NOUTO"
+  },
+  "PLACE_OF_ASSISTANCE": {
+    "description": "",
+    "message": "Avunantopaikalla"
+  },
+  "PLAYER_DESTROYED_TARGET": {
+    "description": "",
+    "message": "Olemme kuulleet teoistanne, kapteeni! Voitte olla aivan varmoja siitä, että ilmoitamme viranomaisille kuinka tuhositte aluksen, jota teidät oli lähetetty avustamaan. Tästä seuraa rikossyyte."
+  },
+  "PLEASE_LAND": {
+    "description": "",
+    "message": "Laskeutukaa siirron ajaksi."
+  },
+  "PROBLEM_CREW_1": {
+    "description": "",
+    "message": "oli kuolettava taistelu miehistön kesken"
+  },
+  "PROBLEM_CREW_10": {
+    "description": "",
+    "message": "oli kapina"
+  },
+  "PROBLEM_CREW_2": {
+    "description": "",
+    "message": "miehistön täytyi jahdata vaarallista {locality} –käärmettä, joka oli aluksella vapaana"
+  },
+  "PROBLEM_CREW_3": {
+    "description": "",
+    "message": "{locality} –hämähäkki tappoi muut"
+  },
+  "PROBLEM_CREW_4": {
+    "description": "",
+    "message": "{locality} –skorpionilta vaikuttava eläin pääsi yöaikaan miehistön tiloihin"
+  },
+  "PROBLEM_CREW_5": {
+    "description": "",
+    "message": "vaarallinen {locality} –kuumeen variantti tappoi muut"
+  },
+  "PROBLEM_CREW_6": {
+    "description": "",
+    "message": "muut miehistön jäsenet eivät palanneet avaruuskävelyltä"
+  },
+  "PROBLEM_CREW_7": {
+    "description": "",
+    "message": "aluksella oli vakava ruokamyrkytystapaus"
+  },
+  "PROBLEM_CREW_8": {
+    "description": "",
+    "message": "hirveä onnettomuus johti muiden työntymiseen avaruuteen"
+  },
+  "PROBLEM_CREW_9": {
+    "description": "",
+    "message": "sattui jotain, jota en voi julkisesti avata"
+  },
+  "PROBLEM_GENERAL_1": {
+    "description": "",
+    "message": "ruumassa oli tulipalo"
+  },
+  "PROBLEM_GENERAL_10": {
+    "description": "",
+    "message": "kuului hätäkutsu jostain päin {locality}"
+  },
+  "PROBLEM_GENERAL_2": {
+    "description": "",
+    "message": "moottoriytimessä oli tehonsyöttökatkos"
+  },
+  "PROBLEM_GENERAL_3": {
+    "description": "",
+    "message": "oli ilmavuoto"
+  },
+  "PROBLEM_GENERAL_4": {
+    "description": "",
+    "message": "vakava ruokamyrkytys, jolle altistui aluksen koko henkilöstö"
+  },
+  "PROBLEM_GENERAL_5": {
+    "description": "",
+    "message": "pieni meteori osui alukseen"
+  },
+  "PROBLEM_GENERAL_6": {
+    "description": "",
+    "message": "siellä oli miehistön tappelu"
+  },
+  "PROBLEM_GENERAL_7": {
+    "description": "",
+    "message": "havaittiin tunnistamaton lentävä esine"
+  },
+  "PROBLEM_GENERAL_8": {
+    "description": "",
+    "message": "oli kiista kilpailijan aluksen kanssa"
+  },
+  "PROBLEM_GENERAL_9": {
+    "description": "",
+    "message": "aluksen tietokone käynnistettiin uudelleen"
+  },
+  "PROBLEM_RESEARCH_1": {
+    "description": "",
+    "message": "yhdessä reaktiokammiossa tapahtui odottamaton kemiallinen reaktio"
+  },
+  "PROBLEM_RESEARCH_10": {
+    "description": "",
+    "message": "tehtiin merkittävä löytö koskien {locality}:ta, jota minun ei ole tällä erää mahdollista avata"
+  },
+  "PROBLEM_RESEARCH_2": {
+    "description": "",
+    "message": "{locality}:lle ominainen taudinaiheuttaja tarttui miehistön jäseneen"
+  },
+  "PROBLEM_RESEARCH_3": {
+    "description": "",
+    "message": "kokeellisia patogeenejä vuosi aluksen ilmaan"
+  },
+  "PROBLEM_RESEARCH_4": {
+    "description": "",
+    "message": "miehistö altistui näytteelle, joka kerättiin paikasta {locality}"
+  },
+  "PROBLEM_RESEARCH_5": {
+    "description": "",
+    "message": "aluksen vetokaapissa tapahtui kemiallinen räjähdys"
+  },
+  "PROBLEM_RESEARCH_6": {
+    "description": "",
+    "message": "{locality}:n kaasukehää simuloitiin kokeellisesti"
+  },
+  "PROBLEM_RESEARCH_7": {
+    "description": "",
+    "message": "aluksella matkustavat tutkijat väittelivät kiivaasti"
+  },
+  "PROBLEM_RESEARCH_8": {
+    "description": "",
+    "message": "aluksen tutkimuspäällikkö yhtäkkiä katosi"
+  },
+  "PROBLEM_RESEARCH_9": {
+    "description": "",
+    "message": "{locality}:lta peräisin olevia näytteitä vahingossa yhdistettiin sopimattomasti"
+  },
+  "RESULT_DELIVERY_COMM": {
+    "description": "",
+    "message": "Kohdealukseen siirretty {done} tonnia {todo}:sta tonnista ({cargotype})."
+  },
+  "RESULT_DELIVERY_CREW": {
+    "description": "",
+    "message": "Kohdealukseen siirretty {done}/{todo} miehistön jäsentä."
+  },
+  "RESULT_DELIVERY_PASS": {
+    "description": "",
+    "message": "Kohdealukseen siirretty {done}/{todo} matkustajaa."
+  },
+  "RESULT_PICKUP_COMM": {
+    "description": "",
+    "message": "Otettu vastaan {done} tonnia {todo}:sta tonnista kohdealuksesta ({cargotype})."
+  },
+  "RESULT_PICKUP_CREW": {
+    "description": "",
+    "message": "{done}/{todo} miehistön jäsentä on saapunut kohdealuksesta."
+  },
+  "RESULT_PICKUP_PASS": {
+    "description": "",
+    "message": "{done}/{todo} matkustajaa on saapunut kohdealuksesta."
+  },
+  "RETURN_TO": {
+    "description": "",
+    "message": "Palattava:"
+  },
+  "REWARD": {
+    "description": "",
+    "message": "Palkkio:"
+  },
+  "SEARCH_RESCUE": {
+    "description": "",
+    "message": "Etsintä ja pelastus"
+  },
+  "SHIP_UNRESPONSIVE": {
+    "description": "",
+    "message": "Kohdealus toimintakyvytön."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Järjestelmä:"
+  },
+  "TARGET_SHIP_ID": {
+    "description": "",
+    "message": "Kohteen rekisteritunnus:"
+  },
+  "THANK_YOU_ACCEPTANCE_TXT": {
+    "description": "",
+    "message": "Kiitoksia. Arvostan suuresti apuanne."
+  },
+  "TONS_OF_FREE_CARGO_SPACE": {
+    "description": "",
+    "message": "tonnia vapaata rahtitilaa"
+  },
+  "TRANSFER_ABORTED": {
+    "description": "",
+    "message": "Siirto on keskeytetty!"
+  },
+  "TRANSFER_COMPLETE": {
+    "description": "",
+    "message": "Siirto on tehty!"
+  },
+  "TRANSFER_PARTIAL": {
+    "description": "",
+    "message": "Siirto on osittainen. Palaattehan tekemään sen loppuun."
+  },
+  "TRANSFER_TIME": {
+    "description": "",
+    "message": "Myönnättehän {minutes} minuuttia aikaa siirtoon."
+  },
+  "TYPE_OF_HELP": {
+    "description": "",
+    "message": "Minkälaista apua tarvitaan?"
+  },
+  "UNOCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "vapaita matkustajapaikkoja"
+  },
+  "WHERE_IS_THE_TARGET": {
+    "description": "",
+    "message": "Missä kohde on?"
+  }
+}

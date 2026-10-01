@@ -1,0 +1,154 @@
+{
+  "FINES_ADMONISHING_1": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Menkää lähimpään {policeforce} toimistoon maksamaan sakkonne."
+  },
+  "FINES_ADMONISHING_2": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Menkää lähimpään {policeforce} toimistoon ja selvittäkää tämä."
+  },
+  "FINES_ADMONISHING_3": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Teidän täytyy hoitaa asia, tai se tulee teille vain vaikeammaksi."
+  },
+  "FINES_ADMONISHING_4": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Jokaisella suurella asemalla on {policeforce} –toimisto. Maksakaa sakkonne!"
+  },
+  "FINES_ADMONISHING_HARSH_1": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Tämä täytyy hoitaa tai tulee seuraamuksia!"
+  },
+  "FINES_ADMONISHING_HARSH_2": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Maksamattomista sakoista rangaistaan ankarimman mukaan lain puitteissa."
+  },
+  "FINES_ADMONISHING_HARSH_3": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Tämä on vakavaa ja teidän tulisi hoitaa se. Mitä pikemmin sen parempi."
+  },
+  "FINES_ADMONISHING_HARSH_4": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Jos ette maksa sakkojanne, teistä tulee lainsuojaton. Maksakaa sakkonne tänään!"
+  },
+  "FINES_INTRO_1": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Odottakaa, on lisää sanottavaa."
+  },
+  "FINES_INTRO_2": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Vielä yksi asia, {ship_label}."
+  },
+  "FINES_INTRO_3": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Odottakaa!"
+  },
+  "FINES_INTRO_4": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "{ship_label}."
+  },
+  "FINES_MESSAGE_1": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Teillä on hoitamattomia sakkoja."
+  },
+  "FINES_MESSAGE_2": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Teillä on maksamattomia sakkoja."
+  },
+  "FINES_MESSAGE_3": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Näemme, että teillä on sakkoja maksettavana."
+  },
+  "FINES_MESSAGE_4": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Teillä on yhteensä {fine} maksamattomina sakkoina."
+  },
+  "ILLEGAL_GOODS_DETECTED": {
+    "description": "",
+    "message": "Laitonta tavaraa havaittu."
+  },
+  "INITIATE_CARGO_SCAN_1": {
+    "description": "",
+    "message": "Aloitetaan kuorman skannaaminen."
+  },
+  "INITIATE_CARGO_SCAN_2": {
+    "description": "",
+    "message": "Pitäkää kurssi ja nopeus kuorman skannaamiseksi."
+  },
+  "INITIATE_CARGO_SCAN_3": {
+    "description": "",
+    "message": "Aloitetaan laittoman tavaran haku."
+  },
+  "NOTHING_DETECTED": {
+    "description": "",
+    "message": "Laitonta tavaraa ei havaittu. Voitte jatkaa."
+  },
+  "OUTLAW_DETECTED_1": {
+    "description": "",
+    "message": "{ship_label} on tunnetun lainsuojattoman käytössä. Hyökätkää ja tuhotkaa!"
+  },
+  "OUTLAW_DETECTED_2": {
+    "description": "",
+    "message": "Rosvo, päiväsi ovat luetut!"
+  },
+  "OUTLAW_DETECTED_3": {
+    "description": "",
+    "message": "Hah, kiinni jäit! Et poistu järjestelmästä elävänä!"
+  },
+  "POLICE_TAUNT_1": {
+    "description": "",
+    "message": "Olipahan huono idea!"
+  },
+  "POLICE_TAUNT_2": {
+    "description": "",
+    "message": "Salakuljettaja, maksat lopullisen hinnan!"
+  },
+  "POLICE_TAUNT_3": {
+    "description": "",
+    "message": "Hölmö, ei rikos kannata!"
+  },
+  "RESPECT_THE_LAW_1": {
+    "description": "",
+    "message": "Kunnioita lakia! Rikokset eivät kannata, jos olet {system} –järjestelmässä!"
+  },
+  "RESPECT_THE_LAW_2": {
+    "description": "",
+    "message": "Olette saapuneet {system} –järjestelmään. Kunnioittakaa lakia!"
+  },
+  "RESTRICTIONS_ESTABLISHED_1": {
+    "description": "",
+    "message": "Uhka on neutraloitu. {ship_label}, tulitusrajoitukset ovat nyt voimassa."
+  },
+  "RESTRICTIONS_ESTABLISHED_2": {
+    "description": "",
+    "message": "{ship_label}, tuli seis, tuli seis!"
+  },
+  "RESTRICTIONS_WITHDRAWN_1": {
+    "description": "",
+    "message": "{ship_label}, teillä on lupa avata tuli."
+  },
+  "RESTRICTIONS_WITHDRAWN_2": {
+    "description": "",
+    "message": "{ship_label}, tuli on vapaa!"
+  },
+  "TAKE_A_HIKE": {
+    "description": "",
+    "message": "Saitte nyt toisen tilaisuuden. Menkää!"
+  },
+  "TARGET_DESTROYED_1": {
+    "description": "",
+    "message": "Kohde tuhottu!"
+  },
+  "TARGET_DESTROYED_2": {
+    "description": "",
+    "message": "Noin!"
+  },
+  "TARGET_DESTROYED_3": {
+    "description": "",
+    "message": "Lepää sulassa raudassa! Hah hah."
+  },
+  "TARGET_DESTROYED_4": {
+    "description": "",
+    "message": "Vielä yksi tilastoparannus!"
+  }
+}

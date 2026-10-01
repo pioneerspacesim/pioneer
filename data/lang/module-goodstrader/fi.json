@@ -1,0 +1,74 @@
+{
+  "ADTITLE_0": {
+    "description": "",
+    "message": "KUORMARKKINAT"
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "KAUPPAMAJA"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "VARASTOMYYNTI"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "VAIHTOPAIKKA"
+  },
+  "GOODS_TRADER_0": {
+    "description": "",
+    "message": "Rehdin {name}:n Kuormarkkinat"
+  },
+  "GOODS_TRADER_1": {
+    "description": "",
+    "message": "Kauppamaja {name}"
+  },
+  "GOODS_TRADER_2": {
+    "description": "",
+    "message": "Varastomyynti {name}"
+  },
+  "GOODS_TRADER_3": {
+    "description": "",
+    "message": "{name}:n vaihtopaikka"
+  },
+  "GOODS_TRADER_4": {
+    "description": "",
+    "message": "{name} Holdings"
+  },
+  "GOODS_TRADER_5": {
+    "description": "",
+    "message": "{name} & pojat"
+  },
+  "SLOGAN_0": {
+    "description": "",
+    "message": "Meillä on se, mitä muut eivät tarjoa."
+  },
+  "SLOGAN_1": {
+    "description": "",
+    "message": "Aidosti vapaa kauppapaikka."
+  },
+  "SLOGAN_2": {
+    "description": "",
+    "message": "Tuomme saatavillenne parhaat epätavalliset tuotteet!"
+  },
+  "SLOGAN_3": {
+    "description": "",
+    "message": "Uskomme rajoittamattomaan kauppaan."
+  },
+  "SLOGAN_4": {
+    "description": "",
+    "message": "Sääntelemätön kauppa, jotta voitte olla vapaa."
+  },
+  "SLOGAN_5": {
+    "description": "",
+    "message": "Se Luotettava Toimittaja."
+  },
+  "SLOGAN_6": {
+    "description": "",
+    "message": "Aina erikoishintaan juuri teille."
+  },
+  "WELCOME_TO": {
+    "description": "",
+    "message": "Tervetuloa, tämä on "
+  }
+}

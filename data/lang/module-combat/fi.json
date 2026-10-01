@@ -1,0 +1,394 @@
+{
+  "ACCEPTED_1": {
+    "description": "",
+    "message": "Hyvä on. Onnea!"
+  },
+  "ACCEPTED_2": {
+    "description": "",
+    "message": "Mainiota!"
+  },
+  "ACCEPTED_3": {
+    "description": "",
+    "message": "Hyvä. Me luotamme sinuun!"
+  },
+  "ADTEXT_1": {
+    "description": "",
+    "message": "Pätevä pilotti tarvitaan salaiseen toimeksiantoon: Palkkio {cash}."
+  },
+  "ADTEXT_2": {
+    "description": "",
+    "message": "Halutaan alus miehistöineen taisteluun {system} –järjestelmässä."
+  },
+  "ADTEXT_3": {
+    "description": "",
+    "message": "Tarvitaan pätevä palkkasotilas, jolla hyvin varusteltu alus. Tehtävänanto tarkemmin pyynnöstä."
+  },
+  "ADTEXT_4": {
+    "description": "",
+    "message": "{org} hakee pelotonta palkkasotilasta tehtävään {system} –järjestelmässä. Maksuna {cash}."
+  },
+  "ADTEXT_5": {
+    "description": "",
+    "message": "{mission} Tehtävä: Palkkio {cash}."
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "HALUTAAN LUOTETTAVA PILOTTI"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "LOPPU VIHANPIDOLLE"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "TAISTELULENTO"
+  },
+  "ADTITLE_4": {
+    "description": "",
+    "message": "HALUTAAN PELOTON PALKKASOTURI"
+  },
+  "ADTITLE_5": {
+    "description": "",
+    "message": "LAILLINEN TAISTELUTEHTÄVÄ"
+  },
+  "AGENT": {
+    "description": "Secret Service Agent",
+    "message": "Agentti"
+  },
+  "AREA": {
+    "description": "An allotted area for the mission",
+    "message": "Alue:"
+  },
+  "BONUS_1": {
+    "description": "",
+    "message": "Esihenkilöni oli vaikuttunut toiminnastanne ja on määrännyt tehtävään liittyen {cash} suuruisen bonuksen."
+  },
+  "BONUS_2": {
+    "description": "",
+    "message": "Olette palvelleet hyvin! Maksan bonuksen, {cash}."
+  },
+  "BONUS_3": {
+    "description": "",
+    "message": "Hienosti hoidettu! Minulla on valtuudet maksaa teille bonus, {cash}."
+  },
+  "BONUS_4": {
+    "description": "",
+    "message": "Olen hyvin mielissäni tekemästänne tuloksesta! Siirsin vielä {cash} krediittiä."
+  },
+  "COMBAT": {
+    "description": "Name of mission type",
+    "message": "Taistelu"
+  },
+  "CORPORATION_1": {
+    "description": "Name of a corporation",
+    "message": "Precious Goods –säätiö"
+  },
+  "CORPORATION_2": {
+    "description": "Name of a corporation",
+    "message": "Omega Mining Company"
+  },
+  "CORPORATION_3": {
+    "description": "Name of a corporation",
+    "message": "United Ore Mines –syndikaatti"
+  },
+  "CORPORATION_4": {
+    "description": "Name of a corporation",
+    "message": "Galactic Explorer Corporation"
+  },
+  "CORPORATION_5": {
+    "description": "Name of a corporation",
+    "message": "Haber Corporation"
+  },
+  "CORPORATION_6": {
+    "description": "Name of a corporation",
+    "message": "Precious Metal Prospectors LLC"
+  },
+  "CORPORATION_7": {
+    "description": "Name of a corporation",
+    "message": "{name} Ore Seeker PLC"
+  },
+  "CORPORATION_8": {
+    "description": "Name of a corporation",
+    "message": "{name} LLC"
+  },
+  "DANGER": {
+    "description": "The risk level",
+    "message": "Vaara:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Anteeksi, mutta tarvitsen pilotin jolla on enemmän taistelukokemusta."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Anteeksi. Tarvitsen oikean ammattilaisen."
+  },
+  "DETECTIVE": {
+    "description": "Police Detective",
+    "message": "Etsivä"
+  },
+  "DISTANCE": {
+    "description": "Distance in space, between two locations",
+    "message": "Etäisyys:"
+  },
+  "DO_I_NEED_SPECIAL_EQUIPMENT": {
+    "description": "",
+    "message": "Tarvitsenko esimerkiksi jotain varustuksia?"
+  },
+  "FAILUREMSG_1": {
+    "description": "",
+    "message": "Häpeäisit. Häivy täältä."
+  },
+  "FAILUREMSG_2": {
+    "description": "",
+    "message": "Myöhästyitte! Aiheutitte suurta vahinkoa. Ette saa maksua!"
+  },
+  "FAILUREMSG_3": {
+    "description": "",
+    "message": "Olette häpeäksi kaikille piloteille. En voi maksaa teille!"
+  },
+  "FAILUREMSG_4": {
+    "description": "",
+    "message": "Epäonnistuit! En maksa sinulle!"
+  },
+  "GREETING_1": {
+    "description": "",
+    "message": "Hei, olen {name}."
+  },
+  "GREETING_2": {
+    "description": "",
+    "message": "Hei. Minun nimeni on {name}."
+  },
+  "GREETING_3": {
+    "description": "",
+    "message": "Mitä kuuluu? Olen {name}."
+  },
+  "GREETING_4": {
+    "description": "",
+    "message": "Terve! Sano vaan {name}."
+  },
+  "GREETING_5": {
+    "description": "",
+    "message": "Päivää. Minun nimeni on {name}."
+  },
+  "HARVESTING_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "{org} maksaa {cash} {mission} tehtävästä {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}). Meillä on syytä uskoa, että häikäilemätön kilpailijamme on syyllinen rahtialustemme katoamisiin {area}:ssa. Etäisyys kohteeseen on {dist} vv."
+  },
+  "HARVESTING_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Kilpailijamme väittää tosissaan, että hän omistaa {area}:n {system} –järjestelmässä({sectorx}, {sectory}, {sectorz}). {org} on täysin eri mieltä ja halukas maksamaan {cash} taistelutehtävästä {area}:ssa. {area}:n on matkaa {dist} vv."
+  },
+  "HARVESTING_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Auttakaa! Saimme hätäkutsun rahtialukseltamme, joka on {area}:n kiertoradalla {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}). Yhteys katkesi, joten pelkäämme pahinta. Etäisyys {system}:n on {dist} vv. Palkkio on {cash}."
+  },
+  "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "On tärkeää, että tehtävä on suoritettu {date} mennessä. Olettehan hiljaa tästä toimeksiannosta."
+  },
+  "HARVESTING_LAND_THERE": {
+    "description": "",
+    "message": "Meillä on myyntiedustaja kaikissa lähijärjestelmissä. Laskeutukaa asemalle ennen määräaikaa, niin henkilöstömme ottaa yhteyttä maksuasiasta."
+  },
+  "HOW_WILL_I_BE_PAID": {
+    "description": "",
+    "message": "Miten minulle maksetaan?"
+  },
+  "IS_THERE_A_TIME_LIMIT": {
+    "description": "",
+    "message": "Onko tässä aikaraja?"
+  },
+  "MANAGER": {
+    "description": "",
+    "message": "Esihenkilö"
+  },
+  "MEET_ME_THERE": {
+    "description": "",
+    "message": "Tavatkaa minut {rendezvous} –järjestelmässä ennen määräaikaa!"
+  },
+  "MILITARY_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Tiedustelu uskoo, että vihamielinen ryhmittymä on muodostanut salaisen kuunteluetuvartion tuonne: {area} {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}). Hallitus ei voi sietää tätä, ja on hyväksynyt sarjan operaatioita tuon laitoksen hävittämiseksi. Vihollinen yrittää naamioida alkuperänsä käyttämällä pelkästään siviiliavaruusaluksia. Niin mekin teemme! Siksi olemme varautuneet maksamaan palkkasotilaalle {cash}. {area} on täältä {dist} vv:n päässä."
+  },
+  "MILITARY_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "{dist} vv:n päässä olevan {system} –järjestelmän ({sectorx}, {sectory}, {sectorz}) piratismin johdosta paikalliset viranomaiset maksavat {cash} taistelutehtävästä {area}:ssa."
+  },
+  "MILITARY_3": {
+    "description": "",
+    "message": "Vastatiedustelu tarvitsee siviilipilotin, joka ei turhia kysele, {mission} –tehtävään {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}) {dist}:n vv:n päässä. Palkkio on {cash}."
+  },
+  "MILITARY_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "{area}:n takaisin saamisek ollaan kokoamassa iskuryhmää. On tärkeää, että tehtävä on onnistuneesti suoritettu {date} mennessä."
+  },
+  "MILITARY_LAND_THERE": {
+    "description": "",
+    "message": "Käy jollakin asemalla {org}:n vartioimalla alueella! Tehtävä edellyttää tavoitteen täyttämistä ajoissa."
+  },
+  "MINING_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "{org}:lla ja sen kilpailijalla on aluekiistakapulana {area} {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}). Vahvistaaksemme valtaustamme tarvitsemme luotettavan palkkasotilaan, jolla on taistelukokemusta. Tarjoamme {cash} kattamaan kuluja. {system} on {dist}:n vv:n päässä."
+  },
+  "MINING_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Johdan yhteisöä nimeltä {org}. Tarvitsemme lisävoimia pitkäaikaisen lakikiistan yhteydessä. Kilpailijamme katsoo voivansa louhia {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}), {dist} vv. Kärsivällisyytemme on mennyttä ja haluaisimme jouduttaa asioita lakituvan ulkopuolella. Tehtävääsi kuuluu mennä {area}:n {cash} vastaan."
+  },
+  "MINING_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Työnantajani on {org}. Jotkut rahtialuksemme saapuvat pian {area}:n {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}). Varmistaaksemme työntekijöidemme turvallisuuden ja laitteistomme suojaksi, voimme maksaa {cash} {mission} –tehtävästä. {area} on {dist}:n vv:n päässä."
+  },
+  "MINING_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "Saattueen määränpää on {area}. On välttämättömyys, että tehtävä on suoritettu {date}."
+  },
+  "MINING_LAND_THERE": {
+    "description": "",
+    "message": "Meillä on työntekijöitä jokaisessa lähijärjestelmässä. Menette vain lähimmälle asemalle ajoissa ja otatte sitten yhteyttä paikalliseen toimistoon."
+  },
+  "MISSION": {
+    "description": "",
+    "message": "Tehtävä:"
+  },
+  "MISSION_COMPLETE": {
+    "description": "Message from the ship computer",
+    "message": "Päätavoite on saavutettu"
+  },
+  "MISSION_INFO": {
+    "description": "Message from the ship computer",
+    "message": "Nyt kohdealueella. Datankeräys alkaa. Ennuste enimmäistehtäväajasta on {duration}."
+  },
+  "MISSION_TYPE_1": {
+    "description": "Name of mission type",
+    "message": "Tiedustelu"
+  },
+  "MISSION_TYPE_2": {
+    "description": "Name of mission type",
+    "message": "Aseellinen tiedustelu"
+  },
+  "MISSION_TYPE_3": {
+    "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
+    "message": "Etsi ja tuhoa"
+  },
+  "MISSION_TYPE_CONVO_1": {
+    "description": "Name of mission type, used in conversation",
+    "message": "tiedustelu"
+  },
+  "MISSION_TYPE_CONVO_2": {
+    "description": "Name of mission type, used in conversation",
+    "message": "aseellinen tiedustelu"
+  },
+  "MISSION_TYPE_CONVO_3": {
+    "description": "Name of mission type, used in conversation. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
+    "message": "etsi ja tuhoa –"
+  },
+  "MISSION_WARNING": {
+    "description": "Message from the ship computer",
+    "message": "Kohdealue liian kaukana. Datankeräystä ei voi saattaa loppuun."
+  },
+  "OBJECTIVE_1": {
+    "description": "",
+    "message": "Vihollista kohti hyökkääminen ei ole tarpeen. Haluamme dataa puolustuskyvystä ja –vasteesta."
+  },
+  "OBJECTIVE_2": {
+    "description": "",
+    "message": "Heikennä vihollisen kuntoa mahdollisimman paljon, ja vetäydy sitten turvaan."
+  },
+  "OBJECTIVE_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Pura {area}–tilanne. Tukahduta vastarinta."
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Selvä, sovittu."
+  },
+  "PAYMENT_LOCATION": {
+    "description": "",
+    "message": "Maksupaikka:"
+  },
+  "PLEASE_REPEAT_THE_MISSION_DETAILS": {
+    "description": "",
+    "message": "Toistakaahan tehtävän yksityiskohdat!"
+  },
+  "POLICE_1": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Etsivä poliisi on havainnut, että piraattiryhmä yrittää perustaa {area}–tukikohtaa {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}), {dist} vv. Tätä ei voi sallia. Viranomaiset maksavat {cash} valmistelevasta tehtävästä {area}:n ympäristössä ennen poliisitehtävää."
+  },
+  "POLICE_2": {
+    "description": "{area} is an asteroid or planet",
+    "message": "{org} maksaa {cash} taistelutehtävästä {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}). Meiltä puuttuu lentäjiä ja aluksia. Tämä on siis uskollisille kansalaisille mahdollisuus ansaita rahaa. Kohde on pieni rosvotukikohta {area}:ssa. Sinne tarvitaan polttoainetta hypermoottorille {dist}:n vv:n edestä, sekä lisää paluuta varten."
+  },
+  "POLICE_3": {
+    "description": "{area} is an asteroid or planet",
+    "message": "Markkinamme on täynnä laitonta tavaraa. Lähde on jäljitetty piilotettuun tukikohtaan {area}:ssa {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}). Vain {dist} vv matkaa. Leikatun poliisibudjetin vuoksi viranomaiset haluavat ulkoistaa tämän tehtävän, ja ovat varanneet siihen {cash} krediittiä."
+  },
+  "POLICE_IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "Tehtävä on välttämättä suoritettava {date} mennessä, koska lisää vihollisaluksia on tulossa."
+  },
+  "POLICE_LAND_THERE": {
+    "description": "",
+    "message": "Laskeutukaa asemalle, jolla on {org} –toimisto. Tämä täytyy tehdä määräpäivään mennessä, jotta koko tehtävä ei vaarannu!"
+  },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Olen pahoillani, mutta en usko että voitte onnistua ilman tutkaa."
+  },
+  "RISK_1": {
+    "description": "",
+    "message": "Kilpailijalla ei ole paljon resursseja. Ei liian vaikeaa teille."
+  },
+  "RISK_2": {
+    "description": "",
+    "message": "Kilpailijalla on vain vähän voimavaroja. Mutta hän puolustaa asemaansa tarvittaessa."
+  },
+  "RISK_3": {
+    "description": "",
+    "message": "Kilpailija on hyvin varusteltu. Pidättehän silmänne selällään!"
+  },
+  "RISK_4": {
+    "description": "",
+    "message": "Kilpailija on varsin hyvin varusteltu, ja sillä on pääsy uusimpaan teknologiaan. Varokaa!"
+  },
+  "SUCCESSMSG_1": {
+    "description": "",
+    "message": "Tiesin, että olette juuri oikea henkilö. Tässä on maksu tehtävästä."
+  },
+  "SUCCESSMSG_2": {
+    "description": "",
+    "message": "Kiitos, että saitte tämän tehtyä. Olen siirtänyt rahat."
+  },
+  "SUCCESSMSG_3": {
+    "description": "",
+    "message": "Toivottavasti teillä ei ollut pahoja hankaluuksia. Maksoin teille äsken."
+  },
+  "SUCCESSMSG_4": {
+    "description": "",
+    "message": "Tosi hyvin tehty. Maksoin laskun."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Järjestelmä:"
+  },
+  "TARGET_AREA_REACHED": {
+    "description": "",
+    "message": "Nyt kohdealueella. Datankeräys alkaa."
+  },
+  "TIME_LIMIT": {
+    "description": "",
+    "message": "Aikaa jäljellä:"
+  },
+  "WHAT_ARE_THE_MISSION_OBJECTIVES": {
+    "description": "",
+    "message": "Mitkä ovat tehtävän tavoitteet?"
+  },
+  "WILL_I_BE_IN_TROUBLE": {
+    "description": "",
+    "message": "Tuleeko minulle vaikeuksia?"
+  },
+  "YOU_NEED_A_RADAR": {
+    "description": "",
+    "message": "Kyllä, tutka on tarpeen! Jos suostutte, ohjelmoin tietokoneenne tallentamaan tarvitsemamme tutkadatan. Se siirretään minulle heti kun palaatte."
+  }
+}

@@ -1,0 +1,362 @@
+{
+  "ASSASSINATION": {
+    "description": "",
+    "message": "Salamurha"
+  },
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Voisitteko toistaa alkuperäisen pyynnön?"
+  },
+  "DENY_0": {
+    "description": "",
+    "message": "Olen pahoillani, mutta en luota sinuun."
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Tule takaisin sitten kun sinulla on jonkinlainen pätevyys."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "En usko, että olette etsimäni tekijä."
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "Et vaikuta kyvykkäältä tekemään, mitä tarvitaan."
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "Ette todellakaan ole sopiva tähän tehtävään."
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "Vaikutat aivan liian kokemattomalta näin tärkeän sopimuksen täyttämiseen."
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "En ole koskaan kuullutkaan teistä. Tarvitsen jonkun kokeneen tähän kiinnitykseen."
+  },
+  "DENY_7": {
+    "description": "",
+    "message": "I'm not willing to risk this contract by giving it to someone as inexperienced as you."
+  },
+  "DISTANCE": {
+    "description": "",
+    "message": "Etäisyys:"
+  },
+  "EXCELLENT": {
+    "description": "",
+    "message": "Mainiota."
+  },
+  "FLAVOUR_0_ADTEXT": {
+    "description": "",
+    "message": "Toive: {target} pois {system} –järjestelmästä."
+  },
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "HAETAAN POISTOA"
+  },
+  "FLAVOUR_0_FAILUREMSG": {
+    "description": "",
+    "message": "Olen erittäin pettynyt, sillä huomasin että {target} on yhä elossa. Turha sanoakaan, että ette saa maksua."
+  },
+  "FLAVOUR_0_FAILUREMSG2": {
+    "description": "",
+    "message": "{target} on poistettu, mutta ei teidän toimestanne. Ei siis maksuakaan teille."
+  },
+  "FLAVOUR_0_INTROTEXT": {
+    "description": "",
+    "message": "Hei, olen {name}. Maksan {cash} päästäkseni jostakusta, hänen nimensä on {target}."
+  },
+  "FLAVOUR_0_SUCCESSMSG": {
+    "description": "",
+    "message": "Uutinen, että {target} on pitkällä lomalla, otettu vastaan iloiten. Hyvä juttu, olen suorittanut maksun kokonaisuudessaan."
+  },
+  "FLAVOUR_1_ADTEXT": {
+    "description": "",
+    "message": "Haetaan: Joku tappamaan {target}, {system} –järjestelmässä."
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "KOHTEEN ELIMINOINTI"
+  },
+  "FLAVOUR_1_FAILUREMSG": {
+    "description": "",
+    "message": "Kuulin, että {target} on voimissaan. Tämä vaivaa minua todella."
+  },
+  "FLAVOUR_1_FAILUREMSG2": {
+    "description": "",
+    "message": "{target} menehtyi teistä riippumatta, älkää siis pyytäkö maksua."
+  },
+  "FLAVOUR_1_INTROTEXT": {
+    "description": "",
+    "message": "{target}:n täytyy hävitä. Maksan siitä {cash}."
+  },
+  "FLAVOUR_1_SUCCESSMSG": {
+    "description": "",
+    "message": "Olen varsin surullinen kuultuani {target}:n poismenosta. Saitte täyden maksun."
+  },
+  "FLAVOUR_2_ADTEXT": {
+    "description": "",
+    "message": "{target} on onnettomasti ei–toivottu {system} –järjestelmässä. Poistohenkilö haussa."
+  },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "POISTOTEHTÄVÄ"
+  },
+  "FLAVOUR_2_FAILUREMSG": {
+    "description": "",
+    "message": "On varsin ikävää, että {target} on yhä oikein elossa. Ette saa maksua, sillä ette täyttäneet sopimusehtoja."
+  },
+  "FLAVOUR_2_FAILUREMSG2": {
+    "description": "",
+    "message": "Joku muu täytti jo sopimuksen. Olkaa nopeampi ensi kerralla!"
+  },
+  "FLAVOUR_2_INTROTEXT": {
+    "description": "",
+    "message": "Olen {name} ja maksan {cash} henkilön eliminoinnista. Hän tuntee nimen {target}."
+  },
+  "FLAVOUR_2_SUCCESSMSG": {
+    "description": "",
+    "message": "Olette saaneet täyden maksun tämän tärkeän työn toteuttamisesta."
+  },
+  "FLAVOUR_3_ADTEXT": {
+    "description": "",
+    "message": "Palkkamurhaaja tarvitaan eliminoimaan {target}."
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "LOPETUS"
+  },
+  "FLAVOUR_3_FAILUREMSG": {
+    "description": "",
+    "message": "Saat maksaa, kun et eliminoinut {target} -kohdetta!"
+  },
+  "FLAVOUR_3_FAILUREMSG2": {
+    "description": "",
+    "message": "Pyydät rahaa työstä, jonka teki joku toinen? Häivy."
+  },
+  "FLAVOUR_3_INTROTEXT": {
+    "description": "",
+    "message": "{target} täytyy muuttaa avaruustomuksi. Palkkioni tästä on {cash}."
+  },
+  "FLAVOUR_3_SUCCESSMSG": {
+    "description": "",
+    "message": "{target} on kuollut. Tässä on palkkiosi."
+  },
+  "FLAVOUR_4_ADTEXT": {
+    "description": "",
+    "message": "Tahdikas toimija halutaan varmistamaan kuolettava eläköityminen {target} :lle."
+  },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "ELÄKÖITYMINEN"
+  },
+  "FLAVOUR_4_FAILUREMSG": {
+    "description": "",
+    "message": "{target} hengittää yhä, enkä anna teille rahaa."
+  },
+  "FLAVOUR_4_FAILUREMSG2": {
+    "description": "",
+    "message": "{target} eläköityi jonkun toisen ansiosta."
+  },
+  "FLAVOUR_4_INTROTEXT": {
+    "description": "",
+    "message": "Haluamme rohkaista {target}:a lakkaamaan työskentelyn lopullisesti {cash} vastaan."
+  },
+  "FLAVOUR_4_SUCCESSMSG": {
+    "description": "",
+    "message": "Uutinen {target} :n eläkkeelle siirtymisestä otettu vastaan ilolla. Tässä on rahanne."
+  },
+  "FLAVOUR_5_ADTEXT": {
+    "description": "",
+    "message": "Jotkut ihailijat haluavat, että {target} kuolee. Pätevät lopetusekspertit voivat hakea täältä."
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "ELÄMÄVERTA"
+  },
+  "FLAVOUR_5_FAILUREMSG": {
+    "description": "",
+    "message": "Saimme tietää, että {target} on toimintakykyinen. Tämä surettaa meitä."
+  },
+  "FLAVOUR_5_FAILUREMSG2": {
+    "description": "",
+    "message": "{target} neutraloitiin, mutta te ette tehneet sitä."
+  },
+  "FLAVOUR_5_INTROTEXT": {
+    "description": "",
+    "message": "Toivomuksemme on, että {target} päättää uransa sopivalla tavalla {system} –järjestelmässä {cash} vastaan."
+  },
+  "FLAVOUR_5_SUCCESSMSG": {
+    "description": "",
+    "message": "Viesti siitä, että {target} on päättänyt uransa, otettu ilolla vastaan. Joten tässä teille {cash}."
+  },
+  "HOW_SOON_MUST_IT_BE_DONE": {
+    "description": "",
+    "message": "Kuinka pian se pitää tehdä?"
+  },
+  "HOW_WILL_I_BE_PAID": {
+    "description": "",
+    "message": "Miten saan palkkion?"
+  },
+  "IT_MUST_BE_DONE_AFTER": {
+    "description": "",
+    "message": "Se pitää tehdä, kun {target} on jättänyt taakseen {spaceport}. Älkää antako tämän tilaisuuden mennä."
+  },
+  "IT_MUST_BE_DONE_AFTER_FEMALE": {
+    "description": "",
+    "message": "Se pitää tehdä, kun hän on jättänyt taakseen {spaceport}. Älkää antako tämän tilaisuuden mennä."
+  },
+  "IT_MUST_BE_DONE_AFTER_MALE": {
+    "description": "",
+    "message": "Se pitää tehdä, kun hän on jättänyt taakseen {spaceport}. Älkää antako tämän tilaisuuden mennä."
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Selvä, sovittu."
+  },
+  "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
+    "description": "",
+    "message": "Palatkaa tänne suoritettuanne tehtävän, niin saatte maksun."
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Alus:"
+  },
+  "SHIP_ID": {
+    "description": "",
+    "message": "Aluksen tunnus:"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Avaruussatama:"
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Järjestelmä:"
+  },
+  "TARGET_NAME": {
+    "description": "",
+    "message": "Kohteen nimi:"
+  },
+  "TARGET_WILL_BE_LEAVING_SPACEPORT_AT": {
+    "description": "",
+    "message": "Kohde lähtee avaruussatamasta"
+  },
+  "TITLE_0": {
+    "description": "",
+    "message": "amiraali"
+  },
+  "TITLE_1": {
+    "description": "",
+    "message": "lähettiläs"
+  },
+  "TITLE_10": {
+    "description": "",
+    "message": "aliluutnantti"
+  },
+  "TITLE_11": {
+    "description": "",
+    "message": "kenraali"
+  },
+  "TITLE_12": {
+    "description": "",
+    "message": "tuomari"
+  },
+  "TITLE_13": {
+    "description": "",
+    "message": "juristi"
+  },
+  "TITLE_14": {
+    "description": "",
+    "message": "luutnantti"
+  },
+  "TITLE_15": {
+    "description": "",
+    "message": "marsalkka"
+  },
+  "TITLE_16": {
+    "description": "",
+    "message": "kauppias"
+  },
+  "TITLE_17": {
+    "description": "",
+    "message": "upseeri"
+  },
+  "TITLE_18": {
+    "description": "",
+    "message": "sotamies"
+  },
+  "TITLE_19": {
+    "description": "",
+    "message": "professori"
+  },
+  "TITLE_2": {
+    "description": "",
+    "message": "prikaatinkenraali"
+  },
+  "TITLE_20": {
+    "description": "",
+    "message": "syyttäjä"
+  },
+  "TITLE_21": {
+    "description": "",
+    "message": "provosti"
+  },
+  "TITLE_22": {
+    "description": "",
+    "message": "matruusi"
+  },
+  "TITLE_23": {
+    "description": "",
+    "message": "senaattori"
+  },
+  "TITLE_24": {
+    "description": "",
+    "message": "kersantti"
+  },
+  "TITLE_3": {
+    "description": "",
+    "message": "kadetti"
+  },
+  "TITLE_4": {
+    "description": "",
+    "message": "kapteeni"
+  },
+  "TITLE_5": {
+    "description": "",
+    "message": "kardinaali"
+  },
+  "TITLE_6": {
+    "description": "",
+    "message": "eversti"
+  },
+  "TITLE_7": {
+    "description": "",
+    "message": "komendantti"
+  },
+  "TITLE_8": {
+    "description": "",
+    "message": "kommodori"
+  },
+  "TITLE_9": {
+    "description": "",
+    "message": "korpraali"
+  },
+  "WHERE_CAN_I_FIND_X": {
+    "description": "",
+    "message": "Mistä löydän kohteen?"
+  },
+  "X_WILL_BE_LEAVING": {
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target} lähtee {spaceport}:sta {system} –järjestelmässä ({sectorX}, {sectorY}, {sectorZ}), välimatka {dist} vv, {date}. Kyseessä on {ship_indef} ja sen rekisteritunnus on {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_FEMALE": {
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target} lähtee {spaceport}:sta {system} –järjestelmässä ({sectorX}, {sectorY}, {sectorZ}), välimatka {dist} vv, {date}. Hänen aluksensa on {ship_indef} ja sen rekisteritunnus on {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_MALE": {
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target} lähtee {spaceport}:sta {system} –järjestelmässä ({sectorX}, {sectorY}, {sectorZ}), välimatka {dist} vv, {date}. Hänen aluksensa on {ship_indef} ja sen rekisteritunnus on {shipregid}."
+  }
+}

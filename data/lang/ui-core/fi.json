@@ -1,0 +1,2954 @@
+{
+  "ABOUT": {
+    "description": "main menu button (implied 'about' the game)",
+    "message": "Tietoja"
+  },
+  "ABOVE_AVERAGE": {
+    "description": "",
+    "message": "Keskitasoa parempi"
+  },
+  "ACTIVE": {
+    "description": "",
+    "message": "aktiivinen"
+  },
+  "ADD_BOOKMARK": {
+    "description": "Button to add a singular bookmark",
+    "message": "Lisää kirjanmerkki"
+  },
+  "ADD_JUMP": {
+    "description": "UI-button: Add hyper jump to list of planned jumps",
+    "message": "Lisää hyppy"
+  },
+  "AFTER_TRADE_IN": {
+    "description": "",
+    "message": "Vaihdon kanssa"
+  },
+  "ALLEGIANCE": {
+    "description": "",
+    "message": "Lojaliteetti:"
+  },
+  "ALL_PARAMETERS_WERE_RECOVERED_SUCCESSFULLY": {
+    "description": "Message when restoring savegame",
+    "message": "Kaikki tiedot on haettu onnistuneesti."
+  },
+  "ALL_UP_WEIGHT": {
+    "description": "",
+    "message": "Kokonaismassa nyt"
+  },
+  "AMOUNT": {
+    "description": "",
+    "message": "Määrä"
+  },
+  "ANISOTROPIC_FILTERING_DESC": {
+    "description": "",
+    "message": "Ottaa tekstuurista näytteitä eri mip-tasoilta, mikä tekee selvempää jälkeä alhaisilla katselukulmilla. Tekstuureista ei näin tule sumeita, mutta se voi olla tietokoneelle vaativampi tehtävä."
+  },
+  "AN_ERROR_HAS_OCCURRED": {
+    "description": "",
+    "message": "Virhetilanne"
+  },
+  "ARRIVAL_DATE": {
+    "description": "Time of arrival, used in flight log",
+    "message": "Saapumispäiväys"
+  },
+  "ATMOSPHERIC_SHIELDING": {
+    "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
+    "message": "Kaasukehäsuojaus"
+  },
+  "ATMO_PRESS_LIMIT": {
+    "description": "Base external pressure limit of a ship (without atmo shield)",
+    "message": "Painesuojausraja"
+  },
+  "ATTEMPTING_TO_RECOVER_GAME_PROGRESS_FROM_SAVE_X": {
+    "description": "Message when restoring savegame",
+    "message": "Yritetään hakea pelitilannetta tallennuksesta: {save}"
+  },
+  "ATTEMPT_TO_REPAIR_HULL": {
+    "description": "",
+    "message": "Yritetään korjata runkoa"
+  },
+  "AUDIO_BACKEND": {
+    "description": "Audio backend label in settings menu",
+    "message": "Audiojärjestelmä"
+  },
+  "AUTOMATED_MESSAGE": {
+    "description": "For comm messages from bots",
+    "message": "AUTOMAATTIVIESTI"
+  },
+  "AUTO_ROUTE": {
+    "description": "Automatically find shortest jump route (measured in time) in star map",
+    "message": "Reititystoiminto"
+  },
+  "AVAILABLE_FOR_PURCHASE": {
+    "description": "Market header when buying items",
+    "message": "Nyt kaupan"
+  },
+  "AVAILABLE_STOCK": {
+    "description": "Market stat showing number of items in stock",
+    "message": "Varastoitu"
+  },
+  "AVERAGE": {
+    "description": "",
+    "message": "Keskitaso"
+  },
+  "BACKWARD_ACCEL": {
+    "description": "",
+    "message": "Taaksepäin kiihdytys"
+  },
+  "BINAURAL_RENDERING": {
+    "description": "Label of the binaural rendering checkbox in the audio settings menu",
+    "message": "Binauraalinen ääni"
+  },
+  "BINAURAL_RENDERING_DESC": {
+    "description": "Tooltip of the binaural rendering checkbox in the audio settings menu",
+    "message": "Tämä ottaa HRTF-suodattimet käyttöön ääntä tuotettaessa. Toimii parhaiten kuulokkeilla."
+  },
+  "BODY_IN_ROUTE": {
+    "description": "Label indicating a star is part of a planned hyperjump route",
+    "message": "Kappale kuuluu hyppyreittiin"
+  },
+  "BOOKMARK": {
+    "description": "Label introducing a bookmark",
+    "message": "Kirjanmerkki"
+  },
+  "BOOKMARKS": {
+    "description": "Label introducing a list of bookmarks",
+    "message": "Kirjanmerkit"
+  },
+  "BULLETIN_BOARD": {
+    "description": "",
+    "message": "Yleiset ilmoitukset"
+  },
+  "BUY": {
+    "description": "Commodities and equipment prices",
+    "message": "Osta"
+  },
+  "BUY_EQUIP": {
+    "description": "Button text to buy selected equipment. May be used in a singular or plural context.",
+    "message": "Osta {name}"
+  },
+  "BUY_PRICE": {
+    "description": "Title for buy-price column in commodity market",
+    "message": "Osto"
+  },
+  "BUY_SHIP": {
+    "description": "",
+    "message": "Osta alus"
+  },
+  "CABINS": {
+    "description": "For passengers",
+    "message": "Paikkoja"
+  },
+  "CABIN_FREE": {
+    "description": "Free capacity for passengers",
+    "message": "{amount} vapaata"
+  },
+  "CABIN_USED": {
+    "description": "Passengers using cabins",
+    "message": "{amount} varattu"
+  },
+  "CANCEL": {
+    "description": "",
+    "message": "Peru"
+  },
+  "CANNOT_SELL_ITEM": {
+    "description": "",
+    "message": "Tätä ei voi myydä"
+  },
+  "CANNOT_SELL_NONEMPTY_EQUIP": {
+    "description": "",
+    "message": "Varustuksen voi myydä vain jos se on tyhjä."
+  },
+  "CANT_FIND_PATH": {
+    "description": "Message when restoring savegame, file path",
+    "message": "Polkua ei löydy: %s"
+  },
+  "CANT_FIND_PLAYERS_SHIP_IN_SPACE": {
+    "description": "Message when restoring savegame",
+    "message": "Pelaaja-alusta ei löydy avaruudesta"
+  },
+  "CAPACITY": {
+    "description": "Capacity of ship to fit more equipment",
+    "message": "Kapasiteetti"
+  },
+  "CAPACITY_USED": {
+    "description": "",
+    "message": "Käytetty kapasiteetti"
+  },
+  "CARGO": {
+    "description": "",
+    "message": "Rahti"
+  },
+  "CARGO_CAPACITY": {
+    "description": "Label to show a ship's total cargo space.",
+    "message": "Rahtikapasiteetti"
+  },
+  "CARGO_SPACE": {
+    "description": "",
+    "message": "Rahtitila"
+  },
+  "CARGO_SPACE_USED": {
+    "description": "",
+    "message": "Rahtitilaa käytössä"
+  },
+  "CARGO_T_FREE": {
+    "description": "t for tonne",
+    "message": "{amount}t vapaana"
+  },
+  "CARGO_T_USED": {
+    "description": "t for tonne",
+    "message": "{amount}t käytössä"
+  },
+  "CASE_SENSITIVE": {
+    "description": "",
+    "message": "Kirjainkokoriippuvainen"
+  },
+  "CASH": {
+    "description": "",
+    "message": "Raha"
+  },
+  "CASH_N": {
+    "description": "",
+    "message": "Rahaa: {money}"
+  },
+  "CENTER_ON_CURRENT_SYSTEM": {
+    "description": "Center on current star system",
+    "message": "Kohdista nykyjärjestelmään"
+  },
+  "CENTER_ON_SYSTEM": {
+    "description": "Center on selected star system",
+    "message": "Kohdista järjestelmään"
+  },
+  "CHANGE": {
+    "description": "Face feature option",
+    "message": "Muuta:"
+  },
+  "CHANGE_BINDING": {
+    "description": "Key binding option",
+    "message": "Vaihda näppäin"
+  },
+  "CHANGE_COLOR": {
+    "description": "Paintshop button",
+    "message": "Vaihda väri"
+  },
+  "CHANGE_PATTERN": {
+    "description": "Paintshop button",
+    "message": "Vaihda kuvio"
+  },
+  "CHARACTER": {
+    "description": "",
+    "message": "Hahmo"
+  },
+  "CHARISMA": {
+    "description": "Character parameter",
+    "message": "Karisma"
+  },
+  "CHIEF_MECHANIC": {
+    "description": "",
+    "message": "Päämekaanikko"
+  },
+  "CIRCULAR_ORBIT_SPEED": {
+    "description": "",
+    "message": "Kiertoratanopeus"
+  },
+  "CITY_DETAIL_LEVEL": {
+    "description": "Game graphics option",
+    "message": "Kaupunkien yksityiskohtaisuus"
+  },
+  "CLEAN": {
+    "description": "Legal status of player",
+    "message": "Puhtoinen"
+  },
+  "CLEAR": {
+    "description": "Clear an option in game settings/options menu",
+    "message": "Tyhjennä"
+  },
+  "CLEAR_ROUTE": {
+    "description": "Clear a planned route of hyperjumps",
+    "message": "Poista reititys"
+  },
+  "CLIENT": {
+    "description": "",
+    "message": "Asiakas"
+  },
+  "CLOSE": {
+    "description": "",
+    "message": "Sulje"
+  },
+  "COLLAPSE": {
+    "description": "Close / collapse an open folder or group",
+    "message": "Luhista"
+  },
+  "COLOR": {
+    "description": "",
+    "message": "Väri"
+  },
+  "COMBAT": {
+    "description": "Headline for kills and combat rating",
+    "message": "Taistelu"
+  },
+  "COMMANDER": {
+    "description": "",
+    "message": "Komentaja"
+  },
+  "COMMODITY": {
+    "description": "Title for commodity name column in commodity market",
+    "message": "Hyödyke"
+  },
+  "COMMODITY_MARKET": {
+    "description": "",
+    "message": "Kauppapaikka"
+  },
+  "COMMODITY_TRADE_ANALYSIS": {
+    "description": "",
+    "message": "Kauppatavaraselvitys:"
+  },
+  "COMMODITY_TRADE_ANALYSIS_SYSTEM": {
+    "description": "",
+    "message": "Järjestelmänlaajuinen kaupan analyysi:"
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_1": {
+    "description": "",
+    "message": "Keskimääräinen tähtienvälinen kaupan kulku kaikille järjestelmässä kaupatuille hyödykkeille."
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_2": {
+    "description": "",
+    "message": "Tiedoilla ei välttämättä ole vastaavuutta yksittäisen paikan hintoihin."
+  },
+  "COMPETENT": {
+    "description": "Combat rating",
+    "message": "Taitava"
+  },
+  "COMPLETED": {
+    "description": "",
+    "message": "Valmis"
+  },
+  "COMPRESS_TEXTURES": {
+    "description": "graphics option in game settings menu ",
+    "message": "Pakkaa tekstuurit"
+  },
+  "CONFIRM_PURCHASE": {
+    "description": "",
+    "message": "Varmista osto"
+  },
+  "CONFIRM_SALE": {
+    "description": "",
+    "message": "Varmista myynti"
+  },
+  "CONSTABLE": {
+    "description": "",
+    "message": "Konstaapeli"
+  },
+  "CONTINUE_GAME": {
+    "description": "",
+    "message": "Jatka peliä"
+  },
+  "CONTRACT_FRAUD": {
+    "description": "Crime committed by intentionally breaking a contract",
+    "message": "Sopimuspetos"
+  },
+  "CONTROLS": {
+    "description": "",
+    "message": "Ohjaus"
+  },
+  "CONTROL_OPTIONS": {
+    "description": "",
+    "message": "Ohjausvalinnat"
+  },
+  "COPY": {
+    "description": "As for clipboard",
+    "message": "Kopioi"
+  },
+  "COULD_NOT_DELETE_SAVE": {
+    "description": "",
+    "message": "Tallennusta ei voitu poistaa"
+  },
+  "COULD_NOT_FIND_SYSTEM_BODY_FOR_FRAME": {
+    "description": "Message when restoring savegame",
+    "message": "Ei voitu löytää järjestelmän kappaletta koordinaatistolle"
+  },
+  "COULD_NOT_LOAD_GAME": {
+    "description": "Label indicating a specific file could not be loaded",
+    "message": "Peliä ei voitu ladata: "
+  },
+  "COULD_NOT_LOAD_SAVE_FILES": {
+    "description": "Label indicating the list of save files could not be loaded",
+    "message": "Ei voitu ladata pelitallennuksia"
+  },
+  "COULD_NOT_READ_THE_SAVE_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Ei voitu lukea tallennusversiota"
+  },
+  "COULD_NOT_SAVE_GAME": {
+    "description": "Label indicating a specific file could not be saved",
+    "message": "Ei voitu tallentaa peliä: "
+  },
+  "CREDIBLE": {
+    "description": "For player reputation",
+    "message": "Uskottava"
+  },
+  "CREDITS": {
+    "description": "in game currency",
+    "message": "krediittiä"
+  },
+  "CREW": {
+    "description": "Tab item in the start game menu",
+    "message": "Miehistö"
+  },
+  "CREW_CABINS": {
+    "description": "",
+    "message": "Miehistöhytit"
+  },
+  "CREW_ROSTER": {
+    "description": "",
+    "message": "Miehistönä"
+  },
+  "CRIME": {
+    "description": "Heading introducing a single crime name or list of crime names",
+    "message": "Rikokset"
+  },
+  "CRIMINAL": {
+    "description": "Legal status of player",
+    "message": "Rikollinen"
+  },
+  "CRIMINAL_RECORD": {
+    "description": "Heading for past crimes / crime history of character, proper noun",
+    "message": "Rikosrekisteri"
+  },
+  "CURRENT_FUEL": {
+    "description": "Label indicating the current fuel state",
+    "message": "Polttoainetta"
+  },
+  "CURRENT_SAVEGAME_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Pelitallennusversio: %s"
+  },
+  "CURRENT_SHIP": {
+    "description": "For tooltip comparing current ship specs to one in the shipyard",
+    "message": "Nykyinen alus"
+  },
+  "CURRENT_SYSTEM": {
+    "description": "Label indicating the system the player currently occupies",
+    "message": "Nykyinen järjestelmä"
+  },
+  "CUT": {
+    "description": "As for clipboard",
+    "message": "Leikkaa"
+  },
+  "DANGEROUS": {
+    "description": "Player combat rating",
+    "message": "Vaarallinen"
+  },
+  "DATE": {
+    "description": "Date of an event, used in flight log",
+    "message": "Päiväys"
+  },
+  "DEADLY": {
+    "description": "Player combat rating",
+    "message": "Kuolettava"
+  },
+  "DECREASE": {
+    "description": "Decrease something.",
+    "message": "Vähennä"
+  },
+  "DELETE": {
+    "description": "",
+    "message": "Poista"
+  },
+  "DELETE_BOOKMARK": {
+    "description": "Button to remove a singular bookmark",
+    "message": "Poista kirjanmerkki"
+  },
+  "DELETE_SAVE_CONFIRMATION": {
+    "description": "",
+    "message": "Haluatko varmasti poistaa tämän tallennuksen?"
+  },
+  "DELTA_V": {
+    "description": "",
+    "message": "Delta-v"
+  },
+  "DELTA_V_EMPTY": {
+    "description": "Delta-v capacity of a ship with no cargo or upgrades",
+    "message": "Delta-v (tyhjä)"
+  },
+  "DELTA_V_FULL": {
+    "description": "Delta-v capacity of a ship with maximum cargo",
+    "message": "Delta-v (täysi)"
+  },
+  "DELTA_V_MAX": {
+    "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
+    "message": "Delta-v (äärimmäinen)"
+  },
+  "DEMAND": {
+    "description": "Column label for commodity demand at a market.",
+    "message": "Kysyntä"
+  },
+  "DEPARTURE_DATE": {
+    "description": "Time of departure, used in flight log",
+    "message": "Lähtöpäivämäärä"
+  },
+  "DESCRIPTION": {
+    "description": "Start game parameter, e.g. 'This is an easy start from Cydonia'",
+    "message": "Lisätietoja"
+  },
+  "DESTROY_ENEMY_SHIP": {
+    "description": "",
+    "message": "Tuhoa vihollisen alus"
+  },
+  "DETAIL_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Alempi merkitsee suorituskykyä estetiikan kustannuksella"
+  },
+  "DISABLE_SCREENSHOT_INFO": {
+    "description": "",
+    "message": "Älä laita tietoja ruutukaappaukseen"
+  },
+  "DISABLE_SCREENSHOT_INFO_DESC": {
+    "description": "",
+    "message": "Piilottaa tiedot kuten järjestelmäkoordinaatit, kun käytetään ruutukaappaustilaa (vaihda HUD-tila)."
+  },
+  "DISMISS": {
+    "description": "Terminate crew member's contract",
+    "message": "Irtisano"
+  },
+  "DISPLAY_HUD_TRAILS": {
+    "description": "",
+    "message": "Näytä HUD-vanat"
+  },
+  "DISPLAY_HUD_TRAILS_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Alusten ratojen näyttäminen HUD:ssa voi auttaa hahmotuksessa"
+  },
+  "DISPLAY_NAV_TUNNELS": {
+    "description": "Settings option: hyperspace tunnel effect",
+    "message": "Näytä navigointitunneli"
+  },
+  "DISPLAY_NAV_TUNNELS_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "HUD:ssa näkyy virtuaalitunneli valittuun kohteeseen"
+  },
+  "DISPLAY_SPEED_LINES": {
+    "description": "Settings option: effect when travelling in space",
+    "message": "Näytä nopeusviivat"
+  },
+  "DISPLAY_SPEED_LINES_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Auttaa hahmottamaan liikkeen suuntaa avaruudessa"
+  },
+  "DOCKED_AT": {
+    "description": "",
+    "message": "Telakoituna:"
+  },
+  "DOCKED_TO_A_BODY_THAT_IS_NOT_A_STATION": {
+    "description": "Message when restoring savegame",
+    "message": "Telakoitu kappaleeseen, joka ei ole asema"
+  },
+  "DOCK_AT_CURRENT_TARGET": {
+    "description": "",
+    "message": "Telakoidu tähän kohteeseen"
+  },
+  "DRIVE_ACTIVE": {
+    "description": "Ship jump status",
+    "message": "Moottori käynnissä"
+  },
+  "DUE": {
+    "description": "mission deadline date",
+    "message": "Määräpäivä"
+  },
+  "DUMPING": {
+    "description": "The illegal act of dumping waste",
+    "message": "Dumppaus"
+  },
+  "D_DAYS_LEFT": {
+    "description": "",
+    "message": "Aikaa jäljellä:"
+  },
+  "ECONOMY_TRADE": {
+    "description": "",
+    "message": "Talous & kauppa"
+  },
+  "EDIT": {
+    "description": "Tooltip, to edit a flight log entry",
+    "message": "Muokkaa"
+  },
+  "EDIT_BOOKMARK": {
+    "description": "Button to edit a singular bookmark",
+    "message": "Muuta kirjanmerkkiä"
+  },
+  "EDIT_NOTE": {
+    "description": "",
+    "message": "Muokkaa muistiinpanoa"
+  },
+  "EFFECTS": {
+    "description": "",
+    "message": "Efektit:"
+  },
+  "ELITE": {
+    "description": "Player combat rating",
+    "message": "ELITE"
+  },
+  "EMPLOYMENT": {
+    "description": "",
+    "message": "Työllisyys"
+  },
+  "ENABLE_ANISOTROPIC_FILTERING": {
+    "description": "Use Anisotropic Filtering",
+    "message": "Anisotrooppinen suodatus"
+  },
+  "ENABLE_AUTOSAVE": {
+    "description": "Allow the game to autosave when docking",
+    "message": "Käytä automaattitallennusta"
+  },
+  "ENABLE_AUTOSAVE_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Tallentaa pelin telakoituessa, voi aiheuttaa viiveen riippuen levytoimintojen kestosta"
+  },
+  "ENABLE_COCKPIT": {
+    "description": "Game settings option: to use a cockpit 3D model",
+    "message": "Ota ohjaamo käyttöön (KOKEELLINEN)"
+  },
+  "ENABLE_COCKPIT_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Näyttää kolmiulotteisen mallin pilotin ohjaamosta."
+  },
+  "ENABLE_JOYSTICK": {
+    "description": "",
+    "message": "Käytä peliohjainta"
+  },
+  "END_GAME": {
+    "description": "",
+    "message": "Lopeta peli"
+  },
+  "ENGINEERING": {
+    "description": "Engineering skills of crew",
+    "message": "Tekniikka"
+  },
+  "ENTER_CUSTOM_NOTE": {
+    "description": "Label indicating a note should be entered here",
+    "message": "Syötä muistiinpano..."
+  },
+  "ENTRY": {
+    "description": "A note/entry/record into the flight log",
+    "message": "Merkintä"
+  },
+  "EQUIPMENT": {
+    "description": "",
+    "message": "Varustus"
+  },
+  "EQUIPMENT_ALREADY_INSTALLED_HERE": {
+    "description": "Message indicating this equipment item is already installed.",
+    "message": "Tämä on jo asennettu tähän."
+  },
+  "EQUIPMENT_CAPACITY": {
+    "description": "The equipment capacity of a ship",
+    "message": "Varustuskapasiteetti"
+  },
+  "EQUIPMENT_MARKET": {
+    "description": "",
+    "message": "Varustamo"
+  },
+  "EQUIPMENT_USED": {
+    "description": "",
+    "message": "Varustustilasta käytössä"
+  },
+  "EQUIPPED": {
+    "description": "",
+    "message": "Käytössä"
+  },
+  "ERROR": {
+    "description": "",
+    "message": "Virhe"
+  },
+  "ERROR_APPLYING_PATCH": {
+    "description": "Message when restoring savegame",
+    "message": "Virhe korjaustiedoston käyttöönotossa"
+  },
+  "ERROR_LANDING_GEAR_DOWN": {
+    "description": "",
+    "message": "Hyperajoa ei voi aloittaa ennen kuin laskuteline on nostettu!"
+  },
+  "ESCAPE_SPEED": {
+    "description": "",
+    "message": "Pakonopeus:"
+  },
+  "EXIT_THIS_GAME": {
+    "description": "",
+    "message": "Poistu pelistä"
+  },
+  "EXPAND": {
+    "description": "Open / expand a collapsed folder or group",
+    "message": "Laajenna"
+  },
+  "EXPERIENCED": {
+    "description": "For player reputation",
+    "message": "Kokenut"
+  },
+  "EXPERIMENTAL": {
+    "description": "Indicates feature/option is experimental",
+    "message": "Kokeellinen"
+  },
+  "EXPERT": {
+    "description": "For player reputation",
+    "message": "Vanha tekijä"
+  },
+  "FACTION": {
+    "description": "Label indicating the factional allegiance of an object",
+    "message": "Ryhmittymä"
+  },
+  "FACTIONS": {
+    "description": "Button to toggle the display of factions on the sector map",
+    "message": "Ryhmittymät"
+  },
+  "FAILED": {
+    "description": "When failed mission",
+    "message": "Epäonnistunut"
+  },
+  "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
+    "description": "",
+    "message": "Joitakin varustuksia ei saatu haettua"
+  },
+  "FEATURE_ACCESSORIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Esineet"
+  },
+  "FEATURE_ARMOUR": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Panssari"
+  },
+  "FEATURE_CLOTHES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Vaatteet"
+  },
+  "FEATURE_EYES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Silmät"
+  },
+  "FEATURE_GENDER": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Sukupuoli"
+  },
+  "FEATURE_HAIRSTYLE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Hiustyyli"
+  },
+  "FEATURE_HEAD": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Pää"
+  },
+  "FEATURE_MOUTH": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Suu"
+  },
+  "FEATURE_NOSE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Nenä"
+  },
+  "FEATURE_RACE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Rotu"
+  },
+  "FEATURE_SPECIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Laji"
+  },
+  "FEMALE": {
+    "description": "",
+    "message": "Nainen"
+  },
+  "FILE_SAVEGAME_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Tallennustiedoston versio: %s"
+  },
+  "FINAL_TARGET": {
+    "description": "Hyperjump planner, referring to star system target",
+    "message": "Määränpää"
+  },
+  "FINANCE": {
+    "description": "Financial statement of player, e.g. cash",
+    "message": "Varat"
+  },
+  "FINE": {
+    "description": "Cost of a criminal action",
+    "message": "Sakko:"
+  },
+  "FLIGHTLOG_DOCKING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
+    "message": "Telakoitu: {primary_info}"
+  },
+  "FLIGHTLOG_FLYING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the name of a space body",
+    "message": "Lennämme avaruudessa, koordinaatisto {primary_info}"
+  },
+  "FLIGHTLOG_HYPERSPACE": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
+    "message": "Hyperavaruudessa, kohde on {primary_info}"
+  },
+  "FLIGHTLOG_JUMPING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
+    "message": "Hyperajo, kohde on {primary_info}"
+  },
+  "FLIGHTLOG_LANDED": {
+    "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
+    "message": "{primary_info}, levossa pisteessä ({secondary_info}, {tertiary_info})"
+  },
+  "FLIGHTLOG_STARPORT_ORBITAL": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
+    "message": "Telakoitunut {primary_info} -asemaan {secondary_info}:n kiertoradalla"
+  },
+  "FLIGHTLOG_STARPORT_SURFACE": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
+    "message": "Laiturissa {primary_info} {secondary_info}:lla"
+  },
+  "FLIGHTLOG_UNDOCKING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
+    "message": "Lähtö: {primary_info}"
+  },
+  "FLIGHT_LOG": {
+    "description": "Title for flight log screen, in info view",
+    "message": "Loki"
+  },
+  "FLIGHT_STATE": {
+    "description": "",
+    "message": "Lentotila"
+  },
+  "FLYING": {
+    "description": "",
+    "message": "lentää"
+  },
+  "FORWARD_ACCEL": {
+    "description": "",
+    "message": "Eteenpäin kiihdytys"
+  },
+  "FORWARD_ACCEL_EMPTY": {
+    "description": "",
+    "message": "Eteenpäin kiihdytys (tyhjä)"
+  },
+  "FORWARD_ACCEL_FULL": {
+    "description": "",
+    "message": "Eteenpäin kiihdytys (täysi)"
+  },
+  "FREE": {
+    "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
+    "message": "vapaana"
+  },
+  "FRONT_WEAPON": {
+    "description": "",
+    "message": "Keula-ase"
+  },
+  "FUEL": {
+    "description": "",
+    "message": "Polttoaine"
+  },
+  "FUEL_TANK_FULL": {
+    "description": "",
+    "message": "Polttoainesäiliö täysi."
+  },
+  "FUEL_WEIGHT": {
+    "description": "",
+    "message": "Polttoainemassa"
+  },
+  "FUGITIVE": {
+    "description": "Legal status of player",
+    "message": "Karkulainen"
+  },
+  "FULL_SCREEN": {
+    "description": "",
+    "message": "Täysi ruutu"
+  },
+  "GAME_OPTIONS": {
+    "description": "GameOptions - tooltip for the Game Options tab in the Settings Window",
+    "message": "Pelivalinnat"
+  },
+  "GAME_TIME": {
+    "description": "",
+    "message": "Peliaika"
+  },
+  "GENERAL_CREW": {
+    "description": "",
+    "message": "Yleismiehistö"
+  },
+  "GIVE_ORDERS_TO_CREW": {
+    "description": "",
+    "message": "Komenna miehistöä"
+  },
+  "GOOD_RIDDANCE_TO_YOU_TOO": {
+    "description": "",
+    "message": "Tervemenoa teillekin."
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "Palaa"
+  },
+  "GPU_JOBS": {
+    "description": "",
+    "message": "GPU-laskenta"
+  },
+  "GPU_JOBS_DESC": {
+    "description": "",
+    "message": "Käytä graafista suoritinta joihinkin asioihin, joka saattaa parantaa suorituskykyä."
+  },
+  "HANG_UP": {
+    "description": "",
+    "message": "Lopeta."
+  },
+  "HARMLESS": {
+    "description": "Player combat rating",
+    "message": "Vaaraton"
+  },
+  "HEAVY_CARGO_SHUTTLE": {
+    "description": "",
+    "message": "Raskas rahtisukkula"
+  },
+  "HEAVY_COURIER": {
+    "description": "",
+    "message": "Raskas kuriiri"
+  },
+  "HEAVY_FIGHTER": {
+    "description": "",
+    "message": "Raskas taistelualus"
+  },
+  "HEAVY_FREIGHTER": {
+    "description": "",
+    "message": "Raskas rahtialus"
+  },
+  "HEAVY_PASSENGER_SHUTTLE": {
+    "description": "",
+    "message": "Raskas matkustajasukkula"
+  },
+  "HEAVY_PASSENGER_TRANSPORT": {
+    "description": "",
+    "message": "Raskas matkustaja-alus"
+  },
+  "HIGH": {
+    "description": "Game settings option: for graphics resolution",
+    "message": "Korkea"
+  },
+  "HUD_2D_RADAR": {
+    "description": "Popup text: the name of the azimuthal equidistant projection radar",
+    "message": "2D atsimuuttinen etäisyysperusteinen projektio"
+  },
+  "HUD_3D_RADAR": {
+    "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
+    "message": "3D-tasoprojektio"
+  },
+  "HUD_ARRIVAL_DATE": {
+    "description": "Label for Hyperspace Cloud arrival date",
+    "message": "Saapumispäiväys"
+  },
+  "HUD_ATMOSPHERIC_PRESSURE": {
+    "description": "Tooltip: Atmospheric Pressure.",
+    "message": "Kaasukehän paine"
+  },
+  "HUD_BACKWARD_GUN_TEMPERATURE": {
+    "description": "Tooltip: Backward Gun Temperature.",
+    "message": "Peräaseen lämpötila"
+  },
+  "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS": {
+    "description": "Tooltip: The braking distance using the main thrusters.",
+    "message": "Pysähtymiseen käytettävä matka käyttäen päätyöntimiä"
+  },
+  "HUD_BUTTON_AUTOPILOT_DOCKING": {
+    "description": "Tooltip: Autopilot docking",
+    "message": "Autopilotti telakoituu"
+  },
+  "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT": {
+    "description": "Tooltip: Autopilot entering orbit",
+    "message": "Autopilotti ohjaa kiertoradalle"
+  },
+  "HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET": {
+    "description": "Tooltip: Autopilot flying to target",
+    "message": "Autopilotti lentää kohteeseen"
+  },
+  "HUD_BUTTON_BLASTOFF": {
+    "description": "Tooltip: Blastoff",
+    "message": "Irtautumissysäys"
+  },
+  "HUD_BUTTON_CRUISE_FORWARD": {
+    "description": "Tooltip for button",
+    "message": "Eteen lentotila"
+  },
+  "HUD_BUTTON_CRUISE_UP": {
+    "description": "Tooltip for button",
+    "message": "Ylös lentotila"
+  },
+  "HUD_BUTTON_DISABLE_AUTOPILOT": {
+    "description": "Tooltip for button",
+    "message": "Autopilotti pois"
+  },
+  "HUD_BUTTON_DISABLE_CRUISE": {
+    "description": "Tooltip for button",
+    "message": "Lentoavustin pois"
+  },
+  "HUD_BUTTON_DISABLE_FIXHEADING": {
+    "description": "Tooltip for button",
+    "message": "Suuntakorjaus pois päältä"
+  },
+  "HUD_BUTTON_DISABLE_FOLLOW_MODE": {
+    "description": "Tooltip for button",
+    "message": "Seuraustila pois päältä"
+  },
+  "HUD_BUTTON_EQUIPMENT": {
+    "description": "Tooltip: Equipment",
+    "message": "Varustus"
+  },
+  "HUD_BUTTON_EXTERNAL_VIEW": {
+    "description": "Tooltip: External camera view",
+    "message": "Ulkoinen näkymä"
+  },
+  "HUD_BUTTON_FIX_ANTINORMAL": {
+    "description": "Tooltip: fix heading antinormal",
+    "message": "Pidä suunta antinormaalina"
+  },
+  "HUD_BUTTON_FIX_NORMAL": {
+    "description": "Tooltip: fix heading normal",
+    "message": "Pidä suunta normaalina"
+  },
+  "HUD_BUTTON_FIX_PROGRADE": {
+    "description": "Tooltip: fix heading prograde",
+    "message": "Pidä suunta progradisena"
+  },
+  "HUD_BUTTON_FIX_RADIAL_IN": {
+    "description": "Tooltip: fix heading radially inward",
+    "message": "Pidä suunta säteittäin sisään"
+  },
+  "HUD_BUTTON_FIX_RADIAL_OUT": {
+    "description": "Tooltip: fix heading radially outward",
+    "message": "Pidä suunta säteittäin ulos"
+  },
+  "HUD_BUTTON_FIX_RETROGRADE": {
+    "description": "Tooltip: fix heading retrograde",
+    "message": "Pidä suunta retrogradisena"
+  },
+  "HUD_BUTTON_FLYBY_VIEW": {
+    "description": "Tooltip: Flyby camera view",
+    "message": "Ohilentonäkymä"
+  },
+  "HUD_BUTTON_HYPERDRIVE_DISABLED": {
+    "description": "Tooltip: Hyperdrive disabled (docked or landed)",
+    "message": "Hypermoottori pois käytöstä"
+  },
+  "HUD_BUTTON_INITIATE_HYPERJUMP": {
+    "description": "Tooltip: Initiate legal hyperjump",
+    "message": "Aloita hyperajo"
+  },
+  "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP": {
+    "description": "Tooltip: Initiate illegal hyperjump",
+    "message": "Aloita laiton hyperajo"
+  },
+  "HUD_BUTTON_INTERNAL_VIEW": {
+    "description": "Tooltip: Internal camera view",
+    "message": "Sisäinen näkymä"
+  },
+  "HUD_BUTTON_KILL_ROTATION": {
+    "description": "Tooltip: kill rotation",
+    "message": "Poista pyöriminen"
+  },
+  "HUD_BUTTON_LANDING_GEAR_IS_DOWN": {
+    "description": "Tooltip: Landing gear is down",
+    "message": "Laskuteline on alhaalla"
+  },
+  "HUD_BUTTON_LANDING_GEAR_IS_MOVING": {
+    "description": "Tooltip: Landing gear is moving",
+    "message": "Laskuteline liikkuu"
+  },
+  "HUD_BUTTON_LANDING_GEAR_IS_UP": {
+    "description": "Tooltip: Landing gear is up",
+    "message": "Laskuteline on ylhäällä"
+  },
+  "HUD_BUTTON_MANUAL_CONTROL": {
+    "description": "Tooltip: Manual control",
+    "message": "Käsiohjaus"
+  },
+  "HUD_BUTTON_ROTATION_DAMPING_IS_OFF": {
+    "description": "Tooltip: Rotation damping is off",
+    "message": "Pyörimisvaimennus ei ole päällä"
+  },
+  "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
+    "description": "Tooltip: Rotation damping is on",
+    "message": "Pyörimisvaimennus on päällä"
+  },
+  "HUD_BUTTON_SET_SPEED": {
+    "description": "Tooltip: set speed",
+    "message": "Aseta nopeus"
+  },
+  "HUD_BUTTON_SHOW_COMMS": {
+    "description": "Tooltip: Show comms",
+    "message": "Näytä tietoliikenne"
+  },
+  "HUD_BUTTON_SHOW_PERSONAL_INFO": {
+    "description": "Tooltip: Show personal info",
+    "message": "Näytä henkilötiedot"
+  },
+  "HUD_BUTTON_SIDEREAL_VIEW": {
+    "description": "Tooltip: Sidereal camera view",
+    "message": "Tähtinäkymä"
+  },
+  "HUD_BUTTON_SWITCH_TO_CURRENT_SYSTEM": {
+    "description": "Tooltip: Switch to current system",
+    "message": "Vaihda nykyjärjestelmään"
+  },
+  "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
+    "description": "Tooltip: Switch to galaxy map",
+    "message": "Siirry galaksikarttaan"
+  },
+  "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
+    "description": "Tooltip: Switch to sector map",
+    "message": "Siirry sektorikarttaan"
+  },
+  "HUD_BUTTON_SWITCH_TO_SELECTED_SYSTEM": {
+    "description": "Tooltip: Switch to selected system",
+    "message": "Vaihda valittuun järjestelmään"
+  },
+  "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
+    "description": "Tooltip: Switch to system map",
+    "message": "Siirry järjestelmäkarttaan"
+  },
+  "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW": {
+    "description": "Tooltip: Switch to system overview",
+    "message": "Siirry järjestelmäkatsaukseen"
+  },
+  "HUD_BUTTON_SWITCH_TO_WORLD_VIEW": {
+    "description": "Tooltip: Switch to world view",
+    "message": "Siirry maailmanäkymään"
+  },
+  "HUD_BUTTON_UNDOCK": {
+    "description": "Tooltip: Undock",
+    "message": "Irrottaudu"
+  },
+  "HUD_CARGO_MASS": {
+    "description": "Cargo Mass",
+    "message": "Rahdin massa"
+  },
+  "HUD_CRUISE_SPEED": {
+    "description": "Tooltip for cruise speed indicator",
+    "message": "Kulkunopeus"
+  },
+  "HUD_CURRENT_COMBAT_TARGET": {
+    "description": "Tooltip: The current combat target.",
+    "message": "Maali"
+  },
+  "HUD_CURRENT_FRAME": {
+    "description": "Tooltip: The current frame of reference.",
+    "message": "Koordinaatisto"
+  },
+  "HUD_CURRENT_HEADING": {
+    "description": "Tooltip: the current heading.",
+    "message": "Suunta"
+  },
+  "HUD_CURRENT_NAV_TARGET": {
+    "description": "Tooltip: The current navigational target.",
+    "message": "Navigaatiokohde"
+  },
+  "HUD_CURRENT_PITCH": {
+    "description": "Tooltip: the current pitch.",
+    "message": "Nyökkäys"
+  },
+  "HUD_CURRENT_ROLL": {
+    "description": "Tooltip: the current roll.",
+    "message": "Kiertymä"
+  },
+  "HUD_DELTA_V": {
+    "description": "Tooltip: The remaining Δv.",
+    "message": "Mahdollinen nopeuslisä"
+  },
+  "HUD_DELTA_V_OF_MANEUVER_BURN": {
+    "description": "Tooltip: The Δv for the maneuver burn.",
+    "message": "Manööverin nopeuslisä"
+  },
+  "HUD_DELTA_V_PERCENT": {
+    "description": "Tooltip: The remaining Δv in percent.",
+    "message": "% nopeuslisää jäljellä"
+  },
+  "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
+    "description": "Tooltip: Distance to the surface of the frame of reference.",
+    "message": "Etäisyys viitekehyksen pintaan"
+  },
+  "HUD_DISTANCE_TO_SURFACE_OF_TARGET": {
+    "description": "Tooltip: Distance to the surface of the target.",
+    "message": "Etäisyys kohteen pintaan"
+  },
+  "HUD_DURATION_OF_MANEUVER_BURN": {
+    "description": "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
+    "message": "Manööverin kesto päätyöntimillä, noin"
+  },
+  "HUD_DURATION_UNTIL_MANEUVER_BURN": {
+    "description": "Tooltip: The duration until the middle of the maneuver burn.",
+    "message": "Aikaa manööverin puoliväliin"
+  },
+  "HUD_FOLLOW_ORIENTATION": {
+    "description": "Tooltip for follow mode 'orientation' button",
+    "message": "{targetname}: seuraa asentoa"
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object.",
+    "message": "{targetname}: \"seuraa asentoa\" ei ole saatavilla."
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: \"seuraa asentoa\" ei onnistu, liian kaukana."
+  },
+  "HUD_FOLLOW_POSITION": {
+    "description": "Tooltip for follow mode 'position' button",
+    "message": "{targetname}: seuraa sijaintia"
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object.",
+    "message": "{targetname}: \"seuraa sijaintia\" ei ole saatavilla."
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: \"seuraa sijaintia\" ei onnistu, liian kaukana."
+  },
+  "HUD_FOLLOW_TARGET": {
+    "description": "Tooltip for followed target's name in reticule",
+    "message": "Seuraa kohdetta"
+  },
+  "HUD_FORWARD_GUN_TEMPERATURE": {
+    "description": "Tooltip: Forward Gun Temperature.",
+    "message": "Keula-aseen lämpötila"
+  },
+  "HUD_GRAVITY_INDICATOR": {
+    "description": "Tooltip: describe what the gravity indicator shows",
+    "message": "Paikallinen putoamiskiihtyvyys (vrt. aluksen enimmäiskiihtyvyys)"
+  },
+  "HUD_HULL_STRENGTH": {
+    "description": "Tooltip: Hull Strength.",
+    "message": "Rungon vahvuus"
+  },
+  "HUD_HULL_TEMPERATURE": {
+    "description": "Tooltip: Hull Temperature.",
+    "message": "Rungon lämpötila"
+  },
+  "HUD_HYPERSPACE_DESTINATION": {
+    "description": "HUD Label indicating the hyperspace destination system. Should just be Destination.",
+    "message": "Määränpää"
+  },
+  "HUD_HYPERSPACE_ORIGIN": {
+    "description": "HUD Label indicating the hyperspace origin system. Should just be Origin.",
+    "message": "Lähtöpiste"
+  },
+  "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
+    "description": "",
+    "message": "Huomio, hyperajo alkaa, määränpää {destination}, aikaa {countdown} sekuntia"
+  },
+  "HUD_INDICATOR_AWAY_FROM_FRAME": {
+    "description": "Indicator: Away from the current frame.",
+    "message": "Pois viitekehyksestä"
+  },
+  "HUD_INDICATOR_COMBAT_TARGET_PROGRADE": {
+    "description": "Indicator: Prograde direction relative to the current combat target.",
+    "message": "Progradinen suhteessa maaliin"
+  },
+  "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE": {
+    "description": "Indicator: Retrograde direction relative to the current combat target.",
+    "message": "Retrogradinen suhteessa maaliin"
+  },
+  "HUD_INDICATOR_FRAME_PROGRADE": {
+    "description": "Indicator: Prograde direction relative to the current frame.",
+    "message": "Progradinen suhteessa viitekehykseen"
+  },
+  "HUD_INDICATOR_FRAME_RETROGRADE": {
+    "description": "Indicator: Retrograde direction relative to the current frame.",
+    "message": "Retrogradinen suhteessa viitekehykseen"
+  },
+  "HUD_INDICATOR_MANEUVER_PROGRADE": {
+    "description": "Indicator: The prograde direction for the maneuver burn.",
+    "message": "Progradinen manööveriin"
+  },
+  "HUD_INDICATOR_NAV_TARGET_PROGRADE": {
+    "description": "Indicator: Prograde direction relative to the current navigational target.",
+    "message": "Progradinen suhteessa kohteeseen"
+  },
+  "HUD_INDICATOR_NAV_TARGET_RETROGRADE": {
+    "description": "Indicator: Retrograde direction relative to the current navigational target.",
+    "message": "Retrogradinen suhteessa kohteeseen"
+  },
+  "HUD_IN_TRANSIT_TO_N_X_X_X": {
+    "description": "",
+    "message": "Matkalla, kohde {system} [{x},{y},{z}]"
+  },
+  "HUD_JUMP_COMPLETE": {
+    "description": "",
+    "message": "Hyperajon edistyminen: {percent}%"
+  },
+  "HUD_MASS": {
+    "description": "Mass",
+    "message": "Massa"
+  },
+  "HUD_ORBIT_APOAPSIS": {
+    "description": "Tooltip: Current orbital apoapsis.",
+    "message": "Nykyisen radan apoapsis"
+  },
+  "HUD_ORBIT_PERIAPSIS": {
+    "description": "Tooltip: Current orbital apoapsis.",
+    "message": "Nykyisen radan periapsis"
+  },
+  "HUD_RADAR_DISTANCE": {
+    "description": "Tooltip: Current distance of the radar.",
+    "message": "Tutkan näennäinen kantama"
+  },
+  "HUD_RADAR_TOGGLE_MODE": {
+    "description": "Tooltip: Toggle radar mode.",
+    "message": "Vaihtaa tutkanäkymän kaksi- tai kolmiulotteiseksi"
+  },
+  "HUD_RADAR_ZOOM_MODE_AUTOMATIC": {
+    "description": "Tooltip: Current radar zoom mode.",
+    "message": "Automaattisuurennos"
+  },
+  "HUD_RADAR_ZOOM_MODE_MANUAL": {
+    "description": "Tooltip: Current radar zoom mode.",
+    "message": "Käsivalintainen suurennos"
+  },
+  "HUD_REQUEST_TIME_ACCEL": {
+    "description": "Tooltip: Request time acceleration {time}",
+    "message": "Esitä ajan kiihdytystä: {time}"
+  },
+  "HUD_SHIELD_STRENGTH": {
+    "description": "Tooltip: Shield Strength.",
+    "message": "Suojan voimakkuus"
+  },
+  "HUD_SHOW_COMBAT_TARGET": {
+    "description": "Tooltip: Show the current combat target.",
+    "message": "Näytä maali"
+  },
+  "HUD_SHOW_FRAME": {
+    "description": "Tooltip: Show the current frame of reference.",
+    "message": "Näytä viitekehys"
+  },
+  "HUD_SHOW_NAV_TARGET": {
+    "description": "Tooltip: Show current navigational target.",
+    "message": "Näytä kohde"
+  },
+  "HUD_SPEED_LIMITER_ACTIVE": {
+    "description": "Tooltip for the icon in the reticule that appears if the speed limiter is active",
+    "message": "Nopeusrajoitin on käytössä"
+  },
+  "HUD_SPEED_OF_APPROACH_TO_FRAME": {
+    "description": "Tooltip: The speed of approach towards the frame of reference.",
+    "message": "Lähestymisnopeus viitekehykseen"
+  },
+  "HUD_SPEED_OF_APPROACH_TO_TARGET": {
+    "description": "Tooltip: The speed of approach relative to target.",
+    "message": "Lähestymisnopeus kohteeseen"
+  },
+  "HUD_SPEED_RELATIVE_TO_TARGET": {
+    "description": "Tooltip: The speed relative to the target.",
+    "message": "Nopeus kohteeseen"
+  },
+  "HUD_THRUST_INDICATOR": {
+    "description": "Tooltip: describe what the thrust indicator shows",
+    "message": "Näyttää työnnön voimakkuuden manöövereissä (ulompi kehä) ja pää- sekä vastamoottoreissa (keskikehä)"
+  },
+  "HUD_WARNING_DESCENT_RATE": {
+    "description": "Shown on HUD as a warning flasher",
+    "message": "VAJOAMISNOPEUS"
+  },
+  "HUD_WARNING_IMPACT": {
+    "description": "Alert tooltip",
+    "message": "Törmäysvaroitus"
+  },
+  "HUD_WARNING_IMPACT_IMMINENT": {
+    "description": "Alert tooltip",
+    "message": "Törmäys pian"
+  },
+  "HUD_WARNING_TWR_DESTINATION": {
+    "description": "TWR (Thrust to Weight Ratio) HUD warning",
+    "message": "Työnnön suhde painoon on kohteessa {value}"
+  },
+  "HULL_DOES_NOT_REQUIRE_REPAIR": {
+    "description": "",
+    "message": "Runkoa ei tarvitse korjata."
+  },
+  "HULL_INTEGRITY": {
+    "description": "",
+    "message": "Rungon kunto"
+  },
+  "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
+    "description": "",
+    "message": "{name} korjasi runkoa, kunto on nyt {repairPercent}%"
+  },
+  "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE": {
+    "description": "",
+    "message": "Rungon korjaus epäonnistui. Runko kärsi hieman vauriota."
+  },
+  "HYPERDRIVE": {
+    "description": "",
+    "message": "Hypermoottori"
+  },
+  "HYPERDRIVE_FITTED": {
+    "description": "",
+    "message": "Hypermoottori asennettu:"
+  },
+  "HYPERJUMP_ROUTE": {
+    "description": "",
+    "message": "Hyperajoreitti"
+  },
+  "HYPERJUMP_ROUTING": {
+    "description": "Label indicating a category division",
+    "message": "Hyperajoreititys"
+  },
+  "HYPERSPACE_RANGE": {
+    "description": "",
+    "message": "Hyperajon kantama"
+  },
+  "ILLEGAL_COMMODITIES": {
+    "description": "Commodities illegal in the current system or polity",
+    "message": "Laiton tavara"
+  },
+  "ILLEGAL_IN_SYSTEM": {
+    "description": "An illegal action or commodity",
+    "message": "Laitonta"
+  },
+  "ILLEGAL_JUMP": {
+    "description": "A finable crime",
+    "message": "Vastuuton hyperajo dokumentoitu"
+  },
+  "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
+    "description": "",
+    "message": "En jaksa työskennellä ilmaiseksi. Etkö ole kuullut työsopimuksista?"
+  },
+  "INACTIVE": {
+    "description": "",
+    "message": "Toimeton"
+  },
+  "INCOMPETENT": {
+    "description": "For player reputation",
+    "message": "Taitamaton"
+  },
+  "INCREASE": {
+    "description": "Increase something.",
+    "message": "Lisää"
+  },
+  "INEXPERIENCED": {
+    "description": "For player reputation",
+    "message": "Kokematon"
+  },
+  "INITIATED": {
+    "description": "Ship jump status",
+    "message": "Aloitettu"
+  },
+  "INSTALL": {
+    "description": "Install something",
+    "message": "Asenna"
+  },
+  "INSTALLED": {
+    "description": "Label indicating something is installed",
+    "message": "Asennettu"
+  },
+  "INSUFFICIENT_FUEL": {
+    "description": "Ship jump status",
+    "message": "Polttoaine ei riitä"
+  },
+  "INSUFFICIENT_FUNDS": {
+    "description": "",
+    "message": "Varat eivät riitä."
+  },
+  "INTELLIGENCE": {
+    "description": "Character parameter",
+    "message": "Älykkyys"
+  },
+  "INTERSTELLAR_TRADE_AVG": {
+    "description": "Label displaying commodity flow at a per-system level",
+    "message": "Tähtienvälinen kauppa:"
+  },
+  "INVERT_MOUSE_Y": {
+    "description": "",
+    "message": "Käännä hiiri-Y"
+  },
+  "IN_CARGO_HOLD": {
+    "description": "",
+    "message": "Ruumassa"
+  },
+  "IN_HOLD": {
+    "description": "Column title of the Commodity Market screen",
+    "message": "Ruumassa"
+  },
+  "IN_STOCK": {
+    "description": "Column title of Commodity and Ship Equipment markets showing current station stock level.",
+    "message": "Asemalla"
+  },
+  "IN_SYSTEM": {
+    "description": "Used in flight log, show which star system we are/were in",
+    "message": "Järjestelmä:"
+  },
+  "ITEM_IS_OUT_OF_STOCK": {
+    "description": "",
+    "message": "Tämä on lopussa."
+  },
+  "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE": {
+    "description": "",
+    "message": "On ollut hienoa työskennellä teille. Jos tarvitsette minua, olen kyllä täällä jonkin aikaa."
+  },
+  "JETTISON": {
+    "description": "",
+    "message": "Hylkää"
+  },
+  "JETTISON_MODE": {
+    "description": "",
+    "message": "Hylkäystila"
+  },
+  "JUMPING": {
+    "description": "Flight State",
+    "message": "Hyperavaruudessa"
+  },
+  "JUMP_REACHABLE": {
+    "description": "Tooltip indicating the jump listed in the route planner is possible under the current ship configuration.",
+    "message": "Hyperajo on mahdollinen"
+  },
+  "KILLS": {
+    "description": "",
+    "message": "Tapot:"
+  },
+  "KNOWN_AS": {
+    "description": "Indicates alternate names/aliases for an object",
+    "message": "Tunnetaan myös"
+  },
+  "LANGUAGE": {
+    "description": "",
+    "message": "Kieli"
+  },
+  "LANGUAGE_RESTART_GAME_TO_APPLY": {
+    "description": "",
+    "message": "Kieli (tarvitaan uudelleenkäynnistys)"
+  },
+  "LAUNCH_PERMISSION_DENIED_BUSY": {
+    "description": "",
+    "message": "Lähtö evätty: laituri varattu."
+  },
+  "LAUNCH_PERMISSION_DENIED_CREW": {
+    "description": "",
+    "message": "Lähtö evätty: aluksessa ei ole tarpeeksi miehistöä."
+  },
+  "LAUNCH_PERMISSION_DENIED_FINED": {
+    "description": "",
+    "message": "Lähtö evätty: teillä on maksamattomia sakkoja."
+  },
+  "LAUNCH_PERMISSION_GRANTED": {
+    "description": "",
+    "message": "Lähtölupa myönnetty."
+  },
+  "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
+    "description": "",
+    "message": "Lupa myönnetty. Ettehän viivy laskeutumisalueella, vaan lähtekää pian."
+  },
+  "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
+    "description": "",
+    "message": "Lupa myönnetty. Varokaa muuta liikennettä poistuessanne."
+  },
+  "LAWFULNESS": {
+    "description": "Character parameter",
+    "message": "Lainkuuliaisuus"
+  },
+  "LEGAL_RULES": {
+    "description": "Refers to laws, rules and regulations",
+    "message": "Aseman hallitsemassa avaruudessa pätevät lait. Lainvalvonta rajoittuu {distance} säteelle."
+  },
+  "LEGAL_RULES_AND_REGULATIONS": {
+    "description": "Heading on a tab, keep it short",
+    "message": "Säännöt"
+  },
+  "LEGAL_STATUS": {
+    "description": "",
+    "message": "Laillinen tilanne"
+  },
+  "LIGHT_CARGO_SHUTTLE": {
+    "description": "",
+    "message": "Kevyt rahtisukkula"
+  },
+  "LIGHT_COURIER": {
+    "description": "",
+    "message": "Kevyt kuriiri"
+  },
+  "LIGHT_FIGHTER": {
+    "description": "",
+    "message": "Kevyt taistelualus"
+  },
+  "LIGHT_FREIGHTER": {
+    "description": "",
+    "message": "Kevyt rahtialus"
+  },
+  "LIGHT_PASSENGER_SHUTTLE": {
+    "description": "",
+    "message": "Kevyt matkustajasukkula"
+  },
+  "LIGHT_PASSENGER_TRANSPORT": {
+    "description": "",
+    "message": "Kevyt matkustaja-alus"
+  },
+  "LOAD": {
+    "description": "",
+    "message": "Lataa"
+  },
+  "LOAD_GAME": {
+    "description": "",
+    "message": "Lataa peli"
+  },
+  "LOBBY": {
+    "description": "",
+    "message": "Aula"
+  },
+  "LOCAL_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Paikallinen sivuhaara"
+  },
+  "LOCAL_GRAVITY": {
+    "description": "Gravity at the ship's current location, shown in the mass/TWR widget",
+    "message": "Painovoima"
+  },
+  "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
+    "description": "",
+    "message": "Sijainti {distance}km {name}:n keskipisteestä:"
+  },
+  "LOCATION": {
+    "description": "",
+    "message": "Paikka"
+  },
+  "LOG_CUSTOM": {
+    "description": "Label tab for showing custom logged events",
+    "message": "Custom-loki"
+  },
+  "LOG_EARLIEST_FIRST": {
+    "description": "Show the log entries in chronological order, earliest first",
+    "message": "Järjestä varhaisin alkuun"
+  },
+  "LOG_EXPORT": {
+    "description": "Export the log",
+    "message": "Vie"
+  },
+  "LOG_HTML": {
+    "description": "Export the log as HTML or not",
+    "message": "HTML"
+  },
+  "LOG_NEW": {
+    "description": "Indicate to make an entry into flight log system",
+    "message": "Uusi merkintä"
+  },
+  "LOG_STATION": {
+    "description": "Label tab for showing logged station events",
+    "message": "Asemaloki"
+  },
+  "LOG_SYSTEM": {
+    "description": "Label tab for showing logged system events",
+    "message": "Järjestelmäloki"
+  },
+  "LOW": {
+    "description": "",
+    "message": "Matala"
+  },
+  "LUCK": {
+    "description": "Character parameter",
+    "message": "Tuuri"
+  },
+  "LY": {
+    "description": "Light year",
+    "message": "vv"
+  },
+  "MAJOR_EXPORT": {
+    "description": "For displaying commodity information",
+    "message": "Tärkeä vientituote"
+  },
+  "MAJOR_IMPORT": {
+    "description": "For displaying commodity information",
+    "message": "Tärkeä tuontituote"
+  },
+  "MAKE_NEW_FACE": {
+    "description": "",
+    "message": "Tee uudet kasvot"
+  },
+  "MALE": {
+    "description": "",
+    "message": "Mies"
+  },
+  "MARKET_BUYLINE": {
+    "description": "",
+    "message": "Osta {amount} hintaan {price}"
+  },
+  "MARKET_SELLINE": {
+    "description": "",
+    "message": "Myy {amount} hintaan {price}"
+  },
+  "MASS": {
+    "description": "",
+    "message": "Massa"
+  },
+  "MASTER": {
+    "description": "For player reputation",
+    "message": "Taituri"
+  },
+  "MASTER_VOL": {
+    "description": "Master sound in settings option",
+    "message": "Master:"
+  },
+  "MAX": {
+    "description": "",
+    "message": "maks."
+  },
+  "MAXIMUM_CREW": {
+    "description": "",
+    "message": "Miehistöä enintään"
+  },
+  "MEDIUM": {
+    "description": "Game settings option: graphics resolution",
+    "message": "Keskitaso"
+  },
+  "MEDIUM_CARGO_SHUTTLE": {
+    "description": "",
+    "message": "Keskikokoinen rahtisukkula"
+  },
+  "MEDIUM_COURIER": {
+    "description": "",
+    "message": "Keskikokoinen kuriiri"
+  },
+  "MEDIUM_FIGHTER": {
+    "description": "",
+    "message": "Keskikokoinen taistelualus"
+  },
+  "MEDIUM_FREIGHTER": {
+    "description": "",
+    "message": "Keskikokoinen rahtialus"
+  },
+  "MEDIUM_PASSENGER_SHUTTLE": {
+    "description": "",
+    "message": "Keskikokoinen matkustajasukkula"
+  },
+  "MEDIUM_PASSENGER_TRANSPORT": {
+    "description": "",
+    "message": "Keskikokoinen matkustaja-alus"
+  },
+  "METAL_ALLOYS": {
+    "description": "",
+    "message": "Sekoitemetalleja"
+  },
+  "MILITARY": {
+    "description": "",
+    "message": "Sotilas"
+  },
+  "MINIMAL_TRADE": {
+    "description": "Indicates a system does not have a significant amount of trade in a commodity.",
+    "message": "Vähän kauppaa"
+  },
+  "MINIMUM_CREW": {
+    "description": "",
+    "message": "Miehistöä vähintään"
+  },
+  "MINOR_EXPORT": {
+    "description": "For displaying commodity information",
+    "message": "Pieni vienti"
+  },
+  "MINOR_IMPORT": {
+    "description": "For displaying commodity information",
+    "message": "Pieni tuonti"
+  },
+  "MISSILE_MOUNTS": {
+    "description": "",
+    "message": "Ohjuspaikkoja"
+  },
+  "MISSIONS": {
+    "description": "",
+    "message": "Tehtävät"
+  },
+  "MISSION_DETAILS": {
+    "description": "",
+    "message": "Tehtävien kulku"
+  },
+  "MODEL": {
+    "description": "3d model of the ship",
+    "message": "Malli"
+  },
+  "MONEY": {
+    "description": "",
+    "message": "Raha"
+  },
+  "MORE_INFO": {
+    "description": "",
+    "message": "Lisätietoa..."
+  },
+  "MORE_THAN_ONE_PLAYERS_SHIP_FOUND_IN_SPACE": {
+    "description": "Message when restoring savegame",
+    "message": "Useampia pelaajan aluksia löytynyt avaruudesta"
+  },
+  "MOSTLY_HARMLESS": {
+    "description": "",
+    "message": "Jokseenkin vaaraton"
+  },
+  "MOVE_DOWN": {
+    "description": "move selection down in list",
+    "message": "Siirrä alas"
+  },
+  "MOVE_UP": {
+    "description": "move selection up in list",
+    "message": "Siirrä ylös"
+  },
+  "MULTISAMPLING": {
+    "description": "",
+    "message": "Multisampling"
+  },
+  "MULTISAMPLING_DESC": {
+    "description": "",
+    "message": "Graafinen parannusominaisuus, joka vähentää ääriviivojen karkeutta. Voi olla laitteistolle aika vaativa."
+  },
+  "MURDER": {
+    "description": "",
+    "message": "Murha"
+  },
+  "MUSIC": {
+    "description": "",
+    "message": "Musiikki:"
+  },
+  "MUTE": {
+    "description": "",
+    "message": "Mykistä"
+  },
+  "NAME_OBJECT": {
+    "description": "For an item or object",
+    "message": "Nimi"
+  },
+  "NAME_PERSON": {
+    "description": "For a person",
+    "message": "Nimi"
+  },
+  "NAVIGATION": {
+    "description": "Crew skill",
+    "message": "Navigaatio"
+  },
+  "NAVIGATOR": {
+    "description": "",
+    "message": "Navigaattori"
+  },
+  "NEGOTIATE": {
+    "description": "",
+    "message": "Neuvottele"
+  },
+  "NEW_GAME": {
+    "description": "Main menu item",
+    "message": "Uusi peli"
+  },
+  "NEW_PAINTJOB_APPLIED": {
+    "description": "Paintshop popup",
+    "message": "Uusi maalipinta alukseesi on valmis."
+  },
+  "NEXT_FACE_FEATURE": {
+    "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
+    "message": "Seuraava"
+  },
+  "NEXT_PAID": {
+    "description": "",
+    "message": "Palkkapäivä"
+  },
+  "NO": {
+    "description": "Negative answer to a question",
+    "message": "Ei"
+  },
+  "NOBODY": {
+    "description": "For player reputation",
+    "message": "Nolla"
+  },
+  "NONE": {
+    "description": "",
+    "message": "Ei ole"
+  },
+  "NONE_FOR_SALE_IN_THIS_STATION": {
+    "description": "",
+    "message": "Tällä asemalla ei ole tätä kaupan."
+  },
+  "NORMA_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Norma-sivuhaara"
+  },
+  "NOTES": {
+    "description": "",
+    "message": "Huomautukset:"
+  },
+  "NOTORIETY": {
+    "description": "Character parameter",
+    "message": "Pahamaineisuus"
+  },
+  "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
+    "description": "",
+    "message": "{alloy} ei riitä korjauksiin"
+  },
+  "NOT_ENOUGH_SPACE_FOR_EQUIPMENT": {
+    "description": "",
+    "message": "Tila ei riitä varustukselle"
+  },
+  "NOT_SUPPORTED_ON_THIS_SHIP": {
+    "description": "",
+    "message": "{equipment} ei ole tuettu tässä alusmallissa"
+  },
+  "NO_AVAILABLE_DATA": {
+    "description": "Message displaying no stored data available",
+    "message": "Ei tietoja saatavilla"
+  },
+  "NO_BOOKMARKS_FOUND": {
+    "description": "Label indicating a lack of bookmarks to display",
+    "message": "Ei kirjanmerkkejä"
+  },
+  "NO_CARGO": {
+    "description": "Message displayed when the player has no cargo in their hold.",
+    "message": "EI LASTIA"
+  },
+  "NO_DRIVE": {
+    "description": "Ship jump status",
+    "message": "Ei moottoria"
+  },
+  "NO_FILTER_MATCHES": {
+    "description": "No matches to this filter.",
+    "message": "Mikään ei vastaa suodatinta"
+  },
+  "NO_MISSIONS": {
+    "description": "",
+    "message": "Ei tehtäviä."
+  },
+  "NO_VALID_ROUTE": {
+    "description": "Message in the sector map, issued by the autoroute function.",
+    "message": "Ei kelvollista reittiä valittuun järjestelmään."
+  },
+  "N_LIGHT_YEARS_N_MAX": {
+    "description": "",
+    "message": "{range} valovuotta ({maxRange} maksimi)"
+  },
+  "N_SHIELD_GENERATORS": {
+    "description": "",
+    "message": "{quantity} suojalaite(tta)"
+  },
+  "OCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "Varattuja matkustajapaikkoja"
+  },
+  "OFF": {
+    "description": "",
+    "message": "Pois"
+  },
+  "OFFENDER": {
+    "description": "Legal status of player",
+    "message": "Lainrikkoja"
+  },
+  "OK": {
+    "description": "",
+    "message": "Selvä"
+  },
+  "OPEN_USER_FOLDER": {
+    "description": "",
+    "message": "Käyttäjäkansio"
+  },
+  "OPTIONS": {
+    "description": "",
+    "message": "Valinnat"
+  },
+  "ORBIT": {
+    "description": "",
+    "message": "Kiertorata"
+  },
+  "ORBIT_APOAPSIS": {
+    "description": "Label for the point of an orbit furthest from the orbited body",
+    "message": "Apoapsis"
+  },
+  "ORBIT_PERIAPSIS": {
+    "description": "Label for the point of an orbit nearest to the orbited body",
+    "message": "Periapsis"
+  },
+  "OUTER_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Ulompi sivuhaara"
+  },
+  "OUTLAW": {
+    "description": "Legal status of player",
+    "message": "Lainsuojaton"
+  },
+  "OUTSTANDING_FINES": {
+    "description": "Unpaid fines for crimes committed",
+    "message": "Maksamattomat sakot"
+  },
+  "OUT_OF_RANGE": {
+    "description": "Ship jump status",
+    "message": "Kantaman ulkopuolella"
+  },
+  "OUT_OF_STOCK": {
+    "description": "Equipment availability",
+    "message": "Loppu"
+  },
+  "OVERVIEW_NAME_FILTER": {
+    "description": "Filter overview window entries by name",
+    "message": "Suodata katsausikkunamerkinnät nimellä"
+  },
+  "OWED": {
+    "description": "Player owing money to crew members",
+    "message": "Velkaa"
+  },
+  "PAINTSHOP": {
+    "description": "Station tab title",
+    "message": "Maalaamo"
+  },
+  "PAINTSHOP_NOT_AVAILABLE": {
+    "description": "",
+    "message": "Tämä avaruusasema ei sisällä maalaamoa."
+  },
+  "PAINTSHOP_WELCOME_0": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Tervetuloa! Maalaamme aluksestanne kauniin!"
+  },
+  "PAINTSHOP_WELCOME_1": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Heippa! Etsitkö esteettistä ehostusta?"
+  },
+  "PAINTSHOP_WELCOME_2": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Emme saa alustanne lentämään nopeasti, mutta voimme saada sen lentämään tyylikkäästi!"
+  },
+  "PAINTSHOP_WELCOME_3": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Tervetuloa, matkalainen. Päästäkää luovuus valloilleen kaikessa rauhassa."
+  },
+  "PAINTSHOP_WELCOME_4": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Galaksissa korealta näyttäytyminen ei ole koskaan ollut helpompaa!"
+  },
+  "PASSENGER_CABIN_CAPACITY": {
+    "description": "Entry for ship info",
+    "message": "Enimmäismatkustajamäärä"
+  },
+  "PASTE": {
+    "description": "As for clipboard",
+    "message": "Liitä"
+  },
+  "PATH_FOUND_BUT_VERIFICATION_FAILED": {
+    "description": "Message when restoring savegame",
+    "message": "Polku löytyi, mutta varmistus epäonnistui: %s"
+  },
+  "PATTERN": {
+    "description": "Ship painting pattern.",
+    "message": "Kuvio"
+  },
+  "PAY": {
+    "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
+    "message": "Maksa"
+  },
+  "PAY_FINE_OF_N": {
+    "description": "",
+    "message": "Maksa sakko, suuruudeltaan {amount}"
+  },
+  "PENDING_RETURN": {
+    "description": "Status if the mission has not yet been fully completed",
+    "message": "Paluun jälkeen"
+  },
+  "PERSEUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Perseus-sivuhaara"
+  },
+  "PERSONAL_INFORMATION": {
+    "description": "",
+    "message": "Henkilötiedot"
+  },
+  "PILOT": {
+    "description": "",
+    "message": "Pilotti"
+  },
+  "PILOTING": {
+    "description": "Crew skill",
+    "message": "Lentotaito"
+  },
+  "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
+    "description": "",
+    "message": "{name} on nyt pilotin paikalla"
+  },
+  "PIRACY": {
+    "description": "",
+    "message": "Rosvous"
+  },
+  "PLANET_DETAIL_DISTANCE": {
+    "description": "",
+    "message": "Planeetan yksityiskohtaetäisyys"
+  },
+  "PLANET_TEXTURES": {
+    "description": "",
+    "message": "Planeetan kuviointi"
+  },
+  "PLEASE_DESIGN_NEW_PAINTJOB": {
+    "description": "",
+    "message": "Suunnittele uusi maalipinta:"
+  },
+  "PLEASE_REPORT_THIS_ERROR": {
+    "description": "Informational text mentioning the error and asking the player to report it.",
+    "message": "Noh, jotain meni nyt vikaan! Ilmoitathan virheestä, miten se toistetaan, tulostettu loki sekä vielä pelitallennuksesi Pioneerin ongelmaseurantaan Githubissa.\nLokitiedoston sijainti: {path}/output.txt"
+  },
+  "POLICE": {
+    "description": "",
+    "message": "Poliisi"
+  },
+  "POOR": {
+    "description": "Player combat rating",
+    "message": "Heikko"
+  },
+  "POSESSION_OF_COMMODITIES_ILLEGAL": {
+    "description": "",
+    "message": "Tiettyjen tavaroiden hallussapito on tässä järjestelmässä laitonta."
+  },
+  "POSITION": {
+    "description": "The job title/position of crew memeber",
+    "message": "Pesti"
+  },
+  "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
+    "description": "",
+    "message": "Paina näppäintä tai nappia tyhjentääksesi"
+  },
+  "PREVIOUS_FACE_FEATURE": {
+    "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
+    "message": "Edellinen"
+  },
+  "PRICE": {
+    "description": "",
+    "message": "Hinta"
+  },
+  "PROFESSIONAL": {
+    "description": "For player reputation",
+    "message": "Ammattilainen"
+  },
+  "PROFITABLE_TRADE": {
+    "description": "Indicates a profitable trade route.",
+    "message": "Voitollinen kauppa"
+  },
+  "PUMP_DOWN": {
+    "description": "Drain the fuel tank",
+    "message": "Pumppaa alas"
+  },
+  "PUMP_DOWN_FROM_CARGO_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pumppaa %i t ruumasta"
+  },
+  "PUMP_DOWN_FROM_HYPERDRIVE_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pumppaa %i t hypermoottorista polttoainesäiliöihin"
+  },
+  "PUMP_DOWN_TO_CARGO_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pumppaa %i t ruumaan"
+  },
+  "PUMP_DOWN_TO_HYPERDRIVE_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pumppaa %i t polttoainesäiliöistä hypermoottoriin"
+  },
+  "PURCHASE_PAINTJOB": {
+    "description": "Paintshop button",
+    "message": "Osta maalaus"
+  },
+  "QUALIFICATION_SCORES": {
+    "description": "",
+    "message": "Karsintatulokset"
+  },
+  "QUIT": {
+    "description": "",
+    "message": "Lopeta"
+  },
+  "QUIT_CONFIRMATION": {
+    "description": "For the checkbox in settings window",
+    "message": "Lopetusvahvistus"
+  },
+  "RANDOM_COLORS": {
+    "description": "Paint shop. Randomize colors",
+    "message": "Satunnaiset värisävyt"
+  },
+  "RANDOM_FACE": {
+    "description": "Generate random face",
+    "message": "Satunnainen"
+  },
+  "RANK": {
+    "description": "",
+    "message": "Sotilasarvo:"
+  },
+  "RATING": {
+    "description": "",
+    "message": "Arvosana:"
+  },
+  "RAYLEIGH_ACCURATE": {
+    "description": "",
+    "message": "Rayleigh/Mie (pikselintarkka)"
+  },
+  "RAYLEIGH_FAST": {
+    "description": "",
+    "message": "Rayleigh/Mie (nopea, verteksikohtainen)"
+  },
+  "REALISTIC_SCATTERING": {
+    "description": "",
+    "message": "Sironta"
+  },
+  "REALISTIC_SCATTERING_DESC": {
+    "description": "",
+    "message": "Piirrä kaasukehät sironnalla. (Rayleigh/Mie ei ole suositeltava vaatimattomilla tietokoneilla)"
+  },
+  "REAR_WEAPON": {
+    "description": "",
+    "message": "Peräase"
+  },
+  "RECOVER": {
+    "description": "Saveload menu button",
+    "message": "Palauta"
+  },
+  "RECOVERED_BUT_NOT_VALID": {
+    "description": "Message when restoring savegame",
+    "message": "Palautettu mutta epäkelpo"
+  },
+  "RECOVER_SAVEGAME": {
+    "description": "",
+    "message": "Palauta tallennus"
+  },
+  "REFUEL": {
+    "description": "",
+    "message": "Tankkaa"
+  },
+  "REFUEL_FULL": {
+    "description": "",
+    "message": "Tankkaa täyteen"
+  },
+  "REGISTRATION_NUMBER": {
+    "description": "",
+    "message": "Rekisteritunnus"
+  },
+  "RELIABLE": {
+    "description": "For player reputation",
+    "message": "Täsmällinen"
+  },
+  "REMOVE": {
+    "description": "Remove, e.g. deleting a log entry",
+    "message": "Poista"
+  },
+  "REMOVE_JUMP": {
+    "description": "UI-button: remove hyper jump from list of planned jumps",
+    "message": "Poista etappi"
+  },
+  "REMOVE_WHEN_COMPLETED": {
+    "description": "For UI hyperjump planner, referring to jump target system",
+    "message": "Poista etappi kun tehty"
+  },
+  "REPAIR_X_HULL_DAMAGE_FOR_X": {
+    "description": "",
+    "message": "Korjaa {damage}% rungon vauriota, kustannus {price}"
+  },
+  "REPLACE_EQUIPMENT": {
+    "description": "Market header when replacing equipped items",
+    "message": "Korvaa varustus"
+  },
+  "REPUTATION": {
+    "description": "",
+    "message": "Maine"
+  },
+  "REQUEST_LAUNCH": {
+    "description": "",
+    "message": "Pyydä lähtölupa"
+  },
+  "REQUIRED_FUEL": {
+    "description": "Fuel usage for traveling to star system",
+    "message": "Tarvittava polttoaine"
+  },
+  "RESET": {
+    "description": "",
+    "message": "Palauta"
+  },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "Palauta kulma ja suurennos"
+  },
+  "RESET_PREVIEW": {
+    "description": "Paintshop button",
+    "message": "Palauta esikatselu"
+  },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT": {
+    "description": "Reset View on Hyperspace Exit option",
+    "message": "Palauta näkymä hyperavaruudesta tullessa"
+  },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT_DESC": {
+    "description": "The tooltip of Reset View on Hyperspace Exit in the settings menu",
+    "message": "Palauta näkymä pelin päänäkymään hyperavaruudesta poistuttaessa"
+  },
+  "RETURN_TO_GAME": {
+    "description": "",
+    "message": "Palaa peliin"
+  },
+  "RETURN_TO_MENU": {
+    "description": "",
+    "message": "Palaa alkuvalikkoon"
+  },
+  "REVERSE_ACCEL_EMPTY": {
+    "description": "",
+    "message": "Taaksepäinkiihdytys (tyhjä)"
+  },
+  "REVERSE_ACCEL_FULL": {
+    "description": "",
+    "message": "Taaksepäinkiihdytys (täysi)"
+  },
+  "REWARD": {
+    "description": "",
+    "message": "Palkkio"
+  },
+  "ROTATE_VIEW": {
+    "description": "Indicates that the button must be kept pressed down, to rotate camera view with mouse",
+    "message": "Pidä painettuna näkymän kääntämiseksi"
+  },
+  "ROUTE_INFO": {
+    "description": "For hyperjump planner",
+    "message": "Reittitieto"
+  },
+  "ROUTE_JUMPS": {
+    "description": "For hyperjump planner",
+    "message": "Etapit"
+  },
+  "SAFETY_LOCKOUT": {
+    "description": "Ship jump status",
+    "message": "Turvalukitus"
+  },
+  "SAGITTARIUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Sagittarius-sivuhaara"
+  },
+  "SAVE": {
+    "description": "",
+    "message": "Tallenna"
+  },
+  "SAVED_GAMES": {
+    "description": "Header for save/load window",
+    "message": "Pelitallennukset"
+  },
+  "SAVE_AS": {
+    "description": "",
+    "message": "Tallenna uuteen"
+  },
+  "SAVE_DELETED_SUCCESSFULLY": {
+    "description": "",
+    "message": "Tallennus poistettu"
+  },
+  "SCATTERING_OLD": {
+    "description": "",
+    "message": "Vanha"
+  },
+  "SCOOP_MOUNTS": {
+    "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
+    "message": "Keräinpaikkoja"
+  },
+  "SCUTUM_CENTAURUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Scutum-Centaurus-sivuhaara"
+  },
+  "SELECT": {
+    "description": "",
+    "message": "Valitse"
+  },
+  "SELECTED": {
+    "description": "Label indicating the following item is selected",
+    "message": "Valittu"
+  },
+  "SELECTED_SAVE_DOESNT_EXISTS": {
+    "description": "",
+    "message": "Valittua tallennusta ei ole"
+  },
+  "SELECTED_SAVE_IS_NOT_A_VALID_SAVE": {
+    "description": "",
+    "message": "Valittu tallennus ei ole kelvollinen"
+  },
+  "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
+    "description": "",
+    "message": "Valitse tiedosto tai syötä uuden nimi"
+  },
+  "SELECT_FILE": {
+    "description": "",
+    "message": "Valitse tiedosto..."
+  },
+  "SELECT_GAME_TO_LOAD": {
+    "description": "",
+    "message": "Valitse ladattava peli..."
+  },
+  "SELECT_START_PROFILE": {
+    "description": "Combo box for selecting the starting position",
+    "message": "Valitse aloitusprofiili:"
+  },
+  "SELL": {
+    "description": "Commodities and equipment prices",
+    "message": "Myynti"
+  },
+  "SELL_EQUIP": {
+    "description": "Button text to sell installed equipment. May be used in a singular or plural context.",
+    "message": "Myy {name}"
+  },
+  "SELL_EQUIPPED": {
+    "description": "Button text to sell selected ship equipment",
+    "message": "Myy varustus"
+  },
+  "SELL_PRICE": {
+    "description": "Title for sell-price column in commodity market",
+    "message": "Myynti"
+  },
+  "SENSORS": {
+    "description": "Crew skill",
+    "message": "Anturit"
+  },
+  "SENSORS_AND_DEFENCE": {
+    "description": "",
+    "message": "Anturit ja puolustus"
+  },
+  "SETTINGS": {
+    "description": "UI option",
+    "message": "Asetukset"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Aseta määränpää navigaatiokohteeksi"
+  },
+  "SET_JUMP_TARGET": {
+    "description": "Button tooltip which sets the jump route to the selected body",
+    "message": "Aseta hyperajomääränpääksi"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Aseta paluureitti"
+  },
+  "SET_TO_45PERCENT_OF_DELTAV": {
+    "description": "For the speed limiter button",
+    "message": "Rajoita 45:een prosenttiin jo. nopeuslisästä"
+  },
+  "SET_TO_CURRENT_VELOCITY": {
+    "description": "For the speed limiter button",
+    "message": "Rajoita nykyiseen nopeuteen"
+  },
+  "SET_TO_ZERO": {
+    "description": "For the speed limiter button",
+    "message": "Aseta nollaan"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Alus"
+  },
+  "SHIPS_ENGINEER": {
+    "description": "",
+    "message": "Aluksen konemestari"
+  },
+  "SHIP_INFORMATION": {
+    "description": "",
+    "message": "Tietoa aluksesta"
+  },
+  "SHIP_IS_ALREADY_FULLY_REPAIRED": {
+    "description": "",
+    "message": "Aluksesi on jo täydessä toimintakunnossa."
+  },
+  "SHIP_IS_FULLY_EQUIPPED": {
+    "description": "",
+    "message": "Aluksesi on täysin varusteltu."
+  },
+  "SHIP_IS_FULLY_LADEN": {
+    "description": "",
+    "message": "Aluksesi on täydessä lastissa."
+  },
+  "SHIP_MARKET": {
+    "description": "",
+    "message": "Aluskauppa"
+  },
+  "SHIP_NAME": {
+    "description": "",
+    "message": "Aluksen nimi"
+  },
+  "SHIP_PARAMETERS": {
+    "description": "",
+    "message": "Aluksen tekniset tiedot"
+  },
+  "SHIP_REPAIRS": {
+    "description": "Station tab name",
+    "message": "Aluskorjaukset ja maalaamo"
+  },
+  "SHIP_TYPE": {
+    "description": "",
+    "message": "Tyyppi"
+  },
+  "SHOW_AUTOSAVES": {
+    "description": "Button tooltip indicating whether to show autosave files",
+    "message": "Näytä automaattitallennukset"
+  },
+  "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
+    "description": "",
+    "message": "Simuloidaan kosmoksen evoluutiota: {age} miljardia vuotta ;-)"
+  },
+  "SOME_PARAMETERS_ARE_NOT_OK": {
+    "description": "Diagnostics at game start",
+    "message": "Jotkut määrittelyt eivät ole kunnossa:"
+  },
+  "SORT_COMMODITY": {
+    "description": "Indicates the list of objects should be sorted by commodity",
+    "message": "Hyödyke"
+  },
+  "SORT_DISTANCE": {
+    "description": "Indicates the list of objects should be sorted by distance",
+    "message": "Etäisyys"
+  },
+  "SORT_MODE": {
+    "description": "Label indicating the current sorting mode of a list of objects",
+    "message": "Järjestys"
+  },
+  "SORT_NAME": {
+    "description": "Indicates the list of objects should be sorted by name",
+    "message": "Nimi"
+  },
+  "SOUND": {
+    "description": "",
+    "message": "Ääni"
+  },
+  "STANDARD_GAME_START_TIME": {
+    "description": "Standard game start time, current moment + 1200 years",
+    "message": "Tavallinen pelin aloitushetki"
+  },
+  "START_AT_BARNARDS_STAR": {
+    "description": "",
+    "message": "Aloita Barnardin tähdeltä"
+  },
+  "START_AT_BARNARDS_STAR_DESC": {
+    "description": "",
+    "message": "Tämä on vaikea pelin aloitus vierailijana System Administration Resting -vankilassa."
+  },
+  "START_AT_MARS": {
+    "description": "",
+    "message": "Aloita Marsissa"
+  },
+  "START_AT_MARS_DESC": {
+    "description": "",
+    "message": "Tämä on helppo aloitus Cydoniasta Marsissa, Sol–järjestelmässä."
+  },
+  "START_AT_NEW_HOPE": {
+    "description": "New Hope is an in game location",
+    "message": "Aloita New Hopessa"
+  },
+  "START_AT_NEW_HOPE_DESC": {
+    "description": "",
+    "message": "Tämä on keskivaikea aloitus New Hopen Itzaleanista Epsilon Eridani –järjestelmässä."
+  },
+  "START_GAME": {
+    "description": "Button",
+    "message": "Aloita peli"
+  },
+  "START_LOG_ENTRY_1": {
+    "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
+    "message": "Valitettavasti setäni ei koskaan näyttänyt minulle, miten tätä vanhaa lotjaa käytetään, mutta käsittääkseni teen nyt merkintää aluksen lokiin. Outoa, että voin yhä aistia hänet, kuin hän olisi tämän aluksen seinissä. Ehkä hän voi olla perämieheni meidän löytäessämme kohtalomme suuressa tyhjyydessä. Mutta ensin minun pitää ostaa vetyä hypermoottoriin, suunnata tuottoisille kauppapaikoille ja rukoilla, että liikenteenohjaus sallii kaltaiseni kokemattoman pilotin nousta. Sitten näemme mihin tästä koneesta on. Aika alkaa niittää mainetta!"
+  },
+  "START_LOG_ENTRY_2": {
+    "description": "First custom log message when starting a new game, giving backstory to the character, here going for a Blade Runner feeling",
+    "message": "Saappaani ovat yhä märät viime yön rankkasateesta kotona. Päällyste oli niin märkä, että se ikään kuin kostoksi häivytti taivaan kadulle paistavien neonvalojen heijastuksella. Mutta pääsin sateen läpi lennolle avaruussatamaan, jossa uusi alukseni odotti. Vartija katsahti minua oudoksuen, kun sanoin hänelle tulleeni lunastamaan alusta. En varmaankaan näyttänyt tyypilliseltä tapaukselta myytyäni omaisuuteni ja sijoitettuani sen tähän vanhaan ruostesoikkoon, märkine saappaineni. Mutta minusta tuntuu todella, että tästä lähtien tulevaisuuteni kirjoitetaan tähtiin. Nyt minun täytyy vain löytää virta-avain."
+  },
+  "START_LOG_ENTRY_3": {
+    "description": "First custom log message when starting a new game, giving backstory to the character. Here explaining why there's no hyperdrive in the ship, and what to do about it.",
+    "message": "Pitkän byrokraattisen prosessin jälkeen sain viimein takavarikoidun alukseni takaisin, mutta se oli karsittu paljaaksi korvauksena \"veloista\", joita he sanoivat minulla olevan. He veivät paitsi lempikahvinkeittimeni, myös hypermoottorin, joten olen jumissa tässä järjestelmässä, ellen sitten myy loppujakin osia uutta moottoria varten. Mutta niin kuin sanotaan, puolityhjä lasi on puolitäysi. Joten vaikka olen taas pohjalla, pidän tätä mahdollisuutena takaiskun sijaan, tai uutena alkuna. Ilman kahvia. Päästämällä irti siitä mitä olen, voin tulla siksi mitä voin olla. Maailma väistää päästääkseen minut kulkemaan, niin kuin se tekee heille jotka tietävät minne he ovat menossa, ja minä olen menossa tähtiin."
+  },
+  "STAR_FIELD_DENSITY": {
+    "description": "",
+    "message": "Tähtitarhan tiheys"
+  },
+  "STAR_FIELD_STAR_SIZE_FACTOR": {
+    "description": "",
+    "message": "Tähtien koko"
+  },
+  "STATION": {
+    "description": "Flight log info, will refer to a station by name",
+    "message": "Asema"
+  },
+  "STATION_DOCKS": {
+    "description": "Information shown in the station lobby, for total number of docking pads",
+    "message": "Kokonaiskapasiteettimme on {total_docking_pads} telakointipistettä."
+  },
+  "STATION_LOCAL_GRAVITY": {
+    "description": "",
+    "message": "Painovoima on täällä %.2f g."
+  },
+  "STATION_LOCAL_GRAVITY_PRESSURE": {
+    "description": "",
+    "message": "Painovoima on %.2f g ja kaasunpaine on %.2f atm."
+  },
+  "STATION_MANAGER": {
+    "description": "",
+    "message": "Asemanhoitaja"
+  },
+  "STATION_ORBIT": {
+    "description": "Information shown in the station loby",
+    "message": "Kiertoratamme kiertää {parent_body}:n {orbit_period}:ssa päivässä."
+  },
+  "STATION_TECH_TOO_LOW": {
+    "description": "",
+    "message": "Aseman teknologiataso on liian alhainen tämän tavaran myymiseen"
+  },
+  "STATUS": {
+    "description": "",
+    "message": "Tila"
+  },
+  "SUMMARY": {
+    "description": "Tab item in the start game menu",
+    "message": "Yhteenveto"
+  },
+  "SYSTEM_BODY_INDEX_IS_OUT_OF_RANGE": {
+    "description": "Message when restoring savegame",
+    "message": "Järjestelmän kappalenumero on rajojen ulkopuolella"
+  },
+  "SYSTEM_FACTION": {
+    "description": "Tooltip indicating the faction controlling this system",
+    "message": "Hallitseva ryhmittymä"
+  },
+  "SYSTEM_INFORMATION": {
+    "description": "Tooltip / label indicating information about a selected star system",
+    "message": "Järjestelmätietoja"
+  },
+  "SYSTEM_NUM_STARS": {
+    "description": "Tooltip indicating the system stellar arrangement",
+    "message": "Tähtien määrä järjestelmässä"
+  },
+  "SYSTEM_SECURITY_1": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Turvallinen"
+  },
+  "SYSTEM_SECURITY_2": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Jokseenkin vaaraton"
+  },
+  "SYSTEM_SECURITY_3": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Vaarallinen"
+  },
+  "SYSTEM_SECURITY_4": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Hyvin vaarallinen"
+  },
+  "SYSTEM_SECURITY_5": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Kuolettava"
+  },
+  "SYSTEM_SECURITY_TOOLTIP": {
+    "description": "Tooltip introducing the system security rating",
+    "message": "Järjestelmän turvallisuustaso"
+  },
+  "TECH_CERTIFIED": {
+    "description": "Lobby screen shows the tech level (an integer number) of the station",
+    "message": "Tällä asemalla on tason {tech_level} teknologiatodistus."
+  },
+  "TECH_CERTIFIED_MILITARY": {
+    "description": "Lobby screen shows the tech level of the station",
+    "message": "Tällä asemalla on sotilasteknologiatodistus."
+  },
+  "TECH_LEVEL": {
+    "description": "System view label for technology level",
+    "message": "Teknologiataso"
+  },
+  "TEXTURE_COMPRESSION": {
+    "description": "",
+    "message": "Tämä vapauttaa enemmän grafiikkamuistia, joka lienee toivottavaa, ja pakkaus tapahtuu pelin käynnistyksessä."
+  },
+  "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
+    "description": "",
+    "message": "Kiitos ostoksestanne. Muistakaa asentaa varustukset ja ostaa polttoainetta ennen lähtöä."
+  },
+  "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
+    "description": "",
+    "message": "Aluksessa ei ole ketään muuta, joka osaisi sitä lentää."
+  },
+  "THERE_WERE_ERRORS_IN_RECOVERY": {
+    "description": "Message when restoring savegame",
+    "message": "Palautuksessa oli virheitä:"
+  },
+  "THESE_ITEMS_ARE_PUNISHABLE_BY_FINE": {
+    "description": "",
+    "message": "Seuraavien osto, myynti ja kuljetus on kielletty sakon ja mahdollisesti takavarikoinnin uhalla"
+  },
+  "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
+    "description": "",
+    "message": "Alus on aseman ohjauksessa, komentaja."
+  },
+  "THIS_IS_FACTION_POLICE": {
+    "description": "Greeting message in police station. 'faction' is one of (English, non-translatable) strings: 'Solar Federation', 'Commonwealth of Independent Worlds', or 'Haber Corporation', and 'faction_police' is one of: 'SolFed Police Force', 'Confederal Police' or, 'Haber Enforcement Division'",
+    "message": "Tämä on {faction_police} {faction} -ryhmittymästä"
+  },
+  "THREE_KPC_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "3kpc-sivuhaara"
+  },
+  "TOGGLE_CARGO_WINDOW": {
+    "description": "Label for a button toggling the cargo display window.",
+    "message": "Rahti-ikkuna"
+  },
+  "TOGGLE_FULL_COMMS_WINDOW": {
+    "description": "on world view / main screen",
+    "message": "Täysi viestintäikkuna"
+  },
+  "TOGGLE_MALE_FEMALE": {
+    "description": "player gender",
+    "message": "Vaihda sukupuoli"
+  },
+  "TOGGLE_OVERVIEW_SHOW_MOONS": {
+    "description": "toggle whether the overview window shows moons or not",
+    "message": "Näytä kuut katsauksessa"
+  },
+  "TOGGLE_OVERVIEW_SHOW_STATIONS": {
+    "description": "toggle whether the overview window shows stations or not",
+    "message": "Näytä asemat katsauksessa"
+  },
+  "TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE": {
+    "description": "toggle whether the overview window sorts by distance from the player or from the system center",
+    "message": "Järjestä joko perustuen etäisyyteen pelaajaan tai etäisyyteen järjestelmän keskikohtaan"
+  },
+  "TOGGLE_OVERVIEW_WINDOW": {
+    "description": "show/hide the overview window / navigation window",
+    "message": "Katsausikkuna"
+  },
+  "TOO_SMALL_FOR_CURRENT_CREW": {
+    "description": "",
+    "message": "Alus on nykyiselle miehistölle liian pieni."
+  },
+  "TOO_SMALL_TO_TRANSSHIP": {
+    "description": "Ship market error message",
+    "message": "Uuden aluksen kapasiteetti on riittämätön tälle lastille ja hypermoottorille."
+  },
+  "TOTAL": {
+    "description": "",
+    "message": "Yhteensä: "
+  },
+  "TOTAL_DISTANCE": {
+    "description": "Total distance of a (possibly series) of hyper jump(s)",
+    "message": "Matkaa yhteensä"
+  },
+  "TOTAL_DURATION": {
+    "description": "Total duration of a (possibly series) of hyper jump(s)",
+    "message": "Kokonaiskesto"
+  },
+  "TOTAL_MASS": {
+    "description": "",
+    "message": "Kokonaismassa"
+  },
+  "TO_PICK_UP": {
+    "description": "Mission status",
+    "message": "Haettavana"
+  },
+  "TRADING_AT": {
+    "description": "Indicates the current system for inspecting commodities.",
+    "message": "Järjestelmässä:"
+  },
+  "TRADING_FROM": {
+    "description": "Indicates the source system of a commodity trade.",
+    "message": "Järjestelmästä:"
+  },
+  "TRADING_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Laittoman tavaran kauppa"
+  },
+  "TRADING_TO": {
+    "description": "Indicates the destination system of a commodity trade.",
+    "message": "Järjestelmään:"
+  },
+  "TRANSFER_FUEL": {
+    "description": "Label indicating the ability to transfer fuel between equipment tanks",
+    "message": "Polttoaineensiirto"
+  },
+  "TRANSLATE_VIEW": {
+    "description": "Indicates that the button must be kept pressed down, to translate the camera view with mouse",
+    "message": "Pidä painettuna näkymän kääntämiseksi"
+  },
+  "TRUSTWORTHY": {
+    "description": "For player reputation",
+    "message": "Luotettava"
+  },
+  "TURN_OFF": {
+    "description": "",
+    "message": "Laita pois päältä"
+  },
+  "TWR": {
+    "description": "Short label for the current thrust-to-weight ratio readout on the flight HUD",
+    "message": "TWR"
+  },
+  "TWR_AT_SURFACE": {
+    "description": "TWR (Thrust to Weight Ratio) at planet surface",
+    "message": "Työntö/paino pinnalla"
+  },
+  "TWR_CURRENT": {
+    "description": "TWR (Thrust to Weight Ratio) at current location",
+    "message": "TWR: työnnön suhde painoon (nyt)"
+  },
+  "TWR_CURRENT_TOOLTIP": {
+    "description": "",
+    "message": "Työnnön suhde painoon sen tämänhetkisessä sijainnissa.\nJos TWR on alle 1.0, alus ei voi nousta."
+  },
+  "TWR_TARGET": {
+    "description": "TWR (Thrust to Weight Ratio) at target nav location",
+    "message": "Työnnön suhde painoon (kohde)"
+  },
+  "TWR_TARGET_TOOLTIP": {
+    "description": "",
+    "message": "Työnnön suhde painoon määränpäässä.\nJos TWR on alle 1.0, alus ei voi nousta."
+  },
+  "TYPE": {
+    "description": "",
+    "message": "Tyyppi"
+  },
+  "UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Tuntematon lokimerkintämuoto (custom)"
+  },
+  "UNKNOWN_FACTION": {
+    "description": "For entry in the flight log",
+    "message": "Tuntematon taho"
+  },
+  "UNKNOWN_LOCATION_IN_SECTOR_X": {
+    "description": "For entry in the flight log",
+    "message": "Tuntematon sijainti {sector}-sektorissa"
+  },
+  "UNKNOWN_STATION_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Tuntematon asemalokimerkintämuoto"
+  },
+  "UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Tuntematon järjestelmälokimerkintämuoto"
+  },
+  "UNLAWFUL_ECM_DISCHARGE": {
+    "description": "",
+    "message": "Laiton elektroninen purkaus"
+  },
+  "UNLAWFUL_WEAPONS_DISCHARGE": {
+    "description": "",
+    "message": "Laiton tulitus"
+  },
+  "UNOCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "Vapaa matkustajapaikka"
+  },
+  "UNPROFITABLE_TRADE": {
+    "description": "Indicates an unprofitable trade route.",
+    "message": "Kannattamaton kauppareitti"
+  },
+  "UNRELIABLE": {
+    "description": "",
+    "message": "Epäluotettava"
+  },
+  "UNSUCCESSFULLY_RECOVERED_PARAMETERS_ARE_NOW_UNLOCKED_PLEASE_SET_THEM_MANUALLY": {
+    "description": "Message when restoring savegame",
+    "message": "Muuttujat, joita ei saatu palautettua, ovat nyt lukitsematta, aseta ne käsin."
+  },
+  "UP_ACCEL": {
+    "description": "",
+    "message": "Ylöskiihdytys"
+  },
+  "UP_ACCEL_EMPTY": {
+    "description": "",
+    "message": "Ylöskiihdytys (tyhjä)"
+  },
+  "USED": {
+    "description": "Usually shown with FREE as a pair, e.g. 4t used / 7t free",
+    "message": "käyt."
+  },
+  "VERY_HIGH": {
+    "description": "Game settings option: graphic resolution",
+    "message": "Hyvin korkea"
+  },
+  "VERY_LOW": {
+    "description": "Game settings option: graphic resolution",
+    "message": "Hyvin matala"
+  },
+  "VICINITY_OF": {
+    "description": "",
+    "message": "Lähellä:"
+  },
+  "VIDEO": {
+    "description": "",
+    "message": "Video"
+  },
+  "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY": {
+    "description": "",
+    "message": "Videoasetukset (vaatii uudelleenkäynnistyksen)"
+  },
+  "VIDEO_RESOLUTION": {
+    "description": "",
+    "message": "Videon tarkkuus"
+  },
+  "VIDEO_RESOLUTION_DESC": {
+    "description": "Tooltip for video mode/resultion setting",
+    "message": "Korkeat tarkkuudet näyttävät enemmän tietoa pienemmässä koossa ja voivat haitata suorituskykyä."
+  },
+  "VIEW_DESTINATION": {
+    "description": "Tooltip indicating the button will change the current view to the destination of a route.",
+    "message": "Näytä määränpää"
+  },
+  "VISIT_PAINTSHOP": {
+    "description": "Ship Repair tab button.",
+    "message": "Mene maalaamoon"
+  },
+  "VISIT_REPAIR_SERVICES": {
+    "description": "Ship Repair tab button.",
+    "message": "Mene korjaamolle"
+  },
+  "VOLUME": {
+    "description": "The volume property of some object",
+    "message": "Tilavuus"
+  },
+  "VSYNC": {
+    "description": "For the checkbox in settings window",
+    "message": "Pystytahdistus"
+  },
+  "VSYNC_DESC": {
+    "description": "",
+    "message": "Pystytahdistus voi poistaa kuvan repeytymisen tai sivutuotteita ja pienentää syöttöviivettä."
+  },
+  "WAGE": {
+    "description": "Salary of crew shown in crew roster",
+    "message": "Palkka"
+  },
+  "WEIGHT_EMPTY": {
+    "description": "",
+    "message": "Massa tyhjänä"
+  },
+  "WEIGHT_FULLY_LOADED": {
+    "description": "",
+    "message": "Massa täynnä"
+  },
+  "WE_ARE_IN_HYPERSPACE_COMMANDER": {
+    "description": "",
+    "message": "Olemme hyperavaruudessa, komentaja."
+  },
+  "WE_HAVE_NO_BUSINESS_WITH_YOU": {
+    "description": "Said by the police to law abiding player",
+    "message": "Meillä ei ole nyt toimitettavaa kanssanne."
+  },
+  "X_CANNOT_BE_TOLERATED_HERE": {
+    "description": "Message to be sent over comms by police when crime is committed by player",
+    "message": "{crime} ei tule täällä kuuloonkaan!"
+  },
+  "YES": {
+    "description": "Positive answer to a question",
+    "message": "Kyllä"
+  },
+  "YOURE_GOING_TO_REGRET_SACKING_ME": {
+    "description": "",
+    "message": "Kadut vielä erottamistani!"
+  },
+  "YOUR_HULL_IS_AT_X_INTEGRITY": {
+    "description": "",
+    "message": "Runkosi kunto on {value}%."
+  },
+  "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION": {
+    "description": "",
+    "message": "Rahasi eivät riitä."
+  },
+  "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD": {
+    "description": "",
+    "message": "Sinulla on {units} yksikköä ruumassasi"
+  },
+  "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER": {
+    "description": "",
+    "message": "Ensin täytyy valita maali, komentaja."
+  },
+  "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER": {
+    "description": "",
+    "message": "Ensin täytyy valita sopiva navigaatiokohde, komentaja."
+  },
+  "YOU_MUST_LAUNCH_FIRST_COMMANDER": {
+    "description": "",
+    "message": "Ensin täytyy irrottautua, komentaja."
+  },
+  "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER": {
+    "description": "",
+    "message": "Ensin on pyydettävä lähtölupa, komentaja."
+  },
+  "YOU_NOT_ENOUGH_MONEY": {
+    "description": "",
+    "message": "Sinulla ei ole tarpeeksi rahaa"
+  },
+  "ZOOM": {
+    "description": "Label for a zoom (magnification) control bar.",
+    "message": "Suurennos"
+  }
+}

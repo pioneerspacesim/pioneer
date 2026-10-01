@@ -1,0 +1,2038 @@
+{
+  "AIR_PROCESSORS": {
+    "description": "",
+    "message": "Ilmastointi"
+  },
+  "ALERT_CANCELLED": {
+    "description": "",
+    "message": "Hälytys peruttu."
+  },
+  "ALLEGIANCE": {
+    "description": "",
+    "message": "Lojaliteetti:"
+  },
+  "ALT": {
+    "description": "Alt key on keyboard",
+    "message": "Alt"
+  },
+  "AND_HIGHLY_COMPLEX_ECOSYSTEM": {
+    "description": "",
+    "message": "\" sekä monimutkainen ekosysteemi.\""
+  },
+  "AND_INDIGENOUS_MICROBIAL_LIFE": {
+    "description": "",
+    "message": "\" sekä alkuperäinen mikrobielämä.\""
+  },
+  "AND_INDIGENOUS_PLANT_LIFE": {
+    "description": "",
+    "message": "\" sekä alkuperäinen kasvielämä.\""
+  },
+  "ANIMAL_MEAT": {
+    "description": "",
+    "message": "Eläinliha"
+  },
+  "AN_AR_ATMOSPHERE": {
+    "description": "",
+    "message": "argon-kaasukehä"
+  },
+  "AN_O2_ATMOSPHERE": {
+    "description": "",
+    "message": "happikaasukehä"
+  },
+  "APOAPSIS_DISTANCE": {
+    "description": "",
+    "message": "Apoapsis etäisyys"
+  },
+  "AR_ATMOSPHERE": {
+    "description": "",
+    "message": "argon-kaasukehä"
+  },
+  "ASTEROID": {
+    "description": "",
+    "message": "Asteroidi"
+  },
+  "AUTOMATIC_SYSTEM_SELECTION": {
+    "description": "for star map, select star system when mouse close to it",
+    "message": "Automaattinen järjestelmävalinta"
+  },
+  "AUTOPILOT_CONTROL": {
+    "description": "Indicating that ship is flying under autopilot control",
+    "message": "Autopilotti käytössä"
+  },
+  "AUTOPILOT_DOCK_WITH_STATION": {
+    "description": "",
+    "message": "Autopilottitelakointi: {target}"
+  },
+  "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
+    "description": "",
+    "message": "Autopilotti: siirry korkealle kiertoradalle ({target})"
+  },
+  "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
+    "description": "",
+    "message": "Autopilotti: siirry matalalle kiertoradalle ({target})"
+  },
+  "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
+    "description": "",
+    "message": "Autopilotti: siirry keskikorkealle radalle ({target})"
+  },
+  "AUTOPILOT_FLY_TO_VICINITY_OF": {
+    "description": "",
+    "message": "Autopilotti: lennä kohteeseen {target}"
+  },
+  "AUTOPILOT_ON": {
+    "description": "",
+    "message": "Autopilotti päällä"
+  },
+  "AXIAL_TILT": {
+    "description": "",
+    "message": "Akselikallistus"
+  },
+  "A_CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "metaanikaasukehä"
+  },
+  "A_CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "hiilidioksidikaasukehä"
+  },
+  "A_CO_ATMOSPHERE": {
+    "description": "",
+    "message": "hiilimonoksidikaasukehä"
+  },
+  "A_FEW_THOUSAND": {
+    "description": "regarding population",
+    "message": "Vain joitakin tuhansia"
+  },
+  "A_HE_ATMOSPHERE": {
+    "description": "",
+    "message": "helium-kaasukehä"
+  },
+  "A_H_ATMOSPHERE": {
+    "description": "",
+    "message": "vetykaasukehä"
+  },
+  "A_N_ATMOSPHERE": {
+    "description": "",
+    "message": "typpikaasukehä"
+  },
+  "A_S_ATMOSPHERE": {
+    "description": "",
+    "message": "rikkikaasukehä"
+  },
+  "BATTLE_WEAPONS": {
+    "description": "",
+    "message": "Taisteluaseita"
+  },
+  "BINARY_SYSTEM": {
+    "description": "",
+    "message": "Binäärijärjestelmä"
+  },
+  "BODIES": {
+    "description": "space bodies",
+    "message": "kappaletta"
+  },
+  "BODY": {
+    "description": "",
+    "message": "kappale"
+  },
+  "BROWN_DWARF": {
+    "description": "",
+    "message": "Ruskea kääpiö (substellaarinen kappale)"
+  },
+  "CAMERA_BOTTOM_VIEW": {
+    "description": "",
+    "message": "Pohjakamera"
+  },
+  "CAMERA_FRONT_VIEW": {
+    "description": "",
+    "message": "Etukamera"
+  },
+  "CAMERA_LEFT_VIEW": {
+    "description": "",
+    "message": "Vasen kamera"
+  },
+  "CAMERA_REAR_VIEW": {
+    "description": "",
+    "message": "Takakamera"
+  },
+  "CAMERA_RIGHT_VIEW": {
+    "description": "",
+    "message": "Oikea kamera"
+  },
+  "CAMERA_TOP_VIEW": {
+    "description": "",
+    "message": "Yläkamera"
+  },
+  "CANT_SAVE_DEAD_PLAYER": {
+    "description": "",
+    "message": "Pelin tallennus ei onnistu, sillä pelaaja on menehtynyt"
+  },
+  "CANT_SAVE_IN_HYPERSPACE": {
+    "description": "",
+    "message": "Pelin tallennus ei onnistu hyperavaruudessa"
+  },
+  "CAPITALIST": {
+    "description": "",
+    "message": "Kapitalistinen"
+  },
+  "CARBON_ORE": {
+    "description": "",
+    "message": "Hiilimalmia"
+  },
+  "CARGO": {
+    "description": "",
+    "message": "Lasti"
+  },
+  "CARGO_BAY_LIFE_SUPPORT_LOST": {
+    "description": "",
+    "message": "Anturit ilmoittavat ruuman elossapitojärjestelmän olevan kriittisessä tilassa."
+  },
+  "CARGO_N": {
+    "description": "",
+    "message": "Lasti: %{mass}t"
+  },
+  "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
+    "description": "",
+    "message": "Lastikauha aktiivinen. Kerätty 1 tonni: %item."
+  },
+  "CARGO_SCOOP_ATTEMPTED": {
+    "description": "",
+    "message": "Lastikauha aktivoitu. Ruumassa ei ole tilaa."
+  },
+  "CENTER": {
+    "description": "",
+    "message": "Keskitä"
+  },
+  "CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "metaanikaasukehä"
+  },
+  "CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "hiilidioksidikaasukehä"
+  },
+  "COMMA_HIGHLY_VOLCANIC": {
+    "description": "",
+    "message": ", hyvin tuliperäinen"
+  },
+  "COMMODITY_NONE": {
+    "description": "When no commodities exist",
+    "message": "Ei ole"
+  },
+  "COMMODITY_TRADE_ANALYSIS_COMPARE": {
+    "description": "",
+    "message": "Kauppatavara-arvio #ff0%selected_system#fff (valittu) verrattuna #ff0%current_system#fff (nykyinen):"
+  },
+  "COMMODITY_TRADE_ANALYSIS_SELF": {
+    "description": "",
+    "message": "Kauppatavara-arvio #fff%system#fff"
+  },
+  "COMMS": {
+    "description": "Title of communications log window, on world view",
+    "message": "Viestintä"
+  },
+  "COMMUNIST": {
+    "description": "",
+    "message": "Kommunistinen"
+  },
+  "COMPASS_E": {
+    "description": "Abbreviation for compass direction: East",
+    "message": "I"
+  },
+  "COMPASS_N": {
+    "description": "Abbreviation for compass direction: North",
+    "message": "P"
+  },
+  "COMPASS_NE": {
+    "description": "Abbreviation for compass direction: North East",
+    "message": "KO"
+  },
+  "COMPASS_NW": {
+    "description": "Abbreviation for compass direction: North West",
+    "message": "LU"
+  },
+  "COMPASS_S": {
+    "description": "Abbreviation for compass direction: South",
+    "message": "E"
+  },
+  "COMPASS_SE": {
+    "description": "Abbreviation for compass direction: South East",
+    "message": "KA"
+  },
+  "COMPASS_SW": {
+    "description": "Abbreviation for compass direction: South West",
+    "message": "LO"
+  },
+  "COMPASS_W": {
+    "description": "Abbreviation for compass direction: West",
+    "message": "L"
+  },
+  "COMPUTERS": {
+    "description": "",
+    "message": "Tietokoneita"
+  },
+  "COMPUTER_HEADING_CONTROL": {
+    "description": "",
+    "message": "Tietokonesuuntaus"
+  },
+  "COMPUTER_SPEED_CONTROL": {
+    "description": "",
+    "message": "Tietokonenopeushallinta"
+  },
+  "CONSUMER_GOODS": {
+    "description": "",
+    "message": "Kulutustavaraa"
+  },
+  "CONTROLS": {
+    "description": "",
+    "message": "Ohjaus"
+  },
+  "CORPORATE_SYSTEM": {
+    "description": "",
+    "message": "Yhtiömuotoinen järjestelmä"
+  },
+  "COULD_NOT_OPEN_FILENAME": {
+    "description": "",
+    "message": "Ei voitu avata %path"
+  },
+  "COUNT_ON_SURFACE": {
+    "description": "",
+    "message": "\" (%surfacecount pinnalla)\""
+  },
+  "COUNT_STARPORTS": {
+    "description": "",
+    "message": "avaruussatama"
+  },
+  "CO_ATMOSPHERE": {
+    "description": "",
+    "message": "hiilimonoksidikaasukehä"
+  },
+  "CTRL": {
+    "description": "Ctrl key on keyboard",
+    "message": "Ctrl"
+  },
+  "CURRENT_SYSTEM": {
+    "description": "selected current star system",
+    "message": "Nykyjärjestelmä"
+  },
+  "DATE_DUE_N": {
+    "description": "",
+    "message": "Määräpäivä: %date"
+  },
+  "DAY_LENGTH": {
+    "description": "",
+    "message": "Päivän pituus"
+  },
+  "DECREASE_RADAR_RANGE": {
+    "description": "",
+    "message": "Vähennä tutkan kantamaa"
+  },
+  "DECREASE_SET_SPEED": {
+    "description": "",
+    "message": "Vähennä asetettua nopeutta"
+  },
+  "DECREASE_TIME_ACCELERATION": {
+    "description": "",
+    "message": "Vähennä ajan kiihdytystä"
+  },
+  "DEMOGRAPHICS": {
+    "description": "",
+    "message": "Tilastotiedot"
+  },
+  "DESTINATION": {
+    "description": "",
+    "message": "Kohde"
+  },
+  "DISTANCE_LY": {
+    "description": "",
+    "message": "Etäisyys: %distance{f.2} vv"
+  },
+  "DOCKED": {
+    "description": "",
+    "message": "Telakoitu"
+  },
+  "DOCKING": {
+    "description": "",
+    "message": "Telakoituu"
+  },
+  "DOWNGRADING_ALERT_STATUS": {
+    "description": "",
+    "message": "Tulipaloa ei havaittu kuuteenkymmeneen sekuntiin, lasketaan hälytystasoa."
+  },
+  "DRAW_OUT_RANGE_LABELS": {
+    "description": "",
+    "message": "Nimeä kantaman ulkopuolella olevat järjestelmät"
+  },
+  "DRAW_UNINHABITED_LABELS": {
+    "description": "",
+    "message": "Nimeä asumattomat järjestelmät"
+  },
+  "DRAW_VERTICAL_LINES": {
+    "description": "",
+    "message": "Piirrä pystyviivat"
+  },
+  "DWARF_PLANET_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "Kääpiöplaneetta, jossa on nestemäistä vettä"
+  },
+  "DWARF_PLANET_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "Hieman nesteitä sisältävä kääpiöplaneetta,"
+  },
+  "DWARF_PLANET_MOSTLY_COVERED_IN_ICE": {
+    "description": "",
+    "message": "Kääpiöplaneetta enimmäkseen jään peitossa"
+  },
+  "DWARF_PLANET_TERRESTRIAL": {
+    "description": "",
+    "message": "Kääpiöplaneetta"
+  },
+  "EARTH_FEDERATION_COLONIAL_RULE": {
+    "description": "",
+    "message": "Maafederaation siirtomaavalta"
+  },
+  "EARTH_FEDERATION_DEMOCRACY": {
+    "description": "",
+    "message": "Maafederaation demokratia"
+  },
+  "ECCENTRICITY": {
+    "description": "",
+    "message": "Eksentrisyys"
+  },
+  "ECONOMIC_INFO": {
+    "description": "",
+    "message": "Taloudellista tietoa"
+  },
+  "ECONOMY_TYPE": {
+    "description": "",
+    "message": "Talousmuoto"
+  },
+  "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
+    "description": "",
+    "message": "Päiväntasaajan ja napasäteiden suhde"
+  },
+  "ESCAPE_VELOCITY": {
+    "description": "",
+    "message": "Pakonopeus"
+  },
+  "EXACT_MATCH_X": {
+    "description": "",
+    "message": "Tarkka vastaavuus: %system"
+  },
+  "EXTENSIVE_MINING": {
+    "description": "",
+    "message": "Laajaa kaivostoimintaa."
+  },
+  "EXTERNAL_ATMOSPHERIC_PRESSURE": {
+    "description": "",
+    "message": "Ulkoinen kaasupaine"
+  },
+  "EXTERNAL_VIEW": {
+    "description": "",
+    "message": "Ulkoinen näkymä"
+  },
+  "FARM_MACHINERY": {
+    "description": "",
+    "message": "Maatalouskoneita"
+  },
+  "FERTILIZER": {
+    "description": "",
+    "message": "Lannoite"
+  },
+  "FIRE_LASER": {
+    "description": "",
+    "message": "Ammu aseella"
+  },
+  "FIRE_MISSILE": {
+    "description": "",
+    "message": "Ammu ohjus"
+  },
+  "FLYBY_VIEW": {
+    "description": "camera view setting",
+    "message": "Ohilentonäkymä"
+  },
+  "FOLLOWING_SELECTION": {
+    "description": "",
+    "message": "seurataan valintaa"
+  },
+  "FRUIT_AND_VEG": {
+    "description": "",
+    "message": "Hedelmiä ja vihanneksia"
+  },
+  "FUEL": {
+    "description": "",
+    "message": "Polttoaine"
+  },
+  "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": {
+    "description": "",
+    "message": "Polttoainekeräin aktivoitu. Vetyä on nyt %quantity tonnia."
+  },
+  "GALACTIC_VIEW": {
+    "description": "view galactic map",
+    "message": "Galaksinäkymä"
+  },
+  "GALAXY_SECTOR_VIEW": {
+    "description": "",
+    "message": "Galaksisektorinäkymä"
+  },
+  "GAME_LOAD_CANNOT_OPEN": {
+    "description": "",
+    "message": "Tallennusta '%filename' ei löytynyt (tai pelillä ei ole oikeutta avata sitä)."
+  },
+  "GAME_LOAD_CORRUPT": {
+    "description": "",
+    "message": "Tallennusta ei voitu ladata, koska siinä on virhe."
+  },
+  "GAME_LOAD_WRONG_VERSION": {
+    "description": "",
+    "message": "Tallennusta ei voitu ladata, koska se on tehty Pioneerin eri versiolla."
+  },
+  "GAME_SAVED_TO": {
+    "description": "",
+    "message": "\"Peli tallennettu \""
+  },
+  "GAME_SAVE_CANNOT_WRITE": {
+    "description": "",
+    "message": "Tallennusta ei voitu kirjoittaa järjestelmävirheen vuoksi."
+  },
+  "GAME_SAVE_INVALID_NAME": {
+    "description": "",
+    "message": "Tallennusta ei voitu kirjoittaa kelpaamattoman nimen vuoksi."
+  },
+  "GENERAL_VIEW_CONTROLS": {
+    "description": "",
+    "message": "Yleiset näkymän hallintakeinot"
+  },
+  "GOVERNMENT_TYPE": {
+    "description": "",
+    "message": "Hallitusmuoto"
+  },
+  "GRAIN": {
+    "description": "like wheat or barley",
+    "message": "Viljaa"
+  },
+  "GRID_DISPLAY_MODE": {
+    "description": "Label for grid display modes",
+    "message": "Ruudukkonäkymätila"
+  },
+  "GRID_DISPLAY_MODE_GRID_AND_LEGS": {
+    "description": "Combobox option for Grid with Legs",
+    "message": "Ruudukko jaloilla"
+  },
+  "GRID_DISPLAY_MODE_GRID_ONLY": {
+    "description": "Combobox option for Grid Only",
+    "message": "Vain ruudukko"
+  },
+  "GRID_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for Grid display off.",
+    "message": "Ei ruudukkoa"
+  },
+  "GRID_DISPLAY_MODE_TOGGLE": {
+    "description": "Tooltip for toggle grid display button.",
+    "message": "Vaihda ruudukon näkyminen."
+  },
+  "HAND_WEAPONS": {
+    "description": "",
+    "message": "Pienaseita"
+  },
+  "HARD_CAPITALIST": {
+    "description": "",
+    "message": "Täysin kapitalistinen, ei valtion sosiaaliavustuksia"
+  },
+  "HEADING_LOCK_ANTINORMAL": {
+    "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
+    "message": "Pidä {target}, antinormaali"
+  },
+  "HEADING_LOCK_BACKWARD": {
+    "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
+    "message": "Pidä {target}, retrogradinen"
+  },
+  "HEADING_LOCK_FORWARD": {
+    "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
+    "message": "Pidä {target}, progradinen"
+  },
+  "HEADING_LOCK_KILLROT": {
+    "description": "",
+    "message": "Poista kieriminen"
+  },
+  "HEADING_LOCK_NORMAL": {
+    "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
+    "message": "Pidä {target}, normaali"
+  },
+  "HEADING_LOCK_RADIALLY_INWARD": {
+    "description": "Autopilot direction, relative to orbit (face towards planet)",
+    "message": "Pidä {target}, säteittäin sisään"
+  },
+  "HEADING_LOCK_RADIALLY_OUTWARD": {
+    "description": "Autopilot direction, relative to orbit (face away from palent)",
+    "message": "Pidä {target}, säteittäin ulos"
+  },
+  "HEAVY_INDUSTRY": {
+    "description": "",
+    "message": "Raskas teollisuus."
+  },
+  "HE_ATMOSPHERE": {
+    "description": "",
+    "message": "helium-kaasukehä"
+  },
+  "HIGHLY_VOLCANIC": {
+    "description": "",
+    "message": "Hyvin tuliperäinen"
+  },
+  "HIGH_POPULATION_OUTDOOR_WORLD": {
+    "description": "",
+    "message": "Hyvin asutettu ulkoilumaailma."
+  },
+  "HULL_INTEGRITY": {
+    "description": "",
+    "message": "Rungon kunto"
+  },
+  "HULL_TEMP": {
+    "description": "",
+    "message": "Rungon lämpötila"
+  },
+  "HYDROGEN": {
+    "description": "",
+    "message": "Vety"
+  },
+  "HYPERSPACE": {
+    "description": "",
+    "message": "Hyperavaruus"
+  },
+  "HYPERSPACE_ARRIVAL_CLOUD": {
+    "description": "",
+    "message": "Saapunut"
+  },
+  "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
+    "description": "",
+    "message": "Saapunut (jäänne)"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
+    "description": "Label for hyperspace cloud display modes.",
+    "message": "Hyperavaruuspilvien näyttötila"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL": {
+    "description": "Combobox option for all hyperspace clouds.",
+    "message": "Kaikki hyperavaruuspilvet"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY": {
+    "description": "Combobox option for arrival hyperspace clouds.",
+    "message": "Saapuvien hyperavaruuspilvet"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY": {
+    "description": "Combobox option for departure hyperspace clouds.",
+    "message": "Lähtevien hyperavaruuspilvet"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE": {
+    "description": "Tooltip for the button which toggles the display mode of hyperspace clouds.",
+    "message": "Vaihda hyperavaruuspilvien näkyvyys."
+  },
+  "HYPERSPACE_DEPARTURE_CLOUD": {
+    "description": "",
+    "message": "Lähtenyt"
+  },
+  "HYPERSPACE_JUMP_ABORT": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Katkaise hyperajo"
+  },
+  "HYPERSPACE_JUMP_ABORTED": {
+    "description": "",
+    "message": "Hyperavaruushyppy peruttu."
+  },
+  "HYPERSPACE_JUMP_DISABLED": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Hyperajo pois käytöstä"
+  },
+  "HYPERSPACE_JUMP_ENGAGE": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Käynnistä hyperajo"
+  },
+  "HYPERSPACE_JUMP_FORBIDDEN": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "Hyperajokieltoalue"
+  },
+  "HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Hyperajokohde"
+  },
+  "H_ATMOSPHERE": {
+    "description": "",
+    "message": "vetykaasukehä"
+  },
+  "ICE_DWARF_PLANET": {
+    "description": "",
+    "message": "Jäinen kääpiöplaneetta"
+  },
+  "ICE_MOON": {
+    "description": "",
+    "message": "\" jääkuu\""
+  },
+  "ICE_WORLD": {
+    "description": "",
+    "message": "\" jäämaailma\""
+  },
+  "ILLEGAL_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+    "message": "Laittomia (nykyjärjestelmä):"
+  },
+  "ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Laittomat tavarat:"
+  },
+  "IMPERIAL_RULE": {
+    "description": "",
+    "message": "Keisarillinen hallinto"
+  },
+  "INCREASE_RADAR_RANGE": {
+    "description": "",
+    "message": "Lisää tutkan kantamaa"
+  },
+  "INCREASE_SET_SPEED": {
+    "description": "",
+    "message": "Lisää asetettua nopeutta"
+  },
+  "INCREASE_TIME_ACCELERATION": {
+    "description": "",
+    "message": "Lisää ajan kiihdytystä"
+  },
+  "INDUSTRIAL_COLONY": {
+    "description": "",
+    "message": "Teollisuussiirtokunta."
+  },
+  "INDUSTRIAL_HUB_SYSTEM": {
+    "description": "",
+    "message": "Teollisuussolmujärjestelmä."
+  },
+  "INDUSTRIAL_MACHINERY": {
+    "description": "",
+    "message": "Teollisuuskoneita"
+  },
+  "INTERNAL_VIEW": {
+    "description": "",
+    "message": "Sisäinen näkymä"
+  },
+  "JOY": {
+    "description": "Short for Joystick",
+    "message": "Joy"
+  },
+  "JOYSTICK_INPUT": {
+    "description": "",
+    "message": "Peliohjainohjaus"
+  },
+  "L4L5_DISPLAY_MODE": {
+    "description": "Label for the lagrange point display modes.",
+    "message": "Lagrangen piste -näyttötila"
+  },
+  "L4L5_DISPLAY_MODE_ICONS_AND_TEXT": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Kuvakkeet ja nimet"
+  },
+  "L4L5_DISPLAY_MODE_ICONS_ONLY": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Kuvakkeet"
+  },
+  "L4L5_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for lagrange point display off.",
+    "message": "Pois"
+  },
+  "L4L5_DISPLAY_MODE_TOGGLE": {
+    "description": "Tooltip for the L4/L5 Lagrange points toggle button.",
+    "message": "Vaihda L4/L5 lagrangen pisteiden näkyvyyttä."
+  },
+  "LANDED": {
+    "description": "",
+    "message": "Laskeutunut"
+  },
+  "LANG_NAME": {
+    "description": "The name that native speakers use for this language. This will be used in the language selection screen.",
+    "message": "suomi"
+  },
+  "LARGE": {
+    "description": "regarding terrestrial planet size (mass actually)",
+    "message": "Iso"
+  },
+  "LARGE_GAS_GIANT": {
+    "description": "",
+    "message": "Iso kaasujättiläinen"
+  },
+  "LASER_FIRE_DETECTED": {
+    "description": "",
+    "message": "Havaittu aseiden käyttöä."
+  },
+  "LATITUDE": {
+    "description": "Short for latitude",
+    "message": "Leveys:"
+  },
+  "LATITUDE_NORTH_ABBREV": {
+    "description": "Abbreviation letter for latitude 'north'",
+    "message": "P"
+  },
+  "LATITUDE_SOUTH_ABBREV": {
+    "description": "Abbreviation letter for latitude 'south'",
+    "message": "E"
+  },
+  "LEGAL_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+    "message": "Laillisia (nykyjärjestelmä):"
+  },
+  "LIBERAL_DEMOCRACY": {
+    "description": "",
+    "message": "Liberaali demokratia"
+  },
+  "LIQUID_OXYGEN": {
+    "description": "",
+    "message": "Nestemäinen happi"
+  },
+  "LIQUOR": {
+    "description": "",
+    "message": "Väkevä alkoholi"
+  },
+  "LIVE_ANIMALS": {
+    "description": "",
+    "message": "Elävät eläimet"
+  },
+  "LOCKED": {
+    "description": "to lock a hyperspace target",
+    "message": "lukittu"
+  },
+  "LONGITUDE": {
+    "description": "Short for longitude",
+    "message": "Pituus:"
+  },
+  "LONGITUDE_EAST_ABBREV": {
+    "description": "Abbreviation letter for longitude 'east'",
+    "message": "I"
+  },
+  "LONGITUDE_WEST_ABBREV": {
+    "description": "Abbreviation letter for latitude 'west'",
+    "message": "L"
+  },
+  "MAJOR_EXPORTS": {
+    "description": "",
+    "message": "Tärkeät vientituotteet:"
+  },
+  "MAJOR_EXPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Tärkeät vientituotteet (täällä)"
+  },
+  "MAJOR_IMPORTS": {
+    "description": "",
+    "message": "Tärkeät tuontituotteet:"
+  },
+  "MAJOR_IMPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Tärkeät tuontituotteet (täällä)"
+  },
+  "MANUAL_CONTROL": {
+    "description": "",
+    "message": "Käsiohjaus"
+  },
+  "MANUAL_CONTROL_MODE": {
+    "description": "",
+    "message": "Käsiohjaus"
+  },
+  "MASS": {
+    "description": "",
+    "message": "Massa"
+  },
+  "MASSIVE": {
+    "description": "Adjective used to describe the size of an object.",
+    "message": "Valtava"
+  },
+  "MASS_N_TONNES": {
+    "description": "",
+    "message": "Massa: %{mass}t"
+  },
+  "MEAN_DENSITY": {
+    "description": "",
+    "message": "Keskitiheys"
+  },
+  "MEDICINES": {
+    "description": "",
+    "message": "Lääkkeitä"
+  },
+  "MEDIUM": {
+    "description": "Adjective used to describe the size of an object.",
+    "message": "Keskikokoinen"
+  },
+  "MEDIUM_GAS_GIANT": {
+    "description": "",
+    "message": "Keskikokoinen kaasujättiläinen"
+  },
+  "MESSAGE_FROM_X": {
+    "description": "",
+    "message": "Viesti %sender:lta:"
+  },
+  "META": {
+    "description": "'Meta' key on keyboard",
+    "message": "Meta"
+  },
+  "METAL_ALLOYS": {
+    "description": "",
+    "message": "Seosmetalleja"
+  },
+  "METAL_ORE": {
+    "description": "",
+    "message": "Metallimalmia"
+  },
+  "MILITARY_DICTATORSHIP": {
+    "description": "",
+    "message": "Sotilasdiktatuuri"
+  },
+  "MILITARY_FUEL": {
+    "description": "",
+    "message": "Sotilaspolttoaine"
+  },
+  "MINING_COLONY": {
+    "description": "",
+    "message": "Kaivossiirtokunta."
+  },
+  "MINING_MACHINERY": {
+    "description": "",
+    "message": "Kaivoskoneita"
+  },
+  "MINOR_EXPORTS": {
+    "description": "",
+    "message": "Pieni vienti:"
+  },
+  "MINOR_EXPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Pieni vienti (täällä)"
+  },
+  "MINOR_IMPORTS": {
+    "description": "",
+    "message": "Pieni tuonti:"
+  },
+  "MINOR_IMPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "Pieni tuonti (täällä)"
+  },
+  "MISCELLANEOUS": {
+    "description": "",
+    "message": "Sekalaiset"
+  },
+  "MISSILE": {
+    "description": "",
+    "message": "ohjus"
+  },
+  "MISSILE_DETECTED": {
+    "description": "",
+    "message": "Ohjuslaukaisu havaittu."
+  },
+  "MIXED_ECONOMY": {
+    "description": "",
+    "message": "Vaihteleva talous"
+  },
+  "MONTH_APR": {
+    "description": "",
+    "message": "huh"
+  },
+  "MONTH_AUG": {
+    "description": "",
+    "message": "elo"
+  },
+  "MONTH_DEC": {
+    "description": "",
+    "message": "jou"
+  },
+  "MONTH_FEB": {
+    "description": "",
+    "message": "hel"
+  },
+  "MONTH_JAN": {
+    "description": "",
+    "message": "tam"
+  },
+  "MONTH_JUL": {
+    "description": "",
+    "message": "hei"
+  },
+  "MONTH_JUN": {
+    "description": "",
+    "message": "kes"
+  },
+  "MONTH_MAR": {
+    "description": "",
+    "message": "maa"
+  },
+  "MONTH_MAY": {
+    "description": "",
+    "message": "tou"
+  },
+  "MONTH_NOV": {
+    "description": "",
+    "message": "mar"
+  },
+  "MONTH_OCT": {
+    "description": "",
+    "message": "lok"
+  },
+  "MONTH_SEP": {
+    "description": "",
+    "message": "syy"
+  },
+  "MOON_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\" kuu, jossa nestemäistä vettä\""
+  },
+  "MOON_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\" hieman jäätä sisältävä kuu\""
+  },
+  "NAME_OBJECT": {
+    "description": "For an item or object",
+    "message": "Nimi"
+  },
+  "NAME_PERSON": {
+    "description": "For a person",
+    "message": "Nimi"
+  },
+  "NARCOTICS": {
+    "description": "",
+    "message": "Huumausaineita"
+  },
+  "NAVIGATION_STAR_MAPS": {
+    "description": "",
+    "message": "Navigaatio- ja tähtikarttoja"
+  },
+  "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
+    "description": "",
+    "message": "Navigaatiokohteet tässä järjestelmässä"
+  },
+  "NERVE_GAS": {
+    "description": "",
+    "message": "Hermokaasua"
+  },
+  "NONE": {
+    "description": "To indicate the absence of something",
+    "message": "<Ei ole>"
+  },
+  "NOT_FOUND": {
+    "description": "searching star system in sector view",
+    "message": "Ei löydy"
+  },
+  "NOT_FOUND_BEST_MATCH_X": {
+    "description": "",
+    "message": "Ei löytynyt, paras vastaavuus: %system"
+  },
+  "NOW": {
+    "description": "In System Orbit View",
+    "message": "Nyt"
+  },
+  "NO_ALERT": {
+    "description": "",
+    "message": "Ei hälytystä"
+  },
+  "NO_AUTOPILOT_INSTALLED": {
+    "description": "",
+    "message": "Alukseen ei ole asennettu autopilottia, ei voi aktivoida autopilottia"
+  },
+  "NO_CENTRAL_GOVERNANCE": {
+    "description": "",
+    "message": "Ei keskushallintoa"
+  },
+  "NO_ESTABLISHED_ORDER": {
+    "description": "",
+    "message": "Ei vakiintunutta järjestystä"
+  },
+  "NO_HYPERCLOUD_ANALYZER_INSTALLED": {
+    "description": "",
+    "message": "Ei asennettua hyperpilvianalysoijaa"
+  },
+  "NO_HYPERDRIVE": {
+    "description": "",
+    "message": "Ei hypermoottoria"
+  },
+  "NO_REGISTERED_INHABITANTS": {
+    "description": "",
+    "message": "Ei virallisia asukkaita"
+  },
+  "NO_TARGET_SELECTED": {
+    "description": "",
+    "message": "Aluksen tietokone: kohdetta ei valittu"
+  },
+  "NUMBER_DAYS": {
+    "description": "",
+    "message": "%days{f.0} päivää"
+  },
+  "NUMBER_DECIMAL_POINT": {
+    "description": "Decimal delimiter used in numbers.",
+    "message": ","
+  },
+  "NUMBER_G": {
+    "description": "",
+    "message": "%acceleration{f.1} G"
+  },
+  "NUMBER_GROUP_MIN": {
+    "description": "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
+    "message": "1000"
+  },
+  "NUMBER_GROUP_NUM": {
+    "description": "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
+    "message": "3"
+  },
+  "NUMBER_GROUP_SEP": {
+    "description": "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
+    "message": " "
+  },
+  "NUMBER_HOURS": {
+    "description": "",
+    "message": "%hours{f.1} t"
+  },
+  "NUMBER_LY": {
+    "description": "",
+    "message": "%distance{f.2} vv"
+  },
+  "NUMBER_TONNES": {
+    "description": "",
+    "message": "%{mass} t"
+  },
+  "N_ATMOSPHERE": {
+    "description": "",
+    "message": "typpikaasukehä"
+  },
+  "N_CELSIUS": {
+    "description": "",
+    "message": "%temperature C"
+  },
+  "N_DAYS": {
+    "description": "",
+    "message": "%days{f.1} päivää"
+  },
+  "N_DEGREES": {
+    "description": "",
+    "message": "%angle{f.1} astetta"
+  },
+  "N_EARTH_DAYS": {
+    "description": "",
+    "message": "%days{f.1} Maan päivää"
+  },
+  "N_EARTH_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} Maan massaa"
+  },
+  "N_EARTH_RADII": {
+    "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
+    "message": "%radius{f.3} Maan sädettä (%radkm{f.0} km)"
+  },
+  "N_SOLAR_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} Auringon massaa"
+  },
+  "N_SOLAR_RADII": {
+    "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
+    "message": "%radius{f.3} Auringon sädettä (%radkm{f.0} km)"
+  },
+  "N_YEARS": {
+    "description": "",
+    "message": "%years{f.1} vuotta"
+  },
+  "O2_ATMOSPHERE": {
+    "description": "",
+    "message": "happikaasukehä"
+  },
+  "OBJECT_INFO": {
+    "description": "Originally for use as a window title and a button tooltip in the system map",
+    "message": "Tietoa kappaleesta"
+  },
+  "OCEANICMOON": {
+    "description": "",
+    "message": "\" valtamerikuu\""
+  },
+  "OCEANICWORLD": {
+    "description": "",
+    "message": "\" valtamerimaailma\""
+  },
+  "ORBITAL_PERIOD": {
+    "description": "",
+    "message": "Kiertorataperiodi"
+  },
+  "ORBITAL_STARPORT": {
+    "description": "",
+    "message": "Kiertoratasatama"
+  },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Kiertoratalaskuri"
+  },
+  "OUTDOOR_AGRICULTURAL_WORLD": {
+    "description": "",
+    "message": "Maatalousmaailma."
+  },
+  "OVER_N_BILLION": {
+    "description": "",
+    "message": "Yli %population miljardia"
+  },
+  "OVER_N_MILLION": {
+    "description": "",
+    "message": "Yli %population miljoonaa"
+  },
+  "PASSENGER_CABIN": {
+    "description": "",
+    "message": "Varattu hytti"
+  },
+  "PAUSED": {
+    "description": "",
+    "message": "PYSÄYTETTY"
+  },
+  "PAY_FINE_REMOTELY": {
+    "description": "",
+    "message": "Maksa sakko kaukosiirtona (%amount)"
+  },
+  "PERIAPSIS_DISTANCE": {
+    "description": "",
+    "message": "Periapsis etäisyys"
+  },
+  "PIONEER": {
+    "description": "",
+    "message": "PIONEER"
+  },
+  "PITCH": {
+    "description": "",
+    "message": "Nyökkääminen"
+  },
+  "PITCH_DOWN": {
+    "description": "",
+    "message": "Nyökkääminen alas"
+  },
+  "PITCH_UP": {
+    "description": "",
+    "message": "Nyökkääminen ylös"
+  },
+  "PLANETARY_INFO": {
+    "description": "",
+    "message": "Planeetan tiedot"
+  },
+  "PLANET_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\" nestemäistä vettä sisältävä planeetta\""
+  },
+  "PLANET_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\" hieman jäätä sisältävä planeetta\""
+  },
+  "PLANNED_ECONOMY": {
+    "description": "",
+    "message": "Suunnitelmatalous"
+  },
+  "PLANNER_RESET_FACTOR": {
+    "description": "For system orbit view",
+    "message": "Delta-v arvojen lisäyksen suuruus. Napsautus palauttaa oletusarvon."
+  },
+  "PLANNER_RESET_NORMAL": {
+    "description": "For system orbit view",
+    "message": "Normaali delta-v. Napsautus nollaa."
+  },
+  "PLANNER_RESET_PROGRADE": {
+    "description": "For system orbit view",
+    "message": "Progradinen delta-v. Napsautus nollaa."
+  },
+  "PLANNER_RESET_RADIAL": {
+    "description": "For system orbit view",
+    "message": "Säteittäinen delta-v. Napsautus nollaa."
+  },
+  "PLANNER_RESET_START": {
+    "description": "For system orbit view",
+    "message": "Manööverin aloitus. Napsautus palauttaa oletusarvon."
+  },
+  "PLASTICS": {
+    "description": "",
+    "message": "Muovi"
+  },
+  "PLUTOCRATIC_DICTATORSHIP": {
+    "description": "",
+    "message": "Plutokraattinen diktatuuri"
+  },
+  "POPULATION": {
+    "description": "",
+    "message": "Väestö"
+  },
+  "PRECIOUS_METALS": {
+    "description": "",
+    "message": "Jalometallit"
+  },
+  "PRESSURE_N_ATMOSPHERES": {
+    "description": "",
+    "message": "P: %pressure{f.2} atm"
+  },
+  "QUADRUPLE_SYSTEM": {
+    "description": "",
+    "message": "Nelijärjestelmä"
+  },
+  "RADAR_CONTROL": {
+    "description": "",
+    "message": "Tutkanhallinta"
+  },
+  "RADIOACTIVES": {
+    "description": "",
+    "message": "Radioaktiivinen jäte"
+  },
+  "RADIUS": {
+    "description": "",
+    "message": "Säde"
+  },
+  "RECENTLY_EXPLORED_SYSTEM": {
+    "description": "",
+    "message": "Tämä järjestelmä tutkittiin %date."
+  },
+  "REQUEST_DOCKING_CLEARANCE": {
+    "description": "",
+    "message": "Pyydä telakoitumislupaa {target}:lta"
+  },
+  "RESET": {
+    "description": "",
+    "message": "Palauta"
+  },
+  "ROBOTS": {
+    "description": "",
+    "message": "Robotteja"
+  },
+  "ROCKY_MOON": {
+    "description": "",
+    "message": "\" kivinen kuu\""
+  },
+  "ROCKY_MOON_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "\" hieman nesteitä sisältävä kivinen kuu,\""
+  },
+  "ROCKY_PLANET": {
+    "description": "",
+    "message": "\" kiviplaneetta\""
+  },
+  "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
+    "description": "",
+    "message": "\" hieman nesteitä sisältävä kiviplaneetta,\""
+  },
+  "ROLL": {
+    "description": "",
+    "message": "Kieri"
+  },
+  "ROLL_LEFT": {
+    "description": "",
+    "message": "Kieri vasempaan"
+  },
+  "ROLL_RIGHT": {
+    "description": "",
+    "message": "Kieri oikeaan"
+  },
+  "ROTATE_DOWN": {
+    "description": "",
+    "message": "Kierrä alas"
+  },
+  "ROTATE_LEFT": {
+    "description": "",
+    "message": "Kierrä vasempaan"
+  },
+  "ROTATE_RIGHT": {
+    "description": "",
+    "message": "Kierrä oikeaan"
+  },
+  "ROTATE_UP": {
+    "description": "",
+    "message": "Kierrä ylös"
+  },
+  "ROTATIONAL_PERIOD": {
+    "description": "",
+    "message": "\" (kiertoaika)\""
+  },
+  "ROTATION_DAMPING_OFF": {
+    "description": "",
+    "message": "Kiertovaimennus pois"
+  },
+  "ROTATION_DAMPING_ON": {
+    "description": "",
+    "message": "Kiertovaimennus päällä"
+  },
+  "RUBBISH": {
+    "description": "",
+    "message": "Jätteitä"
+  },
+  "SCOOP": {
+    "description": "Is followed by a number, representing scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+    "message": "Keräimiä"
+  },
+  "SCREENSHOT_FILENAME_TEMPLATE": {
+    "description": "",
+    "message": "ruutu%index{d08}.png"
+  },
+  "SEARCH": {
+    "description": "",
+    "message": "Etsi"
+  },
+  "SEARCH_MAP": {
+    "description": "",
+    "message": "Etsi kartasta"
+  },
+  "SECTOR_COORDINATES": {
+    "description": "",
+    "message": "Sektorikoordinaatit:"
+  },
+  "SECTOR_MAP_VIEW": {
+    "description": "",
+    "message": "Sektorikarttanäkymä"
+  },
+  "SECTOR_X_Y_Z": {
+    "description": "",
+    "message": "Sektori: {sectorX}, {sectorY}, {sectorZ}"
+  },
+  "SELECTED_SYSTEM": {
+    "description": "",
+    "message": "Valittu järjestelmä"
+  },
+  "SELECT_A_TARGET": {
+    "description": "",
+    "message": "Valitse kohde"
+  },
+  "SELECT_LOW_THRUST_POWER_LEVEL": {
+    "description": "",
+    "message": "Valitse alhainen työntövoimataso"
+  },
+  "SEMI_MAJOR_AXIS": {
+    "description": "",
+    "message": "Isoakselin puolikas"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Aseta taistelukohteeksi"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Aseta navigaatiokohteeksi"
+  },
+  "SET_HYPERSPACE_DESTINATION_TO": {
+    "description": "",
+    "message": "Aseta %system hyperavaruuskohteeksi"
+  },
+  "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
+    "description": "",
+    "message": "Hyperpilvianalysoija: Aseta hyperavaruuskohde seuraamaan tätä lähtöä"
+  },
+  "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
+    "description": "",
+    "message": "Aseta matala työntövoimataso %power% prosenttiin"
+  },
+  "SET_MAXIMUM_SPEED_LIMIT": {
+    "description": "Speed limiter tooltip.",
+    "message": "Aseta enimmäisnopeus"
+  },
+  "SET_NAVTARGET_TO": {
+    "description": "",
+    "message": "Aseta navigaatiokohde: "
+  },
+  "SET_SPEED_KM_S": {
+    "description": "",
+    "message": "Aseta nopeus: %speed{f.2} km/s"
+  },
+  "SET_SPEED_M_S": {
+    "description": "",
+    "message": "Aseta nopeus: %speed{f.0} m/s"
+  },
+  "SHIELD_INTEGRITY": {
+    "description": "",
+    "message": "Suojien kynnys"
+  },
+  "SHIELD_STRENGTH_N": {
+    "description": "",
+    "message": "Suojien voima: %shields{f.2}"
+  },
+  "SHIFT": {
+    "description": "Shift key on keyboard",
+    "message": "Vaihto"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Alus"
+  },
+  "SHIPS_DISPLAY_MODE": {
+    "description": "Label for ship display modes.",
+    "message": "Alusnäyttötila"
+  },
+  "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
+    "description": "Combobox option for ships only.",
+    "message": "Alukset"
+  },
+  "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
+    "description": "Combobox option for ships with orbits.",
+    "message": "Alukset kiertoratoineen"
+  },
+  "SHIPS_DISPLAY_MODE_TOGGLE": {
+    "description": "Tooltip for ship display toggle button.",
+    "message": "Vaihda alusten näkyvyys."
+  },
+  "SHIP_DETECTED_NEARBY": {
+    "description": "",
+    "message": "Alus havaittu lähistöllä."
+  },
+  "SHIP_INFORMATION": {
+    "description": "",
+    "message": "Tietoa aluksesta"
+  },
+  "SHIP_MASS_N_TONNES": {
+    "description": "",
+    "message": "Aluksen massa: %{mass}t"
+  },
+  "SHIP_NEARBY": {
+    "description": "",
+    "message": "Alus lähellä"
+  },
+  "SHIP_ORIENTATION": {
+    "description": "",
+    "message": "Aluksen suuntaus"
+  },
+  "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
+    "description": "",
+    "message": "Aluksen nopeus viitekappaleeseen"
+  },
+  "SIDEREAL_VIEW": {
+    "description": "camera view setting",
+    "message": "Tähtinäkymä"
+  },
+  "SLAVES": {
+    "description": "",
+    "message": "Orjia"
+  },
+  "SMALL": {
+    "description": "Adjective used to describe the size of an object.",
+    "message": "Pieni"
+  },
+  "SMALL_GAS_GIANT": {
+    "description": "",
+    "message": "Pieni kaasujättiläinen"
+  },
+  "SMALL_INDUSTRIAL_OUTPOST": {
+    "description": "",
+    "message": "Pieni teollinen asutus."
+  },
+  "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS": {
+    "description": "",
+    "message": "Pienimuotoista kaivannaistoimintaa. Ei rekisteröityjä asuinalueita."
+  },
+  "SOCIAL_DEMOCRACY": {
+    "description": "",
+    "message": "Sosiaalidemokratia"
+  },
+  "SOME_ESTABLISHED_MINING": {
+    "description": "",
+    "message": "Jonkin verran vakiintunutta kaivostoimintaa."
+  },
+  "SOURCE": {
+    "description": "tell source system of hyperjump entry cloud",
+    "message": "Alkupää"
+  },
+  "SPEED_CONTROL_MODE": {
+    "description": "",
+    "message": "Nopeudenhallintatila"
+  },
+  "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
+    "description": "",
+    "message": "Vakaa %bodycount :n suuren %{body(s)} ja %portcount %{starport(s)} järjestelmä"
+  },
+  "STARPORT": {
+    "description": "",
+    "message": "avaruussatama"
+  },
+  "STARPORTS": {
+    "description": "",
+    "message": "avaruussatamia"
+  },
+  "STAR_A": {
+    "description": "",
+    "message": "A-luokan kuuma valkoinen tähti"
+  },
+  "STAR_AF_GIANT": {
+    "description": "",
+    "message": "Valkoinen jättiläistähti"
+  },
+  "STAR_AF_HYPER_GIANT": {
+    "description": "",
+    "message": "Valkoinen hyperjättiläistähti"
+  },
+  "STAR_AF_SUPER_GIANT": {
+    "description": "",
+    "message": "Valkoinen ylijättiläistähti"
+  },
+  "STAR_B": {
+    "description": "",
+    "message": "B-luokan kirkas sininen tähti"
+  },
+  "STAR_B_GIANT": {
+    "description": "",
+    "message": "Sininen jättiläistähti"
+  },
+  "STAR_B_HYPER_GIANT": {
+    "description": "",
+    "message": "Sininen hyperjättiläistähti"
+  },
+  "STAR_B_SUPER_GIANT": {
+    "description": "",
+    "message": "Sininen ylijättiläistähti"
+  },
+  "STAR_B_WF": {
+    "description": "",
+    "message": "Wolfin-Rayetin tähti - luhistumisriski"
+  },
+  "STAR_F": {
+    "description": "",
+    "message": "F-luokan valkoinen tähti"
+  },
+  "STAR_G": {
+    "description": "",
+    "message": "G-luokan keltainen tähti"
+  },
+  "STAR_G_GIANT": {
+    "description": "",
+    "message": "Keltainen jättiläistähti - epävakaa"
+  },
+  "STAR_G_HYPER_GIANT": {
+    "description": "",
+    "message": "Keltainen hyperjättiläistähti - epävakaa"
+  },
+  "STAR_G_SUPER_GIANT": {
+    "description": "",
+    "message": "Keltainen ylijättiläistähti"
+  },
+  "STAR_IM_BH": {
+    "description": "",
+    "message": "Keskimääräisen massainen musta aukko"
+  },
+  "STAR_K": {
+    "description": "",
+    "message": "K-luokan oranssi tähti"
+  },
+  "STAR_K_GIANT": {
+    "description": "",
+    "message": "Oranssi jättiläistähti - epävakaa"
+  },
+  "STAR_K_HYPER_GIANT": {
+    "description": "",
+    "message": "Oranssi hyperjättiläinen - epävakaa"
+  },
+  "STAR_K_SUPER_GIANT": {
+    "description": "",
+    "message": "Oranssi ylijättiläistähti"
+  },
+  "STAR_M": {
+    "description": "",
+    "message": "M-luokan punainen tähti"
+  },
+  "STAR_M_GIANT": {
+    "description": "",
+    "message": "Punainen jättiläistähti"
+  },
+  "STAR_M_HYPER_GIANT": {
+    "description": "",
+    "message": "Punainen hyperjättiläistähti"
+  },
+  "STAR_M_SUPER_GIANT": {
+    "description": "",
+    "message": "Punainen ylijättiläistähti"
+  },
+  "STAR_M_WF": {
+    "description": "",
+    "message": "Wolfin-Rayetin tähti - epävakaa"
+  },
+  "STAR_O": {
+    "description": "",
+    "message": "Kuuma, massiivinen O-luokan tähti"
+  },
+  "STAR_O_GIANT": {
+    "description": "",
+    "message": "Kuuma sininen jättiläistähti"
+  },
+  "STAR_O_HYPER_GIANT": {
+    "description": "",
+    "message": "Kuuma sininen hyperjättiläistähti"
+  },
+  "STAR_O_SUPER_GIANT": {
+    "description": "",
+    "message": "Kuuma sininen ylijättiläistähti"
+  },
+  "STAR_O_WF": {
+    "description": "",
+    "message": "Wolfin-Rayetin tähti - luhistumaisillaan"
+  },
+  "STAR_SM_BH": {
+    "description": "",
+    "message": "Galaksin ankkuri"
+  },
+  "STAR_SYSTEM_INFORMATION": {
+    "description": "",
+    "message": "Tietoa tähtijärjestelmästä"
+  },
+  "STAR_S_BH": {
+    "description": "",
+    "message": "Auringonmassainen musta aukko"
+  },
+  "SUGGESTED_RESPONSES": {
+    "description": "",
+    "message": "Vastausvaihtoehtoja:"
+  },
+  "SURFACE_GRAVITY": {
+    "description": "",
+    "message": "Painovoima pinnalla"
+  },
+  "SURFACE_PRESSURE": {
+    "description": "",
+    "message": "Paine pinnalla"
+  },
+  "SURFACE_TEMPERATURE": {
+    "description": "",
+    "message": "Lämpötila pinnalla"
+  },
+  "SWAP_SELECTED_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "Vaihda valittu ja hyperhyppykohde"
+  },
+  "SWITCHED_TO_PARENT": {
+    "description": "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
+    "message": "Vaihda suuntanäyttö järjestelmäkoordinaatteihin."
+  },
+  "SWITCHED_TO_ROTATIONAL": {
+    "description": "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
+    "message": "Vaihda suuntanäyttö planeettakoordinaatteihin."
+  },
+  "SYSTEM": {
+    "description": "star system",
+    "message": "Järjestelmä"
+  },
+  "SYSTEM_NUMBER": {
+    "description": "",
+    "message": "Järjestelmänumero:"
+  },
+  "SYSTEM_ORBIT_VIEW": {
+    "description": "",
+    "message": "Järjestelmäkiertoratanäkymä"
+  },
+  "SYSTEM_TYPE": {
+    "description": "",
+    "message": "Järjestelmäluokka:"
+  },
+  "S_ATMOSPHERE": {
+    "description": "",
+    "message": "rikkikaasukehä"
+  },
+  "TAKEOFF": {
+    "description": "",
+    "message": "Nousu"
+  },
+  "TARGET_OBJECT_IN_SIGHTS": {
+    "description": "",
+    "message": "Valitse kohteeksi kappale tähtäimessä"
+  },
+  "TENUOUS": {
+    "description": "atmosphere thickness",
+    "message": "\"hyvin ohut \""
+  },
+  "TEXTILES": {
+    "description": "",
+    "message": "Tekstiilejä"
+  },
+  "THICK": {
+    "description": "",
+    "message": "\"paksu \""
+  },
+  "THIN": {
+    "description": "",
+    "message": "\"ohut \""
+  },
+  "THRIVING_OUTDOOR_WORLD": {
+    "description": "",
+    "message": "Kukoistava ulkoilumaailma."
+  },
+  "THRUSTER_DORSAL": {
+    "description": "",
+    "message": "Työntö alas"
+  },
+  "THRUSTER_MAIN": {
+    "description": "",
+    "message": "Työntö eteen"
+  },
+  "THRUSTER_PORT": {
+    "description": "",
+    "message": "Työntö vasen"
+  },
+  "THRUSTER_RETRO": {
+    "description": "",
+    "message": "Työntö taakse"
+  },
+  "THRUSTER_STARBOARD": {
+    "description": "",
+    "message": "Työntö oikea"
+  },
+  "THRUSTER_VENTRAL": {
+    "description": "",
+    "message": "Työntö ylös"
+  },
+  "TIME_POINT": {
+    "description": "",
+    "message": "Aikapiste:"
+  },
+  "TINY": {
+    "description": "Adjective used to describe the size of an object.",
+    "message": "Hyvin pieni"
+  },
+  "TOGGLE_EQUIPMENT_VIEW": {
+    "description": "Tooltip for the Equipment View button",
+    "message": "Varustenäkymä"
+  },
+  "TOGGLE_HUD_MODE": {
+    "description": "",
+    "message": "Vaihda HUD-tila"
+  },
+  "TOGGLE_RADAR_MODE": {
+    "description": "",
+    "message": "Vaihda tutkatila"
+  },
+  "TOGGLE_RADAR_VIEW": {
+    "description": "Tooltip for the Radar View button",
+    "message": "Tutkanäkymä"
+  },
+  "TOGGLE_ROTATION_DAMPING": {
+    "description": "",
+    "message": "Kytke kiertovaimennus"
+  },
+  "TOMBSTONE_EPITAPH": {
+    "description": "shown on tombstone when player dies",
+    "message": "RIP"
+  },
+  "TRADING_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Salakuljetus"
+  },
+  "TRIPLE_SYSTEM": {
+    "description": "",
+    "message": "Kolmoisjärjestelmä"
+  },
+  "UNDOCKING": {
+    "description": "Flight state of ship when leaving station",
+    "message": "Irtautuminen"
+  },
+  "UNEXPLORED_SYSTEM_NO_DATA": {
+    "description": "",
+    "message": "Tutkimaton järjestelmä. Ei muita tietoja."
+  },
+  "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
+    "description": "",
+    "message": "Tutkimaton järjestelmä. Järjestelmänäkymää ei saatavilla."
+  },
+  "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
+    "description": "",
+    "message": "Tutkimaton järjestelmä. Tiedot tähdestä peräisin kaukoputkihavainnoista, mutta planeetoista ei ole tietoja saatavilla."
+  },
+  "UNIT_AU": {
+    "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
+    "message": "au"
+  },
+  "UNIT_CREDITS": {
+    "description": "Unit of money, used when $ isn't specific enough",
+    "message": "Cr"
+  },
+  "UNIT_CUBIC_METERS": {
+    "description": "Volume unit: cubic meter",
+    "message": "m³"
+  },
+  "UNIT_DAYS": {
+    "description": "Duration unit: one 24-hour day",
+    "message": "pv"
+  },
+  "UNIT_DENSITY": {
+    "description": "Density unit: kilos per cubic meter",
+    "message": "kg/m³"
+  },
+  "UNIT_EARTH_GRAVITY": {
+    "description": "Acceleration unit: one earth gravity (g)",
+    "message": "g"
+  },
+  "UNIT_GIGATONNES": {
+    "description": "Mass unit: one gigatonne",
+    "message": "Gt"
+  },
+  "UNIT_HECTARES": {
+    "description": "Area unit: one hectare (ha) -10,000 m²",
+    "message": "ha"
+  },
+  "UNIT_HOURS": {
+    "description": "Duration unit: one 60-minute hour",
+    "message": "t"
+  },
+  "UNIT_KILOGRAMS": {
+    "description": "Mass unit: one kilogram",
+    "message": "kg"
+  },
+  "UNIT_KILOMETERS": {
+    "description": "Distance unit: one kilometer",
+    "message": "km"
+  },
+  "UNIT_KILOMETERS_PER_SECOND": {
+    "description": "Speed unit: one kilometer per second",
+    "message": "km/s"
+  },
+  "UNIT_KILOTONNES": {
+    "description": "Mass unit: one kilotonne",
+    "message": "kt"
+  },
+  "UNIT_LY": {
+    "description": "Distance unit: a light year",
+    "message": "vv"
+  },
+  "UNIT_MEGATONNES": {
+    "description": "Mass unit: one megatonne",
+    "message": "Mt"
+  },
+  "UNIT_METERS": {
+    "description": "Distance unit: one meter",
+    "message": "m"
+  },
+  "UNIT_METERS_PER_SECOND": {
+    "description": "Speed unit: one meter per second",
+    "message": "m/s"
+  },
+  "UNIT_MILLION_METERS": {
+    "description": "Distance unit: one million meters",
+    "message": "Mm"
+  },
+  "UNIT_MILLION_METERS_PER_SECOND": {
+    "description": "Speed unit: one million meters per second",
+    "message": "Mm/s"
+  },
+  "UNIT_MINUTES": {
+    "description": "Duration unit: one 60-second minute",
+    "message": "m"
+  },
+  "UNIT_PETATONNES": {
+    "description": "Mass unit: one petatonne",
+    "message": "Pt"
+  },
+  "UNIT_PRESSURE_ATMOSPHERES": {
+    "description": "Pressure unit: one earth atmosphere (atm)",
+    "message": "atm"
+  },
+  "UNIT_SECONDS": {
+    "description": "Duration unit: one second",
+    "message": "s"
+  },
+  "UNIT_SQUARE_KILOMETERS": {
+    "description": "Area unit: square kilometer (km²) - 1,000,000 m²",
+    "message": "km²"
+  },
+  "UNIT_SQUARE_MEGAMETERS": {
+    "description": "Area unit: square megameter (Mm²) - 10^12 m²",
+    "message": "Mm²"
+  },
+  "UNIT_SQUARE_METERS": {
+    "description": "Area unit: square meter (m²)",
+    "message": "m²"
+  },
+  "UNIT_TEMPERATURE_CELSIUS": {
+    "description": "Temperature unit: degrees Celsius (°C)",
+    "message": "°C"
+  },
+  "UNIT_TEMPERATURE_FAHRENHEIT": {
+    "description": "Temperature unit: Fahrenheit (°F)",
+    "message": "°F"
+  },
+  "UNIT_TEMPERATURE_KELVIN": {
+    "description": "Temperature unit: degrees Kelvin (K)",
+    "message": "K"
+  },
+  "UNIT_TERATONNES": {
+    "description": "Mass unit: one teratonne",
+    "message": "Tt"
+  },
+  "UNIT_TONNES": {
+    "description": "Mass unit: one tonne (t)",
+    "message": "t"
+  },
+  "UNIT_WEEKS": {
+    "description": "Duration unit: one 7-day week",
+    "message": "vko"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "<tuntematon>"
+  },
+  "UNSET_NAVTARGET": {
+    "description": "",
+    "message": "Poista navigaatiokohde."
+  },
+  "USE_LOW_THRUST": {
+    "description": "",
+    "message": "Käytä matalaa työntövoimaa"
+  },
+  "VAST_STRIP_MINE": {
+    "description": "",
+    "message": "Valtava avolouhossiirtokunta."
+  },
+  "VERY_DENSE": {
+    "description": "",
+    "message": "\"erittäin tiheä \""
+  },
+  "VERY_LARGE_GAS_GIANT": {
+    "description": "",
+    "message": "Valtava kaasujättiläinen"
+  },
+  "VIEW": {
+    "description": "",
+    "message": "Näkymä"
+  },
+  "VIOLENT_ANARCHY": {
+    "description": "",
+    "message": "Epäjärjestys - hallinnosta kilpailevat aseistautuneet ryhmittymät"
+  },
+  "WATER": {
+    "description": "",
+    "message": "Vettä"
+  },
+  "WEAPONS": {
+    "description": "",
+    "message": "Aseita"
+  },
+  "WEAPON_TEMP": {
+    "description": "",
+    "message": "Aselämpötila"
+  },
+  "WHEELS_ARE_DOWN": {
+    "description": "",
+    "message": "Pyörät alhaalla"
+  },
+  "WHEELS_ARE_UP": {
+    "description": "",
+    "message": "Pyörät ylhäällä"
+  },
+  "WHITE_DWARF": {
+    "description": "",
+    "message": "Valkoinen kääpiö"
+  },
+  "WITH": {
+    "description": "",
+    "message": "\" jossa \""
+  },
+  "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
+    "description": "",
+    "message": "\" ilman merkittävää kaasukehää\""
+  },
+  "YAW": {
+    "description": "",
+    "message": "Käännös"
+  },
+  "YAW_LEFT": {
+    "description": "",
+    "message": "Käännös vasempaan"
+  },
+  "YAW_RIGHT": {
+    "description": "",
+    "message": "Käännös oikeaan"
+  },
+  "YOUNG_FARMING_COLONY": {
+    "description": "",
+    "message": "Tuore maataloussiirtokunta."
+  },
+  "ZOOM_IN": {
+    "description": "",
+    "message": "Zoomaa lähemmäs"
+  },
+  "ZOOM_OUT": {
+    "description": "",
+    "message": "Zoomaa kauemmas"
+  }
+}

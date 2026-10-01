@@ -1,0 +1,38 @@
+{
+  "BASE": {
+    "description": "",
+    "message": "tukikohta"
+  },
+  "BASES": {
+    "description": "",
+    "message": "tukikohtaa"
+  },
+  "BODIES": {
+    "description": "",
+    "message": "kappaletta"
+  },
+  "BODY": {
+    "description": "",
+    "message": "kappale"
+  },
+  "DISCOVERED_HIDDEN_BASES": {
+    "description": "",
+    "message": "Olet löytänyt {portcount} kätkettyä {bases}!"
+  },
+  "EXPLORED_SYSTEM": {
+    "description": "",
+    "message": "Tutkittu järjestelmä, jossa on {bodycount} isoa {bodies}."
+  },
+  "GETTING_SENSOR_DATA": {
+    "description": "Shown when entering an unexplored system",
+    "message": "Tietojen keräys ja analyysi järjestelmästä käynnissä..."
+  },
+  "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
+    "description": "",
+    "message": "Polttoainesäiliösi on melkein tyhjä."
+  },
+  "YOUR_FUEL_TANK_IS_EMPTY": {
+    "description": "",
+    "message": "Polttoainesäiliösi on tyhjä."
+  }
+}

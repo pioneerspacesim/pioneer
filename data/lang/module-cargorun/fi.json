@@ -1,0 +1,750 @@
+{
+  "ACCEPTED_1": {
+    "description": "",
+    "message": "Hienoa. Lastaan tavarat alukseenne."
+  },
+  "ACCEPTED_2": {
+    "description": "",
+    "message": "Hyvä."
+  },
+  "ACCEPTED_3": {
+    "description": "",
+    "message": "No hyvä. Toivon, että voin luottaa teihin."
+  },
+  "ACCEPTED_4": {
+    "description": "",
+    "message": "Sovittu!"
+  },
+  "ACCEPTED_PICKUP_1": {
+    "description": "",
+    "message": "Sitten varmistan, että tavarat ovat valmiina haettavaksi."
+  },
+  "ACCEPTED_PICKUP_2": {
+    "description": "",
+    "message": "Sovittu! Ilmoitan työtovereilleni, että olette tulossa."
+  },
+  "ADTEXT_1": {
+    "description": "",
+    "message": "Tarvitaan alus kuljettamaan lasti {system} –järjestelmään."
+  },
+  "ADTEXT_2": {
+    "description": "",
+    "message": "Tavaroiden kuljetus {system} –järjestelmään tarpeen. Maksu {cash}."
+  },
+  "ADTEXT_EXPENSIVE_1": {
+    "description": "",
+    "message": "Arvolastin toimitus {system} –järjestelmään. {cash} kokeneelle pilotille."
+  },
+  "ADTEXT_LOCAL_1": {
+    "description": "",
+    "message": "Rahtaajia halutaan järjestelmänsisäiseen kuljetukseen. Tavaroiden määränpää on {starport}."
+  },
+  "ADTEXT_LOCAL_2": {
+    "description": "",
+    "message": "Tarvitaan paikallinen toimitus henkilökohtaiselle kuormalle, määränpäänä {starport}."
+  },
+  "ADTEXT_LOCAL_3": {
+    "description": "",
+    "message": "Yksityinen rahtikirja. Tarvitaan todistettu toimitus, tavaroiden määränpäänä {starport}."
+  },
+  "ADTEXT_PICKUP_1": {
+    "description": "",
+    "message": "Rahdin nouto {system} –järjestelmästä vaaditaan. Lisätietoja pyydettäessä."
+  },
+  "ADTEXT_PICKUP_LOCAL_1": {
+    "description": "",
+    "message": "Tarvitaan rahdinsiirtopalvelua. Kuljetus tähän avaruussatamaan, nouto: {starport}."
+  },
+  "ADTEXT_WHOLESALER_1": {
+    "description": "",
+    "message": "Pätevä ammatinharjoittaja tarpeen rahtikeikalle. Tarvitsemme aluksen bulkkitoimitukseen {system} –järjestelmään."
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "RAHTIKEIKKA"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "TARVITAAN RAHTIKULJETUS"
+  },
+  "ADTITLE_EXPENSIVE_1": {
+    "description": "",
+    "message": "VAKUUTETTU TOIMITUS"
+  },
+  "ADTITLE_LOCAL_1": {
+    "description": "",
+    "message": "LYHYT KULJETUS"
+  },
+  "ADTITLE_LOCAL_2": {
+    "description": "",
+    "message": "PAIKALLINEN RAHTIKULJETUS"
+  },
+  "ADTITLE_LOCAL_3": {
+    "description": "",
+    "message": "PAIKALLINEN KUORMAKEIKKA"
+  },
+  "ADTITLE_PICKUP_1": {
+    "description": "",
+    "message": "RAHDIN NOUTO"
+  },
+  "ADTITLE_PICKUP_LOCAL_1": {
+    "description": "",
+    "message": "JÄRJESTELMÄNSISÄINEN SIIRTO"
+  },
+  "ADTITLE_WHOLESALER_1": {
+    "description": "",
+    "message": "BULKKIPALVELU"
+  },
+  "ALUMINIUM_TUBES": {
+    "description": "custom cargo",
+    "message": "alumiiniputkia"
+  },
+  "AMOUNT": {
+    "description": "Shown in mission summary. The amount of cargo",
+    "message": "Määrä:"
+  },
+  "ART_OBJECTS": {
+    "description": "custom cargo",
+    "message": "taide-esineitä"
+  },
+  "ART_OBJECTS_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Vain jos taidekriitikot ovat teistä riski."
+  },
+  "ART_OBJECTS_RISK_MESSAGE_2": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Näin meidän kesken... älkää katsoko taidetta niin pärjäätte kyllä."
+  },
+  "ART_OBJECTS_RISK_MESSAGE_3": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "2400–luvun impressionismi oli vaarallista vain alkuperäiselle taiteilijalle, etteköhän ole turvassa."
+  },
+  "CARGO": {
+    "description": "",
+    "message": "Lasti:"
+  },
+  "CARGORUN": {
+    "description": "Name of mission type",
+    "message": "Rahtikeikka"
+  },
+  "CARGO_IS_LOADED": {
+    "description": "",
+    "message": "lastattu"
+  },
+  "CARGO_IS_NOT_LOADED": {
+    "description": "",
+    "message": "lastaamatta"
+  },
+  "CEASE_FIRE": {
+    "description": "",
+    "message": "Tuli seis, tuli seis! Olen teidän puolellanne!"
+  },
+  "CLUS": {
+    "description": "custom cargo",
+    "message": "asuinkontteja"
+  },
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Voisitteko toistaa alkuperäisen pyynnön?"
+  },
+  "DANGER": {
+    "description": "the risk level",
+    "message": "Vaara:"
+  },
+  "DEADLINE": {
+    "description": "Must be delivered by",
+    "message": "Määräpäivä:"
+  },
+  "DELIVER_TO": {
+    "description": "Deliver to this location",
+    "message": "Toimituspaikka:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Olen pahoillani, mutta tämä lasti on niin arvokas, että en luovuta sitä kokemattomalle pilotille."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "En ole koskaan kuullutkaan teistä. En tunne teitä enkä luota teihin."
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "Anteeksi, mutta haen kokenutta pilottia."
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "Kuulkaas, minäpä luulen, että te ette ole riittävän hyvä suorittamaan tätä tehtävää."
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "Älä tuhlaa aikaani! Olet vasta untuvikko."
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "Palaa takaisin kokeneempana."
+  },
+  "DENY_AGAIN_1": {
+    "description": "",
+    "message": "Anteeksi, meillä on jo sopimus tästä. Mielläni kuitenkin työskentelisin kanssanne onnistuneen toimituksen jälkeen."
+  },
+  "DENY_AGAIN_2": {
+    "description": "",
+    "message": "Olkaa hyvä ja suorittakaa ensin jo sovittu toimeksianto. Sitten voimme neuvotella uudesta toimituksesta."
+  },
+  "DENY_AGAIN_3": {
+    "description": "",
+    "message": "Olkaa hyvä ja toimittakaa rahtini ensin. Sitten voimme taas jatkaa."
+  },
+  "DIAMONDS": {
+    "description": "custom cargo",
+    "message": "timantteja"
+  },
+  "DIGESTERS": {
+    "description": "custom cargo",
+    "message": "painekattiloita"
+  },
+  "DISTANCE": {
+    "description": "distance in space, between two locations",
+    "message": "Etäisyys:"
+  },
+  "ELECTRICAL_APPLIANCES": {
+    "description": "custom cargo",
+    "message": "sähkölaitteita"
+  },
+  "ESCORT_CHATTER_1": {
+    "description": "",
+    "message": "Vihamielinen alus havaittu. Taistelkaamme siis sitä vastaan."
+  },
+  "ESCORT_CHATTER_2": {
+    "description": "",
+    "message": "Hyvä. Tästä rosvosta tulee ensimmäinen tapponi."
+  },
+  "ESCORT_CHATTER_3": {
+    "description": "",
+    "message": "Vihollinen havaittu. Aloitetaan hyökkäys."
+  },
+  "ESCORT_CHATTER_4": {
+    "description": "",
+    "message": "Jatka kohteeseen. Suojaan sinua."
+  },
+  "ESCORT_CHATTER_5": {
+    "description": "",
+    "message": "Sieltähän sitä tullaan. Tästä tulee päivän ensimmäinen maalini."
+  },
+  "EXPLOSIVES": {
+    "description": "custom cargo",
+    "message": "räjähteitä"
+  },
+  "EXPLOSIVES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Ette. Siis nehän ovat räjähteitä, älkää pudottako niitä."
+  },
+  "FAILUREMSG_1": {
+    "description": "",
+    "message": "Olen kovin pettynyt myöhästyneeseen toimitukseen. Ette saa maksua."
+  },
+  "FAILUREMSG_2": {
+    "description": "",
+    "message": "Olette myöhässä! Mitä minä nyt tällä teen, se on arvoton!"
+  },
+  "FAILUREMSG_3": {
+    "description": "",
+    "message": "Mehän sovimme määräajasta. Voit unohtaa maksun."
+  },
+  "FAILUREMSG_4": {
+    "description": "",
+    "message": "Vastedes hylkään kaikki teidän työpyyntönne."
+  },
+  "FAILUREMSG_FLUFFY_1": {
+    "description": "",
+    "message": "Senkin hirviö! Odotit liian kauan toimituksen kanssa. Kaikki pörröiset lemmikkini ovat nälkiintyneitä!"
+  },
+  "FURNITURE": {
+    "description": "custom cargo",
+    "message": "huonekaluja"
+  },
+  "GO_BACK": {
+    "description": "Shown on a button in a sub-menu, to move back, to previous menu",
+    "message": "Palaa"
+  },
+  "GREENHOUSES": {
+    "description": "custom cargo",
+    "message": "kasvihuoneita"
+  },
+  "GUNS_GUNS_GUNS": {
+    "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
+    "message": "Aseiden käyttö."
+  },
+  "HAZARDOUS_SUBSTANCES": {
+    "description": "custom cargo",
+    "message": "vaarallisia aineita"
+  },
+  "HAZARDOUS_SUBSTANCES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Teidän ei varmaan kannata avata kontteja."
+  },
+  "HOWMUCH_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "{amount} tonnia."
+  },
+  "HOWMUCH_2": {
+    "description": "regarding mass, always more than 1t",
+    "message": "{amount} t"
+  },
+  "HOWMUCH_3": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Massa on {amount} t."
+  },
+  "HOWMUCH_4": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Tasan {amount} t."
+  },
+  "HOWMUCH_SINGULAR_1": {
+    "description": "This string is only used for 1 metric ton (singular)",
+    "message": "Vain {amount} t."
+  },
+  "HOWMUCH_WHOLESALER_1": {
+    "description": "",
+    "message": "Tulee {amount} t {cargoname}."
+  },
+  "HOWMUCH_WHOLESALER_2": {
+    "description": "",
+    "message": "{amount} t {cargoname}"
+  },
+  "HOW_MUCH_MASS": {
+    "description": "",
+    "message": "Minkä verran on massaa?"
+  },
+  "HOW_SOON_MUST_IT_BE_DELIVERED": {
+    "description": "",
+    "message": "Kuinka pian se pitää toimittaa?"
+  },
+  "INTROTEXT_1": {
+    "description": "",
+    "message": "Hei, olen {name}. Maksan {cash} jos toimitat {cargoname} tuonne: {starport} {system} ({sectorx}, {sectory}, {sectorz}) järjestelmä, välimatka on {dist} vv."
+  },
+  "INTROTEXT_2": {
+    "description": "{name} is the full name of a person",
+    "message": "Terve! {name} kuljetuspalvelut tahtoo teidän toimittavan {cargoname} {starport}:n, {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, {dist} vv päähän. Maksamme turvallisesta ja täydestä toimituksesta {cash}."
+  },
+  "INTROTEXT_3": {
+    "description": "",
+    "message": "Hyvää päivää. Olen {name}, {name} Limitedin perustaja. Tarvitsen jonkun luotettavan toimittamaan {cargoname}, määränpää on {starport} {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. Maksan tästä {dist} vv:n pituisesta lennosta {cash}."
+  },
+  "INTROTEXT_EXPENSIVE_1": {
+    "description": "",
+    "message": "Hei. Tarvitsemme jonkun kokeneen mahdollisesti vaaralliselle keikalle, toimituspaikka on {starport} {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. Maksamme {cash}. Matkaa tulee {dist} vv."
+  },
+  "INTROTEXT_FLUFFY_1": {
+    "description": "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
+    "message": "Hei, nimeni on {name}. Minulla on pehmeä lasti {cargoname} paikkaan {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. Etäisyys on {dist} vv. Tästä toimituksesta maksan {cash}."
+  },
+  "INTROTEXT_INFRASTRUCTURE_1": {
+    "description": "",
+    "message": "Terve, olen {name}. {system}:n hallitus tahtoo {cargoname} toimitettavan {starport}:n {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä. Palkkio on {cash}. {system} on täältä {dist} vv:n päässä."
+  },
+  "INTROTEXT_LOCAL_1": {
+    "description": "",
+    "message": "Hauska tavata teidät. Olen {name} ja työskentelen {starport}:ssa virkamiehenä. Maksamme {cash} sille, joka saa siirrettyä {cargoname} {starport}:n."
+  },
+  "INTROTEXT_LOCAL_2": {
+    "description": "",
+    "message": "Hei. Olen {name} ja maksan {cash} lyhyestä lennosta {starport}:n. Lastina on {cargoname}."
+  },
+  "INTROTEXT_LOCAL_3": {
+    "description": "",
+    "message": "Nimeni on {name} ja asiakkaani {starport}:ssa tarvitsee {cargoname}. Tästä hommasta maksan teille {cash}."
+  },
+  "INTROTEXT_MINING_1": {
+    "description": "{name} is the full name of a person",
+    "message": "Hei. {name} –kaivosyhtiö haluaa toimituksen {cargoname} {starport}:n {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, {dist} vv:n päässä, uuden kaivoksen rakentamista varten. Palkkio on {cash}."
+  },
+  "INTROTEXT_PICKUP_1": {
+    "description": "",
+    "message": "Mitä kuuluu? Nimeni on {name}, ja tarvitse aluksen joka voi lentää {starport}:n {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, noutaa {cargoname} ja palata {dom_starport}:n {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) –järjestelmässä {cash} vastaan. {system} on {dist} vv:n päässä."
+  },
+  "INTROTEXT_PICKUP_2": {
+    "description": "",
+    "message": "Mitä kuuluu? Minä olen {name}. Asiakkaani haluaa tuoda {cargoname} {starport}:lta {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä {dist} vv:n päässä. Hän maksaa tästä rahtikeikasta {cash}. Palaa tänne {dom_starport}:n {dom_system}, ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) –järjestelmään purkamaan lasti."
+  },
+  "INTROTEXT_PICKUP_LOCAL_1": {
+    "description": "",
+    "message": "Tervehdys. Olen {name}. Maksan {cash} sille, joka tuo {cargoname} {starport}:sta {dom_starport}:n."
+  },
+  "INTROTEXT_PICKUP_LOCAL_2": {
+    "description": "",
+    "message": "Hei. Minun nimeni on {name}. Työnantajani voisi palkata teidät {cash}:lla auttamaan varastomme muutossa kuljettamalla {cargoname} {starport}:sta asuinpaikkaamme {dom_starport}:ssa."
+  },
+  "INTROTEXT_WEDDING_1": {
+    "description": "",
+    "message": "Terve. Oletteko kuulleet {starport}:n hääsesongista {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä? Haluamme sinne {cargoname}. Se on {dist} vv:n päässä. Maksu on {cash}. Mitä mieltä olette?"
+  },
+  "INTROTEXT_WHOLESALER_1": {
+    "description": "",
+    "message": "Hei, nimeni on {name} ja olen tukkuri {system} –järjestelmässä. Maksan {cash} kuljetuksesta {starport}:n {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, {dist} vv."
+  },
+  "INTROTEXT_WHOLESALER_2": {
+    "description": "",
+    "message": "Terve, minun nimeni on {name} ja työskentelen Haberille. Maksamme {cash} kuljetuksesta {starport}:n {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, {dist} vv:n päässä."
+  },
+  "IS_IT_NEGOTIABLE": {
+    "description": "",
+    "message": "Onko lastin suuruus neuvoteltavissa?"
+  },
+  "I_AM_ON_MY_WAY": {
+    "description": "",
+    "message": "Anturit kertovat, että vaurioidutte. Olen tulossa."
+  },
+  "I_HAVE_DEBITED_YOUR_ACCOUNT": {
+    "description": "",
+    "message": "Olen veloittanut tiliänne puuttuvista tavaroista."
+  },
+  "I_NEED_HELP": {
+    "description": "",
+    "message": "Täällä tulee tuhoa. Tarvitsen apua."
+  },
+  "LOAD_CARGO": {
+    "description": "UI button label",
+    "message": "Lastaa rahti"
+  },
+  "MACHINE_TOOLS": {
+    "description": "custom cargo",
+    "message": "työstökoneita"
+  },
+  "NEGOTIABLE_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Voin tarjota seuraavat rahtikeikat:"
+  },
+  "NEGOTIABLE_2": {
+    "description": "regarding mass, always more than 1t",
+    "message": "{amount} t {cargoname} voidaan jakaa seuraavasti:"
+  },
+  "NEGOTIABLE_3": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Kyllä, rahdin voi jakaa."
+  },
+  "NEGOTIABLE_NO_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Ei valitettavasti onnistu. Lastia ei voi jakaa. Koko {amount} tonnin kuorma on toimitettava kerralla."
+  },
+  "NEGOTIABLE_SINGULAR_1": {
+    "description": "This string is only used for 1 metric ton (singular)",
+    "message": "Ei, sehän on vain {amount} t."
+  },
+  "NEPTUNIUM": {
+    "description": "custom cargo",
+    "message": "neptunium"
+  },
+  "OFFER": {
+    "description": "",
+    "message": "Kuljeta {amount} t {reward} vastaan"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Selvä, tehdään niin."
+  },
+  "OK_WE_AGREE": {
+    "description": "",
+    "message": "Selvä, eli sovimme {amount}:sta tonnista {reward} vastaan."
+  },
+  "PICKUP_FROM": {
+    "description": "from a location",
+    "message": "Nouda lasti tuolta:"
+  },
+  "PIRATE_GRIPES_1": {
+    "description": "",
+    "message": "Saakeli! Tuon sinä saat maksaa!"
+  },
+  "PIRATE_GRIPES_2": {
+    "description": "",
+    "message": "Voi ei. Alukseni!"
+  },
+  "PIRATE_GRIPES_3": {
+    "description": "said with vengeance",
+    "message": "Kyllä minä sinulle näytän."
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "Tämä olkoon viimeinen keikkasi!"
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "Työskentelet {client}:lle? Nyt kohtasit loppusi!"
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "Hei sinä, luovuta tavarat. Heti!"
+  },
+  "PIRATE_TAUNTS_4": {
+    "description": "",
+    "message": "Kaveri, et pääse koskaan perille."
+  },
+  "PIRATE_TAUNTS_5": {
+    "description": "",
+    "message": "Kas, taas yksi pullea hanhi matkalla {location}:n."
+  },
+  "PIRATE_TAUNTS_6": {
+    "description": "",
+    "message": "Näyttää siltä, että kannat enemmän kuin kykenet. Annahan kun katson."
+  },
+  "PIRATE_TAUNTS_7": {
+    "description": "",
+    "message": "Tuurisi ei enää kannattele sinua!"
+  },
+  "PLUTONIUM": {
+    "description": "custom cargo",
+    "message": "plutonium"
+  },
+  "QUIBBLES": {
+    "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
+    "message": "kviblet"
+  },
+  "QUIBBLES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Ette. Mutta älkää kastelko heitä, älkääkä ikinä ruokkiko heitä puolenyön jälkeen."
+  },
+  "QUIBBLES_RISK_MESSAGE_2": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Ette tietenkään! Katso heitä, he ovat niin pörröisiä!"
+  },
+  "RISK_1": {
+    "description": "",
+    "message": "En odota mitään hankaluutta."
+  },
+  "RISK_2": {
+    "description": "",
+    "message": "Ei mitään kummempaa."
+  },
+  "RISK_3": {
+    "description": "",
+    "message": "Tämä on arvolasti, teidän tulisi pitää silmänne auki."
+  },
+  "RISK_4": {
+    "description": "",
+    "message": "Voi olla vaarallista, teidän tulisi varautua sopivalla tavalla."
+  },
+  "RISK_5": {
+    "description": "",
+    "message": "Tämä voi olla hyvin riskialtista, saatatte kohdata huomattavaa vastarintaa."
+  },
+  "RISK_6": {
+    "description": "",
+    "message": "Älkää odottako pääsevänne perille aivan vahingoittumattomana."
+  },
+  "RISK_ART_1": {
+    "description": "",
+    "message": "Tavarat ovat varsin haluttuja taiteenharrastajien parissa."
+  },
+  "RISK_EXPENSIVE_1": {
+    "description": "",
+    "message": "Olemme tehneet kaiken voitavamme toimituksen salaamiseksi. Mutta varmahan ei voi olla."
+  },
+  "RISK_EXPENSIVE_2": {
+    "description": "",
+    "message": "Poliisi on ilmoittanut meille, että tuntematon rosvojoukko toimii tässä järjestelmässä."
+  },
+  "RISK_GEMS_1": {
+    "description": "",
+    "message": "On aivan mahdollista, että häikäilemätön jalokivikauppias haluaa viedä lastin."
+  },
+  "RISK_WHOLESALER_1": {
+    "description": "",
+    "message": "Älkää huoliko. Poliisipartio on valmiina hankaluuksien varalta."
+  },
+  "RISK_WHOLESALER_2": {
+    "description": "",
+    "message": "Ehkä siinä on riskinsä. Mutta poliisi lupasi meille partioida aluetta."
+  },
+  "RISK_WHOLESALER_3": {
+    "description": "",
+    "message": "Riski on korkea. Mutta saattue on valmiina turvaamaan teitä."
+  },
+  "SEMI_FINISHED_PRODUCTS": {
+    "description": "custom cargo",
+    "message": "puolivalmiita tuotteita"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Avaruussatama:"
+  },
+  "SPACESHIP_PARTS": {
+    "description": "custom cargo",
+    "message": "avaruusalusosia"
+  },
+  "STEM_BOLTS": {
+    "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
+    "message": "itsekiinnittyviä varsipultteja"
+  },
+  "SUCCESSMSG_1": {
+    "description": "",
+    "message": "Kiitoksia toimituksesta. Olette saaneet maksun."
+  },
+  "SUCCESSMSG_2": {
+    "description": "",
+    "message": "Kiitos ajoissa tehdystä toimituksesta. Rahat on siirretty."
+  },
+  "SUCCESSMSG_3": {
+    "description": "",
+    "message": "Hienoa, oli ilo työskennellä kanssanne. Maksoin laskun."
+  },
+  "SUCCESSMSG_4": {
+    "description": "",
+    "message": "Kiitos! Todellakin suosittelen teitä. Rahat on siirretty."
+  },
+  "SUCCESSMSG_FLUFFY_1": {
+    "description": "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",
+    "message": "Voi hyvä tavaton, mitä minä teen näin monella pörröisellä tyypillä. No, rahat on kuitenkin lähetetty."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Järjestelmä:"
+  },
+  "TARGET_DESTROYED": {
+    "description": "",
+    "message": "Kohde tuhottu."
+  },
+  "TITANIUM": {
+    "description": "custom cargo",
+    "message": "titaani"
+  },
+  "TOO_LATE_TO_PICK_UP": {
+    "description": "",
+    "message": "Olette todella myöhässä! Toimintanne on niin surkeaa, että perun toimeksiantoni kanssanne."
+  },
+  "TUNGSTEN": {
+    "description": "custom cargo",
+    "message": "volframi"
+  },
+  "URANIUM": {
+    "description": "custom cargo",
+    "message": "uraani"
+  },
+  "URGENCY_1": {
+    "description": "",
+    "message": "Ei kiirettä. Toimitusmääräpäivä on {date}."
+  },
+  "URGENCY_2": {
+    "description": "",
+    "message": "Se täytyy toimittaa {date} mennessä."
+  },
+  "URGENCY_3": {
+    "description": "",
+    "message": "Tiukan aikataulun vuoksi toimituksen täytyy tapahtua viimeistään {date}."
+  },
+  "URGENCY_4": {
+    "description": "",
+    "message": "Meillä on kiire, joten se on toimitettava viimeistään {date}."
+  },
+  "URGENCY_5": {
+    "description": "",
+    "message": "On tärkeää, että tavarat toimitetaan ennen {date}."
+  },
+  "URGENCY_FLUFFY_1": {
+    "description": "",
+    "message": "Pienten eläinten lisääntyvyyden ja kontin rajoitetun ravinnon vuoksi, on toimituksen oltava tehty {date} mennessä."
+  },
+  "URGENCY_RADIOACTIVE_1": {
+    "description": "",
+    "message": "Tämän isotoopin puoliintumisajan vuoksi toimituksen täytyy tapahtua {date} mennessä."
+  },
+  "WEDDING_DRESSES": {
+    "description": "custom cargo",
+    "message": "hääpukuja"
+  },
+  "WEDDING_DRESSES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Hääpukujen takiako?"
+  },
+  "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
+    "description": "",
+    "message": "Olemme lastanneet kuorman alukseenne."
+  },
+  "WHAT_IS_THIS": {
+    "description": "",
+    "message": "Mitä ihmettä? Oletko työntänyt lastini avaruuteen? Oletko sekaisin?"
+  },
+  "WHYSOMUCH_1": {
+    "description": "",
+    "message": "Tämä on tavallinen palkkio."
+  },
+  "WHYSOMUCH_2": {
+    "description": "",
+    "message": "Hyväksykää, tai antakaa olla."
+  },
+  "WHYSOMUCH_3": {
+    "description": "",
+    "message": "Paljonko nyt sitten on \"paljon\"."
+  },
+  "WHYSOMUCH_4": {
+    "description": "",
+    "message": "Palkkio heijastaa toivettamme saada toimitus ajallaan ja yhtenä kappaleena."
+  },
+  "WHYSOMUCH_5": {
+    "description": "",
+    "message": "Voitte pitää sitä bonuksena tahdikkuudesta tämän toimituksen kanssa."
+  },
+  "WHYSOMUCH_6": {
+    "description": "",
+    "message": "Aivan hyvin voimme maksaa teille vähemmänkin."
+  },
+  "WHYSOMUCH_CENTRIFUGES_1": {
+    "description": "",
+    "message": "Osa lastista ({cargoname}) tuhoutui ohjelmavirheen vuoksi, ja pitää korvata hetimiten."
+  },
+  "WHYSOMUCH_CHEMICAL_1": {
+    "description": "",
+    "message": "Kemikaalituotanto riippuu näistä hyödykkeistä eikä saa keskeytyä. Mikään ei saa pysäyttää konetta."
+  },
+  "WHYSOMUCH_EXPENSIVE_1": {
+    "description": "",
+    "message": "Arvotavaralla on korkea kysyntä."
+  },
+  "WHYSOMUCH_EXPENSIVE_2": {
+    "description": "",
+    "message": "Koska nämä tuotteet ovat hyvin kalliita."
+  },
+  "WHYSOMUCH_FLUFFY_1": {
+    "description": "",
+    "message": "{cargoname} myy nyt nopeasti. Teidän kannattaa sijoittaa {cargoname} –osakkeisiin, jos haluatte ansaita paljon rahaa."
+  },
+  "WHYSOMUCH_INFRASTRUCTURE_1": {
+    "description": "",
+    "message": "Nämä tavarat ovat ensiarvoisen tärkeitä rakennushankkeelle."
+  },
+  "WHYSOMUCH_MINING_1": {
+    "description": "",
+    "message": "Näitä tavaroita tarvitaan uuden kaivoksen rakentamiseen."
+  },
+  "WHYSOMUCH_URGENT_1": {
+    "description": "",
+    "message": "Lempipilottini on sairas ja aikaa on niukasti."
+  },
+  "WHYSOMUCH_URGENT_2": {
+    "description": "",
+    "message": "Jos emme saa toimitusta ajoissa, hanke seisahtuu."
+  },
+  "WHYSOMUCH_URGENT_3": {
+    "description": "",
+    "message": "Näitä tuotteita tarvitaan kiireellisesti."
+  },
+  "WHYSOMUCH_WEDDING_1": {
+    "description": "",
+    "message": "Tähän mennessä en ole löytänyt ketään suorittamaan tätä kuljetusta. Kun kausi on ohi, myyntiartikkelini ovat arvottomia."
+  },
+  "WHY_SO_MUCH_MONEY": {
+    "description": "",
+    "message": "Miksi noin paljon rahaa?"
+  },
+  "WILL_I_BE_IN_ANY_DANGER": {
+    "description": "",
+    "message": "Asetanko itseni vaaraan?"
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP": {
+    "description": "",
+    "message": "Sinulla ei ole tarpeeksi tilaa ruumassasi."
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
+    "description": "",
+    "message": "Otattehan yhteyttä, kun teillä on tarpeeksi vapaata rahtitilaa."
+  }
+}

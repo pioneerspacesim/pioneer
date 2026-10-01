@@ -1,0 +1,310 @@
+{
+  "ADTITLE_0": {
+    "description": "",
+    "message": "TUORE SELVITYS"
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "UUTISKOOSTE"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "GALAKSIREPORTAASI"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "PAIKALLISUUTISIA"
+  },
+  "FLAVOUR_0_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: Koko {system} –järjestelmässä kulkutauti. Kuolemantapaukset lisääntyvät yhä."
+  },
+  "FLAVOUR_0_NEWSBODY": {
+    "description": "Imply high demand for MEDICINE commodity.",
+    "message": "Kulkutauti kylvää kuolemaa {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}). Viranomaiset painottavat lääkeavun tärkeyttä."
+  },
+  "FLAVOUR_10_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: Yhtiö vaarantaa {system} –järjestelmän elinkelpoisuuden."
+  },
+  "FLAVOUR_10_NEWSBODY": {
+    "description": "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
+    "message": "Prekall Inc pyrkii monopolisoimaan itse ilman koko {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}). Hengitä syvään, sillä se saattaa olla viimeinen maksuton ilmasi."
+  },
+  "FLAVOUR_11_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: Outo karjan katoamistapaus {system} –järjestelmässä."
+  },
+  "FLAVOUR_11_NEWSBODY": {
+    "description": "Imply high demand of ANIMAL_MEAT.",
+    "message": "Kuin korkeampi voima olisi puuttunut asioihin: tilalliset {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}) menivät aamulla tyhjiin eläintiloihin. \"Tämä on vuosisadan karjavarkaus\", sanoo poliisi."
+  },
+  "FLAVOUR_12_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: Infrastruktuurituhoja tietokoneiden toimintahäiriön yhteydessä {system} –järjestelmässä."
+  },
+  "FLAVOUR_12_NEWSBODY": {
+    "description": "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
+    "message": "Paha virus hävitti kaiken tiedon Mässysoftin tietokoneiden levyiltä {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}). Rikkinäisistä laitteista on hyviksi paperipainoiksi, sanovat tietojenkäsittelytieteilijät."
+  },
+  "FLAVOUR_13_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: ({system}) Robottien kansannousu."
+  },
+  "FLAVOUR_13_NEWSBODY": {
+    "description": "Imply that nobody wants to buy ROBOTS anymore.",
+    "message": "Nyt ihminen ottaa mittaa koneista {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}), kun \"käytöshäiriö\" saa kotien kuluttajat menettämään luottamuksensa robottipalvelijoihin."
+  },
+  "FLAVOUR_14_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: Auringonpurkaus aiheutti vuosituhannen suurimman sähkökatkon {system} –järjestelmässä."
+  },
+  "FLAVOUR_14_NEWSBODY": {
+    "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
+    "message": "Koko järjestelmästä äkkiä hävinnyt energiantuotanto häiritsee {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}). Kuluttajat jonottavat loppuvia Harmattaneja hyödyttömiksi muuttuneiden jääkaappiensa tilalle, samalla kun valmistajalta ovat loppuneet raaka–aineet."
+  },
+  "FLAVOUR_15_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: Poliisi ratsaa rikollisliigan, {system} –järjestelmän avainpelaajat pidätetty."
+  },
+  "FLAVOUR_15_NEWSBODY": {
+    "description": "Imply high demand of NARCOTICS.",
+    "message": "{system} –järjestelmän ({sectorx}, {sectory}, {sectorz}) viranomaiset toivovat rikollisuuden vähenevän, kun huumeiden saatavuus on romahtanut useamman rikollispomon pidätysten jälkeen."
+  },
+  "FLAVOUR_16_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: Vakava onnettomuus vuosittaisessa Suuressa usvajuhlassa {system}:ssa."
+  },
+  "FLAVOUR_16_NEWSBODY": {
+    "description": "Imply high demand of FARM_MACHINERY.",
+    "message": "Suuressa usvajuhlassa {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}) tehty galaktinen ennätysyritys suurimmassa traktorivetokilpailussa päättyi sekasortoon, kun yksi kilpailija menetti laitteensa hallinnan ja tuhosi kaikkien muiden osallistujien koneet. Viranomaiset sanovat, että se voi olla paikallisille viljelijöille kohtalokasta."
+  },
+  "FLAVOUR_17_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: Rikkauksia löydetty {system} –järjestelmässä."
+  },
+  "FLAVOUR_17_NEWSBODY": {
+    "description": "Imply vast abundance of METAL_ORE.",
+    "message": "Kaivostyöntekijät {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}) ovat löytäneet mittavan malmiesiintymän, jonkalaajuista ei ennen olla havaittu."
+  },
+  "FLAVOUR_18_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: Talousuudistus huippumenestys {system} –järjestelmässä."
+  },
+  "FLAVOUR_18_NEWSBODY": {
+    "description": "Imply vast demand of CONSUMER_GOODS.",
+    "message": "Pyörät pyörivät nopeammin ja nopeammin {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}), kun kuluttajilla on enemmän millä kuluttaa."
+  },
+  "FLAVOUR_19_HEADLINE": {
+    "description": "",
+    "message": "NEWS {date}: {system}: Kultasade!"
+  },
+  "FLAVOUR_19_NEWSBODY": {
+    "description": "Imply vast abundance of PRECIOUS_METALS.",
+    "message": "Mies {system} –järjestelmästä ({sectorx}, {sectory}, {sectorz}) peri edesmenneeltä sedältään keksinnön, jonka turvin hän voi muuttaa mitä tahansa kiinteää materiaalia kullaksi ja platinaksi. Taloustieteilijät odottavat järjestelmän talouden horjuvan, ellei kone pian lakkaa toimimasta."
+  },
+  "FLAVOUR_1_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: Levottomuudet leviävät {system} –järjestelmässä."
+  },
+  "FLAVOUR_1_NEWSBODY": {
+    "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
+    "message": "Pitkäaikainen konflikti {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}) voimistuu, kun armeijat aloittivat avoimen sodankäynnin."
+  },
+  "FLAVOUR_20_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: Kaasujättiläislevän korjuu {system} –järjestelmässä saavuttaa ennätyksen."
+  },
+  "FLAVOUR_20_NEWSBODY": {
+    "description": "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
+    "message": "{system} ({sectorx}, {sectory}, {sectorz}) on nyt ihanteellinen keltaiselle levälle, jota löytyy sikäläisen kaasujättiläisen kaasukehästä. Sato, jota Soylent Yellow Inc. on korjannut, on ollut poikkeuksellisen runsas."
+  },
+  "FLAVOUR_21_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: {system} –järjestelmässä allekirjoitettu sopimus \"inhimillisemmästä\" sodankäynnistä."
+  },
+  "FLAVOUR_21_NEWSBODY": {
+    "description": "Imply vast abundance of NERVE_GAS.",
+    "message": "Vaikka kiistakumppanit {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}) eivät ole allekirjoittaneet varsinaista tulitaukosopimusta, ovat ne sopineet kemiallisten aseiden käytön lopettamisesta."
+  },
+  "FLAVOUR_22_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: Poliisi lakossa {system} –järjestelmässä. Kansalaiset saavat pärjätä keskenään."
+  },
+  "FLAVOUR_22_NEWSBODY": {
+    "description": "Imply high demand of HAND_WEAPONS.",
+    "message": "Protestiksi henkilöstövajeesta poliisit ovat kieltäytyneet työskentelemään {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}). Samaan aikaan kansalaiset muodostavat partio– ja muita ryhmiä ja aseistavat itseään talikoilla ja tuliaseilla varmuuden vuoksi."
+  },
+  "FLAVOUR_23_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: Suuret avajaiset tehtaassa {system} –järjestelmässä."
+  },
+  "FLAVOUR_23_NEWSBODY": {
+    "description": "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
+    "message": "Uusi Amissionox–tehdas {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}) on aloittanut tuotannon. Sieltä lähtee korkealaatuisia veitsiä, jotka leikkaavat vaikka avaruussaapasta. Tosin teriin tarvittavien raaka–aineiden vähyyden vuoksi koko tuotantokapasiteettia ei olla vielä alettu hyödyntämään."
+  },
+  "FLAVOUR_2_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: {system} ja kuivuus. Sato mennyttä."
+  },
+  "FLAVOUR_2_NEWSBODY": {
+    "description": "Hint there will be high demand of GRAIN.",
+    "message": "Vakava kuivuusongelma on hävittänyt sadon {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}). Laajaa nälänhätää pelätään."
+  },
+  "FLAVOUR_3_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: Vegaaninen elämäntapa kasvattaa suosiotaan {system} –järjestelmässä."
+  },
+  "FLAVOUR_3_NEWSBODY": {
+    "description": "Imply high demand of FRUIT_AND_VEG.",
+    "message": "Viranomaiset {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}) pyrkivät lisäämään tuontia, kun kysyntä kaikelle vihreälle kasvaa kohisten."
+  },
+  "FLAVOUR_4_HEADLINE": {
+    "description": "About mob rivals competing for selling drugs",
+    "message": "UUTISET {date}: Huumesota {system} –järjestelmässä. Lainvalvojien ote lipsuu."
+  },
+  "FLAVOUR_4_NEWSBODY": {
+    "description": "Imply high abundance of NARCOTICS.",
+    "message": "Markkinoille on tullut paljon halpoja huumausaineita {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}), kun kilpailevat huumepomot yrittävät kasvattaa valtaansa."
+  },
+  "FLAVOUR_5_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: Orjat kapinoivat {system} –järjestelmässä. Maatalousala seisahtunut."
+  },
+  "FLAVOUR_5_NEWSBODY": {
+    "description": "Imply high demand of SLAVES.",
+    "message": "Työntekijät {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}) ovat jättäneet kahleensa ja työnsä lootuspelloilla kapinan myötä. Talous on alamaissa, sillä halpaa työvoimaa ei löydy."
+  },
+  "FLAVOUR_6_HEADLINE": {
+    "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
+    "message": "UUTISET {date}: Kviblein riemujuhla {system} –järjestelmässä."
+  },
+  "FLAVOUR_6_NEWSBODY": {
+    "description": "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
+    "message": "Päihdevetoiset juhlat jatkuvat {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}) ihmisten kunnioittaessa pörröisiä pieniä olentoja."
+  },
+  "FLAVOUR_7_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: Teollisuus pysähtynyt {system} –järjestelmässä."
+  },
+  "FLAVOUR_7_NEWSBODY": {
+    "description": "Imply demand of INDUSTRIAL_MACHINERY.",
+    "message": "Pitkään jatkunut työkoneiden laiminlyönti aiheuttaa pakollisen teollisen tauon {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz})."
+  },
+  "FLAVOUR_8_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: Kaivosonnettomuus {system} –järjestelmässä."
+  },
+  "FLAVOUR_8_NEWSBODY": {
+    "description": "Imply high demand of MINING_MACHINERY.",
+    "message": "Kaivoksen romahtaminen {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}) on aiheuttanut satojen työntekijöiden kuoleman ja taloudelle välttämättömien koneiden tuhon."
+  },
+  "FLAVOUR_9_HEADLINE": {
+    "description": "",
+    "message": "UUTISET {date}: Muotivillitys {system} –järjestelmässä."
+  },
+  "FLAVOUR_9_NEWSBODY": {
+    "description": "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
+    "message": "Uusin iso juttu {system} –järjestelmässä ({sectorx}, {sectory}, {sectorz}) on elävät, oikeat lemmikit."
+  },
+  "GRATEFUL_GREETING_0": {
+    "description": "",
+    "message": "Tervetuloa, kauppias! Meitä kiinnostavat erityisesti {cargo}."
+  },
+  "GRATEFUL_GREETING_1": {
+    "description": "",
+    "message": "Tulonne on oikein hyvä, kuten kuormanne {cargo}!"
+  },
+  "GRATEFUL_GREETING_2": {
+    "description": "",
+    "message": "Tervehdys! Teillä ei pitäisi olla vaikeuksia saada {cargo} myytyä."
+  },
+  "GRATEFUL_GREETING_3": {
+    "description": "",
+    "message": "Tervetuloa! Vihdoinkin ensimmäiset {cargo} tulivat."
+  },
+  "GRATEFUL_GREETING_4": {
+    "description": "",
+    "message": "Kuinka olemmekaan odottaneet, että {cargo} tulisivat."
+  },
+  "GRATEFUL_GREETING_5": {
+    "description": "",
+    "message": "Tervetuloa! {cargo} menevät täällä nopeasti kaupaksi."
+  },
+  "NEWSPAPER_CIW": {
+    "description": "",
+    "message": "Kansainyhteisön korvassa"
+  },
+  "NEWSPAPER_FED": {
+    "description": "",
+    "message": "Liittosanomissa"
+  },
+  "NEWSPAPER_IMP": {
+    "description": "",
+    "message": "Keisarillisessa lehdessä"
+  },
+  "NEWSPAPER_IND_0": {
+    "description": "",
+    "message": "Pioneerissa"
+  },
+  "NEWSPAPER_IND_1": {
+    "description": "",
+    "message": "The Independent Tribune:ssa"
+  },
+  "NEWSPAPER_IND_10": {
+    "description": "",
+    "message": "Kiertoratakatsauksessa"
+  },
+  "NEWSPAPER_IND_2": {
+    "description": "",
+    "message": "Galaksin äänessä"
+  },
+  "NEWSPAPER_IND_3": {
+    "description": "",
+    "message": "The Universal Sun:ssa"
+  },
+  "NEWSPAPER_IND_4": {
+    "description": "",
+    "message": "Planeettasanomissa"
+  },
+  "NEWSPAPER_IND_5": {
+    "description": "",
+    "message": "Kuninkaallisessa viestissä"
+  },
+  "NEWSPAPER_IND_6": {
+    "description": "",
+    "message": "Kosmospostissa"
+  },
+  "NEWSPAPER_IND_7": {
+    "description": "",
+    "message": "Iltakyyhkyssä"
+  },
+  "NEWSPAPER_IND_8": {
+    "description": "",
+    "message": "Maalaisviestissä"
+  },
+  "NEWSPAPER_IND_9": {
+    "description": "",
+    "message": "Satelliittivihkoissa"
+  },
+  "TITLE_0": {
+    "description": "",
+    "message": "Tuore reportaasi {newspaper}"
+  },
+  "TITLE_1": {
+    "description": "",
+    "message": "Uutinen {newspaper}"
+  },
+  "TITLE_2": {
+    "description": "",
+    "message": "Reportaasi {newspaper}"
+  },
+  "TITLE_3": {
+    "description": "",
+    "message": "Uusinta {newspaper}"
+  },
+  "TITLE_4": {
+    "description": "",
+    "message": "Huomio {newspaper}"
+  }
+}

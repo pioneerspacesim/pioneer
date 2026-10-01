@@ -1,0 +1,66 @@
+{
+  "CREDITS_PROMISE": {
+    "description": "",
+    "message": "250 000. Heti. Minua kyllä kiinnostaisi."
+  },
+  "DEFENSE_CRAFT_ELIMINATED": {
+    "description": "",
+    "message": "Järjestelmän puolustusalukset tuhottu. Tapaus on kirjattu."
+  },
+  "HABER_DEFENSE_CRAFT": {
+    "description": "",
+    "message": "Haber–puolustusalus"
+  },
+  "HEY_OVER_HERE": {
+    "description": "",
+    "message": "Hei, täällä."
+  },
+  "HOSTILE_ACTION_REPORTED": {
+    "description": "",
+    "message": "Vihamielinen toiminta raportoitu. Torjukaa, tuhotkaa!"
+  },
+  "INTERCEPTION_SUCCESSFUL": {
+    "description": "",
+    "message": "Torjunta onnistui. Vihollisalus tuhottu."
+  },
+  "JETTISON_DEFENSIVE_PRECAUTION": {
+    "description": "",
+    "message": "Havaittu ulosheittäminen. Käyttäkää puolustusvarotoimia!"
+  },
+  "NOT_INTERESTED": {
+    "description": "",
+    "message": "Entä jos minua ei kiinnosta?"
+  },
+  "PERFECT": {
+    "description": "",
+    "message": "Täydellist. Jos joku kysyy... no ei varmaan kukaan kysy, mutta jos kysyy, muistakaa että me vain tinkaamme käytetystä aluksen suojalaitteesta."
+  },
+  "RONDEL_RESTRICTED_ZONE": {
+    "description": "",
+    "message": "{playerShipLabel}, tähän järjestelmään pääsyä on rajoitettu. Teidän on poistuttava, aikaa {seconds} sekuntia. Jos ette noudata määräystä, teidän katsotaan olevan vihamielinen toimija ja ryhdymme puolustuksellisiin toimiin."
+  },
+  "SOLFED_INTEL": {
+    "description": "",
+    "message": "Solar Federation –tiedustelu"
+  },
+  "SOLFED_INTEL_INTRO": {
+    "description": "",
+    "message": "Puhukaa hiljaa, pilotti. Työskentelen peiteroolissa Solar Federation –tiedustelulle. Aluksesi tietokoneen muistissa on tietoja, joista olemme kiinnostuneita."
+  },
+  "WEAPONS_EVASIVE_ACTION": {
+    "description": "",
+    "message": "Tulitusta havaittu. Väistöliikkeitä!"
+  },
+  "WHAT_IS_THIS_ABOUT": {
+    "description": "",
+    "message": "Mitä tietoja? Mistä on kyse?"
+  },
+  "YOU_SHALL_HAVE_THE_DATA": {
+    "description": "",
+    "message": "Saatte tiedot."
+  },
+  "YOU_VISITED_STAR_SYSTEM": {
+    "description": "",
+    "message": "Olette saattaneet käydä sellaisessa tähtijärjestelmässä, josta haluaisimme oppia lisää."
+  }
+}

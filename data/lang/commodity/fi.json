@@ -1,0 +1,258 @@
+{
+  "AIR_PROCESSORS": {
+    "description": "",
+    "message": "ilmastointi"
+  },
+  "AIR_PROCESSORS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Puhdasta ilmaa pidetään itsestäänselvyytenä vain, kun sitä on paljon. Ilmanpuhdistustekniikan on huhuttu olevan peräisin marsilaisista muinaisesineistä. Monet yhtiöt tuottavat erilaisia laitteita, jotka voivat muuttaa vihamielisimmänkin kaasukehän siedettäväksi ympäristöksi. Hallitukset eivät siedä ilmantuotannon monopoleja."
+  },
+  "ANIMAL_MEAT": {
+    "description": "",
+    "message": "eläinliha"
+  },
+  "ANIMAL_MEAT_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Kiistanalainen hyödyke, liha, on eläinten lihaksia. Laajasti saatavan synteettisen proteiinin ansiosta useimmat ihmiset ovat sitä mieltä, että eläimiä ei tulisi tappaa. Liha on useimmissa ydinjärjestelmissä laitonta, mutta perinteisemmillä planeetoilla elävät eläimet ja eläinliha ovat merkittävä osa ihmisten elämää."
+  },
+  "BATTLE_WEAPONS": {
+    "description": "",
+    "message": "taisteluaseet"
+  },
+  "BATTLE_WEAPONS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Raskaita sotilasaseita, mm. panssaroituja leijutankkeja ja planeetan pinnalta laukaistavia avaruusohjuksia. Hallituksilla on yleensä monopoli niillä kaupan käymiseen. Mustassa pörssissä näistä voi kuitenkin saada hyvin rahaa."
+  },
+  "CARBON_ORE": {
+    "description": "",
+    "message": "carbon ore"
+  },
+  "CARBON_ORE_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Hiilimalmi on yksi monipuolisimmista tuntemistamme raaka-aineista. Sitä käytetään lähes kaikessa aina muoveista metalliseoksiin ja joskus jopa energian tuottamiseen, ja se on halpa mutta tärkeä hyödyke. Niinpä lähes kaikki teolliset keskukset tuovat hiiltä."
+  },
+  "CHEMICALS": {
+    "description": "",
+    "message": "kemikaalit"
+  },
+  "CHEMICALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Teollisuuden esiasteet, puhdistusaineet ja biokemian raaka-aineet ovat joitakin esimerkkejä kemikaalien käytöstä. Niitä käytetään sekä kuluttajien että teollisuuden parissa. Kemikaalit toimitetaan teollisissa astioissa aluksen ruuman vahingoittumisen estämiseksi."
+  },
+  "COMPUTERS": {
+    "description": "",
+    "message": "tietokoneet"
+  },
+  "COMPUTERS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Yli tuhannen vuoden takaiset PDP-11 ja Motorolan 68000, muiden muassa, aloittivat informaation aikakauden, jota tämän päivän HAL 9001- ja Multivac-sarjamme ylläpitävät. Yhtä välttämättömiä hyperavaruuden hyödyntämiseen kuin söpöjen lemmikkikuvien jakamiseen Uninetissä."
+  },
+  "CONSUMER_GOODS": {
+    "description": "",
+    "message": "kulutustavarat"
+  },
+  "CONSUMER_GOODS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Kuluttajamarkkinoille valmistetut tuotteet, joita ei tarvitse enää käsitellä. Hammasharjoja, keittiövälineitä, leijuautoja ja paljon muuta."
+  },
+  "FARM_MACHINERY": {
+    "description": "",
+    "message": "maatalouskoneet"
+  },
+  "FARM_MACHINERY_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Vieläkin on mahdollista nähdä maanviljelijä häränvetämän auran takana. Mutta lähes kaikkialla missä on maanviljelystä, koneet ovat mukana, oli se sitten vesiviljelytilalla pinnanalaisessa asumuksessa tai puutarhamaailman loputtomilla pelloilla."
+  },
+  "FERTILIZER": {
+    "description": "",
+    "message": "lannoitteet"
+  },
+  "FERTILIZER_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Lannoitteet ovat tärkeitä teollisen mittakaavan viljelyssä, sillä ne mahdollistavat monokulttuurit ja suuremman sadon. Tällä on yleensä ekologinen hintansa, joka ei ole aluksi selvä."
+  },
+  "FRUIT_AND_VEG": {
+    "description": "",
+    "message": "hedelmät ja vihannekset"
+  },
+  "FRUIT_AND_VEG_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Synteettisiä vaihtoehtoja on runsaasti, mutta oikeat hedelmät ja vihannekset ovat yhä tärkeä osa keittiötämme ja ravitsemustamme. Ne kasvavat maatalousmaailmoissa tai osana asumusten ylläpitojärjestelmiä ja niitä viedään järjestelmiin, joissa kasvattaminen ei ole hedelmällistä."
+  },
+  "GRAIN": {
+    "description": "",
+    "message": "vilja"
+  },
+  "GRAIN_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Monen ihmisen ruokavalion perusta. Sitä käytetään maataloudessa, eläinten ruokkimiseen ja synteettisen ruoan ohella. Viljaa käytetään myös monissa resepteissä, kuten puuroissa ja leivissä. Useimmat tähtikulttuurit kasvattavat ja kuluttavat ainakin hieman viljaa, joka on sopeutettu uuteen asuinympäristöön."
+  },
+  "HAND_WEAPONS": {
+    "description": "",
+    "message": "pienaseet"
+  },
+  "HAND_WEAPONS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Lain kouraa kattavamman vakuutuksen merkitys on huomattava kelle tahansa kaukaisissa järjestelmissä kauppaa käyvälle. Monet hallitukset pitävät niitä uhkana väestönhallinnalle, ja rajoittavat niiden kauppaa ja hallussapitoa."
+  },
+  "HYDROGEN": {
+    "description": "",
+    "message": "vety"
+  },
+  "HYDROGEN_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Tätä hyvin tärkeää alkuainetta käytetään hypermoottoreiden ja tähtialusten polttoaineena. Onneksi se on myös yleisin alkuaine, vaikka sen varastointi ei ole yksinkertaista. Yleensä se on halvimpia kauppatavaroita. Avaruussatamilla on aina hyvä tarjonta."
+  },
+  "INDUSTRIAL_MACHINERY": {
+    "description": "",
+    "message": "teollisuuskoneet"
+  },
+  "INDUSTRIAL_MACHINERY_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Kokoonpanolinjat, jalostamot, sulatot ja konetuotanto, jotka puolestaan tuottavat muita hyödykkeitä. Näiden monimutkaisten koneiden valmistamiseen tarvitaan hyvää osaamista."
+  },
+  "LIQUID_OXYGEN": {
+    "description": "",
+    "message": "nestehappi"
+  },
+  "LIQUID_OXYGEN_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Nestehapella on monia käyttötarkoituksia varsinkin lääketieteessä ja teollisissa sovellutuksissa, joiden lisäksi sitä käytetään joskus jätteiden käsittelyyn. Se on hyvin edullista, sillä happea saadaan vedestä yksinkertaisella menetelmällä."
+  },
+  "LIQUOR": {
+    "description": "",
+    "message": "väkijuomat"
+  },
+  "LIQUOR_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Useimmilla pienimuotoisilla asutuksilla on paikallinen keitos, joka ei ole ulkopuolisten mieleen. Alkoholi on joissakin järjestelmissä kielletty, koska sen katsotaan sumentavan harkintakyvyn. Laista riippumatta, skottiviskiä on lähes aina saatavilla mustassa pörssissä, jos hinnasta pääsee sopuun."
+  },
+  "LIVE_ANIMALS": {
+    "description": "",
+    "message": "elävät eläimet"
+  },
+  "LIVE_ANIMALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Osin humanistisista, taloudellisista ja ekologisista syistä eläintenkasvatus ja niiden myyminen on tarkoin säännelty, paikoin laitontakin. Kauempana kaikesta eläimistä tulee tärkeämpi osa ihmisten elatusta, sekä ruoanlähteenä että työjuhtina. Eläintarhat ja villieläinpuistot käyvät kauppaa, yleensä tarkkojen, laittomia metsästysareenoita vastaan asetettujen säännösten puitteissa."
+  },
+  "MEDICINES": {
+    "description": "",
+    "message": "lääkkeet"
+  },
+  "MEDICINES_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Luontaisista lähteistä tai synteettisesti valmistetut lääkkeet ovat välttämättömiä minne ihminen ikinä meneekin. Flunssan parantaminen tai pitkän avaruusmatkailun haittavaikutusten vähentäminen ovat osa tähtienvälisen ihmiskunnan hyvinvointia. Tullin erityisesti tarkkailema, sillä ei ole tavatonta, että huumeita yritetään kuljettaa lääkkeinä."
+  },
+  "METAL_ALLOYS": {
+    "description": "",
+    "message": "seosmetallit"
+  },
+  "METAL_ALLOYS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Kun metallimalmi on eristetty ja jalostettu, se käsitellään erilaisiksi seosmetalleiksi. Se ei ole enää yhtä alkuainetta, vaan on tarkoin yhdistetty haluttujen ominaisuuksien perusteella. Niinpä useimmat kulutusmetallit ovat seoksia."
+  },
+  "METAL_ORE": {
+    "description": "",
+    "message": "metallimalmi"
+  },
+  "METAL_ORE_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Monet siirtokunnat tuottavat metallimalmia vientiin jalostettavaksi ja teollisessa valmistuksessa käytettäväksi. Sitä käytetään aina pienistä leluista avaruusaluksiin ja monissa eri muodoissaan se on sivilisaatiolle välttämätön aine."
+  },
+  "MILITARY_FUEL": {
+    "description": "",
+    "message": "sotilaspolttoaine"
+  },
+  "MILITARY_FUEL_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Käytetään polttoaineena kehittyneemmissä sotilasmoottoreissa. Nämä moottorit tuottavat käytettäessä radioaktiivista jätettä, joka on hävitettävä. Johtuen sen synteettisyydestä on se vetyä arvokkaampaa ja harvinaisempaa, eikä sitä muodostu luonnossa."
+  },
+  "MINING_MACHINERY": {
+    "description": "",
+    "message": "kaivoskoneet"
+  },
+  "MINING_MACHINERY_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Perinteisesti ruumiillisesti raskas kaivostyö helpottuu käyttämällä koneita, jotka auttavat löytämään ja hankkimaan eri malmeja ja myös kuljettamaan ne käsittelylaitoksiin."
+  },
+  "NARCOTICS": {
+    "description": "",
+    "message": "huumausaineet"
+  },
+  "NARCOTICS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Luonnollisia tai synteettisiä aineita, jotka vaikuttavat mielen- tai ruumiintilaa. Vaikka sekä viihde- että lääkekäyttö on yhtä vanhaa kuin ihminen itse, kuljetus ja kauppa on yleensä laitonta."
+  },
+  "NERVE_GAS": {
+    "description": "",
+    "message": "hermokaasu"
+  },
+  "NERVE_GAS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Pidetään yleensä joukkotuhoaseena, josta useimpien järjestelmien armeijatkin irtisanoutuvat, ja on laiton useimmissa järjestelmissä."
+  },
+  "PLASTICS": {
+    "description": "",
+    "message": "muovi"
+  },
+  "PLASTICS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Synteettisiä ja semisynteettisiä materiaaleja, joita käytetään niin päivittäistavaroissa kuin avaruusalusten valmistuksessakin. Niitä on verraten helppo käyttää tuotantolinjoissa, ne ovat monipuolisia ja halpoja ja siten tärkeä osa ihmissivistystä."
+  },
+  "PRECIOUS_METALS": {
+    "description": "",
+    "message": "jalometallit"
+  },
+  "PRECIOUS_METALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Jalometallit ovat yleensä vähemmän reaktiivisia, vaikeampia louhia ja harvinaisempia, joten ne ovat varsin arvokkaita. Näihin luetaan kuuluviksi yleensä kulta, hopea, platina ja maametallimineraalit. Jotkin alkuaineet tai mineraalit ovat tärkeitä tietokoneiden ja muun elektroniikan valmistuksessa."
+  },
+  "RADIOACTIVES": {
+    "description": "",
+    "message": "radioaktiivinen jäte"
+  },
+  "RADIOACTIVES_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Syntyy ydinreaktoreissa ja sotilasmoottoreissa. Tämä jäte on vaikein ja vaarallisin sekä kuljettaa, että hävittää. Siksi useimmat satamat maksavat kertyneen jätteen vastaanottamisesta. Radioaktiivisen jätteen työntäminen ulos on vakava rikos."
+  },
+  "ROBOTS": {
+    "description": "",
+    "message": "robotit"
+  },
+  "ROBOTS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Robotteja tuodaan usein teollisiin tai kaivosjärjestelmiin, koska ne suoriutuvat helposti tehtävistä, jotka olisivat ihmiselle vaikeita, yksitoikkoisia tai vaarallisia. Ne voivat toimia myös poliitikkoina ja juristeina."
+  },
+  "RUBBISH": {
+    "description": "",
+    "message": "roskaa"
+  },
+  "RUBBISH_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Sivistyksen sivutuote: teollisuusjätettä, kotitalousjätettä ja puhkikuluneita varusteita. Suurin osa jätteistä käsitellään, kierrätetään tai lähetetään avaruussatamiin poiskuljetettavaksi. Jätteen työntäminen ulos asutussa järjestelmässä on lähes aina laitonta. Tähtisatamat tapaavat veloittaa jätteen hävittämisestä, mutta maksavat myös sen vastaanottamisesta."
+  },
+  "SLAVES": {
+    "description": "",
+    "message": "orjat"
+  },
+  "SLAVES_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Koneiden korvattua orjat sivilisaation voimanlähteenä, orjuus on alettu nähdä lähes poikkeuksetta moraalittomana, ja kiellon uhmaamisesta seuraa ankara rangaistus. Tästä ja lukuisista hankkeista huolimatta orjuus on yhä tosiasia myös kehittyneissä maailmoissa."
+  },
+  "TEXTILES": {
+    "description": "",
+    "message": "tekstiilit"
+  },
+  "TEXTILES_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Tekstiilit ovat yksinkertaista kangasta, joka on kudottu joko kasvi- tai eläinperäisestä tai synteettisestä langasta. Yleensä robotit tekevät sen suuressa tehtaassa, mutta on yhä mahdollista löytää käsityöläinen, joka tekee tekstiilinsä itse."
+  },
+  "WATER": {
+    "description": "",
+    "message": "vesi"
+  },
+  "WATER_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Välttämätön tuntemillemme elämänmuodoille ja usein unohdettu kauppatavara, jota tarvitaan kaikkialle minne ihminen meneekään. Suurin osa siirtokunnista tuo vetensä komeetoilta tai Maan kaltaisilta planeetoilta. Vettä käytetään suuria määriä vedyn ja hapen tuotannossa."
+  }
+}

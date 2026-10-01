@@ -1,0 +1,138 @@
+{
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "LAHJOITA!"
+  },
+  "FLAVOUR_0_DESC": {
+    "description": "",
+    "message": "Lentävän spagettihirviön kirkko tarvitsee SINUN rahaasi levittämään jumalan sanaa."
+  },
+  "FLAVOUR_0_MESSAGE": {
+    "description": "",
+    "message": "Valitse määrä lahjoitettavaksi Lentävän spagettihirviön kirkolle."
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "LAHJOITTAKAA"
+  },
+  "FLAVOUR_1_DESC": {
+    "description": "",
+    "message": "Vapaan hengen vartio pyytää nöyrästi tukeanne luostariemme hyväksi."
+  },
+  "FLAVOUR_1_MESSAGE": {
+    "description": "",
+    "message": "Rauha kanssanne, veli. Olkaa hyvä ja valitkaa summa lahjoitettavaksi Vapaan hengen vartiolle."
+  },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "ANTELIAALLA PÄÄLLÄ?"
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "",
+    "message": "Sotaorpojen tuki tarvitsee apuanne jatkaakseen tärkeää työtä."
+  },
+  "FLAVOUR_2_MESSAGE": {
+    "description": "",
+    "message": "Valitkaa summa lahjoitettavaksi Sotaorpojen tuelle, jotta lasten kärsimys kaikkialla galaksissa päättyy."
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "TUKEKAA"
+  },
+  "FLAVOUR_3_DESC": {
+    "description": "",
+    "message": "Galaksin ystävien \"Kieltäkää sotilasmoottorit\" –kampanja tarvitsee rahaanne."
+  },
+  "FLAVOUR_3_MESSAGE": {
+    "description": "",
+    "message": "Valitkaa summa lahjoitettavaksi Greenwatchille, jotta galaksin saastuttaminen loppuu."
+  },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "LAHJOITA!"
+  },
+  "FLAVOUR_4_DESC": {
+    "description": "",
+    "message": "Pelasta lajimme. Lopetetaan asutettavien maailmojen tappaminen."
+  },
+  "FLAVOUR_4_MESSAGE": {
+    "description": "",
+    "message": "Valitse lahjoitussumma."
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "TUKEKAA VAPAUTTA!"
+  },
+  "FLAVOUR_5_DESC": {
+    "description": "",
+    "message": "Lopetetaan suuri vääryys, suljettujen ohjelmistojen valta alukseenne."
+  },
+  "FLAVOUR_5_MESSAGE": {
+    "description": "",
+    "message": "Vapauttakaa aluksenne! Valitkaa lahjoitussumma. Hyviä hakkerointeja."
+  },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "VETERAANIPÄIVÄ!"
+  },
+  "FLAVOUR_6_DESC": {
+    "description": "",
+    "message": "Tukekaa {MILITARY} –veteraaneja."
+  },
+  "FLAVOUR_6_MESSAGE": {
+    "description": "",
+    "message": "{MILITARY}. Voitte aina luottaa heihin.\nVoivatko he luottaa teihin?"
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "ONKO HEILLÄ TUKENNE?"
+  },
+  "FLAVOUR_7_DESC": {
+    "description": "",
+    "message": "Tukekaa {POLICE} –veteraaneja."
+  },
+  "FLAVOUR_7_MESSAGE": {
+    "description": "",
+    "message": "{POLICE}:n rohkeat naiset ja miehet, jotka ovat omistaneet elämänsä {SYSTEM}:n turvallisuudelle, tarvitsevat tukeanne!"
+  },
+  "FLAVOUR_8_ADTITLE": {
+    "description": "",
+    "message": "TUE VETERAANEJAMME!"
+  },
+  "FLAVOUR_8_DESC": {
+    "description": "",
+    "message": "Tue asevoimiemme veteraaneja."
+  },
+  "FLAVOUR_8_MESSAGE": {
+    "description": "",
+    "message": "{MILITARY}:n rohkeat sotilaat asettavat itsensä vaaraan puolestasi!"
+  },
+  "FLAVOUR_9_ADTITLE": {
+    "description": "",
+    "message": "LOPETETAAN KÖYHYYS!"
+  },
+  "FLAVOUR_9_DESC": {
+    "description": "",
+    "message": "Tukekaa kamppailua köyhyyttä vastaan {FACTION}:ssa."
+  },
+  "FLAVOUR_9_MESSAGE": {
+    "description": "",
+    "message": "{FACTION} –perheet voimaantuvat tekemästämme työstä, joka petaa meille kaikille paremman tulevaisuuden."
+  },
+  "SALES_PITCH": {
+    "description": "",
+    "message": "{cash}:n lahjoitus asiamme puolesta on maine–etu, mutta kaikki lahjoitukset olisivat avuksi."
+  },
+  "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
+    "description": "",
+    "message": "Kiitos. Jokainen lahjoitus on tervetullut."
+  },
+  "WOW_THAT_WAS_VERY_GENEROUS": {
+    "description": "",
+    "message": "Oho! Tuo oli hyvin anteliasta."
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
+    "description": "",
+    "message": "Sinulla ei ole tarpeeksi rahaa."
+  }
+}

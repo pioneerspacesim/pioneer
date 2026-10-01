@@ -1,0 +1,386 @@
+{
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Voisitteko toistaa alkuperäisen pyynnön?"
+  },
+  "DANGER": {
+    "description": "",
+    "message": "Vaara:"
+  },
+  "DEADLINE": {
+    "description": "",
+    "message": "Määräaika:"
+  },
+  "DELIVERY": {
+    "description": "",
+    "message": "Toimitus"
+  },
+  "DENY_0": {
+    "description": "",
+    "message": "Olen pahoillani, mutta en voi uskoa tätä lähetystä teille."
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Palatkaa, kun teillä on jonkinlainen pätevyys."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "En usko että olette hakemamme pilotti."
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "Ette vaikuta sellaiselta henkilöltä, jolle voisin luovuttaa tämän lähetyksen."
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "Ette ole hakemammekaltainen lentäjä."
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "Vaikutatte aivan liian kokemattomalta näin tärkeän tehtävän suorittamiseen."
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "En ole koskaan kuullutkaan teistä. Tarvitsen jonkun kokeneen hoitamaan lähetyksen perille."
+  },
+  "DENY_7": {
+    "description": "",
+    "message": "En ole halukas vaarantamaan tätä lähetystä kenenkään sellaisen kanssa, jolla on tuollaiset pensselit."
+  },
+  "DISTANCE": {
+    "description": "",
+    "message": "Etäisyys:"
+  },
+  "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY": {
+    "description": "",
+    "message": "Mainiota. Ilmoitan vastaanottajalle, että olette tulossa."
+  },
+  "FLAVOUR_0_ADTEXT": {
+    "description": "",
+    "message": "Matkalla {system} –järjestelmään? Maksetaan pienen paketin toimittamisesta."
+  },
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "TÄHTIENVÄLINEN TOIMITUS"
+  },
+  "FLAVOUR_0_FAILUREMSG": {
+    "description": "",
+    "message": "Sietämätöntä! Teillähän kesti lähetyksen kanssa iät ajat. En halua maksasa teille."
+  },
+  "FLAVOUR_0_INTROTEXT": {
+    "description": "",
+    "message": "Hei, olen {name}. Maksan teille {cash} jos toimitatte pienen paketin {starport}:n {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, jonne on täältä {dist} vv:ta."
+  },
+  "FLAVOUR_0_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos toimituksesta. Olette saaneet koko maksun."
+  },
+  "FLAVOUR_0_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Kun ystäväni vieraili luonani, hän jätti tänne vaatteita ja antiikkikirjoja. Tahtoisin, että hän saa ne takaisin."
+  },
+  "FLAVOUR_1_ADTEXT": {
+    "description": "",
+    "message": "Toimitus: Paketti {system} –järjestelmään."
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "HALUTAAN TOIMITUS"
+  },
+  "FLAVOUR_1_FAILUREMSG": {
+    "description": "",
+    "message": "Olen harmissani pakettini myöhäisestä toimituksesta, joten kieltäydyn maksamasta."
+  },
+  "FLAVOUR_1_INTROTEXT": {
+    "description": "",
+    "message": "Hei. Olen {name}. Maksaisin {cash} paketin toimituksesta {starport} –avaruussatamaan {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, jonne on matkaa {dist} vv."
+  },
+  "FLAVOUR_1_SUCCESSMSG": {
+    "description": "",
+    "message": "Paketti on otettu vastaan ja olette saaneet täysimääräisen palkkion."
+  },
+  "FLAVOUR_1_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Ei mitään kummempaa syytä."
+  },
+  "FLAVOUR_2_ADTEXT": {
+    "description": "",
+    "message": "Kiireellinen! Nopea alus toimittamaan paketti {system} –järjestelmään."
+  },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "KIIREELLINEN TOIMITUS"
+  },
+  "FLAVOUR_2_FAILUREMSG": {
+    "description": "",
+    "message": "Tein määräajan ihan selväksi ja olen myöhästyneeseen toimitukseen hyvin pettynyt. Maksua ette saa."
+  },
+  "FLAVOUR_2_INTROTEXT": {
+    "description": "",
+    "message": "Päivää. Olen {name}. Maksaisin {cash} paketin viemisestä {starport} –avaruussatamaan {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, jonne on matkaa {dist} vv."
+  },
+  "FLAVOUR_2_SUCCESSMSG": {
+    "description": "",
+    "message": "Olette saaneet toimituksen johdosta täysimääräisen palkkion. Kiitos."
+  },
+  "FLAVOUR_2_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Kyseessä on tutkimusesitys, joka pitää toimittaa määräaikaan mennessä, sillä muuten emme ehkä saa rahoitusta."
+  },
+  "FLAVOUR_3_ADTEXT": {
+    "description": "",
+    "message": "Arkaluontoisten asiakirjojen toimitus {system} –järjestelmään. {cash} kokeneelle pilotille."
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "ASIAKIRJAKULJETUS"
+  },
+  "FLAVOUR_3_FAILUREMSG": {
+    "description": "",
+    "message": "Toivotonta! En koskaan enää tukeudu teihin! Turha sanoakaan, että ette saa maksua."
+  },
+  "FLAVOUR_3_INTROTEXT": {
+    "description": "",
+    "message": "Hei. Olen {name}. Maksaisin {cash} paketin toimittamisesta osoitteeseen {starport}, {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmä. Sinne on matkaa {dist} vv."
+  },
+  "FLAVOUR_3_SUCCESSMSG": {
+    "description": "",
+    "message": "Hiljaa ja ajoissa suoritettu palvelu saa kiitoksemme. Täysi maksu on suoritettu."
+  },
+  "FLAVOUR_3_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Erittäin arkaluontoiset dokumentit ovat päätyneet käsiini, ja minulla on syytä uskoa, että vuoto on yhdistetty minuun."
+  },
+  "FLAVOUR_4_ADTEXT": {
+    "description": "",
+    "message": "Tähtienvälinen posti. Tarvitsemme aluksen tekemään kuljetuslennon {system} –järjestelmään."
+  },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "POSTI"
+  },
+  "FLAVOUR_4_FAILUREMSG": {
+    "description": "",
+    "message": "Aluksesi rekisteritunnus on kirjattu. Hylkäämme vastaisuudessa työhakemuksenne."
+  },
+  "FLAVOUR_4_INTROTEXT": {
+    "description": "",
+    "message": "Terve. Tämä on automaattiviesti Bedford ja {name} kuriiripalvelusta. Maksamme {cash} kuljetuksesta {starport}:n {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, jonne on {dist} vv matkaa."
+  },
+  "FLAVOUR_4_SUCCESSMSG": {
+    "description": "",
+    "message": "Ajoissa ja hillitysti tehty palvelu saa kiitoksemme. Täysi maksu on suoritettu."
+  },
+  "FLAVOUR_4_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Voimme mielellään maksaa teille vähemmänkin."
+  },
+  "FLAVOUR_5_ADTEXT": {
+    "description": "",
+    "message": "Toimita tavarat satamavarastosta {starport}:n."
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "MUUTTO UUTEEN KOTIIN"
+  },
+  "FLAVOUR_5_FAILUREMSG": {
+    "description": "",
+    "message": "Mitä nämä ovat? Jaa, teillä kesti niin kauan että olen unohtanut edes lähettäneeni tätä!"
+  },
+  "FLAVOUR_5_INTROTEXT": {
+    "description": "",
+    "message": "Hauska tavata. Olen {name} ja maksaisin {cash} jos joku jolla on alus, auttaisi minua muuttamaan tavarani {starport} –avaruussatamaan. Ei kiirettä, ne ovat vain muutosta ylijääneitä asioita."
+  },
+  "FLAVOUR_5_SUCCESSMSG": {
+    "description": "",
+    "message": "No upeaa. Alan heti purkamaan. Kiitokset vielä."
+  },
+  "FLAVOUR_5_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Onko se paljon? Minun pitää vielä harkita tarjoustani!"
+  },
+  "FLAVOUR_6_ADTEXT": {
+    "description": "",
+    "message": "Järjestelmänsisäinen kuriiri haussa. Pienen paketin toimitus {starport} –avaruussatamaan."
+  },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "LYHYEN MATKAN KURIIRI"
+  },
+  "FLAVOUR_6_FAILUREMSG": {
+    "description": "",
+    "message": "Olisin voinut toimittaa sen nopeammin itse. En maksa teille."
+  },
+  "FLAVOUR_6_INTROTEXT": {
+    "description": "",
+    "message": "Hei. Olen {name} ja maksaisin {cash} tämän paketin toimittamisesta {starport}:n."
+  },
+  "FLAVOUR_6_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos paketista, olette saaneet maksun kokonaisuudessaan."
+  },
+  "FLAVOUR_6_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Ei se minun mielestäni paljon ole."
+  },
+  "FLAVOUR_7_ADTEXT": {
+    "description": "",
+    "message": "Yhdenmukaistettu planeettainvälinen kuljetussopimus. Rahdin kuljetus {starport} –avaruussatamaan."
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "PLANEETTAINVÄLINEN KUORMA"
+  },
+  "FLAVOUR_7_FAILUREMSG": {
+    "description": "",
+    "message": "Asiakkaamme eivät tule olemaan tyytyväisiä. Älkää odottako maksua."
+  },
+  "FLAVOUR_7_INTROTEXT": {
+    "description": "",
+    "message": "Hei. Meidän täytyy saada nämä lavat {starport}:n mahdollisimman nopeasti. Tavanomainen suorite tälle kuljetukselle on {cash}."
+  },
+  "FLAVOUR_7_SUCCESSMSG": {
+    "description": "",
+    "message": "Hienoa, olemme tehneet teille tilisiirron."
+  },
+  "FLAVOUR_7_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Tämä on perusmäärä, toimimme markkinavetoisesti."
+  },
+  "FLAVOUR_8_ADTEXT": {
+    "description": "",
+    "message": "Kiireellinen henkilökohtainen kuljetussopimus. Tarvitaan artikkelin nopea toimitus {starport}:n."
+  },
+  "FLAVOUR_8_ADTITLE": {
+    "description": "",
+    "message": "TOIMITUS LÄHELLE"
+  },
+  "FLAVOUR_8_FAILUREMSG": {
+    "description": "",
+    "message": "Teille tarjottiin paljon rahaa nopeasta toimituksesta! Kieltäydyn maksamasta."
+  },
+  "FLAVOUR_8_INTROTEXT": {
+    "description": "",
+    "message": "Nimeni on {name} ja minun täytyy saada pian yksi asia ystävälleni {starport} –avaruussatamassa, maksan {cash} krediittiä kunhan toimitte riittävän nopeasti."
+  },
+  "FLAVOUR_8_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos nopeasta toimituksesta, olen tehnyt asianmukaisen tilisiirron."
+  },
+  "FLAVOUR_8_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Sillä on todella kiire."
+  },
+  "FLAVOUR_9_ADTEXT": {
+    "description": "",
+    "message": "Paketin toimitus tarpeen. Rajallisesti säilyviä asioita {starport}:n."
+  },
+  "FLAVOUR_9_ADTITLE": {
+    "description": "",
+    "message": "PAKETTIRAKETTI"
+  },
+  "FLAVOUR_9_FAILUREMSG": {
+    "description": "",
+    "message": "Kaikki on pilaantunut, tästä ei ole mitään iloa kenellekään! Emme voi emmekä tule maksamaan teille."
+  },
+  "FLAVOUR_9_INTROTEXT": {
+    "description": "",
+    "message": "Terve, olemme aikataulusta jäljessä ja tuotteemme pitäisi saada kiireesti {starport} –avaruussatamaan. Maksamme vaivoistanne {cash}."
+  },
+  "FLAVOUR_9_SUCCESSMSG": {
+    "description": "",
+    "message": "Mahtavaa! Alamme heti purkamaan. Tilillenne tulee hetimiten lisäys."
+  },
+  "FLAVOUR_9_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Elantomme riippuu tästä."
+  },
+  "HOW_SOON_MUST_IT_BE_DELIVERED": {
+    "description": "",
+    "message": "Kuinka pian se pitäisi toimittaa?"
+  },
+  "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED": {
+    "description": "",
+    "message": "Tämä voi olla vaarallista, varmistattehan että olette valmistautuneet."
+  },
+  "IT_MUST_BE_DELIVERED_BY": {
+    "description": "",
+    "message": "Sen on oltava perillä "
+  },
+  "I_HIGHLY_DOUBT_IT": {
+    "description": "",
+    "message": "Kovasti epäilen."
+  },
+  "NOT_ANY_MORE_THAN_USUAL": {
+    "description": "",
+    "message": "Ei sen enempää kuin yleensä."
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Selvä, sovittu."
+  },
+  "PIRATE_TAUNTS_0": {
+    "description": "",
+    "message": "{client}? Tulet katumaan hänen kanssaan asioimistasi"
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "Näyttäisi siltä, että minulla on palkkapäivä!"
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "{client} tarjosi teille homman? Huono ajatus."
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "Kuormasi ja elämäsi, pilotti!"
+  },
+  "PIRATE_TAUNTS_4": {
+    "description": "",
+    "message": "Tästä voi varmasti saada hyvät rahat"
+  },
+  "PIRATE_TAUNTS_5": {
+    "description": "",
+    "message": "Tänään ei ole onnenpäiväsi! Valmistaudu kuolemaan."
+  },
+  "PIRATE_TAUNTS_6": {
+    "description": "",
+    "message": "Kertokaa vanhalle ystävälleni, että minä ja hän, {client}, kohtaamme helvetissä!"
+  },
+  "PIRATE_TAUNTS_7": {
+    "description": "",
+    "message": "Tuo lähetys ei nyt tule pääsemään perille."
+  },
+  "PIRATE_TAUNTS_8": {
+    "description": "",
+    "message": "{location} ei nyt tule näkemään sinua!"
+  },
+  "PIRATE_TAUNTS_9": {
+    "description": "",
+    "message": "Maksat tuosta lastista hengelläsi."
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Avaruussatama:"
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Järjestelmä:"
+  },
+  "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN": {
+    "description": "",
+    "message": "Tämä on arvolähetys, teidän tulisi pysyä valppaana."
+  },
+  "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE": {
+    "description": "",
+    "message": "Tämä on hyvin riskialtista, tulette lähes varmasti kohtaamaan vastarintaa."
+  },
+  "WHY_SO_MUCH_MONEY": {
+    "description": "",
+    "message": "Miksi noin paljon rahaa?"
+  },
+  "WILL_I_BE_IN_ANY_DANGER": {
+    "description": "",
+    "message": "Asetanko itseni vaaraan?"
+  }
+}

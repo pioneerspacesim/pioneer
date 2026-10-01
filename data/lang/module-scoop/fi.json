@@ -1,0 +1,210 @@
+{
+  "ACCEPTED_ARMS_DEALER": {
+    "description": "",
+    "message": "Hienoa! Kiitos."
+  },
+  "ACCEPTED_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Kiitos. Et tule katumaan!"
+  },
+  "ACCEPTED_LEGAL_GOODS": {
+    "description": "",
+    "message": "Kiitos. Tuli hyvät kaupat!"
+  },
+  "ACCEPTED_RESCUE": {
+    "description": "",
+    "message": "Kiitos tosi paljon. Miehistö tulee arvostamaan tätä."
+  },
+  "ADTEXT_ARMS_DEALER": {
+    "description": "",
+    "message": "Poimintatehtävä: pikainen ajelehtivan kontin haku."
+  },
+  "ADTEXT_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Onko sinulla rahtikeräin ja etsitkö seuraavaa voittoa? Myydään arvokasta tietoa."
+  },
+  "ADTEXT_LEGAL_GOODS": {
+    "description": "",
+    "message": "Romutietotoimisto: tietoa romupilvestä, jossa on arvokasta lastia."
+  },
+  "ADTEXT_RESCUE": {
+    "description": "",
+    "message": "APUA TARVITAAN: Kiireellinen hätäkapselin pelastustyö."
+  },
+  "ADTITLE_ARMS_DEALER": {
+    "description": "",
+    "message": "RAHDIN POIMINTA"
+  },
+  "ADTITLE_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "HELPPOA RAHAA"
+  },
+  "ADTITLE_LEGAL_GOODS": {
+    "description": "",
+    "message": "TIETOA KAUPAN"
+  },
+  "ADTITLE_RESCUE": {
+    "description": "",
+    "message": "APUA TARVITAAN"
+  },
+  "CLIENT": {
+    "description": "",
+    "message": "Asiakas:"
+  },
+  "DANGER": {
+    "description": "The risk level",
+    "message": "Vaara:"
+  },
+  "DEADLINE": {
+    "description": "Must be delivered by",
+    "message": "Määräaika:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Anteeksi, mutta en usko että tuo pätevyytenne on riittävä."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Olen pahoillani, mutta tämä tehtävä on minusta teidän lentäjänkykyjenne saavuttamattomissa."
+  },
+  "DETONATORS": {
+    "description": "",
+    "message": "Sytyttimiä"
+  },
+  "DOCKING_INSTRUCTION": {
+    "description": "",
+    "message": "Hauska tavata teidät. Lähestykääpä sadan metrin säteen sisään rahdin siirtämiseksi!"
+  },
+  "FAILURE_MSG_ARMS_DEALER": {
+    "description": "",
+    "message": "Hölmö. Asiakas ei tule pitämään tästä!"
+  },
+  "FAILURE_MSG_RESCUE": {
+    "description": "",
+    "message": "Epäluotettavuutenne on aiheuttanut suurta vahinkoa. Häipykää siitä!"
+  },
+  "HOW_MUCH_TIME": {
+    "description": "",
+    "message": "Paljonko aikaa minulla on?"
+  },
+  "HOW_MUCH_TIME_ARMS_DEALER": {
+    "description": "",
+    "message": "Liikekumppanini kiertää {star} –tähteä välttyäkseen havainnoilta. Olisi mahtavaa, jos yhyttäisitte hänet ennen {date}."
+  },
+  "HOW_MUCH_TIME_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Älä tuhlaa aikaa. Vain varhainen lintu nappaa madon!"
+  },
+  "HOW_MUCH_TIME_LEGAL_GOODS": {
+    "description": "",
+    "message": "En tiedä, mutta teinä olisin nopea!"
+  },
+  "HOW_MUCH_TIME_RESCUE": {
+    "description": "",
+    "message": "Olisi hyvä, jos pääsisitte määräpaikkaan ennen {date}."
+  },
+  "INTROTEXT_ARMS_DEALER": {
+    "description": "",
+    "message": "Päivää, komentaja. Minun nimeni on {client}. Olisi mahtavaa, jos voisitte auttaa minua. Epäluotettava rahtaajakapteeni on jättänyt rahtini {planet} –planeetan läheisyyteen ja sitten kadonnut. Tehtävänne olisi poimia kontti ja toimittaa se alukselle {shipid}, joka kiertää {star} –tähteä. Maksaisin {cash}."
+  },
+  "INTROTEXT_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Hei sinä, tiedän romusta jossa on laitonta tavaraa. Poliisi otti salakuljettajan kiinni {planet} –planeetan lähellä. Heillä ei ole ollut vielä aikaa siivota aluetta. Jos olet nopea, voit tehdä helppoa rahaa! Voin antaa koordinaatit. Se maksaa vain {cash}. Älä anna tilaisuuden mennä ohi!"
+  },
+  "INTROTEXT_LEGAL_GOODS": {
+    "description": "",
+    "message": "Hei ystäväni. Olen {client}. Kuulin rahtialuksesta, joka joutui vaikeuksiin {planet} –planeetan lähellä huonon huoltokäytännön takia. Ihmeellistä, kuka saa nykyään lentää avaruusalusta, eikö totta? Joka tapauksessa heidän oli jätettävä sinne paljon rahtia. Jos olette nopea, voitte ottaa kuorman oikein helposti! Tämä on käytännössä uudenveroista tietoa! Myyn sijainnin mitättömään hintaan, {cash}. Mitä sanotte?"
+  },
+  "INTROTEXT_RESCUE": {
+    "description": "",
+    "message": "Hei, minun nimeni on {client}. Rahtialuksen miehistö joutui hylkäämään aluksen yhden sattumuksen vuoksi. Omistaja on halukas maksamaan hienovaraisesta pelastustehtävästä {cash}. Onnettomuus tapahtui {planet} –planeetan lähellä. Haettehan miehistön sieltä jollekin asemalle!"
+  },
+  "NUCLEAR_MISSILE": {
+    "description": "A cargo item",
+    "message": "Ydinohjus"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Selvä, sovittu."
+  },
+  "REPEAT_THE_REQUEST": {
+    "description": "",
+    "message": "Voisitteko toistaa pyynnön?"
+  },
+  "RESCUE_CAPSULE": {
+    "description": "",
+    "message": "Pelastuskapseli"
+  },
+  "ROCKET_LAUNCHERS": {
+    "description": "",
+    "message": "Raketinheittimiä"
+  },
+  "SCOOP": {
+    "description": "Name of mission type",
+    "message": "Poiminta"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Alus:"
+  },
+  "SHIP_DESTROYED": {
+    "description": "",
+    "message": "Voi ei. {shipid} on tuhoutunut. Toimita lasti heti {station} –asemalle!"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Avaruussatama:"
+  },
+  "SPOILED_FOOD": {
+    "description": "cargo item",
+    "message": "Pilaantunut ruoka"
+  },
+  "SUCCESS_MSG_ARMS_DEALER": {
+    "description": "",
+    "message": "Hei ässä, hienoa lentämistä! Rahat on siirretty."
+  },
+  "SUCCESS_MSG_RESCUE": {
+    "description": "",
+    "message": "Kiitos oikein paljon! Miehistö tahtoo myös ilmaista kiitollisuutensa."
+  },
+  "TOXIC_WASTE": {
+    "description": "cargo item",
+    "message": "Toksinen jäte"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "Tuntematon"
+  },
+  "WARNING": {
+    "description": "",
+    "message": "Hei! Mitä te oikein yritätte? Sopimuksemme vaarantuu! Poimikaa se mukaan uudestaan!"
+  },
+  "WHY_NOT_YOURSELF": {
+    "description": "",
+    "message": "Miksi ette tee sitä itse?"
+  },
+  "WHY_NOT_YOURSELF_ARMS_DEALER": {
+    "description": "",
+    "message": "Viranomaiset täällä tarkkailevat minua! Minun täytyy pitää matalaa profiilia muutaman viikon verran."
+  },
+  "WHY_NOT_YOURSELF_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Minä olen vain toimistotyöntekijä. En omista alusta."
+  },
+  "WHY_NOT_YOURSELF_LEGAL_GOODS": {
+    "description": "",
+    "message": "Ei minulla ole alusta."
+  },
+  "WHY_NOT_YOURSELF_RESCUE": {
+    "description": "",
+    "message": "Minulla ei ole tällä hetkellä alusta käytettävissäni."
+  },
+  "YOU_DO_NOT_HAVE_A_SCOOP": {
+    "description": "",
+    "message": "Valitettavasti sinulla ei ole rahtikeräintä."
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
+    "description": "",
+    "message": "Sinulla ei ole tarpeeksi rahaa."
+  }
+}

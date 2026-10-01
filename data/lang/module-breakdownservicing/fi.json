@@ -1,0 +1,174 @@
+{
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "MOOTTORIN HUOLTAMINEN"
+  },
+  "FLAVOUR_0_INTRO": {
+    "description": "",
+    "message": "Vältä hajonneen hypermoottorin ikävyydet. Käytä se huollossa tänään, me olemme virallisen hyväksynnän saanut {name} moottorinhuoltoyhtiö.\n"
+  },
+  "FLAVOUR_0_PRICE": {
+    "description": "",
+    "message": "\nMoottori: {drive}\nHuolto: {price}\nTakuu: 18 kuukautta\n{lasttime}"
+  },
+  "FLAVOUR_0_RESPONSE": {
+    "description": "",
+    "message": "Moottorinne on huollettu."
+  },
+  "FLAVOUR_0_TITLE": {
+    "description": "",
+    "message": "{name} moottorinhuoltoyhtiö"
+  },
+  "FLAVOUR_0_YESPLEASE": {
+    "description": "",
+    "message": "Huoltakaa hypermoottori"
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "HYPERMOOTTORIN YLLÄPITO"
+  },
+  "FLAVOUR_1_INTRO": {
+    "description": "",
+    "message": "Minä olen {proprietor}. Voin huoltaa hypermoottorinne, taaten ainakin vuoden ongelmattoman toiminnan. "
+  },
+  "FLAVOUR_1_PRICE": {
+    "description": "",
+    "message": "{drive} –huollon hinnaksi tulisi {price}\n{lasttime}"
+  },
+  "FLAVOUR_1_RESPONSE": {
+    "description": "",
+    "message": "Olen huoltanut hypermoottorinne."
+  },
+  "FLAVOUR_1_TITLE": {
+    "description": "",
+    "message": "{proprietor}: Hypermoottoriasiantuntija"
+  },
+  "FLAVOUR_1_YESPLEASE": {
+    "description": "",
+    "message": "Huoltakaa moottorini"
+  },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "HYPERASENTAJAT"
+  },
+  "FLAVOUR_2_INTRO": {
+    "description": "",
+    "message": "Hei. Me, {proprietor} & jp. olemme tottuneet pitämään työssämme lippuamme korkealla.\nVoimme säätää aluksenne hypermoottorin, jolloin se on toimintavarma 12 kuukautta."
+  },
+  "FLAVOUR_2_PRICE": {
+    "description": "",
+    "message": "\n\n{lasttime}\n{drive}:n työ tulee olemaan minun henkilökohtaisesti johtama, niin että voitte olla varma työn korkeasta laadusta. Hinta on {price}."
+  },
+  "FLAVOUR_2_RESPONSE": {
+    "description": "",
+    "message": "Huolto valmistui. Kiitos asiakkuudestanne."
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "",
+    "message": "{proprietor} & jp. Hyperasentajat"
+  },
+  "FLAVOUR_2_YESPLEASE": {
+    "description": "",
+    "message": "Olkaa hyvä, säätäkää hypermoottorini tuohon hintaan"
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "HYPERMOOTTORIN HUOLTAMINEN"
+  },
+  "FLAVOUR_3_INTRO": {
+    "description": "",
+    "message": "Tervetuloa Superfix-ylläpitoon. Onko puolivuotishuollon aika? Antakaa meidän superfixata hypermoottorinne!"
+  },
+  "FLAVOUR_3_PRICE": {
+    "description": "",
+    "message": "\n\n{lasttime}\nVoimme laittaa moottorin {drive} kuntoon vain {price}. Ei ole halvempaa vaihtoehtoa!"
+  },
+  "FLAVOUR_3_RESPONSE": {
+    "description": "",
+    "message": "Superfix–palvelunne on valmis, Superfix-takuulla totta kai!"
+  },
+  "FLAVOUR_3_TITLE": {
+    "description": "",
+    "message": "Superfix-ylläpito ({name} -haaraliike)"
+  },
+  "FLAVOUR_3_YESPLEASE": {
+    "description": "",
+    "message": "Superfiksaa minut!"
+  },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "MOOTTORIN LAITTOA"
+  },
+  "FLAVOUR_4_INTRO": {
+    "description": "",
+    "message": "Tervetuloa Aika-avaruusmoottoreihin.\n\nErikoistumme tähtimoottoreihin. Kaikki huolto käsittää kahden vuoden takuun."
+  },
+  "FLAVOUR_4_PRICE": {
+    "description": "",
+    "message": "\n{lasttime}\nMoottorinne {drive} huolto maksaa {price}. Haluatteko jatkaa?"
+  },
+  "FLAVOUR_4_RESPONSE": {
+    "description": "",
+    "message": "Olemme saaneet työn hypermoottorinne parissa valmiiksi."
+  },
+  "FLAVOUR_4_TITLE": {
+    "description": "",
+    "message": "Aika-avaruusmoottorit, Oy"
+  },
+  "FLAVOUR_4_YESPLEASE": {
+    "description": "",
+    "message": "Kyllä, jatkakaa"
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "HYPERMOOTTORIPALVELU"
+  },
+  "FLAVOUR_5_INTRO": {
+    "description": "",
+    "message": "Vältä hajonneen hypermoottorin ikävyydet. Käytä se huollossa tänään.\n"
+  },
+  "FLAVOUR_5_PRICE": {
+    "description": "",
+    "message": "\nMoottori: {drive}\nHuolto: {price}\n{lasttime}"
+  },
+  "FLAVOUR_5_RESPONSE": {
+    "description": "",
+    "message": "Moottorinne on huollettu."
+  },
+  "FLAVOUR_5_TITLE": {
+    "description": "",
+    "message": "{proprietor} moottorinhuoltoyhtiö"
+  },
+  "FLAVOUR_5_YESPLEASE": {
+    "description": "",
+    "message": "Huoltakaa hypermoottori"
+  },
+  "I_DONT_HAVE_ENOUGH_MONEY": {
+    "description": "",
+    "message": "Minulla ei ole tarpeeksi rahaa"
+  },
+  "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
+    "description": "",
+    "message": "Korjasin hypermoottorin ennen kuin se rikkoutui."
+  },
+  "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION": {
+    "description": "",
+    "message": "Hypermoottori on tuhoutunut toimintavirheen vuoksi"
+  },
+  "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED": {
+    "description": "",
+    "message": "Moottoria ei ole huollettu sitten sen asentamisen {date}"
+  },
+  "YOUR_DRIVE_WAS_LAST_SERVICED_ON": {
+    "description": "",
+    "message": "{company} huolsi moottorisi {date}"
+  },
+  "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE": {
+    "description": "",
+    "message": "Sinulla ei ole moottoria huollettavaksi!"
+  },
+  "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
+    "description": "",
+    "message": "Korjasit hypermoottorin ennen kuin se rikkoutui."
+  }
+}
