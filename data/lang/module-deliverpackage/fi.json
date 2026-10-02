@@ -33,7 +33,7 @@
   },
   "DENY_4": {
     "description": "",
-    "message": "Ette ole hakemammekaltainen lentäjä."
+    "message": "Ette ole hakemamme lentäjä."
   },
   "DENY_5": {
     "description": "",
@@ -165,7 +165,7 @@
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "Terve. Tämä on automaattiviesti Bedford ja {name} kuriiripalvelusta. Maksamme {cash} kuljetuksesta {starport}:n {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, jonne on {dist} vv matkaa."
+    "message": "Terve. Tämä on automaattiviesti Bedford ja {name} kuriiripalveluista. Maksamme {cash} kuljetuksesta {starport}:n {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, jonne on {dist} vv matkaa."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",

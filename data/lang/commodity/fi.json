@@ -25,7 +25,7 @@
   },
   "CARBON_ORE": {
     "description": "",
-    "message": "carbon ore"
+    "message": "hiilimalmi"
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -225,7 +225,7 @@
   },
   "RUBBISH": {
     "description": "",
-    "message": "roskaa"
+    "message": "roska"
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",

@@ -513,7 +513,7 @@
   },
   "RISK_2": {
     "description": "",
-    "message": "Ei mitään kummempaa."
+    "message": "Ette sen kummemmin."
   },
   "RISK_3": {
     "description": "",
@@ -521,7 +521,7 @@
   },
   "RISK_4": {
     "description": "",
-    "message": "Voi olla vaarallista, teidän tulisi varautua sopivalla tavalla."
+    "message": "Voi olla, teidän kannattaisi varautua siihen."
   },
   "RISK_5": {
     "description": "",

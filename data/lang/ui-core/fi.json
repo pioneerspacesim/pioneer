@@ -1929,7 +1929,7 @@
   },
   "OPEN_USER_FOLDER": {
     "description": "",
-    "message": "Käyttäjäkansio"
+    "message": "Profiilihak."
   },
   "OPTIONS": {
     "description": "",
@@ -2133,7 +2133,7 @@
   },
   "QUALIFICATION_SCORES": {
     "description": "",
-    "message": "Karsintatulokset"
+    "message": "Koetulokset"
   },
   "QUIT": {
     "description": "",
