@@ -176,6 +176,7 @@ namespace SceneGraph {
 		//special for ship model use
 		void SetRenderTime(const double newRenderTime) { m_renderData.renderTime = newRenderTime; }
 		void SetThrust(const vector3f &linear, const vector3f &angular);
+		float GetMaxThrusterDisplayedPower() const;
 
 		void SetThrusterColor(const vector3f &dir, const Color &color);
 		void SetThrusterColor(const std::string &name, const Color &color);
