@@ -619,7 +619,7 @@ int StarSystemRandomGenerator::CalcSurfaceTemp(const SystemBody *primary, fixed 
 int StarSystemRandomGenerator::CalcWaterBoilingTemperature(double pressure)
 {
 	if (pressure < 0.006){	return -1;	}//no boiling since no liquid water
-	double temp = 1730.63/(8.07131 + log10(pressure*760.0135))+ 38.724;//Antoine equation from wikipedia
+	double temp = 1730.63/(8.07131 - log10(pressure*760.0135))+ 38.724;//Antoine equation from wikipedia
 	return (int) temp;
 }
 
@@ -760,8 +760,12 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 			greenhouse += amount_volatiles * fixed(1, 3);
 		else
 			albedo += fixed(2, 6);
+
+		int freezing_point_depression  =(fixed(20,1) * sbody->GetMetallicityAsFixed()).ToInt32();
+
+
 		// H2O liquid
-		if (sbody->GetAverageTemp() > (273 - (int)(20 * sbody->GetMetallicity())))//account for dissolved salts TODO sensible values
+		if (sbody->GetAverageTemp() > (273 - freezing_point_depression))//account for dissolved salts TODO sensible values
 			greenhouse += amount_volatiles * fixed(1, 5);
 		else
 			albedo += fixed(3, 6);
@@ -771,6 +775,7 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 		fixed temp_proportion_gas = sbody->GetAverageTemp() / (fixed(100, 1) + sbody->GetAverageTemp());
 		sbody->m_volatileGas = temp_proportion_gas * amount_volatiles;
 		sbody->SetAtmFromParameters();//We need pressure
+									  //
 		int H2O_Boiling_temp = CalcWaterBoilingTemperature(sbody->GetAtmSurfacePressure());
 		
 		// H2O boils
@@ -798,16 +803,24 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 
 		if ((sbody->GetVolatileLiquidAsFixed() > fixed()) &&
 			(sbody->GetAverageTemp() > CELSIUS - 60) &&
-			(sbody->GetAverageTemp() < CELSIUS + 200)) {
+			(sbody->GetAverageTemp() < CELSIUS + 300)) {
 			// try for life
 			int minTemp = CalcSurfaceTemp(star, maxDistToStar, albedo, greenhouse);
 			int maxTemp = CalcSurfaceTemp(star, minDistToStar, albedo, greenhouse);
+			sbody->SetAtmFromParameters();//we need to calculate it again as it might have changed
 			H2O_Boiling_temp = CalcWaterBoilingTemperature(sbody->GetAtmSurfacePressure());
+			freezing_point_depression = (fixed(20,1) * sbody->GetMetallicityAsFixed()).ToInt32();	
 			
+			if(maxTemp > 373 && H2O_Boiling_temp > 373 && maxTemp < H2O_Boiling_temp)
+			{
+				Output("maybe not boiling %s: %i w %i \n", sbody->m_name.c_str(),maxTemp , H2O_Boiling_temp);
+			}
 
 			if ( H2O_Boiling_temp > 0 &&
-				(minTemp > CELSIUS - 20 * sbody->GetMetallicity() - 10) && (minTemp < H2O_Boiling_temp) && //removed explicit checks for star type (also BD and WD seem to have slight chance of having life around them)
-				(maxTemp > CELSIUS - 20 * sbody->GetMetallicity() - 10) && (maxTemp < H2O_Boiling_temp))	//ceiling based on actual boiling point on the planet
+				minTemp > (CELSIUS - freezing_point_depression - 10) &&
+				(minTemp < H2O_Boiling_temp) && //removed explicit checks for star type (also BD and WD seem to have slight chance of having life around them)
+				maxTemp > (CELSIUS - freezing_point_depression - 10) && 
+				(maxTemp < H2O_Boiling_temp))	//ceiling based on actual boiling point on the planet
 			{
 				fixed maxMass, lifeMult, allowedMass(1, 2);
 				allowedMass += 2;
