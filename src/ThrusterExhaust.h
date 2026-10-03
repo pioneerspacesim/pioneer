@@ -14,7 +14,6 @@ class Body;
 class Propulsion;
 
 namespace SceneGraph {
-	class MatrixTransform;
 	class Model;
 	class Thruster;
 } // namespace SceneGraph
@@ -39,12 +38,14 @@ struct ExhaustEnvironment {
 
 class ThrusterExhaustSpawner {
 public:
+	// Collects model thruster nozzles, then collapses packed small groups and drops
+	// tiny thrusters that sit next to a larger same-direction engine.
 	void RefreshMounts(SceneGraph::Model *model);
 	void ClearChannelState();
 	void Spawn(const Body *body, const Propulsion *propulsion, float timeStep, const ExhaustEnvironment &env, float particlesPerSecTotal);
 
 private:
-	std::vector<SceneGraph::MatrixTransform *> m_mounts;
+	std::vector<vector3f> m_nozzleLocal;
 	std::vector<SceneGraph::Thruster *> m_thrusters;
 	std::vector<ExhaustThrusterChannel> m_channels;
 };
