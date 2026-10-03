@@ -69,6 +69,8 @@ namespace Sound {
 
 	bool IsBinauralSupported();
 	void EnableBinaural(bool enabled);
+
+	float ScaleVolumeToLogarithmic(float level);
 } /* namespace Sound */
 
 #endif /* __SOUND_H */

@@ -30,7 +30,8 @@ namespace Sound {
 		sigc::signal<void> onSongFinished;
 
 	private:
-		float m_volume;
+		float m_controlVolume;
+		float m_actualVolume;
 		//two streams for crossfade
 		Event m_eventOne;
 		Event m_eventTwo;
