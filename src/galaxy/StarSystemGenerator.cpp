@@ -616,11 +616,11 @@ int StarSystemRandomGenerator::CalcSurfaceTemp(const SystemBody *primary, fixed 
 	return (279 * int(isqrt(isqrt((surface_temp_pow4.v))))) >> (fixed::FRAC / 4); //multiplied by 279 to convert from Earth's temps to Kelvin
 }
 
-int StarSystemRandomGenerator::CalcWaterBoilingTemperature(double pressure)
+int StarSystemRandomGenerator::CalcWaterBoilingTemperature(fixed pressure)
 {
-	if (pressure < 0.006){	return -1;	}//no boiling since no liquid water
-	double temp = 1730.63/(8.07131 - log10(pressure*760.0135))+ 38.724;//Antoine equation from wikipedia
-	return (int) temp;
+	if (pressure < fixed(6,1000)){	return -1;	}//no boiling since no liquid water
+	fixed temp = fixed(173063,100)/(fixed(807131,100000) - fixed().FromDouble(log10((pressure*fixed(7600135,10000)).ToDouble())))+ fixed(38724,1000);//Antoine equation from wikipedia
+	return temp.ToInt32();
 }
 
 /*
@@ -759,10 +759,9 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 		if (sbody->GetAverageTemp() > 195)
 			greenhouse += amount_volatiles * fixed(1, 3);
 		else
-			albedo += fixed(2, 6);
+			albedo += fixed(1, 3);
 
 		int freezing_point_depression  =(fixed(20,1) * sbody->GetMetallicityAsFixed()).ToInt32();
-
 
 		// H2O liquid
 		if (sbody->GetAverageTemp() > (273 - freezing_point_depression))//account for dissolved salts TODO sensible values
@@ -775,8 +774,7 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 		fixed temp_proportion_gas = sbody->GetAverageTemp() / (fixed(100, 1) + sbody->GetAverageTemp());
 		sbody->m_volatileGas = temp_proportion_gas * amount_volatiles;
 		sbody->SetAtmFromParameters();//We need pressure
-									  //
-		int H2O_Boiling_temp = CalcWaterBoilingTemperature(sbody->GetAtmSurfacePressure());
+		int H2O_Boiling_temp = CalcWaterBoilingTemperature(sbody->GetAtmSurfacePressureAsFixed());
 		
 		// H2O boils
 		if (H2O_Boiling_temp > 0 && sbody->GetAverageTemp() > H2O_Boiling_temp) greenhouse += amount_volatiles * fixed(1, 3);
@@ -808,7 +806,7 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 			int minTemp = CalcSurfaceTemp(star, maxDistToStar, albedo, greenhouse);
 			int maxTemp = CalcSurfaceTemp(star, minDistToStar, albedo, greenhouse);
 			sbody->SetAtmFromParameters();//we need to calculate it again as it might have changed
-			H2O_Boiling_temp = CalcWaterBoilingTemperature(sbody->GetAtmSurfacePressure());
+			H2O_Boiling_temp = CalcWaterBoilingTemperature(sbody->GetAtmSurfacePressureAsFixed());
 			freezing_point_depression = (fixed(20,1) * sbody->GetMetallicityAsFixed()).ToInt32();	
 			
 			if(maxTemp > 373 && H2O_Boiling_temp > 373 && maxTemp < H2O_Boiling_temp)
@@ -875,7 +873,7 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 	} else if (invTidalLockTime > fixed(1, 100)) { // rotation speed changed in favour of tidal lock
 		// XXX: there should be some chance the satellite was captured only recently and ignore this
 		//		I'm omitting that now, I do not want to change the Universe by additional rand call.
-
+		
 		fixed lambda = invTidalLockTime / (fixed(1, 20) + invTidalLockTime);
 		sbody->m_rotationPeriod = (1 - lambda) * sbody->GetRotationPeriodAsFixed() + lambda * sbody->GetOrbit().Period() / 3600 / 24;
 		sbody->m_axialTilt = (1 - lambda) * sbody->GetAxialTiltAsFixed() + lambda * sbody->GetInclinationAsFixed();
