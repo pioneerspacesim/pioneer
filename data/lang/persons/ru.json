@@ -45,7 +45,7 @@
   },
   "RELATION_EMPLOYEE_FEMALE_8": {
     "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
-    "message": "a developer"
+    "message": "разработчик"
   },
   "RELATION_EMPLOYEE_FEMALE_9": {
     "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
@@ -97,7 +97,7 @@
   },
   "RELATION_EMPLOYEE_MALE_8": {
     "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
-    "message": "a developer"
+    "message": "разработчик"
   },
   "RELATION_EMPLOYEE_MALE_9": {
     "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
