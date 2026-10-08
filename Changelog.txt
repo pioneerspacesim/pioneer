@@ -1,17 +1,31 @@
+October
+  * Fixes
+    * Clear sensor contacts before hyperspace to avoid HUD trail crash (#6446)
+    * Fix flickering illumination: Switch from float to double for eclipse occlusion calcs (#6438)
+    * Fix flickering numbers by limiting TWR mass display to 2 DP (#6440)
+
+  * Internal
+    * Move getNumberOfFlavours() to MissionUtils (#6448)
+    * Changed `primary_1000` to `primary_950` for material Compliance (#6452)
+
 September
+  * Fixes
+    * Fix for radar not working with non-station target (#6434)
+
+Pioneer 2026-09-07 Release
   * New Features
     * Add thrust-to-weight ratio display to flight UI and station screen (#6382)
-	* Shield heating effect when flying at high speed in atmosphere (#6408)
-	* Terrain lighting now uses the Rayleigh-Mie atmospheric model (#6285)
-	* System view frames the entire system at default zoom level (#6422)
+    * Shield heating effect when flying at high speed in atmosphere (#6408)
+    * Terrain lighting now uses the Rayleigh-Mie atmospheric model (#6285)
+    * System view frames the entire system at default zoom level (#6422)
 
   * Fixes
     * Donation advertisements display amount of gained reputation and have a more even curve. (#6197)
-	* Revert "Improve calculations in AIMatchVel (AIChangeVelBy)" (#6296)
-	* Fix ImGui nag messages related to extending parent boundaries (#6422)
-	* Automatically open the System View body info window when switching to it (#6422)
-	* Fix debug-mode invulnerable ships playing damage sounds (#6422)
-	* Fix system view showing explored systems as unexplored (#6422)
+    * Revert "Improve calculations in AIMatchVel (AIChangeVelBy)" (#6296)
+    * Fix ImGui nag messages related to extending parent boundaries (#6422)
+    * Automatically open the System View body info window when switching to it (#6422)
+    * Fix debug-mode invulnerable ships playing damage sounds (#6422)
+    * Fix system view showing explored systems as unexplored (#6422)
 
 August
   * New Features
