@@ -23,8 +23,8 @@ local thrustWidgetDiameter = mainButtonSize.y * 1.2
 
 local thrustStyle = ui.Style:clone({
 	colors = {
-		FrameBg          = ui.theme.styleColors.primary_1000:opacity(0.6),
-		FrameBgHovered   = ui.theme.styleColors.primary_1000:opacity(0.6),
+		FrameBg          = ui.theme.styleColors.primary_950:opacity(0.6),
+		FrameBgHovered   = ui.theme.styleColors.primary_950:opacity(0.6),
 		FrameBgActive    = ui.theme.styleColors.primary_700,
 		SliderGrab       = ui.theme.styleColors.primary_300,
 		SliderGrabActive = ui.theme.styleColors.primary_900,
