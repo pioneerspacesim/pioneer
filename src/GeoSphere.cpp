@@ -9,6 +9,7 @@
 #include "GeoPatchJobs.h"
 #include "Pi.h"
 #include "RefCounted.h"
+#include "TerrainLocalLights.h"
 #include "galaxy/AtmosphereParameters.h"
 #include "galaxy/StarSystem.h"
 #include "graphics/Drawables.h"
@@ -399,7 +400,7 @@ void GeoSphere::ProcessQuadSplitRequests()
 	mQuadSplitRequests.clear();
 }
 
-void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows)
+void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows, const Camera *camera, const Planet *planet)
 {
 	PROFILE_SCOPED()
 	// store this for later usage in the update method.
@@ -426,6 +427,9 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 	//Update material parameters
 	SetMaterialParameters(trans, radius, shadows, m_atmosphereParameters);
+
+	if (planet && camera && m_surfaceMaterial.Valid())
+		TerrainLocalLights::UploadToMaterial(m_surfaceMaterial.Get(), camera, planet, radius);
 
 	if (m_atmosphereMaterial.Valid() && m_atmosphereParameters.atmosDensity > 0.0) {
 		// make atmosphere sphere slightly bigger than required so
