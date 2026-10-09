@@ -689,7 +689,7 @@ void ModelViewerWidget::DrawMenus()
 		ImGui::Checkbox("Show Tags", &m_options.showTags);
 		m_options.showDockingLocators = m_options.showTags;
 
-		ImGui::EndMenu();
+		ImGui::EndPopup();
 	}
 
 	bool showModelWindow = !m_animations.empty() || m_modelSupportsPatterns;
@@ -757,7 +757,7 @@ void ModelViewerWidget::DrawMenus()
 
 		}
 
-		ImGui::EndMenu();
+		ImGui::EndPopup();
 	}
 }
 
