@@ -97,6 +97,7 @@ public:
 	inline friend vector3 operator-(const T scalar, const vector3 &a) { return a - scalar; }
 
 	inline friend vector3 operator*(const vector3 &a, const vector3 &b) { return vector3(T(a.x * b.x), T(a.y * b.y), T(a.z * b.z)); }
+	inline friend vector3 operator/(const vector3 &a, const vector3 &b) { return vector3(T(a.x / b.x), T(a.y / b.y), T(a.z / b.z)); }
 	inline friend vector3 operator*(const vector3 &a, const T scalar) { return vector3(T(a.x * scalar), T(a.y * scalar), T(a.z * scalar)); }
 	//friend vector3 operator*(const vector3 &a, const double scalar) { return vector3(T(a.x*scalar), T(a.y*scalar), T(a.z*scalar)); }
 	inline friend vector3 operator*(const T scalar, const vector3 &a) { return a * scalar; }
