@@ -31,6 +31,9 @@ static const double CELSIUS = 273.15;
 static const fixed ONEEUMASS = fixed::FromDouble(1);
 static const fixed TWOHUNDREDEUMASSES = fixed::FromDouble(200.0);
 
+// The absolute minimum mass a planet can have for our terrain generation to handle with insane spiky planets
+static const fixed MINIMUM_EU_MASSES = fixed::FromDouble(0.0000001); // < 0.000083 == Asteroid, so this is 1 / 10,000,000 the mass of the Earth
+
 // Estimate "prototype" body radius from sphere-density formula:
 // Convert 1 Earth Mass to a volume in cubic megameters (10^18 * m^3) then premultiply by 3/4pi
 static const fixedf<48> EARTH_MASS_TO_VOL_MM3 = fixedf<48>(25946, 100); // 259.46 = (3 / EARTH_DENSITY / 4*PI) * 5.9742
@@ -1135,6 +1138,9 @@ SystemBody *StarSystemRandomGenerator::MakeBodyInOrbitSlice(Random &rand, StarSy
 	if (mass.v < 0) { // hack around overflow
 		Output("WARNING: planetary mass has overflowed! (child %d of %s)\n", primary->GetNumChildren(), primary->GetName().c_str());
 		mass = fixed(Sint64(0x7fFFffFFffFFffFFull));
+	}
+	if (mass < MINIMUM_EU_MASSES) { // test we have enough mass for any kind of planet
+		return nullptr;
 	}
 
 	SystemBody *planet = system->NewBody();
