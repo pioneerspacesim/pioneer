@@ -153,7 +153,7 @@
   },
   "DEADLINE": {
     "description": "Must be delivered by",
-    "message": "Deadline:"
+    "message": "Frist:"
   },
   "DELIVER_TO": {
     "description": "Deliver to this location",
@@ -605,7 +605,7 @@
   },
   "TITANIUM": {
     "description": "custom cargo",
-    "message": "titanium"
+    "message": "titan"
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",

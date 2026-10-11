@@ -25,7 +25,7 @@
   },
   "DEADLINE": {
     "description": "",
-    "message": "Deadline:"
+    "message": "Frist:"
   },
   "DELIVERED_PASSENGER": {
     "description": "",
@@ -65,7 +65,7 @@
   },
   "ENTITY_FAMILY_BUSINESS_6": {
     "description": "",
-    "message": "{name} Space Pets"
+    "message": "{name} Rymdhusdjur"
   },
   "ENTITY_FAMILY_BUSINESS_7": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "ENTITY_GENERAL_10": {
     "description": "",
-    "message": "{locality} Infinity Energy One"
+    "message": "{locality} Oändlighetsenergi Unikum"
   },
   "ENTITY_GENERAL_2": {
     "description": "",
@@ -729,7 +729,7 @@
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "unoccupied passenger berths"
+    "message": "Ockuperade kojplatser"
   },
   "WHERE_IS_THE_TARGET": {
     "description": "",

@@ -33,7 +33,7 @@
   },
   "ALL_UP_WEIGHT": {
     "description": "",
-    "message": "Current total weight"
+    "message": "Nuvarande totala vikt"
   },
   "AMOUNT": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "ATTEMPTING_TO_RECOVER_GAME_PROGRESS_FROM_SAVE_X": {
     "description": "Message when restoring savegame",
-    "message": "Attempting to recover game progress from save: {save}"
+    "message": "Försöker återställa spel från sparning: {save}"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -137,7 +137,7 @@
   },
   "CABINS": {
     "description": "For passengers",
-    "message": "Berths"
+    "message": "Kojplatser"
   },
   "CABIN_FREE": {
     "description": "Free capacity for passengers",
@@ -161,7 +161,7 @@
   },
   "CANT_FIND_PATH": {
     "description": "Message when restoring savegame, file path",
-    "message": "Can't find path: %s"
+    "message": "Kan inte hitta sökväg: %s"
   },
   "CANT_FIND_PLAYERS_SHIP_IN_SPACE": {
     "description": "Message when restoring savegame",
@@ -361,11 +361,11 @@
   },
   "COULD_NOT_DELETE_SAVE": {
     "description": "",
-    "message": "Could not delete save"
+    "message": "Kunde inte ta bort sparning"
   },
   "COULD_NOT_FIND_SYSTEM_BODY_FOR_FRAME": {
     "description": "Message when restoring savegame",
-    "message": "Could not find system body for frame"
+    "message": "Kunde inte hitta kropp för referenssystem"
   },
   "COULD_NOT_LOAD_GAME": {
     "description": "Label indicating a specific file could not be loaded",
@@ -377,7 +377,7 @@
   },
   "COULD_NOT_READ_THE_SAVE_VERSION": {
     "description": "Message when restoring savegame",
-    "message": "Could not read the save version"
+    "message": "Kunde inte läsa spar-version"
   },
   "COULD_NOT_SAVE_GAME": {
     "description": "Label indicating a specific file could not be saved",
@@ -421,7 +421,7 @@
   },
   "CURRENT_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
-    "message": "Current savegame version: %s"
+    "message": "Nuvarande spar-version: %s"
   },
   "CURRENT_SHIP": {
     "description": "For tooltip comparing current ship specs to one in the shipyard",
@@ -461,7 +461,7 @@
   },
   "DELETE_SAVE_CONFIRMATION": {
     "description": "",
-    "message": "Are you sure you want to delete this save?"
+    "message": "Är du säker på att du vill ta bort denna sparning?"
   },
   "DELTA_V": {
     "description": "",
@@ -549,7 +549,7 @@
   },
   "DRIVE_ACTIVE": {
     "description": "Ship jump status",
-    "message": "Drive active"
+    "message": "Motor aktiv"
   },
   "DUE": {
     "description": "mission deadline date",
@@ -621,7 +621,7 @@
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
-    "message": "Engineering"
+    "message": "Ingenjör"
   },
   "ENTER_CUSTOM_NOTE": {
     "description": "Label indicating a note should be entered here",
@@ -641,7 +641,7 @@
   },
   "EQUIPMENT_CAPACITY": {
     "description": "The equipment capacity of a ship",
-    "message": "Equipment capacity"
+    "message": "Utrustningskapacitet"
   },
   "EQUIPMENT_MARKET": {
     "description": "",
@@ -649,7 +649,7 @@
   },
   "EQUIPMENT_USED": {
     "description": "",
-    "message": "Equipment space used"
+    "message": "Använt utrustingsutrymme"
   },
   "EQUIPPED": {
     "description": "",
@@ -661,7 +661,7 @@
   },
   "ERROR_APPLYING_PATCH": {
     "description": "Message when restoring savegame",
-    "message": "Error applying patch"
+    "message": "Fel under patch-ning"
   },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
@@ -757,7 +757,7 @@
   },
   "FILE_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
-    "message": "File savegame version: %s"
+    "message": "Sparversion: %s"
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
@@ -961,7 +961,7 @@
   },
   "HUD_BUTTON_BLASTOFF": {
     "description": "Tooltip: Blastoff",
-    "message": "Blastoff"
+    "message": "Lyft"
   },
   "HUD_BUTTON_CRUISE_FORWARD": {
     "description": "Tooltip for button",
@@ -1209,7 +1209,7 @@
   },
   "HUD_GRAVITY_INDICATOR": {
     "description": "Tooltip: describe what the gravity indicator shows",
-    "message": "Local gravity acceleration (scale: ship maximum acceleration)"
+    "message": "Lokal gravitationsacceleration (skala: fartygets maximala acceleration)"
   },
   "HUD_HULL_STRENGTH": {
     "description": "Tooltip: Hull Strength.",
@@ -1277,11 +1277,11 @@
   },
   "HUD_ORBIT_APOAPSIS": {
     "description": "Tooltip: Current orbital apoapsis.",
-    "message": "Current orbit apoapsis"
+    "message": "Aktuell bana apoapsis"
   },
   "HUD_ORBIT_PERIAPSIS": {
     "description": "Tooltip: Current orbital apoapsis.",
-    "message": "Current orbit periapsis"
+    "message": "Aktuell bana periapsis"
   },
   "HUD_RADAR_DISTANCE": {
     "description": "Tooltip: Current distance of the radar.",
@@ -1337,7 +1337,7 @@
   },
   "HUD_THRUST_INDICATOR": {
     "description": "Tooltip: describe what the thrust indicator shows",
-    "message": "Show current thrust levels for maneuvering (outer ring) and primary or retro engines (center circle)"
+    "message": "Visa aktuella dragkraftsnivåer för manövrering (yttre ring) och primära eller retromotorer (mittcirkel)"
   },
   "HUD_WARNING_DESCENT_RATE": {
     "description": "Shown on HUD as a warning flasher",
@@ -1353,7 +1353,7 @@
   },
   "HUD_WARNING_TWR_DESTINATION": {
     "description": "TWR (Thrust to Weight Ratio) HUD warning",
-    "message": "TWR at destination is {value}"
+    "message": "TWR vid slutmålet är {value}"
   },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
@@ -1493,7 +1493,7 @@
   },
   "JUMP_REACHABLE": {
     "description": "Tooltip indicating the jump listed in the route planner is possible under the current ship configuration.",
-    "message": "Jump is reachable"
+    "message": "Hopp är nåbart"
   },
   "KILLS": {
     "description": "",
@@ -1593,7 +1593,7 @@
   },
   "LOCAL_GRAVITY": {
     "description": "Gravity at the ship's current location, shown in the mass/TWR widget",
-    "message": "Local gravity"
+    "message": "Lokal gravitation"
   },
   "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
     "description": "",
@@ -1757,7 +1757,7 @@
   },
   "MONEY": {
     "description": "",
-    "message": "Money"
+    "message": "Pengar"
   },
   "MORE_INFO": {
     "description": "",
@@ -1869,7 +1869,7 @@
   },
   "NOT_ENOUGH_SPACE_FOR_EQUIPMENT": {
     "description": "",
-    "message": "Not enough space to install this equipment"
+    "message": "Inte tillräckligt med utrymme för att installera denna utrustning"
   },
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
@@ -1913,7 +1913,7 @@
   },
   "OCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Occupied passenger berths"
+    "message": "Upptagna passagerarkojplatser"
   },
   "OFF": {
     "description": "",
@@ -2005,7 +2005,7 @@
   },
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
-    "message": "Max passenger capacity"
+    "message": "Maximal passagerarkapacitet"
   },
   "PASTE": {
     "description": "As for clipboard",
@@ -2013,7 +2013,7 @@
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",
-    "message": "Path found but verification failed: %s"
+    "message": "Sökväg funnen men verifikation misslyckades: %s"
   },
   "PATTERN": {
     "description": "Ship painting pattern.",
@@ -2149,11 +2149,11 @@
   },
   "RANDOM_FACE": {
     "description": "Generate random face",
-    "message": "Random"
+    "message": "Slumpmässigt"
   },
   "RANK": {
     "description": "",
-    "message": "Rank:"
+    "message": "Grad:"
   },
   "RATING": {
     "description": "",
@@ -2185,11 +2185,11 @@
   },
   "RECOVERED_BUT_NOT_VALID": {
     "description": "Message when restoring savegame",
-    "message": "Recovered but not valid"
+    "message": "Återställd men inte giltig"
   },
   "RECOVER_SAVEGAME": {
     "description": "",
-    "message": "Recover savegame"
+    "message": "Återställ sparning"
   },
   "REFUEL": {
     "description": "",
@@ -2313,7 +2313,7 @@
   },
   "SAVE_DELETED_SUCCESSFULLY": {
     "description": "",
-    "message": "Save deleted successfully"
+    "message": "Sparning borttagen"
   },
   "SCATTERING_OLD": {
     "description": "",
@@ -2337,11 +2337,11 @@
   },
   "SELECTED_SAVE_DOESNT_EXISTS": {
     "description": "",
-    "message": "Selected save doesn't exist"
+    "message": "Vald sparning finns inte"
   },
   "SELECTED_SAVE_IS_NOT_A_VALID_SAVE": {
     "description": "",
-    "message": "Selected save is not a valid save"
+    "message": "Vald sparning är inte giltig"
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",
@@ -2465,7 +2465,7 @@
   },
   "SOME_PARAMETERS_ARE_NOT_OK": {
     "description": "Diagnostics at game start",
-    "message": "Some parameters are not OK:"
+    "message": "Vissa parametrar är inte OK:"
   },
   "SORT_COMMODITY": {
     "description": "Indicates the list of objects should be sorted by commodity",
@@ -2489,7 +2489,7 @@
   },
   "STANDARD_GAME_START_TIME": {
     "description": "Standard game start time, current moment + 1200 years",
-    "message": "Standard game start time"
+    "message": "Standardspel starttid"
   },
   "START_AT_BARNARDS_STAR": {
     "description": "",
@@ -2577,7 +2577,7 @@
   },
   "SYSTEM_BODY_INDEX_IS_OUT_OF_RANGE": {
     "description": "Message when restoring savegame",
-    "message": "System body index is out of range"
+    "message": "Stjärnsystemkroppindex är utanför giltigt värde"
   },
   "SYSTEM_FACTION": {
     "description": "Tooltip indicating the faction controlling this system",
@@ -2641,7 +2641,7 @@
   },
   "THERE_WERE_ERRORS_IN_RECOVERY": {
     "description": "Message when restoring savegame",
-    "message": "There were errors in recovery:"
+    "message": "Där var fel i återställningen."
   },
   "THESE_ITEMS_ARE_PUNISHABLE_BY_FINE": {
     "description": "",
@@ -2753,23 +2753,23 @@
   },
   "TWR_AT_SURFACE": {
     "description": "TWR (Thrust to Weight Ratio) at planet surface",
-    "message": "TWR at surface"
+    "message": "TWR vid ytan"
   },
   "TWR_CURRENT": {
     "description": "TWR (Thrust to Weight Ratio) at current location",
-    "message": "TWR (current)"
+    "message": "TWR (nuvarande)"
   },
   "TWR_CURRENT_TOOLTIP": {
     "description": "",
-    "message": "Thrust to Weight Ratio (TWR) of the ship in its current location.\nIf the TWR is below 1.0, the ship will not be able to take off."
+    "message": "Thrust to Weight Ratio (TWR) för fartyget vid sin nuvarande position. Om TWR är under 1.0 kan fartyget inte lyfta."
   },
   "TWR_TARGET": {
     "description": "TWR (Thrust to Weight Ratio) at target nav location",
-    "message": "TWR (target)"
+    "message": "TWR (mål)"
   },
   "TWR_TARGET_TOOLTIP": {
     "description": "",
-    "message": "Thrust to Weight Ratio (TWR) of the ship at the target location.\nIf the TWR is below 1.0, the ship will not be able to take off."
+    "message": "Thrust to Weight Ratio (TWR) för skeppet vid måldestinationen. Om TWR är under 1.0 kan skeppet inte lyfta."
   },
   "TYPE": {
     "description": "",
@@ -2777,7 +2777,7 @@
   },
   "UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",
-    "message": "Unknown custom log entry format"
+    "message": "Okänt anpassat-loggpostformat"
   },
   "UNKNOWN_FACTION": {
     "description": "For entry in the flight log",
@@ -2789,11 +2789,11 @@
   },
   "UNKNOWN_STATION_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",
-    "message": "Unknown station log entry format"
+    "message": "Okänd station-logpostformat"
   },
   "UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",
-    "message": "Unknown system log entry format"
+    "message": "Okänd system-logpostformat"
   },
   "UNLAWFUL_ECM_DISCHARGE": {
     "description": "",
@@ -2805,7 +2805,7 @@
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Unoccupied passenger berths"
+    "message": "Oupptagna passagerarkojplatser"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",
@@ -2817,7 +2817,7 @@
   },
   "UNSUCCESSFULLY_RECOVERED_PARAMETERS_ARE_NOW_UNLOCKED_PLEASE_SET_THEM_MANUALLY": {
     "description": "Message when restoring savegame",
-    "message": "Unsuccessfully recovered parameters are now unlocked, please set them manually."
+    "message": "Parameterar som inte kunde återställas är nu upplåsta, sätt dem manuellt."
   },
   "UP_ACCEL": {
     "description": "",
@@ -2825,11 +2825,11 @@
   },
   "UP_ACCEL_EMPTY": {
     "description": "",
-    "message": "Up accel (empty)"
+    "message": "Upp acceleration (tom)"
   },
   "USED": {
     "description": "Usually shown with FREE as a pair, e.g. 4t used / 7t free",
-    "message": "used"
+    "message": "använt"
   },
   "VERY_HIGH": {
     "description": "Game settings option: graphic resolution",

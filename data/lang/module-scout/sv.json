@@ -401,7 +401,7 @@
   },
   "STATE_MIN_ALTITUDE": {
     "description": "",
-    "message": "MINIMUM ALTITUDE"
+    "message": "MINIMUMHÖJD"
   },
   "STATE_NO_SENSORS": {
     "description": "",
@@ -409,11 +409,11 @@
   },
   "STATE_OUT_OF_RANGE": {
     "description": "",
-    "message": "OUT OF RANGE"
+    "message": "UTOM RÄCKHÅLL"
   },
   "STATE_SCANNING": {
     "description": "",
-    "message": "SCANNING"
+    "message": "SCANNAR"
   },
   "STORED_SCAN_DATA": {
     "description": "",
