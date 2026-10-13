@@ -43,6 +43,23 @@ static const char CONSOLE_CHUNK_NAME[] = "console";
 
 static constexpr int EDIT_BUFFER_LENGTH = 1024;
 
+// Create the table and leave a copy on the stack for further use
+static void init_global_table(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	lua_newtable(l);
+	lua_newtable(l);
+	lua_pushliteral(l, "__index");
+	lua_getglobal(l, "_G");
+	lua_rawset(l, -3);
+	lua_setmetatable(l, -2);
+	lua_pushvalue(l, -1);
+	lua_setfield(l, LUA_REGISTRYINDEX, "ConsoleGlobal");
+
+	LUA_DEBUG_END(l, 1);
+}
+
 LuaConsole::LuaConsole() :
 	m_active(false),
 	m_inputFrame(Pi::input),
@@ -58,6 +75,8 @@ LuaConsole::LuaConsole() :
 	m_logCallbackConn = Log::GetLog()->printCallback.connect(sigc::mem_fun(this, &LuaConsole::LogCallback));
 	m_editBuffer.reset(new char[EDIT_BUFFER_LENGTH]);
 	std::fill_n(m_editBuffer.get(), EDIT_BUFFER_LENGTH, '\0');
+
+	init_global_table(Lua::manager->GetLuaState()); // _ENV
 }
 
 REGISTER_INPUT_BINDING(LuaConsole)
@@ -91,23 +110,6 @@ static int capture_traceback(lua_State *L)
 	luaL_traceback(L, L, nullptr, 0);
 	lua_concat(L, 3);
 	return 1;
-}
-
-// Create the table and leave a copy on the stack for further use
-static void init_global_table(lua_State *l)
-{
-	LUA_DEBUG_START(l);
-
-	lua_newtable(l);
-	lua_newtable(l);
-	lua_pushliteral(l, "__index");
-	lua_getglobal(l, "_G");
-	lua_rawset(l, -3);
-	lua_setmetatable(l, -2);
-	lua_pushvalue(l, -1);
-	lua_setfield(l, LUA_REGISTRYINDEX, "ConsoleGlobal");
-
-	LUA_DEBUG_END(l, 1);
 }
 
 static int console_autoexec(lua_State *l)
