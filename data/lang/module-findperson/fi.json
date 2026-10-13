@@ -309,7 +309,7 @@
   },
   "INTROTEXT_EVACUATION_MALE_2": {
     "description": "",
-    "message": "Hello. Call me {client}. I'm employed by the {company}. Our sales representative, {wanted}, in the {system} ({sectorx}, {sectory}, {sectorz}) system, distance {dist} ly, has come into conflict with some dangerous crooks. He doesn't trust the local authorities, so he's gone into hiding. We pay {cash} if you can find him and bring him back to {domicile} safely."
+    "message": "Hei. Kutsukaa minua nimellä {client}. Olen töissä organisaatiossa {company}. Myyntiedustajamme {wanted} {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, etäisyys {dist} vv, on riitaantunut eräiden vaarallisten roistojen kanssa. Hän ei luota paikallisiin viranomaisiin, vaan on piiloutunut. Maksamme {cash}, jos voitte löytää hänet ja tuoda turvallisesti {domicile}:n."
   },
   "INTROTEXT_EVACUATION_MALE_3": {
     "description": "",
