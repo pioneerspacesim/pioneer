@@ -39,9 +39,7 @@ namespace Sound {
 		void BodyMakeNoise(const Body *b, std::string_view key, float vol) override;
 
 		void SetMasterVolume(float vol) override;
-		float GetMasterVolume() override;
 		void SetSfxVolume(float vol) override;
-		float GetSfxVolume() override;
 
 		void AddSample(std::string_view key, Sample &&sample) override;
 		void Update(float delta_t) override;
