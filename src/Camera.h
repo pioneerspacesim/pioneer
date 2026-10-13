@@ -18,6 +18,7 @@
 
 class Body;
 class Frame;
+class Planet;
 
 namespace Graphics {
 	class Material;
@@ -118,6 +119,8 @@ public:
 	};
 
 	void CalcLighting(const Body *b, double &ambient, double &direct) const;
+	// Sun visibility at a planet-surface location (0 = night, 1 = full day).
+	double CalcSunVisibilityForLocation(const Planet *planet, const vector3d &posRelToRotFrame) const;
 	void CalcInteriorLighting(const Body* b, Color4ub &sLight, double &sFac) const;
 	void CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const;
 	float ShadowedIntensity(const int lightNum, const Body *b) const;
@@ -136,6 +139,8 @@ public:
 	void RestoreLighting() const;
 
 private:
+	void CalcLightingForLocation(const Planet *planet, const vector3d &posRelToRotFrame, double &ambient, double &direct) const;
+
 	std::vector<float> oldLightIntensities;
 
 	RefCountedPtr<CameraContext> m_context;

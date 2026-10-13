@@ -425,6 +425,28 @@ namespace SceneGraph {
 		m_renderData.angthrust[2] = ang.z;
 	}
 
+	float Model::GetMaxThrusterDisplayedPower() const
+	{
+		if (m_root == nullptr)
+			return 0.f;
+
+		FindNodeVisitor thrusterFinder(FindNodeVisitor::MATCH_NAME_FULL, "thrusters");
+		m_root->Accept(thrusterFinder);
+		const std::vector<Node *> &results = thrusterFinder.GetResults();
+		if (results.empty())
+			return 0.f;
+
+		float maxPower = 0.f;
+		Group *thrusters = static_cast<Group *>(results.at(0));
+		for (unsigned int i = 0; i < thrusters->GetNumChildren(); i++) {
+			MatrixTransform *mt = static_cast<MatrixTransform *>(thrusters->GetChildAt(i));
+			const Thruster *thruster = static_cast<const Thruster *>(mt->GetChildAt(0));
+			if (thruster != nullptr)
+				maxPower = std::max(maxPower, thruster->GetDisplayedPower());
+		}
+		return maxPower;
+	}
+
 	void Model::SetThrusterColor(const vector3f &dir, const Color &color)
 	{
 		assert(m_root != nullptr);

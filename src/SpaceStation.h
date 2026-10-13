@@ -74,6 +74,7 @@ public:
 
 	const SpaceStationType *GetStationType() const { return m_type; }
 	bool IsGroundStation() const;
+	float GetTerrainLocalLightRange() const;
 
 	bool AllocateStaticSlot(int &slot);
 
