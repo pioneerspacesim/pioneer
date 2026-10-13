@@ -359,19 +359,59 @@ bool Propulsion::AIChangeVelBy(const vector3d &diffvel, const vector3d &powerLim
 	if (AICurrentlyTurning())
 		return false;
 
-	// counter external forces
-	vector3d extf = m_dBody->GetExternalForce() * (Pi::game->GetTimeStep() / m_dBody->GetMass());
-	vector3d diffvel2 = diffvel - extf * m_dBody->GetOrient();
+	vector3d diffvelLevels = DiffvelThrustLevels(diffvel, powerLimit);
 
-	vector3d maxThrust = GetThrust(diffvel2);
-	vector3d maxFrameAccel = maxThrust * (Pi::game->GetTimeStep() / m_dBody->GetMass());
+	// counter external forces
+	vector3d extf = -m_dBody->GetExternalForce() * m_dBody->GetOrient() * (Pi::game->GetTimeStep() / m_dBody->GetMass());
+	vector3d extfThrust = GetThrust(extf);
+	vector3d maxFrameAccel = extfThrust * (Pi::game->GetTimeStep() / m_dBody->GetMass());
+
 	vector3d thrust(
-		Clamp(diffvel2.x / maxFrameAccel.x, -powerLimit.x, powerLimit.x),
-		Clamp(diffvel2.y / maxFrameAccel.y, -powerLimit.y, powerLimit.y),
-		Clamp(diffvel2.z / maxFrameAccel.z, -powerLimit.z, powerLimit.z));
-	SetLinThrusterState(thrust); // use clamping
-	if (thrust.x * thrust.x > 1.0 || thrust.y * thrust.y > 1.0 || thrust.z * thrust.z > 1.0) return false;
-	return true;
+		Clamp(diffvelLevels.x + extf.x / maxFrameAccel.x, -powerLimit.x, powerLimit.x),
+		Clamp(diffvelLevels.y + extf.y / maxFrameAccel.y, -powerLimit.y, powerLimit.y),
+		Clamp(diffvelLevels.z + extf.z / maxFrameAccel.z, -powerLimit.z, powerLimit.z));
+
+	SetLinThrusterState(thrust);
+
+	return thrust.x * thrust.x <= 1.0 && thrust.y * thrust.y <= 1.0 && thrust.z * thrust.z <= 1.0;
+}
+
+// thrust levels to achieve the specified speed, strictly in the specified
+// direction, without considering external forces
+vector3d Propulsion::DiffvelThrustLevels(const vector3d &diffvel, const vector3d &powerLimit)
+{
+	vector3d result{};
+
+	double diffSpeedSqr = diffvel.LengthSqr();
+
+	if (diffSpeedSqr == 0.0) return result;
+
+	vector3d allThrust = GetThrust(diffvel);
+	vector3d ltdThrust = allThrust * powerLimit;
+
+	if(ltdThrust.x == 0.0 || ltdThrust.y == 0.0 || ltdThrust.z == 0.0) {
+		assert(false && "the ship has no thrust at all in some direction");
+		return result;
+	}
+
+	vector3d thrustDir = diffvel / sqrt(diffSpeedSqr);
+	vector3d invScales = thrustDir / ltdThrust;
+	double invScale = std::max(abs(invScales.x), std::max(abs(invScales.y), abs(invScales.z)));
+
+	// maximum thrust levels for acceleration in exactly the right direction
+	vector3d maxDirLevels = invScales / invScale;
+
+	vector3d maxDirThrust = maxDirLevels * ltdThrust;
+	double maxDirFrameAccelSqr = (maxDirThrust * (Pi::game->GetTimeStep() / m_dBody->GetMass())).LengthSqr();
+
+	if (diffSpeedSqr < maxDirFrameAccelSqr) {
+		double amount = sqrt(diffSpeedSqr / maxDirFrameAccelSqr);
+		result = maxDirLevels * amount;
+	} else {
+		result = maxDirLevels;
+	}
+
+	return result;
 }
 
 // Change object-space velocity in direction of param
