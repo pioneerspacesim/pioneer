@@ -3,6 +3,7 @@ October
     * Clear sensor contacts before hyperspace to avoid HUD trail crash (#6446)
     * Fix flickering illumination: Switch from float to double for eclipse occlusion calcs (#6438)
     * Fix flickering numbers by limiting TWR mass display to 2 DP (#6440)
+    * Fix error message in the model viewer / Correct EndMenu to EndPopup (#6457)
 
   * Internal
     * Move getNumberOfFlavours() to MissionUtils (#6448)
