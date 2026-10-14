@@ -13,18 +13,158 @@
 
 #include <algorithm>
 #include <cmath>
+#include <vector>
+
+namespace {
+
+struct ExhaustMountCandidate {
+	SceneGraph::Thruster *thr = nullptr;
+	vector3f pos;
+	vector3f dir;
+	float scale = 0.f;
+};
+
+size_t ExhaustClusterRoot(std::vector<size_t> &parent, size_t x)
+{
+	size_t root = x;
+	while (parent[root] != root)
+		root = parent[root];
+	while (parent[x] != root) {
+		const size_t next = parent[x];
+		parent[x] = root;
+		x = next;
+	}
+	return root;
+}
+
+// Work out where thruster exhaust jets should originate from.
+// Tiny thrusters sitting next to a larger same-direction thruster are dropped.
+// Packed groups of small same-direction thrusters share a single exhaust jet.
+// Similar-sized thrusters use the average nozzle position (midpoint of a 2-pack,
+// centre of a 3-pack). If one thruster is much larger, the jet comes from that one.
+// Distinct large thrusters are left as one jet each.
+void SelectExhaustJetCandidates(std::vector<ExhaustMountCandidate> &candidates)
+{
+	const size_t n = candidates.size();
+	if (n <= 1) return;
+
+	float minScale = candidates[0].scale;
+	float maxScale = candidates[0].scale;
+	for (size_t i = 1; i < n; ++i) {
+		minScale = std::min(minScale, candidates[i].scale);
+		maxScale = std::max(maxScale, candidates[i].scale);
+	}
+
+	// If the ship has a mix of large thrusters and small ones, only glob the small ones.
+	// If every thruster is a similar size, they are all eligible to glob by proximity.
+	const bool hasSizeRange = minScale < SfxParams::EXHAUST_CLUSTER_IGNORE_SIZE_RATIO * maxScale;
+	const float smallCut = hasSizeRange ? (SfxParams::EXHAUST_CLUSTER_SMALL_SIZE_FRACTION * maxScale) : (maxScale * 2.0f);
+
+	std::vector<char> suppressed(n, 0);
+	for (size_t i = 0; i < n; ++i) {
+		for (size_t j = 0; j < n; ++j) {
+			if (i == j) continue;
+			if (candidates[i].scale >= SfxParams::EXHAUST_CLUSTER_IGNORE_SIZE_RATIO * candidates[j].scale)
+				continue;
+			if (candidates[i].dir.Dot(candidates[j].dir) < SfxParams::EXHAUST_CLUSTER_MIN_DIR_DOT)
+				continue;
+			const float distSqr = (candidates[i].pos - candidates[j].pos).LengthSqr();
+			const float limit = SfxParams::EXHAUST_CLUSTER_IGNORE_DIST_SCALE * candidates[j].scale;
+			if (distSqr <= limit * limit) {
+				suppressed[i] = 1;
+				break;
+			}
+		}
+	}
+
+	std::vector<size_t> parent(n);
+	for (size_t i = 0; i < n; ++i)
+		parent[i] = i;
+
+	for (size_t i = 0; i < n; ++i) {
+		if (suppressed[i]) continue;
+		for (size_t j = i + 1; j < n; ++j) {
+			if (suppressed[j]) continue;
+			if (candidates[i].scale >= smallCut || candidates[j].scale >= smallCut)
+				continue;
+			if (candidates[i].dir.Dot(candidates[j].dir) < SfxParams::EXHAUST_CLUSTER_MIN_DIR_DOT)
+				continue;
+			const float mn = std::min(candidates[i].scale, candidates[j].scale);
+			const float mx = std::max(candidates[i].scale, candidates[j].scale);
+			if (mn < SfxParams::EXHAUST_CLUSTER_IGNORE_SIZE_RATIO * mx)
+				continue;
+			// Link packed neighbours only. Union-find transitivity still chains a 3-pack
+			// (A-B and B-C) without joining a left pack to a right pack across the hull.
+			const float distSqr = (candidates[i].pos - candidates[j].pos).LengthSqr();
+			const float limit = SfxParams::EXHAUST_CLUSTER_MERGE_DIST_SCALE * mx;
+			if (distSqr > limit * limit)
+				continue;
+			const size_t ri = ExhaustClusterRoot(parent, i);
+			const size_t rj = ExhaustClusterRoot(parent, j);
+			if (ri != rj)
+				parent[rj] = ri;
+		}
+	}
+
+	std::vector<std::vector<size_t>> groups(n);
+	for (size_t i = 0; i < n; ++i) {
+		if (suppressed[i]) continue;
+		groups[ExhaustClusterRoot(parent, i)].push_back(i);
+	}
+
+	std::vector<ExhaustMountCandidate> selected;
+	selected.reserve(n);
+	for (size_t r = 0; r < n; ++r) {
+		const std::vector<size_t> &members = groups[r];
+		if (members.empty()) continue;
+		if (members.size() == 1) {
+			selected.push_back(candidates[members[0]]);
+			continue;
+		}
+
+		size_t largest = members[0];
+		float groupMaxScale = candidates[largest].scale;
+		for (size_t k = 1; k < members.size(); ++k) {
+			const size_t idx = members[k];
+			if (candidates[idx].scale > groupMaxScale) {
+				largest = idx;
+				groupMaxScale = candidates[idx].scale;
+			}
+		}
+
+		// Similar-sized nozzles (within IGNORE_SIZE_RATIO of the largest) contribute to
+		// the jet origin. A clearly smaller extra member is skipped so a dominant engine
+		// keeps its own nozzle. Equal 2-packs average to the midpoint, 3-packs to the centre.
+		vector3f origin(0.f);
+		int originCount = 0;
+		for (size_t idx : members) {
+			if (candidates[idx].scale < SfxParams::EXHAUST_CLUSTER_IGNORE_SIZE_RATIO * groupMaxScale)
+				continue;
+			origin += candidates[idx].pos;
+			++originCount;
+		}
+
+		ExhaustMountCandidate jet = candidates[largest];
+		jet.pos = origin * (1.0f / float(originCount));
+		selected.push_back(jet);
+	}
+
+	candidates.swap(selected);
+}
+
+} // namespace
 
 void ThrusterExhaustSpawner::RefreshMounts(SceneGraph::Model *model)
 {
-	m_mounts.clear();
+	m_nozzleLocal.clear();
 	m_thrusters.clear();
 	if (!model) return;
 
 	std::vector<std::pair<SceneGraph::MatrixTransform *, SceneGraph::Thruster *>> tmp;
 	model->GatherThrusterMounts(tmp);
 
-	std::vector<float> thrusterScaleAvg;
-	thrusterScaleAvg.reserve(tmp.size());
+	std::vector<ExhaustMountCandidate> candidates;
+	candidates.reserve(tmp.size());
 	float maxThrusterScale = 0.0f;
 	for (const auto &pr : tmp) {
 		const matrix4x4f M = pr.first->CalcGlobalTransform();
@@ -32,20 +172,31 @@ void ThrusterExhaustSpawner::RefreshMounts(SceneGraph::Model *model)
 		const float sy = vector3f(M[4], M[5], M[6]).Length();
 		const float sz = vector3f(M[8], M[9], M[10]).Length();
 		const float scaleAvg = (sx + sy + sz) / 3.0f;
-		thrusterScaleAvg.push_back(scaleAvg);
 		maxThrusterScale = std::max(maxThrusterScale, scaleAvg);
+
+		ExhaustMountCandidate c;
+		c.thr = pr.second;
+		c.pos = M.GetTranslate();
+		c.dir = pr.second->GetDirection().NormalizedSafe();
+		c.scale = scaleAvg;
+		candidates.push_back(c);
 	}
-	m_mounts.reserve(tmp.size());
-	m_thrusters.reserve(tmp.size());
-	for (size_t i = 0; i < tmp.size(); ++i) {
-		const auto &pr = tmp[i];
-		m_mounts.push_back(pr.first);
-		m_thrusters.push_back(pr.second);
-		const float scaleAvg = thrusterScaleAvg[i];
-		const float scaleProportional = (maxThrusterScale > 1e-6f) ? (scaleAvg / maxThrusterScale) : 1.0f;
-		pr.second->SetVisualSizeInfo(scaleAvg, scaleProportional);
+
+	// Visual flame size still uses every model thruster, including nozzles we skip for exhaust.
+	for (const auto &c : candidates) {
+		const float scaleProportional = (maxThrusterScale > 1e-6f) ? (c.scale / maxThrusterScale) : 1.0f;
+		c.thr->SetVisualSizeInfo(c.scale, scaleProportional);
 	}
-	m_channels.assign(tmp.size(), ExhaustThrusterChannel{});
+
+	SelectExhaustJetCandidates(candidates);
+
+	m_nozzleLocal.reserve(candidates.size());
+	m_thrusters.reserve(candidates.size());
+	for (const auto &c : candidates) {
+		m_nozzleLocal.push_back(c.pos);
+		m_thrusters.push_back(c.thr);
+	}
+	m_channels.assign(candidates.size(), ExhaustThrusterChannel{});
 }
 
 void ThrusterExhaustSpawner::ClearChannelState()
@@ -58,12 +209,12 @@ void ThrusterExhaustSpawner::ClearChannelState()
 
 void ThrusterExhaustSpawner::Spawn(const Body *body, const Propulsion *propulsion, const float timeStep, const ExhaustEnvironment &env, const float particlesPerSecTotal)
 {
-	if (!body || !propulsion || m_mounts.empty()) return;
+	if (!body || !propulsion || m_nozzleLocal.empty()) return;
 
-	if (m_mounts.size() != m_thrusters.size())
+	if (m_nozzleLocal.size() != m_thrusters.size())
 		return;
-	if (m_channels.size() != m_mounts.size())
-		m_channels.assign(m_mounts.size(), ExhaustThrusterChannel{});
+	if (m_channels.size() != m_nozzleLocal.size())
+		m_channels.assign(m_nozzleLocal.size(), ExhaustThrusterChannel{});
 
 	const vector3f linT = vector3f(propulsion->GetLinThrusterState());
 	const vector3f angT = -vector3f(propulsion->GetAngThrusterState());
@@ -83,15 +234,13 @@ void ThrusterExhaustSpawner::Spawn(const Body *body, const Propulsion *propulsio
 	// We use the same number of particles per ship, since small adjacent streams will merge
 	// visually anyway, and we this way we don't end up with too many particles on some ships
 	// and not enough on others.
-	const float particlesPerSecPerThruster = particlesPerSecTotal / m_mounts.size();
+	const float particlesPerSecPerThruster = particlesPerSecTotal / m_nozzleLocal.size();
 
-	for (size_t ti = 0; ti < m_mounts.size(); ++ti) {
-		SceneGraph::MatrixTransform *mt = m_mounts[ti];
+	for (size_t ti = 0; ti < m_nozzleLocal.size(); ++ti) {
 		SceneGraph::Thruster *thr = m_thrusters[ti];
 		ExhaustThrusterChannel &ch = m_channels[ti];
 
-		const matrix4x4f M = mt->CalcGlobalTransform();
-		const vector3d nozzleLocal = vector3d(M.GetTranslate());
+		const vector3d nozzleLocal = vector3d(m_nozzleLocal[ti]);
 		const vector3d exhaustDirModel = vector3d(thr->GetDirection()).NormalizedSafe();
 		const vector3d currentNozzleWorld = body->GetPosition() + bodyOrient * nozzleLocal;
 
