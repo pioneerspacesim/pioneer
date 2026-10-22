@@ -11,6 +11,7 @@
 #include "SystemPath.h"
 #include <list>
 #include <string>
+#include <Random64.h>
 
 class SectorGeneratorStage;
 class StarSystemGeneratorStage;
@@ -119,7 +120,7 @@ class SectorGeneratorStage : public GalaxyGeneratorStage {
 public:
 	virtual ~SectorGeneratorStage() {}
 
-	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config) = 0;
+	virtual bool Apply(Random &rng, Random64& rng64, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config) = 0;
 };
 
 class StarSystemGeneratorStage : public GalaxyGeneratorStage {
