@@ -3,6 +3,10 @@ facegen directory structure
 Video-link images are built out of a set of layered parts. Each part is
 centered horizontally and offset vertically when it's built into the face.
 
+=== This PR requires code hanges to work properly ===
+=== Will document the changes here after finalization===
+
+
 Parts (in the order they're drawn; i.e., bottom layer first):
   - Background   -- There's only one of these.
   - Head
