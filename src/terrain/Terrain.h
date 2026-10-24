@@ -13,6 +13,8 @@
 
 #include <memory>
 #include <string>
+#include <utility>
+#include <vector>
 
 #ifdef _MSC_VER
 #pragma warning(disable : 4250) // workaround for MSVC 2008 multiple inheritance bug
@@ -44,8 +46,23 @@ public:
 		return m_fracdef[index];
 	}
 
-	virtual void GetHeights(const vector3d *vP, double *heightsOut, const size_t count) const = 0;
+	void GetHeights(const vector3d *vP, double *heightsOut, const size_t count) const;
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const = 0;
+
+	// Reduce fractal amplitude in a circular region so a surface building sits on
+	// terrain whose max height variation is within building tolerance.
+	struct FlattenRegion {
+		vector3d centre;		// unit vector
+		double minDotInner;		// cos(inner angular radius) - fully scaled if dot(centre, p) >= this
+		double minDotOuter;		// cos(outer angular radius) - ignored if dot(centre, p) < this
+		double innerAngle;		// radians
+		double invFalloffAngle; // 1 / (outer - inner), or 0 if hard-edged
+		double height;			// raw fractal height at centre (GetHeights units)
+		double amplitudeScale;	// 1 = unchanged, less than 1 reduces amplitude of terrain bumps
+	};
+	void AddFlattenRegion(const vector3d &centre, double radiusMeters, double maxVariationMeters);
+	void SetFlattenRegions(std::vector<FlattenRegion> regions) { m_flattenRegions = std::move(regions); }
+	const std::vector<FlattenRegion> &GetFlattenRegions() const { return m_flattenRegions; }
 
 	virtual const char *GetHeightFractalName() const = 0;
 	virtual const char *GetColorFractalName() const = 0;
@@ -121,17 +138,21 @@ protected:
 		std::string m_name;
 	};
 	MinBodyData m_minBody;
+
+	virtual void GetHeightsRaw(const vector3d *vP, double *heightsOut, const size_t count) const = 0;
+
+	std::vector<FlattenRegion> m_flattenRegions;
 };
 
 template <typename HeightFractal>
 class TerrainHeightFractal : virtual public Terrain {
 public:
 	TerrainHeightFractal() = delete;
-	void GetHeights(const vector3d *vP, double *heightsOut, const size_t count) const final;
 	const char *GetHeightFractalName() const final;
 
 protected:
 	TerrainHeightFractal(const SystemBody *body);
+	void GetHeightsRaw(const vector3d *vP, double *heightsOut, const size_t count) const final;
 };
 
 template <typename ColorFractal>

@@ -635,6 +635,19 @@ bool Ship::OnCollision(Body *b, Uint32 flags, double relVel)
 			return false;
 		else {
 			if (GetVelocity().Length() < MAX_LANDING_SPEED) {
+				if (m_launchLockTimeout > 0.0f)
+					return false;
+				// When starport landing pads sit just above the terrain surface, a landing ship
+				// will often collide with the terrain before the pad. So if the ship has landing
+				// clearance and is on its pad, start docking instead of a rough terrain landing.
+				constexpr double PAD_QUERY_RADIUS = 2000.0;
+				for (Body *body : Pi::game->GetSpace()->GetBodiesMaybeNear(this, PAD_QUERY_RADIUS)) {
+					if (!body->IsType(ObjectType::SPACESTATION)) continue;
+					SpaceStation *station = static_cast<SpaceStation *>(body);
+					if (station->GetFrame() != GetFrame()) continue;
+					if (station->TryDockShipFromTerrain(this))
+						return false;
+				}
 				m_testLanded = true;
 				return true;
 			}

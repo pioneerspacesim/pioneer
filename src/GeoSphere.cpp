@@ -26,6 +26,8 @@
 #include "vcacheopt/vcacheopt.h"
 #include <algorithm>
 #include <deque>
+#include <utility>
+#include <vector>
 
 RefCountedPtr<GeoPatchContext> GeoSphere::s_patchContext;
 
@@ -83,8 +85,10 @@ void GeoSphere::OnChangeGeoSphereDetailLevel()
 		// clearout anything we don't need
 		(*i)->Reset();
 
-		// reinit the terrain with the new settings
+		// reinit the terrain with the new settings, keeping starport flatten discs
+		std::vector<Terrain::FlattenRegion> flatten = (*i)->m_terrain->GetFlattenRegions();
 		(*i)->m_terrain.Reset(Terrain::InstanceTerrain((*i)->GetSystemBody()));
+		(*i)->m_terrain->SetFlattenRegions(std::move(flatten));
 		print_info((*i)->GetSystemBody(), (*i)->m_terrain.Get());
 
 		// Reload the surface and atmosphere material (scattering option)
