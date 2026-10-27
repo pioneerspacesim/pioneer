@@ -14,6 +14,9 @@
 #include "galaxy/SystemPath.h"
 #include "gameconsts.h"
 
+static const fixed G_EARTH = fixed(980665, 100000); // 9.80665 m/s^2
+static const fixed G_SOL = fixed(2742, 10);	  // 274.2 m/s^2
+
 class StarSystem;
 
 struct AtmosphereParameters;
@@ -261,6 +264,7 @@ public:
 	double GetVolatileIces() const { return m_volatileIces.ToDouble(); }
 	fixed GetVolcanicityAsFixed() const { return m_volcanicity; }
 	double GetVolcanicity() const { return m_volcanicity.ToDouble(); }
+	fixed GetAtmosOxidizingAsFixed() const { return m_atmosOxidizing; }
 	double GetAtmosOxidizing() const { return m_atmosOxidizing.ToDouble(); }
 	fixed GetLifeAsFixed() const { return m_life; }
 	double GetLife() const { return m_life.ToDouble(); }
@@ -270,6 +274,7 @@ public:
 	fixed GetPopulationAsFixed() const { return m_population; }
 	double GetPopulation() const { return m_population.ToDouble(); }
 
+	fixed CalcSurfaceGravityAsFixed() const;
 	double CalcSurfaceGravity() const;
 	double CalcEscapeVelocity() const;
 	double CalcMeanDensity() const;
