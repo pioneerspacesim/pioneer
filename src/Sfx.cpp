@@ -131,8 +131,7 @@ namespace {
 
 		// Randomly cull some particles right at exhaust->dust transition, because the
 		// dust clouds are large and diffuse and don't need nearly as many particles.
-		// The number of particles to cull depends on the thruster power (stored in m_speed).
-		if (Pi::rng.Double() > std::max(s.m_speed, SfxParams::EXHAUST_DUST_LOWEST_NON_CULL_PROB)) {
+		if (Pi::rng.Double() > SfxParams::EXHAUST_DUST_NON_CULL_PROB) {
 			s.m_type = TYPE_NONE;
 			return;
 		}
