@@ -2873,7 +2873,7 @@
   },
   "VOLUME": {
     "description": "The volume property of some object",
-    "message": "Volume"
+    "message": "Volumen"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",
