@@ -39,6 +39,7 @@ namespace SceneGraph {
 		}
 		float GetVisualSize() const { return visualSize; }
 		float GetVisualSizeProportional() const { return visualSizeScaled; }
+		float GetDisplayedPower() const { return displayedPower; }
 
 	private:
 		// thruster geometry is shared between all instances of Thruster
