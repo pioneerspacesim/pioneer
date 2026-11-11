@@ -20,7 +20,7 @@ TerrainHeightFractal<TerrainHeightBarrenRock3>::TerrainHeightFractal(const Syste
 }
 
 template <>
-void TerrainHeightFractal<TerrainHeightBarrenRock3>::GetHeights(const vector3d *vP, double *heightsOut, const size_t count) const
+void TerrainHeightFractal<TerrainHeightBarrenRock3>::GetHeightsRaw(const vector3d *vP, double *heightsOut, const size_t count) const
 {
 	for (size_t i = 0; i < count; i++) {
 		const vector3d &p = vP[i];

@@ -30,6 +30,12 @@ public:
 	double GetTerrainHeight(const vector3d &pos) const;
 	const SystemBody *GetSystemBody() const override { return m_sbody; }
 
+	// Reduce terrain amplitude under a surface starport.
+	// centre is a unit-sphere position on the planet surface.
+	// radiusMeters is the surface radius of the fully-scaled disc (falloff may extend beyond).
+	// maxVariationMeters is the allowed max height from the model origin (typically the lowest landing pad).
+	void AddTerrainFlattenRegion(const vector3d &centre, double radiusMeters, double maxVariationMeters);
+
 	// returns value in metres
 	double GetMaxFeatureRadius() const { return m_maxFeatureHeight; }
 

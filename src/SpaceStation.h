@@ -48,6 +48,9 @@ public:
 	vector3d GetAngVelocity() const override { return vector3d(0, m_type->AngVel(), 0); }
 	bool OnCollision(Body *b, Uint32 flags, double relVel) override;
 	bool DoShipDamage(Ship *s, Uint32 flags, double relVel);
+	// If this ship has clearance and is laterally on its assigned pad, start
+	// docking (used when terrain is hit instead of the pad mesh).
+	bool TryDockShipFromTerrain(Ship *s);
 	void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 	void StaticUpdate(const float timeStep) override;
 	void TimeStepUpdate(const float timeStep) override;
@@ -130,6 +133,7 @@ private:
 	double m_oldAngDisplacement;
 
 	void SwitchToStage(Uint32 bay, DockStage stage);
+	void StartDocking(Ship *s, Uint32 bay, bool touchOrbitalPad);
 	matrix4x4d GetBayTransform(Uint32 bay) const;
 
 	void InitStation();

@@ -458,6 +458,37 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags, double relVel)
 	// docking is in progress
 	if (s->GetFlightState() == Ship::DOCKING) return false;
 
+	StartDocking(s, bay, touchOrbitalPad);
+	return false;
+}
+
+bool SpaceStation::TryDockShipFromTerrain(Ship *s)
+{
+	if (!IsGroundStation()) return false;
+
+	const int bay = GetMyDockingPort(s);
+	if (bay == -1 || IsPortLocked(bay) || m_shipDocking[bay].stage == DockStage::NONE)
+		return false;
+
+	matrix4x4d bayTrans = GetBayTransform(bay);
+	const vector3d dockingNormal = bayTrans.Up();
+	if ((s->GetOrient().VectorY().Dot(dockingNormal) < 0.99) || (s->GetWheelState() < 1.0))
+		return false;
+	if (s->GetVelocity().Length() > MAX_LANDING_SPEED)
+		return false;
+
+	const vector3d shipRel = s->GetPosition() - bayTrans.GetTranslate();
+	const vector3d lateral = shipRel - dockingNormal * shipRel.Dot(dockingNormal);
+	const double maxDist = double(m_type->FindPortByBay(bay)->maxShipSize) / 2.0 * 1.7;
+	if (lateral.LengthSqr() > maxDist * maxDist)
+		return false;
+
+	StartDocking(s, bay, false);
+	return true;
+}
+
+void SpaceStation::StartDocking(Ship *s, Uint32 bay, bool touchOrbitalPad)
+{
 	// launch docking
 	// set up a control structure
 	// from now on, the location of the ship will be set by the station using this data
@@ -472,10 +503,7 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags, double relVel)
 	s->SetVelocity(vector3d(0.0));
 	s->SetAngVelocity(vector3d(0.0));
 	s->ClearThrusterState();
-
 	SwitchToStage(bay, (touchOrbitalPad || m_type->NumUndockStages() == 0) ? DockStage::TOUCHDOWN : DockStage::DOCK_ANIMATION_1);
-
-	return false;
 }
 
 bool SpaceStation::DoShipDamage(Ship *s, Uint32 flags, double relVel)
@@ -532,6 +560,8 @@ void SpaceStation::SwitchToStage(Uint32 bay, DockStage stage)
 			dt.ship->SetThrusterState(2, -1.0); // forward
 		}
 		dt.ship->SetFlightState(Ship::FLYING);
+		if (m_type->IsSurfaceStation())
+			dt.ship->SetWheelState(false);
 		SwitchToStage(bay, DockStage::LEAVE);
 		break;
 
