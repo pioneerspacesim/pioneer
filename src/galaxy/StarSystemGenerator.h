@@ -60,6 +60,7 @@ private:
 	void MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, Random &rand);
 
 	int CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, fixed albedo, fixed greenhouse);
+    int CalcWaterBoilingTemperature(fixed pressure);
 	const SystemBody *FindStarAndTrueOrbitalRange(const SystemBody *planet, fixed &orbMin_, fixed &orbMax_) const;
 };
 

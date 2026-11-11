@@ -300,6 +300,7 @@ public:
 
 	double GetAtmSurfaceDensity() const { return m_volatileGas.ToDouble(); }
 	double GetAtmSurfacePressure() const { return m_atmosPressure; }
+    fixed GetAtmSurfacePressureAsFixed() const { return fixed().FromDouble(m_atmosPressure); }
 	double GetAtmRadius() const { return m_atmosRadius; }
 	double GetTropopause() const { return m_tropopause; }
 
