@@ -32,6 +32,8 @@
 
 #include "utils.h"
 
+#include <SDL_endian.h>
+
 std::vector<CityOnPlanet::CityFlavourType> CityOnPlanet::s_cityFlavours;
 std::unique_ptr<Graphics::Material> CityOnPlanet::s_debugMat;
 
@@ -615,19 +617,15 @@ void CityOnPlanet::CalcCityRadius(const SystemBody *body)
 	}
 }
 
-#ifdef __BIG_ENDIAN__
-#error "CityOnPlanet does not (yet) support big-endian architectures"
-#endif
-
 // Supports up to 32-cell wide buildings to ensure 8-byte aligned addressing in a single operation
 static inline uint64_t CalcBitmaskForGrid(uint32_t x, uint32_t xsize)
 {
 	uint32_t maskOffset = x & CityOnPlanet::CELLMASK;
 	uint64_t bitmask = uint64_t((1 << xsize) - 1) << maskOffset;
-	// note: need crossplatform bswap_64 here for big-endian compat
-	// we should be able to swap the bitmask rather than the in-memory bytes and have the same effect
 
-	return bitmask;
+	// the bitset is stored lsb-first, so on big-endian hosts swap the bitmask
+	// rather than the in-memory bytes
+	return SDL_SwapLE64(bitmask);
 }
 
 void CityOnPlanet::SetGridOccupancy(uint32_t x, uint32_t y, const uint8_t size[2])
