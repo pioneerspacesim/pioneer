@@ -69,17 +69,18 @@ namespace Graphics {
 	}
 
 // RGBA and RGBpixel format for converting textures
-// XXX little-endian. if we ever have a port to a big-endian arch, invert shift and mask
-#if SDL_BYTEORDER != SDL_LIL_ENDIAN
-#error "SDL surface pixel formats are endian-specific"
-#endif
+// the masks select R, G, B, A byte order in memory, so they depend on the host endianness
 	static SDL_PixelFormat pixelFormatRGBA = {
 		0,									// format#
 		0,									// palette
 		32,									// bits per pixel
 		4,									// bytes per pixel
 		{ 0, 0 },							// padding
+#if SDL_BYTEORDER == SDL_LIL_ENDIAN
 		0xff, 0xff00, 0xff0000, 0xff000000, // RGBA mask
+#else
+		0xff000000, 0xff0000, 0xff00, 0xff, // RGBA mask
+#endif
 		0, 0, 0, 0,							// RGBA loss
 		24, 16, 8, 0,						// RGBA shift
 		0,									// colour key
@@ -92,7 +93,11 @@ namespace Graphics {
 		24,						   // bits per pixel
 		3,						   // bytes per pixel
 		{ 0, 0 },				   // padding
+#if SDL_BYTEORDER == SDL_LIL_ENDIAN
 		0xff, 0xff00, 0xff0000, 0, // RGBA mask
+#else
+		0xff0000, 0xff00, 0xff, 0, // RGBA mask
+#endif
 		0, 0, 0, 0,				   // RGBA loss
 		16, 8, 0, 0,			   // RGBA shift
 		0,						   // colour key
