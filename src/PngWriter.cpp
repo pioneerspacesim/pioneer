@@ -20,7 +20,7 @@ void write_screenshot(const Graphics::ScreendumpState &sd, const char *destFile)
 	// Set up the pixel format color masks for RGB(A) byte arrays.
 	Uint32 rmask, gmask, bmask, amask;
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-	int shift = ((sd.bpp == 3) ? 8 : 0;
+	int shift = (sd.bpp == 3) ? 8 : 0;
 	rmask = 0xff000000 >> shift;
 	gmask = 0x00ff0000 >> shift;
 	bmask = 0x0000ff00 >> shift;
@@ -39,6 +39,11 @@ void write_screenshot(const Graphics::ScreendumpState &sd, const char *destFile)
 		} else {
 			amask = 0;
 			dest_bpp--;
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+			rmask >>= 8;
+			gmask >>= 8;
+			bmask >>= 8;
+#endif
 		}
 	}
 
