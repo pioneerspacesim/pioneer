@@ -56,13 +56,13 @@ namespace Graphics {
 		Uint32 winFlags = 0;
 
 		winFlags |= SDL_WINDOW_OPENGL;
-		// We'd like a context that implements OpenGL 3.1 to allow creation of multisampled textures
+		// We'd like a context that implements OpenGL 3.2 to allow creation of multisampled textures...
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 #if defined(PIONEER_TARGET_RASPBERRY_PI)
-		// on Arm and other platforms we attempt to create an OpenGL 3.1 context as this is what Raspberry Pi 4 & 5 currently support
+		// ...on Arm and other platforms we attempt to create an OpenGL 3.1 context as this is what Raspberry Pi 4 & 5 currently support
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 #else
-		// x86/x64 we use newer OpenGL
+		// ...x86/x64 we use newer OpenGL
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 #endif
 		
@@ -334,7 +334,11 @@ namespace Graphics {
 	const char *RendererOGL::GetName() const
 	{
 		// since 15/10/2020 we've been requiring OpenGL 3.2
+	#if defined(PIONEER_TARGET_RASPBERRY_PI)
+		return "OpenGL 3.1, with extensions, renderer for Raspberry Pi";
+	#else
 		return "OpenGL 3.2, with extensions, renderer";
+	#endif
 	}
 
 	static const char *gl_error_to_string(GLenum err)
