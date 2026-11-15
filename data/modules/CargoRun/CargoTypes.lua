@@ -110,18 +110,107 @@ local stem_bolts = CommodityType.RegisterCommodity("stem_bolts", {
 	l10n_resource="module-cargorun"
 })
 
+
+-- Adapted from the commodity market. They only share
+-- the strings and price from the commodities.
+local cargo_chemicals = CommodityType.RegisterCommodity("cargo_chemicals", {
+	l10n_key = 'CHEMICALS', price=41,			-- 124 (price in commodities)
+	mass=1, purchasable=false,
+	l10n_resource="commodity"
+})
+local cargo_computers = CommodityType.RegisterCommodity("cargo_computers", {
+	l10n_key = 'COMPUTERS', price=153,			-- 461
+	mass=1, purchasable=false,
+	l10n_resource="commodity"
+})
+local cargo_consumer_goods = CommodityType.RegisterCommodity("cargo_consumer_goods", {
+	l10n_key = 'CONSUMER_GOODS', price=82,		-- 246
+	mass=1, purchasable=false,
+	l10n_resource="commodity"
+})
+local cargo_farm_machinery = CommodityType.RegisterCommodity("cargo_farm_machinery", {
+	l10n_key = 'FARM_MACHINERY', price=120,		-- 419
+	mass=1, purchasable=false,
+	l10n_resource="commodity"
+})
+local cargo_fertilizer = CommodityType.RegisterCommodity("cargo_fertilizer", {
+	l10n_key = 'FERTILIZER', price=8,			-- 25
+	mass=1, purchasable=false,
+	l10n_resource="commodity"
+})
+local cargo_fruit_and_veg = CommodityType.RegisterCommodity("cargo_fruit_and_veg", {
+	l10n_key = 'FRUIT_AND_VEG', price=35,		-- 105
+	mass=1, purchasable=false,
+	l10n_resource="commodity"
+})
+local cargo_grain = CommodityType.RegisterCommodity("cargo_grain", {
+	l10n_key = 'GRAIN', price=8,				-- 41
+	mass=1, purchasable=false,
+	l10n_resource="commodity"
+})
+local cargo_industrial_machinery = CommodityType.RegisterCommodity("cargo_industrial_machinery", {
+	l10n_key = 'INDUSTRIAL_MACHINERY', price=180,-- 358
+	mass=1, purchasable=false,
+	l10n_resource="commodity"
+})
+local cargo_liquor = CommodityType.RegisterCommodity("cargo_liquor", {
+	l10n_key = 'LIQUOR', price=69,				-- 422
+	mass=1, purchasable=false,
+	l10n_resource="commodity"
+})
+local cargo_medicines = CommodityType.RegisterCommodity("cargo_medicines", {
+	l10n_key = 'MEDICINES', price=60,			-- 712
+	mass=1, purchasable=false,
+	l10n_resource="commodity"
+})
+local cargo_metal_alloys = CommodityType.RegisterCommodity("cargo_metal_alloys", {
+	l10n_key = 'METAL_ALLOYS', price=25,		-- 75
+	mass=1, purchasable=false,
+	l10n_resource="commodity"
+})
+local cargo_mining_machinery = CommodityType.RegisterCommodity("cargo_mining_machinery", {
+	l10n_key = 'MINING_MACHINERY', price=204,	-- 312
+	mass=1, purchasable=false,
+	l10n_resource="commodity"
+})
+local cargo_plastics = CommodityType.RegisterCommodity("cargo_plastics", {
+	l10n_key = 'PLASTICS', price=12,			-- 36
+	mass=1, purchasable=false,
+	l10n_resource="commodity"
+})
+local cargo_precious_metals = CommodityType.RegisterCommodity("cargo_precious_metals", {
+	l10n_key = 'PRECIOUS_METALS', price=300,	-- 2180
+	mass=1, purchasable=false,
+	l10n_resource="commodity"
+})
+local cargo_textiles = CommodityType.RegisterCommodity("cargo_textiles", {
+	l10n_key = 'TEXTILES', price=30,			-- 91
+	mass=1, purchasable=false,
+	l10n_resource="commodity"
+})
+
+
 local chemical = {
+	cargo_chemicals,
+	cargo_fertilizer,
 	digesters,
 	hazardous_substances
 }
 
 local mining = {
+	cargo_mining_machinery,
 	clus,
 	explosives
 }
 
 local hardware = {
 	aluminium_tubes,
+	cargo_farm_machinery,
+	cargo_industrial_machinery,
+	cargo_metal_alloys,
+	cargo_mining_machinery,
+	cargo_plastics,
+	cargo_precious_metals,
 	diamonds,
 	hazardous_substances,
 	machine_tools,
@@ -142,6 +231,16 @@ local infrastructure = {
 }
 
 local consumer_goods = {
+	cargo_chemicals,
+	cargo_computers,
+	cargo_consumer_goods,
+	cargo_fertilizer,
+	cargo_fruit_and_veg,
+	cargo_grain,
+	cargo_liquor,
+	cargo_medicines,
+	cargo_plastics,
+	cargo_textiles,
 	electrical_appliances,
 	furniture,
 	spaceship_parts
@@ -149,6 +248,9 @@ local consumer_goods = {
 
 local expensive = { -- price >= 175
 	art_objects,
+	cargo_industrial_machinery,
+	cargo_mining_machinery,
+	cargo_precious_metals,
 	diamonds,
 	neptunium,
 	plutonium,
