@@ -69,6 +69,10 @@ static inline Uint32 ceil_pow2(Uint32 v)
 	return v;
 }
 
+namespace PhysicsUtil {
+	vector3d GenerateTemperatureColor(double T);
+}
+
 namespace MathUtil {
 
 	// random point on a sphere, distributed uniformly by area
