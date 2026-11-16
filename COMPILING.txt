@@ -65,6 +65,10 @@ questions are welcome anytime.
     libsdl2-image-dev
     libopenal-dev (optional, used for the OpenAL sound backend)
 
+    EndeavourOS/Manjaro/Arch
+    ------------------------
+    sudo pacman -S cmake mesa-utils glew libsigc++ libvorbis assimp sdl2-compat sdl2_image openal
+
    If your platform doesn't have assimp 5, you'll need to build it from
    source. It's available in pioneer-thirdparty, see below.
 
