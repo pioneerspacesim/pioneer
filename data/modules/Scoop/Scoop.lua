@@ -801,6 +801,7 @@ local buildMissionDescription = function(mission)
 	desc.details = {
 		{ l.CLIENT, mission.client.name },
 		{ l.SPACEPORT, mission.station:GetSystemBody().name },
+		mission.id == "RESCUE" and { l.CREW, mission.amount } or false, false,
 		mission.client_ship and { l.SHIP, mission.client_ship.label } or false,
 		false,
 		{ l.DEADLINE, ui.Format.Date(mission.due) }
