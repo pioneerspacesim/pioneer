@@ -777,6 +777,20 @@ bool SpaceStation::IsGroundStation() const
 	return m_type->IsSurfaceStation();
 }
 
+// Return the radius of a planetside station complex within which lights from the buildings should illuminate the terrain at night
+float SpaceStation::GetTerrainLocalLightRange() const
+{
+	static constexpr float MIN_RANGE = 500.f;
+
+	if (m_adjacentCity)
+		return std::max(MIN_RANGE, float(1.5 * m_adjacentCity->GetCityRadius()));
+
+	if (IsGroundStation())
+		return std::max(MIN_RANGE, float(1.5 * GetClipRadius()));
+
+	return MIN_RANGE;
+}
+
 // Renders space station and adjacent city if applicable
 static const double SQRMAXCITYDIST = 1e5 * 1e5;
 

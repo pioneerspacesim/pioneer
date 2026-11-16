@@ -606,8 +606,10 @@ void GasGiant::Update()
 	}
 }
 
-void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows)
+void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows, const Camera *camera, const Planet *planet)
 {
+	(void)camera;
+	(void)planet;
 	PROFILE_SCOPED()
 	if (!m_surfaceTexture.Valid()) {
 		// Use the fact that we have a patch as a latch to prevent repeat generation requests.
