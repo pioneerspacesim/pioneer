@@ -161,9 +161,9 @@ local onChat = function (form, ref, option)
 		form:SetMessage(l.RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID)
 	end
 	form:AddOption(string.interp(l.WHERE_CAN_I_FIND_X), 1);
-	form:AddOption(l.COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST, 0);
 	form:AddOption(l.HOW_SOON_MUST_IT_BE_DONE, 2);
 	form:AddOption(l.HOW_WILL_I_BE_PAID, 4);
+	form:AddOption(l.COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST, 0);
 	form:AddOption(l.OK_AGREED, 3);
 end
 
