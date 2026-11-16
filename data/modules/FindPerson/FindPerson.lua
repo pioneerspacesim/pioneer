@@ -209,6 +209,7 @@ local makeAdvert = function (station)
 
 	local female = Engine.rand:Integer(1) == 1
 	local gender = female and "_FEMALE" or "_MALE"
+	local dead = Engine.rand:Number(1) < 0.1
 
 	local flavour_number = Engine.rand:Integer(1, #flavours)
 	local flavour = flavours[flavour_number]
@@ -231,7 +232,7 @@ local makeAdvert = function (station)
 		introtext = l[introtext .. "_" .. intro_number],
 		flavour   = flavour,
 		client    = Character.New(),
-		wanted    = Character.New({ female = female }),
+		wanted    = Character.New({ female = female, dead = dead, }),
 		employee  = employee,
 		friend    = friend,
 		relative  = relative,
@@ -312,6 +313,7 @@ local onShipDestroyed = function (ship, attacker)
 	for ref, mission in pairs(missions) do
 		if mission.ship == ship then
 			mission.ship = nil
+			mission.wanted.dead = true
 			break
 		end
 		if mission.interceptor == ship then
@@ -350,7 +352,7 @@ end
 
 local onEnterSystem = function (player)
 	for ref, mission in pairs(missions) do
-		if mission.location:IsSameSystem(Game.system.path) and mission.status == "ACTIVE" and mission.flavour.ship then
+		if mission.location:IsSameSystem(Game.system.path) and mission.status == "ACTIVE" and mission.flavour.ship and not mission.wanted.dead then
 
 			local ship, pirate_msg
 			local threat = 10.0 + mission.risk * 25.0
@@ -377,6 +379,7 @@ local onEnterSystem = function (player)
 					end
 					mission.destination = mission.domicile
 					mission.status = "PENDING_RETURN"
+					mission.tipster = true
 				end)
 			else
 				ship = ShipBuilder.MakeShipDocked(Space.GetBody(mission.location.bodyIndex), PirateTemplate, threat)
@@ -412,10 +415,18 @@ local onPlayerDocked = function (player, station)
 						if mission.flavour.ship then
 							msg = string.interp(l["SUCCESS_ATK_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "SUCCESS_ATK"))], { wanted = mission.wanted.name })
 						else
-							msg = string.interp(l["SUCCESS_INT_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "SUCCESS_INT"))], { wanted = mission.wanted.name })
+							if mission.wanted.dead then
+								msg = string.interp(l["SUCCESS_DEC_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "SUCCESS_DEC"))], { wanted = mission.wanted.name })
+							else
+								msg = string.interp(l["SUCCESS_INT_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "SUCCESS_INT"))], { wanted = mission.wanted.name })
+							end
 						end
 					else
-						msg = string.interp(l["SUCCESS_MSG_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "SUCCESS_MSG"))], { wanted = mission.wanted.name })
+						if mission.wanted.dead then
+							msg = string.interp(l["SUCCESS_DEC_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "SUCCESS_DEC"))], { wanted = mission.wanted.name })
+						else
+							msg = string.interp(l["SUCCESS_MSG_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "SUCCESS_MSG"))], { wanted = mission.wanted.name })
+						end
 					end
 					Comms.ImportantMessage(msg, mission.client.name)
 					Character.persistent.player.reputation = Character.persistent.player.reputation + reputation
@@ -425,7 +436,7 @@ local onPlayerDocked = function (player, station)
 					Comms.ImportantMessage(msg, mission.client.name)
 					Character.persistent.player.reputation = Character.persistent.player.reputation - reputation
 				end
-				if mission.flavour.taxi then
+				if mission.flavour.taxi and not mission.wanted.dead then
 					Passengers.DisembarkPassenger(player, mission.wanted)
 				end
 				Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
@@ -435,7 +446,7 @@ local onPlayerDocked = function (player, station)
 				missions[ref] = nil
 			end
 		else
-			if mission.location == station.path then
+			if mission.location == station.path and not mission.wanted.dead then
 				msg = string.interp(l["GREETING_" .. mission.flavour.id], { client = mission.client.name })
 				Comms.ImportantMessage(msg, mission.wanted.name)
 				if mission.flavour.taxi then
@@ -462,7 +473,14 @@ local onPlayerDocked = function (player, station)
 					end
 					if #mission.visited > Engine.rand:Number(4) then
 						local tipster = Character.New()
-						local tip = "TIP_" .. (mission.wanted.female and "FEMALE" or "MALE")
+						local tip
+						if mission.wanted.dead then
+							tip = "TIP_DECEASED_" .. mission.flavour.id .. (mission.wanted.female and "_FEMALE" or "_MALE")
+							mission.destination = mission.domicile
+							mission.status = "PENDING_RETURN"
+						else
+							tip = "TIP_" .. (mission.wanted.female and "FEMALE" or "MALE")
+						end
 						local name = Engine.rand:Integer(0, 1) < 1 and mission.wanted.name or mission.wanted.firstname
 						msg = string.interp(l[tip .. "_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, tip))], { wanted = name, station = mission.location:GetSystemBody().name })
 						Comms.ImportantMessage(msg, tipster.name)
@@ -525,6 +543,13 @@ local buildMissionDescription = function (mission)
 	local domicileDist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.domicile)) or "???"
 	local danger = getRiskMsg(mission)
 	local gender = (mission.wanted.female and "_FEMALE" or "_MALE")
+	local status = "UNKNOWN"
+
+	if Passengers.CheckEmbarked(Game.player, { mission.wanted, }) > 0 then
+		status = "ON_BOARD"
+	elseif mission.tipster then
+		status = (mission.wanted.dead and "DECEASED" or "ALIVE") .. gender
+	end
 
 	desc.description = mission.introtext:interp({
 		client = mission.client.name,
@@ -550,8 +575,8 @@ local buildMissionDescription = function (mission)
 	desc.details = {
 		{ l.WANTED, mission.wanted.name },
 		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
-		{ l.SPACEPORT, mission.tipster and mission.location:GetSystemBody().name or l.UNKNOWN },
-		{ l.STATUS, Passengers.CheckEmbarked(Game.player, { mission.wanted, }) > 0 and l.ON_BOARD or l.UNKNOWN },
+		{ l.SPACEPORT, mission.tipster and not mission.wanted.dead and mission.location:GetSystemBody().name or l.UNKNOWN },
+		{ l.STATUS, l[status] },
 		{ l.DISTANCE, dist .. " " .. lc.UNIT_LY },
 		mission.flavour.ship and { l.SHIP, mission.shipid },
 		false,
