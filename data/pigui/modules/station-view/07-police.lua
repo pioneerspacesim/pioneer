@@ -45,7 +45,7 @@ end)
 
 local widgetSizes = ui.rescaleUI({
 	itemSpacing = Vector2(4, 9),
-	faceSize = Vector2(586,565),
+	faceSize = Vector2(220,220),
 	crimeRecordColumnWidth = 55,
 	buttonSize = Vector2(100,0),
 	dummySpaceSmall = Vector2(0, 10),
@@ -249,7 +249,17 @@ local function drawPolice()
 		end)
 
 		ui.sameLine(0, padding.x * 2)
-		if(face ~= nil) then face:render() end
+		if face ~= nil then
+			ui.child("PortraitColumn", Vector2(widgetSizes.faceSize.x, 0), function()
+				face:render()
+				ui.withFont(orbiteer.body, function()
+					ui.textAligned(face.character.name, 0.5)
+					if face.character.title then
+						ui.textAligned(face.character.title, 0.5)
+					end
+				end)
+			end)
+		end
 	end)
 end
 
@@ -266,7 +276,11 @@ view = StationView:registerView({
 				stationSeed = station.seed
 				local rand = Rand.New(station.seed .. "-police")
 				face = PiGuiFace.New(Character.New({ title = l.CONSTABLE, armour=true }, rand),
-					{itemSpacing = widgetSizes.itemSpacing})
+					{
+						itemSpacing = widgetSizes.itemSpacing,
+						size = widgetSizes.faceSize
+					})
+				face.style.showCharInfo = false
 			end
 		end
 

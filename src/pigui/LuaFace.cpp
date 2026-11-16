@@ -48,11 +48,15 @@ namespace PiGui {
 			FaceParts::FaceDescriptor face = _unpack_face(l);
 
 			Uint32 seed = 0;
+			Uint32 noiseSeed = 0;
 
 			if (lua_gettop(l) > 1 && !lua_isnil(l, 2))
 				seed = luaL_checkunsigned(l, 2);
 
-			LuaObject<PiGui::Face>::PushToLua(new Face(face, seed));
+			if (lua_gettop(l) > 2 && !lua_isnil(l, 3))
+				noiseSeed = luaL_checkunsigned(l, 3);
+
+			LuaObject<PiGui::Face>::PushToLua(new Face(face, seed, noiseSeed));
 			return 1;
 		}
 
