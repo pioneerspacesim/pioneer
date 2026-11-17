@@ -76,6 +76,15 @@ local nuclear_missile = CommodityType.RegisterCommodity("nuclear_missile", {
 	purchasable = false
 })
 
+local bioweapon = CommodityType.RegisterCommodity("bioweapon", {
+	l10n_key = "BIOWEAPON",
+	l10n_resource = "module-scoop",
+	price = 800,
+	icon_name = "Default",
+	mass = 1,
+	purchasable = false
+})
+
 -- Useless waste that the player has to sort out
 local toxic_waste = CommodityType.RegisterCommodity("toxic_waste", {
 	l10n_key = "TOXIC_WASTE",
@@ -102,7 +111,8 @@ local rescue_capsules = {
 local weapons = {
 	rocket_launchers,
 	detonators,
-	nuclear_missile
+	nuclear_missile,
+	bioweapon
 }
 
 local waste = {

@@ -47,6 +47,10 @@
     "description": "",
     "message": "HELP NEEDED"
   },
+  "BIOWEAPON": {
+    "description": "A cargo item",
+    "message": "Bioweapon"
+  },
   "CLIENT": {
     "description": "",
     "message": "Client:"
