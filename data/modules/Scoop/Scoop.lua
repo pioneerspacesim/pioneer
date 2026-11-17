@@ -30,6 +30,7 @@ local lc = Lang.GetResource("ui-core")
 local AU = 149597870700.0
 local LEGAL = 1
 local ILLEGAL = 2
+local ARMS_DEALER = 4
 
 local mission_reputation = 1
 local mission_time = 14*24*60*60
@@ -115,6 +116,12 @@ local weapons = {
 	bioweapon
 }
 
+local commodities_weapons = {
+	Commodities.nerve_gas,
+	Commodities.battle_weapons,
+	Commodities.hand_weapons
+}
+
 local waste = {
 	toxic_waste,
 	spoiled_food,
@@ -144,7 +151,7 @@ local flavours = {
 	},
 	{
 		id = "ARMS_DEALER",
-		cargo_type = weapons,
+		cargo_type = nil,
 		reward = 1000,
 		amount = 1,
 		deliver_to_ship = true,
@@ -155,6 +162,7 @@ local flavours = {
 local sortGoods = function (goods)
 	local legal_goods = {}
 	local illegal_goods = {}
+	local illegal_weapons = {}
 	local system = Game.system
 
 	for _, e in pairs(goods) do
@@ -163,11 +171,19 @@ local sortGoods = function (goods)
 				table.insert(legal_goods, e)
 			else
 				table.insert(illegal_goods, e)
+				for i, c in pairs(commodities_weapons) do
+					if e.name == c.name then
+						table.insert(illegal_weapons, c)
+					end
+				end
 			end
 		end
 	end
+	for i, e in pairs(weapons) do
+		table.insert(illegal_weapons, e)
+	end
 
-	return legal_goods, illegal_goods
+	return legal_goods, illegal_goods, illegal_weapons
 end
 
 -- Create a debris field in a random distance to a system body
@@ -507,7 +523,7 @@ local makeAdvert = function (station)
 	if #planets == 0 then return end
 
 	if flavours[LEGAL].cargo_type == nil then
-		flavours[LEGAL].cargo_type, flavours[ILLEGAL].cargo_type = sortGoods(Commodities)
+		flavours[LEGAL].cargo_type, flavours[ILLEGAL].cargo_type, flavours[ARMS_DEALER].cargo_type = sortGoods(Commodities)
 	end
 
 	local stars = Game.system:GetStars()
@@ -756,7 +772,7 @@ local onEnterSystem = function (ship)
 	local planets = getPopulatedPlanets(Game.system)
 	local num = Engine.rand:Integer(0, math.ceil(Game.system.population * Game.system.lawlessness))
 
-	flavours[LEGAL].cargo_type, flavours[ILLEGAL].cargo_type = sortGoods(Commodities)
+	flavours[LEGAL].cargo_type, flavours[ILLEGAL].cargo_type, flavours[ARMS_DEALER].cargo_type = sortGoods(Commodities)
 
 	-- spawn random cargo (legal or illegal goods)
 	for i = 1, num do
@@ -785,6 +801,7 @@ local onLeaveSystem = function (ship)
 	planets = nil
 	flavours[LEGAL].cargo_type = nil
 	flavours[ILLEGAL].cargo_type = nil
+	flavours[ARMS_DEALER].cargo_type = nil
 end
 
 local onReputationChanged = function (oldRep, oldKills, newRep, newKills)
