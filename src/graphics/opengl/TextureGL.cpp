@@ -74,6 +74,7 @@ namespace Graphics {
 			switch (format) {
 			case TEXTURE_R32F: return GL_FLOAT;
 			case TEXTURE_RG32F: return GL_FLOAT;
+			case TEXTURE_DEPTH: return GL_FLOAT;
 			default: return GL_UNSIGNED_BYTE;
 			}
 		}

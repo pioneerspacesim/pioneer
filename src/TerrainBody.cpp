@@ -3,6 +3,8 @@
 
 #include "TerrainBody.h"
 
+#include <algorithm>
+
 #include "Frame.h"
 #include "GameSaveError.h"
 #include "GasGiant.h"
@@ -148,6 +150,47 @@ double TerrainBody::GetTerrainHeight(const vector3d &pos_) const
 		assert(0);
 		return radius;
 	}
+}
+
+vector3d TerrainBody::GetTerrainSurfacePoint(const vector3d &pos) const
+{
+	const vector3d radial = pos.NormalizedSafe();
+	return radial * GetTerrainHeight(radial);
+}
+
+vector3d TerrainBody::GetTerrainSurfaceNormal(const vector3d &pos, double sampleSizeMeters) const
+{
+	// Sample terrain heights at half the sample diameter in each tangent direction,
+	// then derive the normal from the east-west and north-south surface vectors.
+
+	const vector3d n = pos.NormalizedSafe();
+	if (n.LengthSqr() < 1e-18)
+		return n;
+
+	vector3d east = n.Cross(vector3d(0, 0, 1));
+	if (east.LengthSqr() < 1e-12)
+		east = n.Cross(vector3d(1, 0, 0));
+	east = east.Normalized();
+	const vector3d north = east.Cross(n).Normalized();
+
+	const double radius = m_sbody->GetRadius();
+	const double halfSample = 0.5 * std::max(sampleSizeMeters, 1.0);
+	const double ang = halfSample / radius;
+
+	const vector3d dirE = (n + east * ang).Normalized();
+	const vector3d dirW = (n - east * ang).Normalized();
+	const vector3d dirN = (n + north * ang).Normalized();
+	const vector3d dirS = (n - north * ang).Normalized();
+
+	const vector3d pE = GetTerrainSurfacePoint(dirE);
+	const vector3d pW = GetTerrainSurfacePoint(dirW);
+	const vector3d pN = GetTerrainSurfacePoint(dirN);
+	const vector3d pS = GetTerrainSurfacePoint(dirS);
+
+	vector3d normal = (pE - pW).Cross(pN - pS).NormalizedSafe();
+	if (normal.Dot(n) < 0.0)
+		normal = -normal;
+	return normal;
 }
 
 //static
