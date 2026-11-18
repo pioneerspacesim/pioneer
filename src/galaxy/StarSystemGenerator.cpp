@@ -285,7 +285,7 @@ void StarSystemLegacyGeneratorBase::PickAtmosphere(SystemBody *sbody)
 		} else {
 			sbody->m_atmosColor = Color::BLANK;
 		}
-		//Output("| Atmosphere :\n|      red   : [%f] \n|      green : [%f] \n|      blue  : [%f] \n", r, g, b);
+		//Output("| Atmosphere :\n|	  red   : [%f] \n|	  green : [%f] \n|	  blue  : [%f] \n", r, g, b);
 		//Output("-------------------------------\n");
 		break;
 		/*default:
@@ -616,6 +616,13 @@ int StarSystemRandomGenerator::CalcSurfaceTemp(const SystemBody *primary, fixed 
 	return (279 * int(isqrt(isqrt((surface_temp_pow4.v))))) >> (fixed::FRAC / 4); //multiplied by 279 to convert from Earth's temps to Kelvin
 }
 
+int StarSystemRandomGenerator::CalcWaterBoilingTemperature(fixed pressure)
+{
+	if (pressure < fixed(6,1000)){	return -1;	}//no boiling since no liquid water
+	fixed temp = fixed(173063,100)/(fixed(807131,100000) - fixed().FromDouble(log10((pressure*fixed(7600135,10000)).ToDouble())))+ fixed(38724,1000);//Antoine equation from wikipedia
+	return temp.ToInt32();
+}
+
 /*
  * For moons distance from star is not orbMin, orbMax.
  */
@@ -752,14 +759,25 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 		if (sbody->GetAverageTemp() > 195)
 			greenhouse += amount_volatiles * fixed(1, 3);
 		else
-			albedo += fixed(2, 6);
+			albedo += fixed(1, 3);
+
+		int freezing_point_depression  =(fixed(20,1) * sbody->GetMetallicityAsFixed()).ToInt32();
+
 		// H2O liquid
-		if (sbody->GetAverageTemp() > 273)
+		if (sbody->GetAverageTemp() > (273 - freezing_point_depression))//account for dissolved salts TODO sensible values
 			greenhouse += amount_volatiles * fixed(1, 5);
 		else
 			albedo += fixed(3, 6);
+
+		// Estimate temperature and pressure now for water boiling, ultimate values calculated later
+		sbody->m_averageTemp = CalcSurfaceTemp(star, averageDistToStar, albedo, greenhouse);
+		fixed temp_proportion_gas = sbody->GetAverageTemp() / (fixed(100, 1) + sbody->GetAverageTemp());
+		sbody->m_volatileGas = temp_proportion_gas * amount_volatiles;
+		sbody->SetAtmFromParameters();//We need pressure
+		int H2O_Boiling_temp = CalcWaterBoilingTemperature(sbody->GetAtmSurfacePressureAsFixed());
+		
 		// H2O boils
-		if (sbody->GetAverageTemp() > 373) greenhouse += amount_volatiles * fixed(1, 3);
+		if (H2O_Boiling_temp > 0 && sbody->GetAverageTemp() > H2O_Boiling_temp) greenhouse += amount_volatiles * fixed(1, 3);
 
 		if (greenhouse > fixed(7, 10)) { // never reach 1, but 1/(1-greenhouse) still grows
 			greenhouse *= greenhouse;
@@ -783,19 +801,30 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 
 		if ((sbody->GetVolatileLiquidAsFixed() > fixed()) &&
 			(sbody->GetAverageTemp() > CELSIUS - 60) &&
-			(sbody->GetAverageTemp() < CELSIUS + 200)) {
+			(sbody->GetAverageTemp() < CELSIUS + 300)) {
 			// try for life
 			int minTemp = CalcSurfaceTemp(star, maxDistToStar, albedo, greenhouse);
 			int maxTemp = CalcSurfaceTemp(star, minDistToStar, albedo, greenhouse);
+			sbody->SetAtmFromParameters();//we need to calculate it again as it might have changed
+			H2O_Boiling_temp = CalcWaterBoilingTemperature(sbody->GetAtmSurfacePressureAsFixed());
+			freezing_point_depression = (fixed(20,1) * sbody->GetMetallicityAsFixed()).ToInt32();	
+			
+			if(maxTemp > 373 && H2O_Boiling_temp > 373 && maxTemp < H2O_Boiling_temp)
+			{
+				Output("maybe not boiling %s: %i w %i \n", sbody->m_name.c_str(),maxTemp , H2O_Boiling_temp);
+			}
 
-			if ((minTemp > CELSIUS - 10) && (minTemp < CELSIUS + 90) && //removed explicit checks for star type (also BD and WD seem to have slight chance of having life around them)
-				(maxTemp > CELSIUS - 10) && (maxTemp < CELSIUS + 90))	//TODO: ceiling based on actual boiling point on the planet, not in 1atm
+			if ( H2O_Boiling_temp > 0 &&
+				minTemp > (CELSIUS - freezing_point_depression - 10) &&
+				(minTemp < H2O_Boiling_temp) && //removed explicit checks for star type (also BD and WD seem to have slight chance of having life around them)
+				maxTemp > (CELSIUS - freezing_point_depression - 10) && 
+				(maxTemp < H2O_Boiling_temp))	//ceiling based on actual boiling point on the planet
 			{
 				fixed maxMass, lifeMult, allowedMass(1, 2);
 				allowedMass += 2;
 				//find the most massive star, mass is tied to lifespan
 				//this automagically eliminates O, B and so on from consideration
-				//handy calculator: http://www.asc-csa.gc.ca/eng/educators/resources/astronomy/module2/calculator.asp
+				//handy calculator: http://www.asc-csa.gc.ca/eng/educators/resources/astronomy/module2/calculator.asp (FIXME returns 404)
 				//system could have existed long enough for life to form (based on Sol)
 				for (auto *s : sbody->GetStarSystem()->GetStars()) {
 					maxMass = maxMass < s->GetMassAsFixed() ? s->GetMassAsFixed() : maxMass;
@@ -844,7 +873,7 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 	} else if (invTidalLockTime > fixed(1, 100)) { // rotation speed changed in favour of tidal lock
 		// XXX: there should be some chance the satellite was captured only recently and ignore this
 		//		I'm omitting that now, I do not want to change the Universe by additional rand call.
-
+		
 		fixed lambda = invTidalLockTime / (fixed(1, 20) + invTidalLockTime);
 		sbody->m_rotationPeriod = (1 - lambda) * sbody->GetRotationPeriodAsFixed() + lambda * sbody->GetOrbit().Period() / 3600 / 24;
 		sbody->m_axialTilt = (1 - lambda) * sbody->GetAxialTiltAsFixed() + lambda * sbody->GetInclinationAsFixed();
@@ -861,8 +890,8 @@ static fixed mass_from_disk_area(fixed a, fixed b, fixed max)
 	// so, density of the disk with distance from star goes like so: 1 - x/discMax
 	//
 	// ---
-	//    ---
-	//       --- <- zero at discMax
+	//	---
+	//	   --- <- zero at discMax
 	//
 	// Which turned into a disc becomes 2*pi*x - (2*pi*x*x)/discMax
 	// Integral of which is: pi*x*x - (2/(3*discMax))*pi*x*x*x
