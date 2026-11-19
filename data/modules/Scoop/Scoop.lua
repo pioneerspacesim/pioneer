@@ -49,6 +49,28 @@ local rescue_capsule = CommodityType.RegisterCommodity("rescue_capsule", {
 	purchasable = false
 })
 
+-- Custom made crate for a scientific sample or technical equipment
+-- Could have support for climate controll, cooling/freezing, etc.
+--local sample_crate = CommodityType.RegisterCommodity("sample_crate", {
+--	l10n_key = "SAMPLE_CRATE",
+--	l10n_resource = "module-scoop",
+--	price = 200,
+--	icon_name = "Default",
+--	--model_name = "cargo",
+--	--power draw = 0.0 -- unimplemented
+--	mass = 1,
+--	purchasable = false
+--})
+
+local exposure_target = CommodityType.RegisterCommodity("exposure_target", {
+	l10n_key = "EXPOSURE_TARGET",
+	l10n_resource = "module-scoop",
+	price = 200,
+	icon_name = "Default",
+	mass = 1,
+	purchasable = false
+})
+
 local rocket_launchers = CommodityType.RegisterCommodity("rocket_launchers", {
 	l10n_key = "ROCKET_LAUNCHERS",
 	l10n_resource = "module-scoop",
@@ -109,6 +131,18 @@ local rescue_capsules = {
 	rescue_capsule
 }
 
+local exposure_target = {
+	exposure_target
+}
+
+local scientific_sample = {
+	exposure_target
+--	rock,					-- Small asteroid or pseudo moon.
+--	satellite,				-- Satellite, to be recovered for the data or for the hardware.
+							-- Maybe serviced, updated on the spot, and returned to its orbit.
+--	satellite_derelict
+}
+
 local weapons = {
 	rocket_launchers,
 	detonators,
@@ -156,6 +190,13 @@ local flavours = {
 		amount = 1,
 		deliver_to_ship = true,
 	},
+	{	-- Return a technical sample from orbit around a body. It's a long time exposure experiment.
+		id = "SCIENTIFIC_1",
+		cargo_type = exposure_target,
+		reward = 700,
+		amount = 1,
+		return_to_station = true,
+	},
 }
 
 -- Sort goods, legal and illegal
@@ -202,10 +243,12 @@ local spawnDebris = function (debris, amount, sbody, min, max, lifetime)
 	end
 
 	-- add some useless waste
-	for i = 1, Engine.rand:Integer(1, 9) do
-		cargo = waste[Engine.rand:Integer(1, #waste)]
-		body = Space.SpawnCargoNear(cargo, body, min, max, lifetime)
-		body:SetVelocity(list[1].body:GetVelocity())
+	if not debris == exposure_target then
+		for i = 1, Engine.rand:Integer(1, 9) do
+			cargo = waste[Engine.rand:Integer(1, #waste)]
+			body = Space.SpawnCargoNear(cargo, body, min, max, lifetime)
+			body:SetVelocity(list[1].body:GetVelocity())
+		end
 	end
 
 	return list
@@ -543,6 +586,12 @@ local makeAdvert = function (station)
 	end
 	reward = utils.round(reward, 50)
 	due = utils.round(due + Game.time, 3600)
+
+--	print("Generating ad for flavour: "..flavour.id)
+--	if not flavour.cargo_type then
+--		print("No cargo_type for flavour: ".. flavour.id .. ". Aborting.")
+--		return
+--	end
 
 	if #flavour.cargo_type > 0 and dist < max_dist and station:DistanceTo(Space.GetBody(star.index)) < max_dist then
 		local ad = {
