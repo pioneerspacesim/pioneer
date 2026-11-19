@@ -69,7 +69,7 @@
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Cześć, nazywam się {name}. Zapłacę {cash} jeśli dostarczysz małą paczkę do {starport} w systemie {system} ({sectorx},{sectory},{sectorz}) ({dist}lś) ."
+    "message": "Hi, I'm {name}. I'll pay you {cash} if you deliver a small package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",

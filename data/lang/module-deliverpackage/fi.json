@@ -69,7 +69,7 @@
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Hei, olen {name}. Maksan teille {cash} jos toimitatte pienen paketin {starport}:n {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmässä, jonne on täältä {dist} vv:ta."
+    "message": "Hi, I'm {name}. I'll pay you {cash} if you deliver a small package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",

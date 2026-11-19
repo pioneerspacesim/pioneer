@@ -69,7 +69,7 @@
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Merhaba, ben {name}. {dist} Iy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına küçük bir paket taşırsanız size {cash} ödeyeceğim."
+    "message": "Hi, I'm {name}. I'll pay you {cash} if you deliver a small package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",

@@ -69,7 +69,7 @@
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "嗨,我是 {name}. {cash} 作为酬劳, 能请你帮我把一个小包裹运送到 {system} ({sectorx}, {sectory}, {sectorz}) 距离这儿有 {dist} ly 星系的 {starport} 星港吗?"
+    "message": "Hi, I'm {name}. I'll pay you {cash} if you deliver a small package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
