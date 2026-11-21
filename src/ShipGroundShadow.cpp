@@ -187,7 +187,6 @@ namespace {
 		return ShadowAngleFade(LightAngleFromNormal(toLight, surfaceNormal));
 	}
 
-
 	// Find a terrain shadow plane by iterative refinement of the terrain height
 	//
 	// Starting from the point under the ship, each iteration:
@@ -213,7 +212,6 @@ namespace {
 		vector3d centre = planet->GetTerrainSurfacePoint(startRadial);
 
 		shadowCentrePoint = centre;
-		shadowPlaneNormal = planet->GetTerrainSurfaceNormal(centre, startFootprint);
 		shadowBestDistance = std::numeric_limits<double>::infinity();
 
 		double hitDistance = 0.0;
@@ -235,11 +233,12 @@ namespace {
 
 			centre = planet->GetTerrainSurfacePoint((shipPos + projectDir * t).NormalizedSafe());
 			shadowCentrePoint = centre;
-			shadowPlaneNormal = planet->GetTerrainSurfaceNormal(centre, footprint);
 			hitDistance = t;
 
-			if (footprint <= minFootprint)
+			if (footprint <= minFootprint) {
+				shadowPlaneNormal = planet->GetTerrainSurfaceNormal(centre, footprint);
 				break;
+			}
 
 			footprint *= 0.5;
 			if (footprint < minFootprint)
