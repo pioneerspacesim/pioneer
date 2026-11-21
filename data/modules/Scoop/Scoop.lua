@@ -30,6 +30,7 @@ local lc = Lang.GetResource("ui-core")
 local AU = 149597870700.0
 local LEGAL = 1
 local ILLEGAL = 2
+local ARMS_DEALER = 4
 
 local mission_reputation = 1
 local mission_time = 14*24*60*60
@@ -44,6 +45,28 @@ local rescue_capsule = CommodityType.RegisterCommodity("rescue_capsule", {
 	price = 500,
 	icon_name = "Default",
 	model_name = "escape_pod",
+	mass = 1,
+	purchasable = false
+})
+
+-- Custom made crate for a scientific sample or technical equipment
+-- Could have support for climate controll, cooling/freezing, etc.
+--local sample_crate = CommodityType.RegisterCommodity("sample_crate", {
+--	l10n_key = "SAMPLE_CRATE",
+--	l10n_resource = "module-scoop",
+--	price = 200,
+--	icon_name = "Default",
+--	--model_name = "cargo",
+--	--power draw = 0.0 -- unimplemented
+--	mass = 1,
+--	purchasable = false
+--})
+
+local exposure_target = CommodityType.RegisterCommodity("exposure_target", {
+	l10n_key = "EXPOSURE_TARGET",
+	l10n_resource = "module-scoop",
+	price = 200,
+	icon_name = "Default",
 	mass = 1,
 	purchasable = false
 })
@@ -76,6 +99,15 @@ local nuclear_missile = CommodityType.RegisterCommodity("nuclear_missile", {
 	purchasable = false
 })
 
+local bioweapon = CommodityType.RegisterCommodity("bioweapon", {
+	l10n_key = "BIOWEAPON",
+	l10n_resource = "module-scoop",
+	price = 800,
+	icon_name = "Default",
+	mass = 1,
+	purchasable = false
+})
+
 -- Useless waste that the player has to sort out
 local toxic_waste = CommodityType.RegisterCommodity("toxic_waste", {
 	l10n_key = "TOXIC_WASTE",
@@ -95,30 +127,38 @@ local spoiled_food = CommodityType.RegisterCommodity("spoiled_food", {
 	purchasable = false
 })
 
--- -- Unclear what player should do with "Unknown" cargo -> disable for now
--- local unknown = CommodityType.RegisterCommodity("unknown", {
---	l10n_key = "UNKNOWN",
---	l10n_resource = "module-scoop",
---	price = -5,
---	icon_name = "Default",
---	mass = 1,
---	purchasable = false
--- })
-
 local rescue_capsules = {
 	rescue_capsule
+}
+
+local exposure_target = {
+	exposure_target
+}
+
+local scientific_sample = {
+	exposure_target
+--	rock,					-- Small asteroid or pseudo moon.
+--	satellite,				-- Satellite, to be recovered for the data or for the hardware.
+							-- Maybe serviced, updated on the spot, and returned to its orbit.
+--	satellite_derelict
 }
 
 local weapons = {
 	rocket_launchers,
 	detonators,
-	nuclear_missile
+	nuclear_missile,
+	bioweapon
+}
+
+local commodities_weapons = {
+	Commodities.nerve_gas,
+	Commodities.battle_weapons,
+	Commodities.hand_weapons
 }
 
 local waste = {
 	toxic_waste,
 	spoiled_food,
-	-- unknown,
 	Commodities.radioactives,
 	Commodities.rubbish
 }
@@ -145,10 +185,17 @@ local flavours = {
 	},
 	{
 		id = "ARMS_DEALER",
-		cargo_type = weapons,
+		cargo_type = nil,
 		reward = 1000,
 		amount = 1,
 		deliver_to_ship = true,
+	},
+	{	-- Return a technical sample from orbit around a body. It's a long time exposure experiment.
+		id = "SCIENTIFIC_1",
+		cargo_type = exposure_target,
+		reward = 700,
+		amount = 1,
+		return_to_station = true,
 	},
 }
 
@@ -156,6 +203,7 @@ local flavours = {
 local sortGoods = function (goods)
 	local legal_goods = {}
 	local illegal_goods = {}
+	local illegal_weapons = {}
 	local system = Game.system
 
 	for _, e in pairs(goods) do
@@ -164,11 +212,19 @@ local sortGoods = function (goods)
 				table.insert(legal_goods, e)
 			else
 				table.insert(illegal_goods, e)
+				for i, c in pairs(commodities_weapons) do
+					if e.name == c.name then
+						table.insert(illegal_weapons, c)
+					end
+				end
 			end
 		end
 	end
+	for i, e in pairs(weapons) do
+		table.insert(illegal_weapons, e)
+	end
 
-	return legal_goods, illegal_goods
+	return legal_goods, illegal_goods, illegal_weapons
 end
 
 -- Create a debris field in a random distance to a system body
@@ -187,10 +243,12 @@ local spawnDebris = function (debris, amount, sbody, min, max, lifetime)
 	end
 
 	-- add some useless waste
-	for i = 1, Engine.rand:Integer(1, 9) do
-		cargo = waste[Engine.rand:Integer(1, #waste)]
-		body = Space.SpawnCargoNear(cargo, body, min, max, lifetime)
-		body:SetVelocity(list[1].body:GetVelocity())
+	if not debris == exposure_target then
+		for i = 1, Engine.rand:Integer(1, 9) do
+			cargo = waste[Engine.rand:Integer(1, #waste)]
+			body = Space.SpawnCargoNear(cargo, body, min, max, lifetime)
+			body:SetVelocity(list[1].body:GetVelocity())
+		end
 	end
 
 	return list
@@ -508,7 +566,7 @@ local makeAdvert = function (station)
 	if #planets == 0 then return end
 
 	if flavours[LEGAL].cargo_type == nil then
-		flavours[LEGAL].cargo_type, flavours[ILLEGAL].cargo_type = sortGoods(Commodities)
+		flavours[LEGAL].cargo_type, flavours[ILLEGAL].cargo_type, flavours[ARMS_DEALER].cargo_type = sortGoods(Commodities)
 	end
 
 	local stars = Game.system:GetStars()
@@ -528,6 +586,12 @@ local makeAdvert = function (station)
 	end
 	reward = utils.round(reward, 50)
 	due = utils.round(due + Game.time, 3600)
+
+--	print("Generating ad for flavour: "..flavour.id)
+--	if not flavour.cargo_type then
+--		print("No cargo_type for flavour: ".. flavour.id .. ". Aborting.")
+--		return
+--	end
 
 	if #flavour.cargo_type > 0 and dist < max_dist and station:DistanceTo(Space.GetBody(star.index)) < max_dist then
 		local ad = {
@@ -757,7 +821,7 @@ local onEnterSystem = function (ship)
 	local planets = getPopulatedPlanets(Game.system)
 	local num = Engine.rand:Integer(0, math.ceil(Game.system.population * Game.system.lawlessness))
 
-	flavours[LEGAL].cargo_type, flavours[ILLEGAL].cargo_type = sortGoods(Commodities)
+	flavours[LEGAL].cargo_type, flavours[ILLEGAL].cargo_type, flavours[ARMS_DEALER].cargo_type = sortGoods(Commodities)
 
 	-- spawn random cargo (legal or illegal goods)
 	for i = 1, num do
@@ -786,6 +850,7 @@ local onLeaveSystem = function (ship)
 	planets = nil
 	flavours[LEGAL].cargo_type = nil
 	flavours[ILLEGAL].cargo_type = nil
+	flavours[ARMS_DEALER].cargo_type = nil
 end
 
 local onReputationChanged = function (oldRep, oldKills, newRep, newKills)
@@ -812,6 +877,7 @@ local buildMissionDescription = function(mission)
 	desc.details = {
 		{ l.CLIENT, mission.client.name },
 		{ l.SPACEPORT, mission.station:GetSystemBody().name },
+		mission.id == "RESCUE" and { l.CREW, mission.amount } or false, false,
 		mission.client_ship and { l.SHIP, mission.client_ship.label } or false,
 		false,
 		{ l.DEADLINE, ui.Format.Date(mission.due) }
