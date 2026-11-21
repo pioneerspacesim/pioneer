@@ -462,7 +462,7 @@ local function displayDetailData(target, data, radius, tooltip)
 				or colors.font
 
 			ui.withStyleColors({ Text = color }, function()
-				ui.textShadowed(target.label)
+				ui.textShadowed(target:IsCargoContainer() and target.label:scase() or target.label )
 			end)
 		end)
 
