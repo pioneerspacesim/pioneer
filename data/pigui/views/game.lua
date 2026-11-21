@@ -123,7 +123,7 @@ local function displayOnScreenObjects()
 		ui.addIcon(mainCoords, getBodyIcon(mainBody, true), colors.frame, iconsize, ui.anchor.center, ui.anchor.center)
 
 		if should_show_label then
-			local label = mainBody:GetLabel()
+			local label = mainBody:IsCargoContainer() and mainBody:GetLabel():scase() or mainBody:GetLabel()
 			if group.multiple then
 				label = label .. " (" .. #group.bodies .. ")"
 			end
