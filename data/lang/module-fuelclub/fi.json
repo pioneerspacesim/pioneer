@@ -1,0 +1,138 @@
+{
+  "APPLY_FOR_MEMBERSHIP": {
+    "description": "",
+    "message": "Hae jäsenyyttä"
+  },
+  "BEGIN_TRADE": {
+    "description": "",
+    "message": "Aloita kaupankäynti"
+  },
+  "FLAVOUR_0_CLUBNAME": {
+    "description": "",
+    "message": "Tähtienvälisten lentäjien polttoaineosuuskunta"
+  },
+  "FLAVOUR_0_DESC": {
+    "description": "",
+    "message": "Ottakaa yhteyttä paikalliseen TLP–edustajaan."
+  },
+  "FLAVOUR_0_MEMBER_INTRO": {
+    "description": "",
+    "message": "Täällä voitte ostaa polttoainetta ja hankkiutua eroon {radioactives}."
+  },
+  "FLAVOUR_0_NONMEMBER_INTRO": {
+    "description": "",
+    "message": "{clubname} on itsenäinen yhteisö, jonka tarkoitus on tarjota jäsenilleen tähtialuspolttoainetta alemmalla hinnalla. Haaraosastoja on ympäri galaksia. Jäsenetuihin kuuluu:"
+  },
+  "FLAVOUR_0_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "LENTÄJIEN POLTTOAINEOSK."
+  },
+  "FLAVOUR_0_WELCOME": {
+    "description": "",
+    "message": "Tervetuloa {clubname}an"
+  },
+  "FLAVOUR_1_CLUBNAME": {
+    "description": "Fuel club for the Federation faction",
+    "message": "Liiton polttoainesäätiö"
+  },
+  "FLAVOUR_1_DESC": {
+    "description": "Fuel club for the Federation faction",
+    "message": "Liiton polttoainesäätiön virallinen edustaja."
+  },
+  "FLAVOUR_1_NONMEMBER_INTRO": {
+    "description": "For the Solar Federation faction",
+    "message": "{clubname} on johtava alennetun polttoaineen tarjoaja jäsenilleen Solar Federationissa. Jäsenyys oikeuttaa seuraaviin:"
+  },
+  "FLAVOUR_1_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "LIITON POLTTOAINESÄÄTIÖ"
+  },
+  "FLAVOUR_2_CLUBNAME": {
+    "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+    "message": "Commonwealthin polttoaineunioni"
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+    "message": "Sovi tapaamisesta Commonwealthin polttoaineunionin edustajan kanssa."
+  },
+  "FLAVOUR_2_NONMEMBER_INTRO": {
+    "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
+    "message": "Koko vapaassa CIW:ssä (Commonwealth of Independent Worlds) ette löydä parempaa alennetun polttoaineen ja jätehuoltopalvelujen tarjoajaa, kuin {clubname}. Jäsenillemme pystymme tarjoamaan:"
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "COMMONWEALTHIN POLTTOAINEUNIONI"
+  },
+  "FLAVOUR_2_WELCOME": {
+    "description": "",
+    "message": "Tervehdys! Toivomme, että palveluistamme on iloa."
+  },
+  "FLAVOUR_3_CLUBNAME": {
+    "description": "Fuel club for the Haber faction",
+    "message": "Haberin polttoaine– ja kulutushyödykeosasto"
+  },
+  "FLAVOUR_3_DESC": {
+    "description": "Fuel club for the Haber faction",
+    "message": "Haberin polttoaineosaston sivukonttori."
+  },
+  "FLAVOUR_3_MEMBER_INTRO": {
+    "description": "For the greedy Haber faction, very corporate formulated",
+    "message": "Päivää, lentäjä. Olemme myöntäneet teille sopimuksen määrittelemät oikeudet polttoaineen pumppaamiseen ja sivutuotteiden hävittämiseen."
+  },
+  "FLAVOUR_3_NONMEMBER_INTRO": {
+    "description": "for the Haber faction",
+    "message": "Päivää, lentäjä. Haberin polttoaine– ja kulutushyödykeosaston tehtävänä on hoitaa polttoaineenjakelu kaikkialla Haberin omistamassa avaruudessa."
+  },
+  "FLAVOUR_3_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "HABER–POLTTOAINE"
+  },
+  "FUEL_LEVEL": {
+    "description": "",
+    "message": "Polttoainetasosi on {level}%."
+  },
+  "LIST_BENEFITS_DISPOSAL": {
+    "description": "",
+    "message": "{radioactives}, ilmainen hävitys (sopimusehdoin)"
+  },
+  "LIST_BENEFITS_FUEL": {
+    "description": "",
+    "message": "{fuel} alennushintaan"
+  },
+  "LIST_BENEFITS_FUEL_INTRO": {
+    "description": "",
+    "message": "Omat, yleismarkkinoista riippumattomat polttoainevarastot"
+  },
+  "LIST_BENEFITS_FUEL_TANK": {
+    "description": "",
+    "message": "Polttoainesäiliön täyttö kerran päivässä"
+  },
+  "LIST_BENEFITS_JOIN": {
+    "description": "",
+    "message": "Liittykää nyt! Vuosijäsenyys maksaa vain {membership_fee}"
+  },
+  "REFUEL_FREE": {
+    "description": "",
+    "message": "Sisäisen polttoainesäiliön täyttö veloituksetta."
+  },
+  "WE_WILL_ONLY_DISPOSE_OF": {
+    "description": "",
+    "message": "{radioactives} on massaperustainen, hävitämme sitä vain niin monta tonnia, kuin olette ostaneet meiltä {military_fuel}tta."
+  },
+  "WHAT_CONDITIONS_APPLY": {
+    "description": "",
+    "message": "Mitä ehtoja on radioaktiivisen jätteen hävittämisessä?"
+  },
+  "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
+    "description": "",
+    "message": "Jäsenhakemuksenne on evätty."
+  },
+  "YOU_ARE_NOW_A_MEMBER": {
+    "description": "",
+    "message": "Olette nyt jäsen. Jäsenyytenne raukeaa {expiry_date}."
+  },
+  "YOU_MUST_BUY": {
+    "description": "",
+    "message": "Teidän täytyy ostaa {military_fuel}ttamme, ennen kuin voimme ottaa jätettänne vastaan."
+  }
+}

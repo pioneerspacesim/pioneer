@@ -56,7 +56,8 @@ local styleColors = {
 
 	-- Primary color is used for all interactable elements and certain headers
 	-- and other dividing elements.
-	-- Generated with the Material Design 2 tool
+	-- Generated with the Material Design 2 tool:
+	-- https://m2.material.io/design/color/the-color-system.html#tools-for-picking-colors
 
 	primary_100		= Color "C7CCDE",
 	primary_200		= Color "A4ABC8",
@@ -67,7 +68,7 @@ local styleColors = {
 	primary_700		= Color "40477D",
 	primary_800		= Color "383C71",
 	primary_900		= Color "2C2D58",
-	primary_1000	= Color "1C1C35",
+	primary_950		= Color "1C1C35",
 
 	-- "Alternate" primary colors with significantly more saturation for use
 	-- as small foreground elements like checkmarks and grabs.

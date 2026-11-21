@@ -1,0 +1,142 @@
+{
+  "BUY": {
+    "description": "Buy a piece of ship equipment",
+    "message": "Osta"
+  },
+  "EQUIPMENT_NO_COMPATIBLE_SLOT": {
+    "description": "Message given when the second-hand equipment is not compatible with the ship slots.",
+    "message": "Tämä varustus ei ole yhteensopiva aluksesi kanssa."
+  },
+  "EQUIPMENT_NO_FREE_SLOT": {
+    "description": "Message shown by second-hand market if the ship does not have a free slot for the equipment.",
+    "message": "Aluksessasi ei ole vapaata varustuspaikkaa."
+  },
+  "EQUIPMENT_NO_SPACE": {
+    "description": "Message shown by second-hand market if the equipment requires a free slot or free capacity to fit",
+    "message": "Aluksessasi ei ole tarpeeksi tilaa tälle varustukselle."
+  },
+  "EQUIPMENT_SLOT_NO_SPACE": {
+    "description": "Message given when the ship has a compatible slot, but not enough space left to fit the equipment item.",
+    "message": "Aluksessasi on yhteensopiva paikka, mutta ei tarpeeksi tilaa tälle varustukselle."
+  },
+  "FITTING_IS_INCLUDED_IN_THE_PRICE": {
+    "description": "Regarding installing a component on the ship",
+    "message": "Asennus kuuluu hintaan."
+  },
+  "FLAVOUR_0_BODY": {
+    "description": "",
+    "message": "Hei! Minä olen {name} ja minulla on myytävänä {equipment}, joka on vanhasta ruostesoikostani. Haluan siitä {price}."
+  },
+  "FLAVOUR_0_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Erikoistarjous, myydään yksi {equipment}."
+  },
+  "FLAVOUR_0_TITLE": {
+    "description": "Selling second hand ship equipment",
+    "message": "KAUPAN"
+  },
+  "FLAVOUR_1_BODY": {
+    "description": "",
+    "message": "Hei! Minun nimeni on {name}. Minulla on melkein uusi {equipment}, jota myyn niinkin halvalla kuin {price}."
+  },
+  "FLAVOUR_1_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Käytännöllisesti katsoen käyttämätön {equipment}, edulliseen hintaan!"
+  },
+  "FLAVOUR_1_TITLE": {
+    "description": "Selling second hand ship equipment",
+    "message": "VARUSTUS MYYNNISSÄ"
+  },
+  "FLAVOUR_2_BODY": {
+    "description": "",
+    "message": "Terve! Olen {name} ja minulla on oikein hieno {equipment}, jonka voitte saada maksamalla vain {price}."
+  },
+  "FLAVOUR_2_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Myydään {equipment}, järkevään hintaan!"
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "Selling second hand ship equipment",
+    "message": "MYYDÄÄN VARUSTUS"
+  },
+  "FLAVOUR_3_BODY": {
+    "description": "",
+    "message": "Päivää! Minulla on ylimääräinen {equipment} josta haluan päästä eroon, hintapyyntö on {price}."
+  },
+  "FLAVOUR_3_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Tarjolla {equipment}, hyvässä kunnossa."
+  },
+  "FLAVOUR_3_TITLE": {
+    "description": "Selling second hand ship equipment",
+    "message": "KAUPAN"
+  },
+  "FLAVOUR_4_BODY": {
+    "description": "",
+    "message": "Hei! Meillä on tarpeeton {equipment}, jonka voitte saada hintaan {price}."
+  },
+  "FLAVOUR_4_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Myydään: ylim. {equipment}, hyvässä kunnossa."
+  },
+  "FLAVOUR_4_TITLE": {
+    "description": "Selling second hand ship equipment",
+    "message": "KAUPAN"
+  },
+  "FLAVOUR_5_BODY": {
+    "description": "",
+    "message": "Terve! Haluatteko ostaa varustuksen? {equipment} on palvellut minua hyvin, mutta olen vaihtanut parempaan enkä enää tarvitse sitä. Hinta on {price}."
+  },
+  "FLAVOUR_5_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Tarjolla: vanha {equipment}, toimiva."
+  },
+  "FLAVOUR_5_TITLE": {
+    "description": "Selling second hand ship equipment",
+    "message": "VARUSTUS MYYNNISSÄ"
+  },
+  "HAS_BEEN_FITTED_TO_YOUR_SHIP": {
+    "description": "",
+    "message": "{equipment} on asennettu alukseesi."
+  },
+  "HOW_DO_I_FITT_IT": {
+    "description": "Regarding installing a component on the ship",
+    "message": "Miten asennan sen?"
+  },
+  "NOT_ENOUGH_MONEY_0": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Sinulla ei ole tarpeeksi rahaa tähän."
+  },
+  "NOT_ENOUGH_MONEY_1": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Palatkaa, kun teillä on rahat."
+  },
+  "NOT_ENOUGH_MONEY_2": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "En ole hyväntekeväisyys, palatkaa kun pystytte ostamaan."
+  },
+  "NOT_ENOUGH_MONEY_3": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Onhan se käytetty, mutta hinnasta emme neuvottele."
+  },
+  "NO_LONGER_AVAILABLE_0": {
+    "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
+    "message": "Olen pahoillani, se on juuri myyty!"
+  },
+  "NO_LONGER_AVAILABLE_1": {
+    "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
+    "message": "Ilmeisesti kollegani sai sen juuri myytyä toiselle asiakkaalle. Pahoittelut!"
+  },
+  "NO_LONGER_AVAILABLE_2": {
+    "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
+    "message": "Muutin mieleni, se ei ole enää kaupan."
+  },
+  "REPEAT_OFFER": {
+    "description": "",
+    "message": "Toista tarjous"
+  },
+  "YOU_DONT_HAVE_ENOUGH_MONEY": {
+    "description": "",
+    "message": "Sinulla ei ole tarpeeksi rahaa."
+  }
+}

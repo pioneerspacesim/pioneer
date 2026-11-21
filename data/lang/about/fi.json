@@ -1,0 +1,130 @@
+{
+  "ABOUT": {
+    "description": "",
+    "message": "Pioneerista"
+  },
+  "ACKNOWLEDGEMENTS": {
+    "description": "",
+    "message": "Acknowledgements"
+  },
+  "CONTENT": {
+    "description": "",
+    "message": "Sisältö"
+  },
+  "CONTENT_CONTRIBUTION": {
+    "description": "",
+    "message": "Sisällön lisäys"
+  },
+  "CONTRIBUTE": {
+    "description": "",
+    "message": "Osallistuminen"
+  },
+  "CONTRIBUTE_BODY": {
+    "description": "",
+    "message": "Pioneer on pelaajiensa ja kehittäjiensä työn tulos. Näetkö jotain, jota tahtoisit muuttaa tai parantaa, tai onko sinulla ideoita uudeksi sisällöksi? (Esim. käännökset, koodi, taide, 2D & 3D -sisältö, musiikki, tähtijärjestelmien suunnittelu, dokumentaation parannukset, wiki jne.) Seuraa linkkejä, niissä on lisätietoja osallistumisesta!"
+  },
+  "DEVELOPER_DOCUMENTATION": {
+    "description": "",
+    "message": "Kehittäjädokumentaatio"
+  },
+  "DOCUMENTATION": {
+    "description": "",
+    "message": "Dokumentaatio"
+  },
+  "DONATE_BODY": {
+    "description": "",
+    "message": "Jos pidät Pioneerin pelaamisesta ja haluat tukea sen edelleen kehitystä, harkitse lahjoitusta - liian pientä lahjoitusta ei ole."
+  },
+  "DONATE_OPTIONS": {
+    "description": "Sentence continues in 'DONATE_OPTIONS_CONTINUED'",
+    "message": "Lisää lahjoitusvaihtoehtoja on"
+  },
+  "DONATE_OPTIONS_CONTINUED": {
+    "description": "hyperlink, ending part of sentence in 'DONATE_OPTIONS'",
+    "message": "lahjoitussivullamme"
+  },
+  "DONATE_THANKS": {
+    "description": "",
+    "message": "Kiitos kaikille Pioneerin tukemisesta!"
+  },
+  "GAME_RELEASE": {
+    "description": "",
+    "message": "Vakaat versiot ilmestyvät vuosittain helmikuun kolmantena, mutta kehitystyö on jatkuvaa. Rohkeita pilotteja suositellaankin pelaamaan uusimmasta lähdekoodista ja ilmoittamaan ohjelmavirheistä."
+  },
+  "INFO_BLURB": {
+    "description": "",
+    "message": "Pioneer on yksinpeliavaruusseikkailupeli, joka sijoittuu Linnunrataan 31. vuosisadan vaihteeseen."
+  },
+  "INFO_BODY": {
+    "description": "",
+    "message": "Pelissä on avoimet tavoitteet ja voit tutkia miljoonia tähtijärjestelmiä. Voit laskeutua planeetoille, lingota kaasujättiläisten ohi, ja polttaa itsesi poroksi kaksoistähden lomassa. Voit kokeilla avaruusrosvoutta, tehdä omaisuuden kaupankäynnillä tai suorittaa tehtäviä eri valtaa tai vapautta hamuaville ryhmittymille."
+  },
+  "LICENSE": {
+    "description": "",
+    "message": "Lisenssi"
+  },
+  "LINK_BASIC_FLIGHT": {
+    "description": "",
+    "message": "Peruslentäminen"
+  },
+  "LINK_BUG_TRACKER": {
+    "description": "",
+    "message": "Bug Tracker"
+  },
+  "LINK_COMMUNITY_CHAT": {
+    "description": "",
+    "message": "Yhteisö-chat (Discord)"
+  },
+  "LINK_COMMUNITY_FORUM": {
+    "description": "",
+    "message": "Yhteisökeskustelualue"
+  },
+  "LINK_DEVELOPER_CHAT": {
+    "description": "",
+    "message": "Kehittäjä-chat (IRC)"
+  },
+  "LINK_DEVELOPER_FORUM": {
+    "description": "",
+    "message": "Kehittäjien keskustelualue"
+  },
+  "LINK_FAQ": {
+    "description": "",
+    "message": "UKK"
+  },
+  "LINK_HOMEPAGE": {
+    "description": "",
+    "message": "Kotisivu"
+  },
+  "LINK_MANUAL": {
+    "description": "",
+    "message": "Ohjekirja"
+  },
+  "SOFTWARE": {
+    "description": "",
+    "message": "Ohjelmisto"
+  },
+  "SOFTWARE_BODY": {
+    "description": "",
+    "message": "Pioneer sisältää seuraavat kolmansien osapuolien ohjelmat"
+  },
+  "SUPPORT_DEVELOPMENT": {
+    "description": "",
+    "message": "Tue kehitystyötä"
+  },
+  "TRANSLATIONS": {
+    "description": "",
+    "message": "Käännökset"
+  },
+  "VERSION_CURRENT": {
+    "description": "",
+    "message": "Nykyinen versiosi"
+  },
+  "VERSION_LATEST": {
+    "description": "This sentence continues into string VERSION_LATEST_CONTINUED, to read 'Latest version from source', referring to the source code",
+    "message": "Uusin versio"
+  },
+  "VERSION_LATEST_CONTINUED": {
+    "description": "is continued from string VERSION_LATEST, to read 'Latest version from source'. Here, 'source' refers to the source code",
+    "message": "lähdekoodista"
+  }
+}

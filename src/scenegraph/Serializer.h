@@ -13,13 +13,10 @@
 #include <stdexcept>
 #include <string>
 
-#if (__GNUC__ && (__BYTE_ORDER_ == __ORDER_BIG_ENDIAN__)) || (__clang__ && __BIG_ENDIAN__)
-#error Serializer.h is incompatible with big-endian architectures!
-#endif
-
-// Note: this serializer implementation is for use on little-endian runtimes
-// only. It depends on floating point types having the same IEEE-754 semantics
-// on both ends, and allows you to write unsafe code if care is not taken.
+// Note: this serializer stores values in host byte order, so its output can
+// only be read on a host of the same endianness. It depends on floating point
+// types having the same IEEE-754 semantics on both ends, and allows you to
+// write unsafe code if care is not taken.
 // It is intended only for the efficient (de)serialization of model binary data;
 // where possible, prefer serializing state information via JSON instead.
 namespace Serializer {

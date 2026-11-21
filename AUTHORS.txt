@@ -100,6 +100,7 @@ The Pioneer Developers are:
 * Phil Howlett
 * Pieter Thielens
 * Piotr Gredka
+* Piotr Kubaj aka pkubaj
 * PVJeltz
 * Radek Valášek aka vaLin
 * Rémi Boutemy
@@ -131,6 +132,7 @@ The Pioneer Developers are:
 * Vladimir Rutsky
 * Wayne Ashworth
 * Webster Sheets
+* Zhou Qiankang aka wszqkzqk
 * 42triangles
 
 Licensing

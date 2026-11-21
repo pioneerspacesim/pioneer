@@ -1,0 +1,102 @@
+{
+  "MSG_1": {
+    "description": "",
+    "message": "Sano {yes} poistuaksesi täältä takaisin tylsien ohjelmiesi pariin?"
+  },
+  "MSG_10": {
+    "description": "",
+    "message": "Pyydän, että valitset {no} ja kulutat vielä joitakin tuotteliaita tunteja. Eikö niin?"
+  },
+  "MSG_11": {
+    "description": "",
+    "message": "Tutkimusmatkailijat eivät luovuta, mutta paina kaikin mokomin {yes}, jos et olekaan sellainen."
+  },
+  "MSG_12": {
+    "description": "",
+    "message": "Valitse {no}, jos olet kova palkkionmetsästäjä, muuten napsauta herkästi {yes}."
+  },
+  "MSG_13": {
+    "description": "\"Seeing\" as in having an affair / being unfaithful",
+    "message": "Emme enää puhu. Tapailetko jotakuta?"
+  },
+  "MSG_14": {
+    "description": "",
+    "message": "Onko sinulla todella parempaakin tekemmistä?"
+  },
+  "MSG_15": {
+    "description": "",
+    "message": "Nyt jo luovuttamassa?"
+  },
+  "MSG_16": {
+    "description": "A little homage to the movie 2001 A Space Odyssey",
+    "message": "Mitä oikein luulet tekeväsi, Dave?"
+  },
+  "MSG_17": {
+    "description": "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
+    "message": "Yksi vaihtoehto on hyväksi, toisesta en sano mitään!"
+  },
+  "MSG_18": {
+    "description": "Catch phrase of 2016?",
+    "message": "Pioneerityötä on vielä jäljellä! Vain surkimukset lopettavat, oletko nyt aivan varma tästä?"
+  },
+  "MSG_19": {
+    "description": "Alluding to / inviting the player to contribute content to the game",
+    "message": "Testaamasta takaisin paranteluun?"
+  },
+  "MSG_2": {
+    "description": "",
+    "message": "Älä mene vielä, toisessa ohjelmassa sinua odottaa piraatti."
+  },
+  "MSG_20": {
+    "description": "",
+    "message": "Onko sinun todella mentävä?"
+  },
+  "MSG_21": {
+    "description": "alluding to suicide",
+    "message": "Pelkuruusko vaivaa?"
+  },
+  "MSG_22": {
+    "description": "alluding to suicide",
+    "message": "Älä tee sitä! Tästä on suunta vain ylöspäin! Haluatko yhä luovuttaa?"
+  },
+  "MSG_3": {
+    "description": "",
+    "message": "Oletko varma, että haluat lopettaa tämän hienon pelin, joka ei maksanut sinulle mitään?"
+  },
+  "MSG_4": {
+    "description": "",
+    "message": "Onko täille iokin vskottava syy tuohon poif kiirähtimifäännä?"
+  },
+  "MSG_5": {
+    "description": "(Inspired by Wolfenstein 3D)",
+    "message": "Valitse {no} aseiden ja kunnian hyväksi tai ottakaa {yes}, työtä ja huolia."
+  },
+  "MSG_6": {
+    "description": "",
+    "message": "Napsauta {no} ollaksesi urhea tai {yes} kyhjöttääksesi häpeässä."
+  },
+  "MSG_7": {
+    "description": "Doom 1 anyone? Although it said DOS instead of Command line",
+    "message": "Sinuna en lähtisi. Komentorivi on paljon, paljon pahempi."
+  },
+  "MSG_8": {
+    "description": "",
+    "message": "Luulenpa, että haluat valita {no} pelataksesi lisää. Teet niin."
+  },
+  "MSG_9": {
+    "description": "",
+    "message": "{yes} tarkoittaa, että sinun on palattava yksitoikkoiseen arkitodellisuuteen."
+  },
+  "NO": {
+    "description": "No, don't quit program",
+    "message": "Ei"
+  },
+  "QUIT": {
+    "description": "Quit game, as a question",
+    "message": "Lopeta?"
+  },
+  "YES": {
+    "description": "Yes, quit program",
+    "message": "Kyllä"
+  }
+}

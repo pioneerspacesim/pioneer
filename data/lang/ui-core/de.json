@@ -33,7 +33,7 @@
   },
   "ALL_UP_WEIGHT": {
     "description": "",
-    "message": "Current total weight"
+    "message": "Aktuelles Gesamtgewicht"
   },
   "AMOUNT": {
     "description": "",
@@ -641,7 +641,7 @@
   },
   "EQUIPMENT_CAPACITY": {
     "description": "The equipment capacity of a ship",
-    "message": "Equipment capacity"
+    "message": "Ausrüstungskapazität"
   },
   "EQUIPMENT_MARKET": {
     "description": "",

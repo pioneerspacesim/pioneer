@@ -77,6 +77,14 @@
 			"type": "computer",
 			"size": 1
 		},
+		"cabin_s1_1": {
+			"type": "cabin",
+			"size": 1
+		},
+		"cabin_s1_2": {
+			"type": "cabin",
+			"size": 1
+		},
 		"hull_1": {
 			"type": "hull",
 			"size": 1

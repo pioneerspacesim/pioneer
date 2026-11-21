@@ -1,0 +1,978 @@
+{
+  "ADVANCED_TARGET_SCANNER": {
+    "description": "ship equipment showing target information/stats",
+    "message": "Hieno kohdeskanneri"
+  },
+  "ADVANCED_TARGET_SCANNER_DESCRIPTION": {
+    "description": "",
+    "message": "Pitkän kantaman kohdeskanneri toimii järjestelmänlaajuisesti."
+  },
+  "ATMOSPHERIC_SHIELDING": {
+    "description": "",
+    "message": "Kaasukehäsuojaus"
+  },
+  "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
+    "description": "",
+    "message": "Suojaa avaruusalustasi kaasukehään laskeutumisen kuumuudelta."
+  },
+  "ATMOSPHERIC_SHIELDING_FLAVOURTEXT": {
+    "description": "",
+    "message": "Suojaa kohtalaisesti kaasukehän kitkalta ja paineelta. Sen massa on vähäinen."
+  },
+  "ATMOSPHERIC_SHIELDING_HEAVY": {
+    "description": "Will withstand higher pressures than normal Atmospheric Shielding",
+    "message": "Raskas kaasukehäsuojaus"
+  },
+  "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
+    "description": "",
+    "message": "Suorituskykyisempi kaasukehäsuojaus"
+  },
+  "ATMOSPHERIC_SHIELDING_HEAVY_FLAVOURTEXT": {
+    "description": "",
+    "message": "Tehty erityisesti paksuihin kaasukehiin suuntautuvia tieteellisiä tutkimusmatkoja varten. Suoja nostaa huomattavasti suurimman turvallisen paineen rajaa korkean massan ja tehottomuuden kustannuksella."
+  },
+  "AUTOPILOT": {
+    "description": "",
+    "message": "Autopilotti"
+  },
+  "AUTOPILOT_DESCRIPTION": {
+    "description": "",
+    "message": "Lentotekninen tietokone."
+  },
+  "AUXILIARY_CARGO_RACK": {
+    "description": "Equipment name for a cargo-carrying rack installed as a cabin module",
+    "message": "Lisälastikehikko"
+  },
+  "AUXILIARY_CARGO_RACK_DESCRIPTION": {
+    "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
+    "message": "Rahtitila, joka on asennettu aluksen paineistettuun tilaan."
+  },
+  "AUXILIARY_CARGO_RACK_FLAVOURTEXT": {
+    "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
+    "message": "Käytä muuten tarpeeton elintilasi hyödyksi! Tämä muunnossarja sopii monenlaisiin runkoihin. Valmistanut Seversk a.k."
+  },
+  "BEAMLASER_1MW": {
+    "description": "",
+    "message": "1MW sädelaser"
+  },
+  "BEAMLASER_DUAL_1MW": {
+    "description": "",
+    "message": "1MW kaksitoiminen sädelaser"
+  },
+  "BEAMLASER_RAPID_2MW": {
+    "description": "",
+    "message": "2MW pikasädelaser"
+  },
+  "BY_ITEM": {
+    "description": "Button in the start menu when editing equipment",
+    "message": "varuste"
+  },
+  "BY_SLOT": {
+    "description": "Button in the start menu when editing equipment",
+    "message": "paikka"
+  },
+  "CABINS": {
+    "description": "Category header for pressurized cabin slots",
+    "message": "Hyttejä"
+  },
+  "CARGO_CAPACITY": {
+    "description": "Statistic name for an equipment that provides cargo capacity",
+    "message": "Rahtikapasiteetin lisäys"
+  },
+  "CARGO_LIFE_SUPPORT": {
+    "description": "",
+    "message": "Ruuman elossapitojärjestelmä"
+  },
+  "CARGO_LIFE_SUPPORT_DESCRIPTION": {
+    "description": "",
+    "message": "Rahti voi olla elävää."
+  },
+  "CARGO_SCOOP": {
+    "description": "",
+    "message": "Rahtikeräin"
+  },
+  "CARGO_SCOOP_DESCRIPTION": {
+    "description": "",
+    "message": "Rahtikapseleita voidaan poimia avaruudesta."
+  },
+  "COMPUTER_MODULES": {
+    "description": "Category name of computer-related equipment",
+    "message": "Tietokoneyksiköitä"
+  },
+  "CONCEALED_CARGO_RACK": {
+    "description": "Equipment name for a cargo-carrying smuggler's hold installed as a cabin module",
+    "message": "Piilotettu rahtitila"
+  },
+  "CONCEALED_CARGO_RACK_DESCRIPTION": {
+    "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
+    "message": "Suojattu rahtitila on naamioitu tavalliseksi asuintilan seinäksi. Sisältö ei paljastu poliisiskannauksella."
+  },
+  "CONCEALED_CARGO_RACK_FLAVOURTEXT": {
+    "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
+    "message": "Tämä Seversk a.k.:n rahtitila on naamioitu kömpelösti hitsaamalla siihen rungon sisäpaneeleja. Käsinkirjoitetussa tarrassa lukee \"Hämää ylimalkaisen tarkastuksen, tai saat rahasi takaisin.\""
+  },
+  "DAMAGE_PER_SHOT": {
+    "description": "Tooltip explaining weapon damage per shot",
+    "message": "Vaurio / laukaus"
+  },
+  "DRIVE_CLASS1": {
+    "description": "",
+    "message": "1. luokan hypermoottori"
+  },
+  "DRIVE_CLASS2": {
+    "description": "",
+    "message": "2. luokan hypermoottori"
+  },
+  "DRIVE_CLASS3": {
+    "description": "",
+    "message": "3. luokan hypermoottori"
+  },
+  "DRIVE_CLASS4": {
+    "description": "",
+    "message": "4. luokan hypermoottori"
+  },
+  "DRIVE_CLASS5": {
+    "description": "",
+    "message": "5. luokan hypermoottori"
+  },
+  "DRIVE_CLASS6": {
+    "description": "",
+    "message": "6. luokan hypermoottori"
+  },
+  "DRIVE_CLASS7": {
+    "description": "",
+    "message": "7. luokan hypermoottori"
+  },
+  "DRIVE_CLASS8": {
+    "description": "",
+    "message": "8. luokan hypermoottori"
+  },
+  "DRIVE_CLASS9": {
+    "description": "",
+    "message": "9. luokan hypermoottori"
+  },
+  "DRIVE_MIL1": {
+    "description": "",
+    "message": "1. luokan sotilasmoottori"
+  },
+  "DRIVE_MIL2": {
+    "description": "",
+    "message": "2. luokan sotilasmoottori"
+  },
+  "DRIVE_MIL3": {
+    "description": "",
+    "message": "3. luokan sotilasmoottori"
+  },
+  "DRIVE_MIL4": {
+    "description": "",
+    "message": "4. luokan sotilasmoottori"
+  },
+  "DRIVE_MIL5": {
+    "description": "",
+    "message": "5. luokan sotilasmoottori"
+  },
+  "DRIVE_MIL6": {
+    "description": "",
+    "message": "6. luokan sotilasmoottori"
+  },
+  "DRIVE_MIL7": {
+    "description": "",
+    "message": "7. luokan sotilasmoottori"
+  },
+  "DRIVE_MIL8": {
+    "description": "",
+    "message": "8. luokan sotilasmoottori"
+  },
+  "DRIVE_MIL9": {
+    "description": "",
+    "message": "9. luokan sotilasmoottori"
+  },
+  "ECM_ADVANCED": {
+    "description": "",
+    "message": "Laadukas vastatoimijärjestelmä"
+  },
+  "ECM_ADVANCED_DESCRIPTION": {
+    "description": "",
+    "message": "Elektroninen ohjustorjuntajärjestelmä, joka tuhoaa kehittyneemmätkin hakeutuvat ohjukset."
+  },
+  "ECM_BASIC": {
+    "description": "",
+    "message": "Vastatoimijärjestelmä"
+  },
+  "ECM_BASIC_DESCRIPTION": {
+    "description": "",
+    "message": "Elektroninen ohjustorjuntajärjestelmä, joka tuhoaa jotkin hakeutuvat ohjukset."
+  },
+  "ECM_HOVER_MESSAGE": {
+    "description": "",
+    "message": "Käytä elektronisia vastatoimia"
+  },
+  "EDIT_EQUIPMENT": {
+    "description": "Dialog title",
+    "message": "Muokkaa varustusta"
+  },
+  "EMPTY_EQUIPMENT_PROVIDING_SLOTS": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "Tyhjiä varustuskohtia"
+  },
+  "EMPTY_SLOT": {
+    "description": "Text indicating an empty equipment slot.",
+    "message": "TYHJÄ"
+  },
+  "EQUIPMENT_DOES_NOT_FIT_INTO_THE_SLOT": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "Varustus ei sovi tähän kohtaan"
+  },
+  "EQUIPMENT_INTEGRITY": {
+    "description": "Tooltip explaining remaining equipment integrity",
+    "message": "Varustuksen kunto"
+  },
+  "EQUIPMENT_WEIGHT": {
+    "description": "Tooltip explaining equipment weight",
+    "message": "Varustuksen massa"
+  },
+  "FUEL_SCOOP": {
+    "description": "",
+    "message": "Polttoainekeräin"
+  },
+  "FUEL_SCOOP_DESCRIPTION": {
+    "description": "",
+    "message": "Vetyä voidaan nostaa alukseen kaasujättiläisistä."
+  },
+  "HABITAT": {
+    "description": "Category header for pressurized habitat slots",
+    "message": "Elintila"
+  },
+  "HARDPOINT_FUEL_SCOOP": {
+    "description": "Name for the 'Fuel Scoop' equipment hardpoint",
+    "message": "Polttoainekeräys"
+  },
+  "HARDPOINT_MINING_LASER": {
+    "description": "Name for a mining laser mount.",
+    "message": "Louhintatukipiste"
+  },
+  "HARDPOINT_MISSILE": {
+    "description": "Name for a generic missile mount",
+    "message": "Ohjus"
+  },
+  "HARDPOINT_MISSILE_ARRAY": {
+    "description": "Name for the 'Missile Array' equipment hardpoint",
+    "message": "Ohjuspatteri"
+  },
+  "HARDPOINT_MISSILE_BAY": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "Ohjusruuma"
+  },
+  "HARDPOINT_MISSILE_BAY_LEFT": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "Vasen ohjusruuma"
+  },
+  "HARDPOINT_MISSILE_BAY_RIGHT": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "Oikea ohjusruuma"
+  },
+  "HARDPOINT_PYLON": {
+    "description": "Name for a generic missile pylon",
+    "message": "Kiinnike"
+  },
+  "HARDPOINT_PYLON_LEFT": {
+    "description": "Name for a generic missile pylon",
+    "message": "Vasen kiinnike"
+  },
+  "HARDPOINT_PYLON_LEFT_WING": {
+    "description": "Name for a generic missile pylon",
+    "message": "Vasen siipikiinnike"
+  },
+  "HARDPOINT_PYLON_RIGHT": {
+    "description": "Name for a generic missile pylon",
+    "message": "Oikea kiinnike"
+  },
+  "HARDPOINT_PYLON_RIGHT_WING": {
+    "description": "Name for a generic missile pylon",
+    "message": "Oikea siipikiinnike"
+  },
+  "HARDPOINT_TURRET_BOTTOM": {
+    "description": "Slot name for a ventral-mounted turret",
+    "message": "Pohjatykkitorni"
+  },
+  "HARDPOINT_TURRET_TOP": {
+    "description": "Slot name for a dorsal-mounted turret",
+    "message": "Ylätykkitorni"
+  },
+  "HARDPOINT_UTILITY": {
+    "description": "Name for a generic utility hardpoint",
+    "message": "Varustus"
+  },
+  "HARDPOINT_WEAPON": {
+    "description": "Name for a generic weapon hardpoint",
+    "message": "Aseistus"
+  },
+  "HARDPOINT_WEAPON_CHIN": {
+    "description": "Name for the 'Chin Mount' equipment hardpoint",
+    "message": "Pielikannake"
+  },
+  "HARDPOINT_WEAPON_FRONT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "Keula-ase"
+  },
+  "HARDPOINT_WEAPON_FRONT_LEFT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "Etuvasemman ase"
+  },
+  "HARDPOINT_WEAPON_FRONT_RIGHT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "Etuoikean ase"
+  },
+  "HARDPOINT_WEAPON_LEFT": {
+    "description": "Name for a generic weapon hardpoint",
+    "message": "Vasen ase"
+  },
+  "HARDPOINT_WEAPON_LEFT_NOSE": {
+    "description": "Name for the 'Left Nose' weapon hardpoint",
+    "message": "Keulan vasen ase"
+  },
+  "HARDPOINT_WEAPON_REAR": {
+    "description": "Name for a generic rear-facing weapon hardpoint",
+    "message": "Peräase"
+  },
+  "HARDPOINT_WEAPON_RIGHT": {
+    "description": "Name for a generic weapon hardpoint",
+    "message": "Oikea ase"
+  },
+  "HARDPOINT_WEAPON_RIGHT_NOSE": {
+    "description": "Name for the 'Right Nose' weapon hardpoint",
+    "message": "Keulan oikea ase"
+  },
+  "HULL_AUTOREPAIR": {
+    "description": "",
+    "message": "Rungonkorjausjärjestelmä"
+  },
+  "HULL_AUTOREPAIR_DESCRIPTION": {
+    "description": "",
+    "message": "Korjaa runkoa itsenäisesti aina, kun siinä on vaurioita."
+  },
+  "HULL_MOUNTS": {
+    "description": "Category name for hull-mounted equipment",
+    "message": "Runkokannakkeet"
+  },
+  "HYPERCLOUD_ANALYZER": {
+    "description": "",
+    "message": "Hyperpilvianalysoija"
+  },
+  "HYPERCLOUD_ANALYZER_DESCRIPTION": {
+    "description": "",
+    "message": "Tällä voidaan tutkia hyperpilviä määränpään ja saapumis- tai lähtöajan selvittämiseksi."
+  },
+  "INVALID_SLOT": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "Kelvoton kohta"
+  },
+  "ITEM": {
+    "description": "A piece of equipment",
+    "message": "Varustus"
+  },
+  "LARGE_PLASMA_ACCEL": {
+    "description": "",
+    "message": "Iso plasmakiihdytin"
+  },
+  "LASER_COOLING_BOOSTER": {
+    "description": "",
+    "message": "Laserjäähdytin"
+  },
+  "LASER_COOLING_BOOSTER_DESCRIPTION": {
+    "description": "",
+    "message": "Parannettu jäähdytysjärjestelmä aseille."
+  },
+  "MININGCANNON_17MW": {
+    "description": "",
+    "message": "17MW louhostykki"
+  },
+  "MININGCANNON_17MW_DESCRIPTION": {
+    "description": "",
+    "message": "Mineraalirikkaiden asteroidien louhimiseen."
+  },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "5MW louhostykki"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
+    "description": "",
+    "message": "Mineraalirikkaiden asteroidien louhimiseen."
+  },
+  "MISC_EQUIPMENT": {
+    "description": "Category header for miscellaneous equipment",
+    "message": "Muut"
+  },
+  "MISSILES": {
+    "description": "Category name of missile-related equipment",
+    "message": "Ohjukset"
+  },
+  "MISSILE_GUIDED": {
+    "description": "",
+    "message": "Hakeutuva ohjus"
+  },
+  "MISSILE_GUIDED_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Tavallinen itsenäisesti maaliin hakeutuva ohjus."
+  },
+  "MISSILE_GUIDED_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Sarjatuotettu valittuun maaliin hakeutuva ohjus. Mallista riippuen, ohjus saattaa käyttää hakeutumisteknologiana tutkaa, laseria tai valotutkaa. Ohjukset eivät kuitenkaan ole erityisen osumavarmoja, ja ne ovat haavoittuvaisia elektronisille tai muille vastatoimille."
+  },
+  "MISSILE_NAVAL": {
+    "description": "",
+    "message": "Laivasto-ohjus"
+  },
+  "MISSILE_NAVAL_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Itsenäisesti hakeutuva ohjus, joka on suojattu hyvin kaikkia tunnettuja vastatoimitekniikoita vastaan."
+  },
+  "MISSILE_NAVAL_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Nämä ohjukset valmistetaan hyvin salaperäisissä ja erikoistuneissa, tarkkaan valvotuissa laivaston tehtaissa, eivätkä ne yleensä ole siviilien saatavilla. Useimmat vastatoimenpiteet eivät toimi niitä vastaan, ja niiden nopeus ja erikoisten taistelukärkien tuhovoima on merkittävä. Aluksessa pitää yleensä olla erityisvarustusta ohjusten aktivoimiseen ja ohjelmoimiseen ennen laukaisua."
+  },
+  "MISSILE_RACK_221": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
+    "message": "Hydra LH-120 ohjusteline"
+  },
+  "MISSILE_RACK_221_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Ulkoisen telineen kapasiteetti on kaksi pientä ohjusta."
+  },
+  "MISSILE_RACK_221_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Tähän laadukkaaseen Hydri Defensen telineeseen saatte sovitettua enemmän pauketta kiinnikettä kohti, mistä on hyötyä rosvojahdissa."
+  },
+  "MISSILE_RACK_322": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
+    "message": "Hydra LH-220 ohjusteline"
+  },
+  "MISSILE_RACK_322_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Ulkoisen telineen kapasiteetti on kaksi keskikokoista ohjusta."
+  },
+  "MISSILE_RACK_322_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Ohjusteline ovelammalle Hydri Defensen asiakkaalle. Enemmän on enemmän!"
+  },
+  "MISSILE_RACK_341": {
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "Medusa LH-140 ohjusteline"
+  },
+  "MISSILE_RACK_341_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Ulkoisen telineen kapasiteetti on 4 pientä ohjusta."
+  },
+  "MISSILE_RACK_341_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Tämä on varsinainen kaunotar, suoraan Hydri Defensen tuotekehittelyosastolta. Saimme yhä useampia ohjuksia sopimaan, jotta pääsette tulittamaan oikein kunnolla!"
+  },
+  "MISSILE_RACK_423": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
+    "message": "Hydra LH-320 ohjusteline"
+  },
+  "MISSILE_RACK_423_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Ulkoisen telineen kapasiteetti on 2 isoa ohjusta."
+  },
+  "MISSILE_RACK_423_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Katsokaakin että olette tarpeeksi kaukana laukaisun jälkeen! Hydri Defense on pannut tähän telineeseen 2 isoa ohjusta todella vaikuttaviin pamauksiin."
+  },
+  "MISSILE_RACK_442": {
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "Medusa LH-240 ohjusteline"
+  },
+  "MISSILE_RACK_442_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Ulkoisen telineen kapasiteetti on 4 keskikokoista ohjusta."
+  },
+  "MISSILE_RACK_442_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Ajattelitteko jo isosti? Tällä Hydri Defense -telineellä olette aina valmiina päästämään tulen irti."
+  },
+  "MISSILE_RACK_524": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
+    "message": "Hydra LH-420 ohjusteline"
+  },
+  "MISSILE_RACK_524_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Ulkoisen telineen kapasiteetti on 2 valtavaa ohjusta."
+  },
+  "MISSILE_RACK_524_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Tilaa kahdelle valtavalle ohjukselle. Jopa meiltä loppuvat superlatiivit kuvaamaan, mitä voitte tehdä näillä. Toivomme vain, että muistitte aurinkolasinne!"
+  },
+  "MISSILE_RACK_543": {
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "Medusa LH-340 ohjusteline"
+  },
+  "MISSILE_RACK_543_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Ulkoisen telineen kapasiteetti on 4 isoa ohjusta."
+  },
+  "MISSILE_RACK_543_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Ensin Hydri Defense julkisti upean LH-320-mallin, ja nyt olemme kaksinkertaistaneet sen kapasiteetin! Siitä vain, jättäkää jälkenne mihin tahansa järjestelmään, joka tohtii teitä uhmata."
+  },
+  "MISSILE_RAIL_S1": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
+    "message": "Cnida-101 laukaisin"
+  },
+  "MISSILE_RAIL_S1_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Ulkoinen laukaisin pienelle ohjukselle."
+  },
+  "MISSILE_RAIL_S1_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Hydri Defensen budjettilaukaisin, tämä laatulaite on tarkoitettu kaikille S1-ohjuksille, jotka noudattavat ISAAEEE-standardia."
+  },
+  "MISSILE_RAIL_S2": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
+    "message": "Cnida-102 laukaisin"
+  },
+  "MISSILE_RAIL_S2_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Ulkoinen laukaisin keskikokoiselle ohjukselle."
+  },
+  "MISSILE_RAIL_S2_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Laadukas Hydri Defensen laukaisin on vahva kiinnike S2-ohjuksille."
+  },
+  "MISSILE_RAIL_S3": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
+    "message": "Cnida-103 laukaisin"
+  },
+  "MISSILE_RAIL_S3_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Ulkoinen laukaisin isolle ohjukselle."
+  },
+  "MISSILE_RAIL_S3_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Laadukas Hydri Defensen laukaisin on vahva kiinnike S3-ohjukselle."
+  },
+  "MISSILE_RAIL_S4": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
+    "message": "Cnida-104 laukaisin"
+  },
+  "MISSILE_RAIL_S4_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Ulkoinen laukaisin valtavalle ohjukselle."
+  },
+  "MISSILE_RAIL_S4_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Laadukas Hydri Defensen laukaisin on vahva kiinnike S4-ohjukselle."
+  },
+  "MISSILE_SMART": {
+    "description": "",
+    "message": "Älyohjus"
+  },
+  "MISSILE_SMART_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Hakeutuva vastatoimia hieman sietävä ohjus."
+  },
+  "MISSILE_SMART_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Ohjus, jossa on tekoälymoduuli, hakeutuu maaliin kehittyneellä sensorisarjalla. Kunhan et kutsu sitä HAL:ksi, olemme varmoja että se hakeutuu tarkoittamaasi maaliin, eikä sinua päin."
+  },
+  "MISSILE_UNGUIDED": {
+    "description": "",
+    "message": "R40 raketti"
+  },
+  "MISSILE_UNGUIDED_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Yksinkertainen tähdättävä ohjus."
+  },
+  "MISSILE_UNGUIDED_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Sarjatuotannossa useimmilla planeetoilla. Osa tehdään kehittyvissä maailmoissa huolellisena käsityönä, osa tulee megatehtaiden liukuhihnalta superteollistuneilta planeetoilta.\nMutta riippumatta niiden lähteestä, tekniikka on ISAEEE:n tarkasti sääntelemä ja sen pitäisi toimia useimmissa alusjärjestelmissä."
+  },
+  "NO_SUITABLE_EQUIPMENT": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "Ei sopivaa varustusta"
+  },
+  "NO_SUITABLE_SLOTS": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "Ei sopivaa paikkaa"
+  },
+  "OCCUPIED_BERTHS": {
+    "description": "Label for the number of passenger berths currently occupied in a cabin equipment item",
+    "message": "Varatut punkat"
+  },
+  "OKB_KALURI_BOWFIN_MISSILE_RACK": {
+    "description": "Equipment name for an OKB-Kaluri Bowfin internal missile launcher",
+    "message": "Bowfin laukaisin"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S2": {
+    "description": "Equipment name for an OPLI internal missile rack",
+    "message": "OPLI sisäinen ohjusteline"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S2_DESCRIPTION": {
+    "description": "Short description and tooltip.",
+    "message": "Sis. paikka viidelle keskikokoiselle ohjukselle."
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S3": {
+    "description": "Equipment name for an OPLI internal missile rack",
+    "message": "OPLI sisäinen ohjusteline"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S3_DESCRIPTION": {
+    "description": "Short description and tooltip.",
+    "message": "Sis. paikka kolmelle isolle ohjukselle."
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S4": {
+    "description": "Equipment name for an OPLI internal missile rack",
+    "message": "OPLI sisäinen ohjusteline"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S4_DESCRIPTION": {
+    "description": "Short description and tooltip.",
+    "message": "Sis. paikka viidelle isolle ohjukselle ja neljälle keskikoon ohjukselle."
+  },
+  "ORBIT_SCANNER": {
+    "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
+    "message": "Kiertorataskanneri XKM-650"
+  },
+  "ORBIT_SCANNER_DESCRIPTION": {
+    "description": "tooltip",
+    "message": "Skannaa planeetan kiertoradalta tiededataa"
+  },
+  "ORBIT_SCANNER_GOOD": {
+    "description": "A sensor used to scan planets from high altitude / orbit + model number (that's minimum km altitude)",
+    "message": "Kiertorataskanneri XKM-1750"
+  },
+  "ORBIT_SCANNER_GOOD_DESCRIPTION": {
+    "description": "tooltip",
+    "message": "Skannaa planeetan kiertoradalta tiededataa korkealla erottelutarkkuudella ja suurella linssillä"
+  },
+  "OUT_OF_SCANRANGE": {
+    "description": "",
+    "message": "Enimmäisskannauskantama ylittyi:"
+  },
+  "PASSENGER_BERTHS": {
+    "description": "Label for the total number of passenger berths in a cabin equipment item",
+    "message": "Matkustajapaikkoja"
+  },
+  "PASSENGER_CABIN": {
+    "description": "",
+    "message": "Hytti"
+  },
+  "PROJECTILE_SPEED": {
+    "description": "Stat label for weapon projectile speeds",
+    "message": "Ammusnopeus"
+  },
+  "PROPULSION": {
+    "description": "Category name of propulsion-related equipment",
+    "message": "Propulsio"
+  },
+  "PULSECANNON_10MW": {
+    "description": "",
+    "message": "10MW pulssitykki"
+  },
+  "PULSECANNON_1MW": {
+    "description": "",
+    "message": "1MW pulssitykki"
+  },
+  "PULSECANNON_20MW": {
+    "description": "",
+    "message": "20MW pulssitykki"
+  },
+  "PULSECANNON_2MW": {
+    "description": "",
+    "message": "2MW pulssitykki"
+  },
+  "PULSECANNON_4MW": {
+    "description": "",
+    "message": "4MW pulssitykki"
+  },
+  "PULSECANNON_DUAL_1MW": {
+    "description": "",
+    "message": "1MW kaksitoiminen pulssitykki"
+  },
+  "PULSECANNON_RAPID_2MW": {
+    "description": "",
+    "message": "2MW pikapulssitykki"
+  },
+  "RADAR": {
+    "description": "",
+    "message": "Tutka"
+  },
+  "RADAR_DESCRIPTION": {
+    "description": "",
+    "message": "Muodostaa kolmiulotteisen kartan lähellä olevista aluksista."
+  },
+  "REINFORCED_STRUCTURE": {
+    "description": "Name for an equipment item that reinforces the hull's superstructure",
+    "message": "Vahvistettu runko"
+  },
+  "REINFORCED_STRUCTURE_DESCRIPTION": {
+    "description": "Description of the Reinforced Structure equipment item",
+    "message": "Jälkimarkkinoiden vahvistussarja aluksen rungolle. Tekee rungosta paineenkestävämpää."
+  },
+  "REQUIRED_SLOT_IS_EMPTY": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "Vaadittava paikka on tyhjä"
+  },
+  "SCAN_COMPLETED": {
+    "description": "",
+    "message": "Skannaus valmistui"
+  },
+  "SCAN_RESUMED": {
+    "description": "",
+    "message": "Skannaus jatkuu"
+  },
+  "SCOOPS": {
+    "description": "Category name of scoop-related equipment",
+    "message": "Keräimet"
+  },
+  "SENSORS": {
+    "description": "Category name of sensor-related equipment",
+    "message": "Anturit"
+  },
+  "SENSOR_MIN_ALTITUDE": {
+    "description": "",
+    "message": "Anturin vähimmäiskorkeus"
+  },
+  "SENSOR_RESOLUTION": {
+    "description": "Resolution of e.g. optical sensor",
+    "message": "Anturin erottelukyky"
+  },
+  "SHIELDED_CARGO_CAPACITY": {
+    "description": "Statistic name for an equipment that provides cargo scan resistance",
+    "message": "Suojattu ruumakapasiteetti"
+  },
+  "SHIELDS": {
+    "description": "Category name of shield-related equipment",
+    "message": "Suoja"
+  },
+  "SHIELD_ENERGY_BOOSTER": {
+    "description": "",
+    "message": "Suojakiihdytin"
+  },
+  "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
+    "description": "",
+    "message": "Nopeuttaa suojan palautumista."
+  },
+  "SHIELD_GENERATOR": {
+    "description": "",
+    "message": "Suojalaite"
+  },
+  "SHIELD_GENERATOR_DESCRIPTION": {
+    "description": "",
+    "message": "Kukin yksikkö lisää suojaa rungolle."
+  },
+  "SHOTS_PER_MINUTE": {
+    "description": "Tooltip explaining weapon fire rate / RPM counter",
+    "message": "Tulinopeus / minuutti"
+  },
+  "SLOT": {
+    "description": "",
+    "message": "Paikka"
+  },
+  "SLOTLESS": {
+    "description": "",
+    "message": "Paikaton"
+  },
+  "SLOT_CABIN": {
+    "description": "Name for a generic room slot inside the pressurized living space",
+    "message": "Hytti"
+  },
+  "SLOT_CABIN_FORE": {
+    "description": "Name for a cabin slot towards the front of the ship",
+    "message": "Keulahytti"
+  },
+  "SLOT_CABIN_REAR": {
+    "description": "Name for a cabin slot towards the rear of the ship",
+    "message": "Perähytti"
+  },
+  "SLOT_COMPUTER": {
+    "description": "Name for a generic computer equipment slot",
+    "message": "Tietotekniikka"
+  },
+  "SLOT_ENGINE": {
+    "description": "Name for the ship's primary travel engines",
+    "message": "Moottorit"
+  },
+  "SLOT_HULL": {
+    "description": "Name for an equipment slot that augments or modifies the ship hull",
+    "message": "Runko"
+  },
+  "SLOT_HYPERDRIVE": {
+    "description": "Name for a ship's singular hyperdrive equipment slot",
+    "message": "Hypermoottori"
+  },
+  "SLOT_IS_NOT_EMPTY_REPLACE_THE_EQUIPMENT_QUESTION": {
+    "description": "",
+    "message": "Paikka on käytössä, korvataanko varustus?"
+  },
+  "SLOT_SENSOR": {
+    "description": "Name for a generic (flight/navigation) sensor slot",
+    "message": "Anturi"
+  },
+  "SLOT_SHIELD": {
+    "description": "Name for a generic shield slot",
+    "message": "Suojaus"
+  },
+  "SLOT_SHIELD_LEFT": {
+    "description": "Name for a left-side shield slot",
+    "message": "Suoja v."
+  },
+  "SLOT_SHIELD_RIGHT": {
+    "description": "Name for a right-side shield equipment slot",
+    "message": "Suoja o."
+  },
+  "SLOT_STRUCTURE": {
+    "description": "Name for the ship's internal structure modification slot",
+    "message": "Rakenne"
+  },
+  "SLOT_THRUSTER": {
+    "description": "Generic name for secondary attitude or maneuvering thrusters",
+    "message": "Manööverityönnin"
+  },
+  "SMALL_PLASMA_ACCEL": {
+    "description": "",
+    "message": "Pieni plasmakiihdytin"
+  },
+  "STARTING_SCAN": {
+    "description": "",
+    "message": "Skannaus aloitettu, kohteen etäisyys on"
+  },
+  "STAT_ATMO_SHIELD": {
+    "description": "Stat name for atmospheric shielding. 'Atmospheric' is abbreviated.",
+    "message": "Paineenkesto (kaasu)"
+  },
+  "STAT_HYPERDRIVE_EFFICIENCY": {
+    "description": "",
+    "message": "Polttoaineenkulutusluokka"
+  },
+  "STAT_HYPERDRIVE_RESERVOIR": {
+    "description": "",
+    "message": "Polttoainevaraston koko"
+  },
+  "STAT_MISSILE_RADIUS": {
+    "description": "",
+    "message": "Tuhokantama"
+  },
+  "STAT_MISSILE_WARHEAD": {
+    "description": "",
+    "message": "Räjähdysenergia"
+  },
+  "STAT_POWER_DRAW": {
+    "description": "Stat label for equipment power draw",
+    "message": "Tehonkäyttö"
+  },
+  "STAT_SHIELD": {
+    "description": "Stat name for shield generator effectiveness.",
+    "message": "Nettosuojavoima"
+  },
+  "STAT_THRUSTER_POWER": {
+    "description": "Stat name for thruster upgrades",
+    "message": "Enimmäistyönnön lisäys"
+  },
+  "STAT_VOLUME": {
+    "description": "Stat label for equipment volume",
+    "message": "Tilavuus"
+  },
+  "STAT_WEIGHT": {
+    "description": "Stat label for equipment weight",
+    "message": "Massa"
+  },
+  "SURFACE_SCANNER": {
+    "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude. Model manufacturer name is meant to sound like a cheap brand.",
+    "message": "Kartoitusanturi NLV-150"
+  },
+  "SURFACE_SCANNER_DESCRIPTION": {
+    "description": "tooltip",
+    "message": "Kartoitus– ja maanmittaustallennin"
+  },
+  "SURFACE_SCANNER_GOOD": {
+    "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types. Model manufacturer name is meant to be associated with high quality.",
+    "message": "Maastoanturi Xeiss-250"
+  },
+  "SURFACE_SCANNER_GOOD_DESCRIPTION": {
+    "description": "tooltip",
+    "message": "Korkealaatuinen kartoitus– ja maanmittaustallennin"
+  },
+  "TARGET_SCANNER": {
+    "description": "ship equipment showing target information/stats",
+    "message": "Maalianturi"
+  },
+  "TARGET_SCANNER_DESCRIPTION": {
+    "description": "",
+    "message": "Kerää tietoja koskien toisen aluksen varustusta, rahtia ja toiminnallisuutta."
+  },
+  "TARGET_SLOT_IS_NOT_EMPTY_PUT_THE_REPLACED_ONE_IN_THE_CLIPBOARD_QUESTION": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "Tämä paikka on käytössä, laitetaanko korvattava varustus leikepöydälle?"
+  },
+  "THE_SAME_EQUIPMENT_HAS_BEEN_ALREADY_INSTALLED": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "Tämä varustus on jo asennettu."
+  },
+  "THRUSTERS_DEFAULT": {
+    "description": "Equipment name for default RCS thrusters",
+    "message": "Tavalliset työntimet"
+  },
+  "THRUSTERS_IMPROVED": {
+    "description": "",
+    "message": "Parannellut työntimet"
+  },
+  "THRUSTERS_IMPROVED_DESCRIPTION": {
+    "description": "",
+    "message": "Parannellut työntimet, jotka on hyväksytty käytettäväksi aluksessasi."
+  },
+  "THRUSTERS_NAVAL": {
+    "description": "",
+    "message": "Laivastotyöntimet"
+  },
+  "THRUSTERS_NAVAL_DESCRIPTION": {
+    "description": "",
+    "message": "Laivastotyöntimet, jotka on mukautettu alukseesi parhaan mahdollisen tuloksen saavuttamiseksi."
+  },
+  "THRUSTERS_OPTIMISED": {
+    "description": "",
+    "message": "Tehotyöntimet"
+  },
+  "THRUSTERS_OPTIMISED_DESCRIPTION": {
+    "description": "",
+    "message": "Työntimiä on paranneltu, vähentäen häviöitä ja tehoa nostaen."
+  },
+  "TOTAL_MODULE_CAPACITY": {
+    "description": "Tooltip explaining module capacity of specific slot",
+    "message": "Kokonaiskapasiteetti"
+  },
+  "TOTAL_MODULE_WEIGHT": {
+    "description": "Tooltip explaining total equipped weight of specific slot",
+    "message": "Kokonaismassa"
+  },
+  "TRADE_COMPUTER": {
+    "description": "Ship equipment computing profitable commodities to trade between two systems",
+    "message": "Kauppatietokone"
+  },
+  "TRADE_COMPUTER_DESCRIPTION": {
+    "description": "",
+    "message": "Näyttää kannattavat kauppatavarat tämän ja valitun järjestelmän kesken"
+  },
+  "UNIT_HYPERDRIVE_EFFICIENCY": {
+    "description": "Fictional unit abbreviation for hyperdrive efficiency",
+    "message": "kF"
+  },
+  "UNIT_WARHEAD_DAMAGE": {
+    "description": "Unit abbreviation for missile warhead damage.",
+    "message": "kg TNT"
+  },
+  "UNOCCUPIED_CABIN": {
+    "description": "",
+    "message": "Hytti"
+  },
+  "UNOCCUPIED_CABIN_DESCRIPTION": {
+    "description": "",
+    "message": "Tarvitaan matkustajien kuljettamiseen"
+  },
+  "UTILITY": {
+    "description": "Category name of utility equipment",
+    "message": "Muut"
+  },
+  "WEAPONS": {
+    "description": "Category name of weapon-related equipment",
+    "message": "Aseet"
+  }
+}

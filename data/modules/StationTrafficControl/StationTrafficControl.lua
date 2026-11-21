@@ -13,6 +13,8 @@ local Lang = require 'Lang'
 local l = Lang.GetResource("module-stationtrafficcontrol")
 local ui = require 'pigui'
 
+local MissionUtils = require 'modules.MissionUtils'
+
 -- The game usually start at a station but may start in space by providing a system
 -- path, either via the command line or in the game menu via a custom start option.
 -- In the most common case in a new game, where we start at a station, we are in a
@@ -20,18 +22,8 @@ local ui = require 'pigui'
 -- In the case of a saved game, serialized data already has the value.
 local playerInControlledSpace = false
 
-local getNumberOfFlavours = function (str)
-	-- Returns the number of flavours of the given string (assuming first flavour has suffix '_1').
-	-- Taken from CargoRun.lua.
-	local num = 1
-	while l:get(str .. "_" .. num) do
-		num = num + 1
-	end
-	return num - 1
-end
-
-local enteringFlavors = getNumberOfFlavours("YOU_ARE_ENTERING_STATION_SPACE")
-local leavingFlavors = getNumberOfFlavours("YOU_ARE_LEAVING_STATION_SPACE")
+local enteringFlavors = MissionUtils.getNumberOfFlavours(l, "YOU_ARE_ENTERING_STATION_SPACE")
+local leavingFlavors = MissionUtils.getNumberOfFlavours(l, "YOU_ARE_LEAVING_STATION_SPACE")
 local function notifyControlledSpace ()
 	if Game.player.flightState == "HYPERSPACE" then
 		playerInControlledSpace = false

@@ -65,30 +65,15 @@ local isQualifiedFor = function(reputation, ad)
 		false
 end
 
--- Returns the number of flavours of the given string (assuming first flavour has suffix '_1').
-local getNumberOfFlavours = function (str)
-	local num = 1
-
-	while l:get(str .. "_" .. num) do
-		num = num + 1
-	end
-	return num - 1
-end
-
 -- Returns the number of person roles of the given area (family/colleagues etc.).
 local getNumberOfRoles = function (str)
-	local num = 1
-
-	while lp:get(str .. "_" .. num) do
-		num = num + 1
-	end
-	return num - 1
+	return MissionUtils.getNumberOfFlavours(lp, str)
 end
 
 local getRiskMsg = function (mission)
 	local gender = (mission.wanted.female and "_FEMALE" or "_MALE")
-	return l:get("RISK_" .. mission.flavour.id .. gender .. "_" .. math.ceil(mission.risk * getNumberOfFlavours("RISK_" .. mission.flavour.id .. gender)))
-		or l["RISK" .. gender .. "_" .. math.ceil(mission.risk * getNumberOfFlavours("RISK" .. gender))]
+	return l:get("RISK_" .. mission.flavour.id .. gender .. "_" .. math.ceil(mission.risk * MissionUtils.getNumberOfFlavours(l, "RISK_" .. mission.flavour.id .. gender)))
+		or l["RISK" .. gender .. "_" .. math.ceil(mission.risk * MissionUtils.getNumberOfFlavours(l, "RISK" .. gender))]
 end
 
 local onChat = function (form, ref, option)
@@ -106,7 +91,7 @@ local onChat = function (form, ref, option)
 	form:SetFace(ad.client)
 
 	if not qualified then
-		form:SetMessage(l["DENY_" .. Engine.rand:Integer(1, getNumberOfFlavours("DENY"))])
+		form:SetMessage(l["DENY_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "DENY"))])
 		return
 	end
 
@@ -194,13 +179,13 @@ local isEnabled = function (ref)
 end
 
 local placeAdvert = function (station, ad)
-	local desc = string.interp(l["ADTEXT_" .. Engine.rand:Integer(1, getNumberOfFlavours("ADTEXT"))], {
+	local desc = string.interp(l["ADTEXT_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "ADTEXT"))], {
 		system = ad.location:GetStarSystem().name,
 		cash   = Format.Money(ad.reward, false),
 	})
 
 	local ref = station:AddAdvert({
-		title       = l["ADTITLE_" .. Engine.rand:Integer(1, getNumberOfFlavours("ADTITLE"))],
+		title       = l["ADTITLE_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "ADTITLE"))],
 		description = desc,
 		icon        = ad.flavour.taxi and "taxi" or "delivery",
 		due         = ad.due,
@@ -237,7 +222,7 @@ local makeAdvert = function (station)
 	local due = Game.time + ns * 86400 + MissionUtils.TravelTime(dist) * 1.75 * (1.5 - urgency) * Engine.rand:Number(0.9, 1.1)
 
 	local introtext = "INTROTEXT_" .. flavour.id .. gender
-	local intro_number = Engine.rand:Integer(1, getNumberOfFlavours(introtext))
+	local intro_number = Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, introtext))
 	local isfamily = isfamily[flavour_number][intro_number]
 
 	local ad = {
@@ -250,7 +235,7 @@ local makeAdvert = function (station)
 		employee  = employee,
 		friend    = friend,
 		relative  = relative,
-		company   = flavour.company and string.interp(l["COMPANY_" .. Engine.rand:Integer(1, getNumberOfFlavours("COMPANY"))], { name = NameGen.Surname() }) or nil,
+		company   = flavour.company and string.interp(l["COMPANY_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "COMPANY"))], { name = NameGen.Surname() }) or nil,
 		location  = location,
 		shipid    = flavour.ship and Ship.MakeRandomLabel() or nil,
 		dist      = dist,
@@ -300,7 +285,7 @@ local onShipFiring = function (ship)
 	for ref, mission in pairs(missions) do
 		if mission.interceptor == ship and not mission.surprise then
 			local greeting = "MERCENARY_GREETING_" .. (mission.wanted.female and "FEMALE" or "MALE")
-			local msg = string.interp(l[greeting .. "_" .. Engine.rand:Integer(1, getNumberOfFlavours(greeting))], { wanted = mission.wanted.name })
+			local msg = string.interp(l[greeting .. "_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, greeting))], { wanted = mission.wanted.name })
 			Comms.ImportantMessage(msg, ship.label)
 			mission.surprise = true
 		end
@@ -374,19 +359,19 @@ local onEnterSystem = function (player)
 			if (mission.risk + riskmargin) > Engine.rand:Number(1) then
 				ship = ShipBuilder.MakeShipNear(player, PirateTemplate, threat, 50, 100)
 				ship:SetLabel(mission.shipid)
-				pirate_msg = string.interp(l["PIRATE_GREETING_" .. Engine.rand:Integer(1, getNumberOfFlavours("PIRATE_GREETING"))], { client = mission.client.name })
+				pirate_msg = string.interp(l["PIRATE_GREETING_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "PIRATE_GREETING"))], { client = mission.client.name })
 				Comms.ImportantMessage(pirate_msg, ship.label)
 				Comms.ImportantMessage(string.interp(l.TRANSMITTING_MSG, { shipid = mission.shipid }))
 				Timer:CallAt(Game.time + 5, function ()
 					riskmargin = Engine.rand:Number(-0.3, 0.3)
 					if (mission.risk + riskmargin) > Engine.rand:Number(1) then
-						pirate_msg = string.interp(l["PIRATE_TAUNTS_" .. Engine.rand:Integer(1, getNumberOfFlavours("PIRATE_TAUNTS"))], { client = mission.client.name })
+						pirate_msg = string.interp(l["PIRATE_TAUNTS_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "PIRATE_TAUNTS"))], { client = mission.client.name })
 						Comms.ImportantMessage(pirate_msg, ship.label)
 						mission.surprise = true
 						ship:FireMissileAt("any", player)
 						ship:AIKill(player)
 					else
-						pirate_msg = string.interp(l["PIRATE_ANSWER_" .. Engine.rand:Integer(1, getNumberOfFlavours("PIRATE_ANSWER"))], { client = mission.client.name })
+						pirate_msg = string.interp(l["PIRATE_ANSWER_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "PIRATE_ANSWER"))], { client = mission.client.name })
 						Comms.ImportantMessage(pirate_msg, ship.label)
 						ship:AIDockWith(Space.GetBody(mission.location.bodyIndex))
 					end
@@ -425,18 +410,18 @@ local onPlayerDocked = function (player, station)
 				if Game.time <= mission.due then
 					if mission.surprise then
 						if mission.flavour.ship then
-							msg = string.interp(l["SUCCESS_ATK_" .. Engine.rand:Integer(1, getNumberOfFlavours("SUCCESS_ATK"))], { wanted = mission.wanted.name })
+							msg = string.interp(l["SUCCESS_ATK_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "SUCCESS_ATK"))], { wanted = mission.wanted.name })
 						else
-							msg = string.interp(l["SUCCESS_INT_" .. Engine.rand:Integer(1, getNumberOfFlavours("SUCCESS_INT"))], { wanted = mission.wanted.name })
+							msg = string.interp(l["SUCCESS_INT_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "SUCCESS_INT"))], { wanted = mission.wanted.name })
 						end
 					else
-						msg = string.interp(l["SUCCESS_MSG_" .. Engine.rand:Integer(1, getNumberOfFlavours("SUCCESS_MSG"))], { wanted = mission.wanted.name })
+						msg = string.interp(l["SUCCESS_MSG_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "SUCCESS_MSG"))], { wanted = mission.wanted.name })
 					end
 					Comms.ImportantMessage(msg, mission.client.name)
 					Character.persistent.player.reputation = Character.persistent.player.reputation + reputation
 					PlayerState.AddMoney(mission.reward)
 				else
-					msg = string.interp(l["FAILUREMSG_" .. Engine.rand:Integer(1, getNumberOfFlavours("FAILUREMSG"))], { wanted = mission.wanted.name })
+					msg = string.interp(l["FAILUREMSG_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "FAILUREMSG"))], { wanted = mission.wanted.name })
 					Comms.ImportantMessage(msg, mission.client.name)
 					Character.persistent.player.reputation = Character.persistent.player.reputation - reputation
 				end
@@ -479,7 +464,7 @@ local onPlayerDocked = function (player, station)
 						local tipster = Character.New()
 						local tip = "TIP_" .. (mission.wanted.female and "FEMALE" or "MALE")
 						local name = Engine.rand:Integer(0, 1) < 1 and mission.wanted.name or mission.wanted.firstname
-						msg = string.interp(l[tip .. "_" .. Engine.rand:Integer(1, getNumberOfFlavours(tip))], { wanted = name, station = mission.location:GetSystemBody().name })
+						msg = string.interp(l[tip .. "_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, tip))], { wanted = name, station = mission.location:GetSystemBody().name })
 						Comms.ImportantMessage(msg, tipster.name)
 						mission.tipster = true
 					end

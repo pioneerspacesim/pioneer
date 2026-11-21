@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Version identifier for current compiled build
 # Do not cache this variable
-set(PIONEER_VERSION "20260907")
+set(PIONEER_VERSION "20260907-dev")
 
 set(PROJECT_VERSION_INFO ""
 	CACHE STRING "Additional version information (optional)")
@@ -70,6 +70,15 @@ if (USE_AVX2)
 		add_compile_options("-mavx2" "-mlzcnt")
 	endif()
 endif(USE_AVX2)
+
+# Default to enabling PIONEER_TARGET_RASPBERRY_PI if we're compiling on ARM64
+option(PIONEER_TARGET_RASPBERRY_PI "Compile for Raspberry Pi specifically (degrades to OpenGL 3.1)" ${PIONEER_TARGET_ARM64})
+
+if (PIONEER_TARGET_RASPBERRY_PI)
+	add_definitions(-DPIONEER_TARGET_RASPBERRY_PI)
+	# add_compile_options("-mcpu=cortex-a76")
+	add_compile_options("-ffast-math")
+endif(PIONEER_TARGET_RASPBERRY_PI)
 
 option(USE_LLD_LINKER "Use the LLVM lld linker instead of gcc's linker" OFF)
 if (CMAKE_COMPILER_IS_GNUCXX)

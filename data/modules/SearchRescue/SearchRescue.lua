@@ -273,16 +273,6 @@ local triggerAdCreation = function ()
 	return false
 end
 
-local getNumberOfFlavours = function (str)
-	-- Returns the number of flavours of the given string (assuming first flavour has suffix '_1').
-	-- Taken from CargoRun.lua.
-	local num = 1
-	while l:get(str .. "_" .. num) do
-		num = num + 1
-	end
-	return num - 1
-end
-
 local decToDegMinSec = function (coord_orig)
 	-- Converts geographic coordinates from decimal to degree/minutes/seconds format
 	-- and returns a string.
@@ -1198,7 +1188,7 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 	-- Create message string for the cases where the target landed on a planet that is higher gravity (> 1.2 g)
 	high_gravity = ""
 	if planet_target:GetSystemBody().gravity / 9.8066 > 1.2 and flavour.id == 4 then -- flavour id 4 is landed on a planet
-		high_gravity = string.interp(l["HIGHGRAVITY_" .. Engine.rand:Integer(0, getNumberOfFlavours("HIGHGRAVITY"))], {
+		high_gravity = string.interp(l["HIGHGRAVITY_" .. Engine.rand:Integer(0, MissionUtils.getNumberOfFlavours(l, "HIGHGRAVITY"))], {
 			planet       = planet_target:GetSystemBody().name,
 			gravity      = string.format("%.2f", planet_target:GetSystemBody().gravity / 9.8066),
 		})
@@ -1260,14 +1250,14 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 		-- select posting entity
 		local entity_types = {"ENTITY_RESEARCH", "ENTITY_GENERAL"}
 		local entity_type = entity_types[Engine.rand:Integer(1, #entity_types)]
-		entity = string.interp(l[entity_type .. "_" .. Engine.rand:Integer(1, getNumberOfFlavours(entity_type))],
+		entity = string.interp(l[entity_type .. "_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, entity_type))],
 			{ locality = localities_local[Engine.rand:Integer(1,#localities_local)] })
 
 		-- select problem
 		local problem_type
 		if entity_type == "ENTITY_RESEARCH" then problem_type = "PROBLEM_RESEARCH"
 		else problem_type = "PROBLEM_GENERAL" end
-		problem = string.interp(l[problem_type .. "_" ..Engine.rand:Integer(1, getNumberOfFlavours(problem_type))],
+		problem = string.interp(l[problem_type .. "_" ..Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, problem_type))],
 			{ locality = localities_target[Engine.rand:Integer(1,#localities_target)] })
 
 	elseif flavour.id == 7 then
@@ -1275,11 +1265,11 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 		local surname = string.gsub(client.surname, "^%l", string.upper)
 
 		-- select posting entity
-		entity = string.interp(l["ENTITY_FAMILY_BUSINESS_" .. Engine.rand:Integer(1, getNumberOfFlavours("ENTITY_FAMILY_BUSINESS"))],
+		entity = string.interp(l["ENTITY_FAMILY_BUSINESS_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "ENTITY_FAMILY_BUSINESS"))],
 			{ locality = localities_local[Engine.rand:Integer(1,#localities_local)], name = surname })
 
 		-- select problem
-		problem = string.interp(l["PROBLEM_CREW_" .. Engine.rand:Integer(1, getNumberOfFlavours("PROBLEM_CREW"))],
+		problem = string.interp(l["PROBLEM_CREW_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "PROBLEM_CREW"))],
 		    { locality = localities_target[Engine.rand:Integer(1,#localities_target)] })
 	else
 		client = getAircontrolChar(station)

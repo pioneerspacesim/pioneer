@@ -683,7 +683,7 @@ void ModelViewer::ExtendMenuBar()
 		ImGui::AlignTextToFramePadding();
 		ImGui::Text("Dynamic Collision Meshes: %zu", model->GetCollisionMesh()->GetDynGeomTrees().size());
 
-		ImGui::EndMenu();
+		ImGui::EndPopup();
 	}
 
 	DrawShipControls();
@@ -767,7 +767,7 @@ void ModelViewer::DrawShipControls()
 			ToggleGuns();
 	}
 
-	ImGui::EndMenu();
+	ImGui::EndPopup();
 }
 
 void ModelViewer::DrawLog()

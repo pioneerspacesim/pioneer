@@ -277,27 +277,27 @@
   },
   "HARDPOINT_PYLON_LEFT": {
     "description": "Name for a generic missile pylon",
-    "message": "Left Pylon"
+    "message": "Höger balk"
   },
   "HARDPOINT_PYLON_LEFT_WING": {
     "description": "Name for a generic missile pylon",
-    "message": "Left Wing Pylon"
+    "message": "Vänster vingbalk"
   },
   "HARDPOINT_PYLON_RIGHT": {
     "description": "Name for a generic missile pylon",
-    "message": "Right Pylon"
+    "message": "Höger balk"
   },
   "HARDPOINT_PYLON_RIGHT_WING": {
     "description": "Name for a generic missile pylon",
-    "message": "Right Wing Pylon"
+    "message": "Höger vingbalk"
   },
   "HARDPOINT_TURRET_BOTTOM": {
     "description": "Slot name for a ventral-mounted turret",
-    "message": "Bottom Turret"
+    "message": "Nedre torn"
   },
   "HARDPOINT_TURRET_TOP": {
     "description": "Slot name for a dorsal-mounted turret",
-    "message": "Top Turret"
+    "message": "Övre torn"
   },
   "HARDPOINT_UTILITY": {
     "description": "Name for a generic utility hardpoint",
@@ -413,7 +413,7 @@
   },
   "MISSILE_GUIDED_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "Standard fire-and-forget guided missiles."
+    "message": "Standard skjut-och-glöm guidad robot."
   },
   "MISSILE_GUIDED_FLAVOURTEXT": {
     "description": "Equipment description",
@@ -629,7 +629,7 @@
   },
   "ORBIT_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
-    "message": "Orbital scanner XKM-650"
+    "message": "Omlopps-scanner XKM-650"
   },
   "ORBIT_SCANNER_DESCRIPTION": {
     "description": "tooltip",
@@ -637,7 +637,7 @@
   },
   "ORBIT_SCANNER_GOOD": {
     "description": "A sensor used to scan planets from high altitude / orbit + model number (that's minimum km altitude)",
-    "message": "Orbital scanner XKM-1750"
+    "message": "Omlopps-scanner XKM-1750"
   },
   "ORBIT_SCANNER_GOOD_DESCRIPTION": {
     "description": "tooltip",
@@ -709,7 +709,7 @@
   },
   "REQUIRED_SLOT_IS_EMPTY": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Required slot is empty"
+    "message": "Nödvändig plats är tom"
   },
   "SCAN_COMPLETED": {
     "description": "",
@@ -737,7 +737,7 @@
   },
   "SHIELDED_CARGO_CAPACITY": {
     "description": "Statistic name for an equipment that provides cargo scan resistance",
-    "message": "Shielded Cargo Capacity"
+    "message": "Skärmad lastkapacitet"
   },
   "SHIELDS": {
     "description": "Category name of shield-related equipment",
@@ -769,19 +769,19 @@
   },
   "SLOTLESS": {
     "description": "",
-    "message": "Slotless"
+    "message": "Platslös"
   },
   "SLOT_CABIN": {
     "description": "Name for a generic room slot inside the pressurized living space",
-    "message": "Kabin"
+    "message": "Hytt"
   },
   "SLOT_CABIN_FORE": {
     "description": "Name for a cabin slot towards the front of the ship",
-    "message": "Fore Cabin"
+    "message": "Främre hytt"
   },
   "SLOT_CABIN_REAR": {
     "description": "Name for a cabin slot towards the rear of the ship",
-    "message": "Rear Cabin"
+    "message": "Bakre hytt"
   },
   "SLOT_COMPUTER": {
     "description": "Name for a generic computer equipment slot",
@@ -841,7 +841,7 @@
   },
   "STAT_HYPERDRIVE_EFFICIENCY": {
     "description": "",
-    "message": "Fuel Efficiency Rating"
+    "message": "Bränsleeffektivitet"
   },
   "STAT_HYPERDRIVE_RESERVOIR": {
     "description": "",
@@ -877,7 +877,7 @@
   },
   "SURFACE_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude. Model manufacturer name is meant to sound like a cheap brand.",
-    "message": "Surface scanner Nadir-150"
+    "message": "Yt-scanner Nadir-150"
   },
   "SURFACE_SCANNER_DESCRIPTION": {
     "description": "tooltip",
@@ -885,7 +885,7 @@
   },
   "SURFACE_SCANNER_GOOD": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types. Model manufacturer name is meant to be associated with high quality.",
-    "message": "Surface scanner Xeiss-250"
+    "message": "Yt-scanner Xeiss-250"
   },
   "SURFACE_SCANNER_GOOD_DESCRIPTION": {
     "description": "tooltip",
@@ -901,7 +901,7 @@
   },
   "TARGET_SLOT_IS_NOT_EMPTY_PUT_THE_REPLACED_ONE_IN_THE_CLIPBOARD_QUESTION": {
     "description": "Message in the start menu when editing equipment",
-    "message": "Target slot is not empty, put the replaced one in the clipboard?"
+    "message": "Destinationsplats är inte tom, lägg den ersatta som utklipp?"
   },
   "THE_SAME_EQUIPMENT_HAS_BEEN_ALREADY_INSTALLED": {
     "description": "Message in the start menu when editing equipment",
@@ -961,7 +961,7 @@
   },
   "UNOCCUPIED_CABIN": {
     "description": "",
-    "message": "Passenger Cabin"
+    "message": "Passagerarhytt"
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",

@@ -26,15 +26,6 @@ local maxFineTolerated = 5500
 --   The distance, in meters, at which the police patrol upholds the law
 local lawEnforcedRange = 4000000
 
-local getNumberOfFlavours = function (str)
-	local num = 1
-
-	while l:get(str .. "_" .. num) do
-		num = num + 1
-	end
-	return num - 1
-end
-
 local hasIllegalGoods = function (cargo)
 	local illegal = false
 
@@ -73,7 +64,7 @@ local onShipDestroyed = function (ship, attacker)
 				end
 				break
 			elseif patrol[i] == attacker then
-				Comms.ImportantMessage(l["TARGET_DESTROYED_" .. Engine.rand:Integer(1, getNumberOfFlavours("TARGET_DESTROYED"))], attacker.label)
+				Comms.ImportantMessage(l["TARGET_DESTROYED_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "TARGET_DESTROYED"))], attacker.label)
 				break
 			end
 		end
@@ -181,17 +172,17 @@ local onEnterSystem = function (player)
 
 			if Engine.rand:Number(1) < system.lawlessness then
 				-- You are lucky. They are busy, eating donuts ;-)
-				Comms.ImportantMessage(string.interp(l["RESPECT_THE_LAW_" .. Engine.rand:Integer(1, getNumberOfFlavours("RESPECT_THE_LAW"))], { system = system.name }), ship.label)
+				Comms.ImportantMessage(string.interp(l["RESPECT_THE_LAW_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "RESPECT_THE_LAW"))], { system = system.name }), ship.label)
 			else
 				if fine > maxFineTolerated then
-					Comms.ImportantMessage(string.interp(l["OUTLAW_DETECTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("OUTLAW_DETECTED"))], { ship_label = player.label }), ship.label)
+					Comms.ImportantMessage(string.interp(l["OUTLAW_DETECTED_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "OUTLAW_DETECTED"))], { ship_label = player.label }), ship.label)
 					showMercy = false
 					attackShip(player)
 
 					return
 				end
 
-				Comms.ImportantMessage(l["INITIATE_CARGO_SCAN_" .. Engine.rand:Integer(1, getNumberOfFlavours("INITIATE_CARGO_SCAN"))], ship.label)
+				Comms.ImportantMessage(l["INITIATE_CARGO_SCAN_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "INITIATE_CARGO_SCAN"))], ship.label)
 
 				Timer:CallAt(Game.time + Engine.rand:Integer(3, 9), function ()
 
@@ -218,7 +209,7 @@ local onEnterSystem = function (player)
 
 						if fine + newfine > maxFineTolerated then
 							attackShip(player)
-							Comms.ImportantMessage(l["POLICE_TAUNT_" .. Engine.rand:Integer(1, getNumberOfFlavours("POLICE_TAUNT"))], ship.label)
+							Comms.ImportantMessage(l["POLICE_TAUNT_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "POLICE_TAUNT"))], ship.label)
 
 							return
 						end
@@ -228,12 +219,12 @@ local onEnterSystem = function (player)
 					end
 
 					if fine > 100 then
-						local message = l["FINES_INTRO_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_INTRO"))]
-						message = message .. " " .. l["FINES_MESSAGE_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_MESSAGE"))]
+						local message = l["FINES_INTRO_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "FINES_INTRO"))]
+						message = message .. " " .. l["FINES_MESSAGE_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "FINES_MESSAGE"))]
 						if fine > 1000 then
-							message = message .. " " .. l["FINES_ADMONISHING_HARSH_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_ADMONISHING_HARSH"))]
+							message = message .. " " .. l["FINES_ADMONISHING_HARSH_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "FINES_ADMONISHING_HARSH"))]
 						else
-							message = message .. " " .. l["FINES_ADMONISHING_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_ADMONISHING"))]
+							message = message .. " " .. l["FINES_ADMONISHING_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "FINES_ADMONISHING"))]
 						end
 						local policeforce = Game.system.faction.policeName
 						local ship_label = player.label
@@ -254,7 +245,7 @@ local onEnterSystem = function (player)
 			if enemy.shipId ~= policeId and enemy:GetCurrentAICommand() == "CMD_KILL" then
 				if not piracy then
 					Comms.ImportantMessage(string.interp(l_ui_core.X_CANNOT_BE_TOLERATED_HERE, { crime = l_ui_core.PIRACY }), patrol[1].label)
-					Comms.ImportantMessage(string.interp(l["RESTRICTIONS_WITHDRAWN_" .. Engine.rand:Integer(1, getNumberOfFlavours("RESTRICTIONS_WITHDRAWN"))], { ship_label = player.label }), patrol[1].label)
+					Comms.ImportantMessage(string.interp(l["RESTRICTIONS_WITHDRAWN_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "RESTRICTIONS_WITHDRAWN"))], { ship_label = player.label }), patrol[1].label)
 					piracy = true
 				end
 				attackShip(enemy)
@@ -262,7 +253,7 @@ local onEnterSystem = function (player)
 			end
 		end
 		if piracy and not target then
-			Comms.ImportantMessage(string.interp(l["RESTRICTIONS_ESTABLISHED_" .. Engine.rand:Integer(1, getNumberOfFlavours("RESTRICTIONS_ESTABLISHED"))], { ship_label = player.label }), patrol[1].label)
+			Comms.ImportantMessage(string.interp(l["RESTRICTIONS_ESTABLISHED_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "RESTRICTIONS_ESTABLISHED"))], { ship_label = player.label }), patrol[1].label)
 			piracy = false
 		end
 	end)

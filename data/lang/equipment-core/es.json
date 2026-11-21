@@ -17,7 +17,7 @@
   },
   "ATMOSPHERIC_SHIELDING_FLAVOURTEXT": {
     "description": "",
-    "message": "Provides a moderate level of protection against atmospheric friction and pressure at a minimal mass cost."
+    "message": "Provee un nivel moderado de protección contra la fricción y presión a coste de una masa mínima "
   },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
@@ -41,7 +41,7 @@
   },
   "AUXILIARY_CARGO_RACK": {
     "description": "Equipment name for a cargo-carrying rack installed as a cabin module",
-    "message": "Auxiliary Cargo Rack"
+    "message": "Estante de Carga Auxiliar"
   },
   "AUXILIARY_CARGO_RACK_DESCRIPTION": {
     "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
@@ -65,11 +65,11 @@
   },
   "BY_ITEM": {
     "description": "Button in the start menu when editing equipment",
-    "message": "By item"
+    "message": "Por Objeto"
   },
   "BY_SLOT": {
     "description": "Button in the start menu when editing equipment",
-    "message": "By slot"
+    "message": "Por ranura"
   },
   "CABINS": {
     "description": "Category header for pressurized cabin slots",
@@ -77,7 +77,7 @@
   },
   "CARGO_CAPACITY": {
     "description": "Statistic name for an equipment that provides cargo capacity",
-    "message": "Additional Cargo Capacity"
+    "message": "Capacidad Adicional de Carga"
   },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
@@ -97,7 +97,7 @@
   },
   "COMPUTER_MODULES": {
     "description": "Category name of computer-related equipment",
-    "message": "Computer Modules"
+    "message": "Módulos Computacionales"
   },
   "CONCEALED_CARGO_RACK": {
     "description": "Equipment name for a cargo-carrying smuggler's hold installed as a cabin module",
@@ -205,11 +205,11 @@
   },
   "ECM_HOVER_MESSAGE": {
     "description": "",
-    "message": "Activate Electronic Countermeasures"
+    "message": "Activar Contramedidas Electrónicas"
   },
   "EDIT_EQUIPMENT": {
     "description": "Dialog title",
-    "message": "Edit equipment"
+    "message": "Editar Equipamiento"
   },
   "EMPTY_EQUIPMENT_PROVIDING_SLOTS": {
     "description": "Tooltip for wrong equipment item",
@@ -221,7 +221,7 @@
   },
   "EQUIPMENT_DOES_NOT_FIT_INTO_THE_SLOT": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Equipment does not fit into the slot"
+    "message": "Equipamiento no entra en la ranura"
   },
   "EQUIPMENT_INTEGRITY": {
     "description": "Tooltip explaining remaining equipment integrity",
@@ -241,7 +241,7 @@
   },
   "HABITAT": {
     "description": "Category header for pressurized habitat slots",
-    "message": "Habitat"
+    "message": "Hábitat "
   },
   "HARDPOINT_FUEL_SCOOP": {
     "description": "Name for the 'Fuel Scoop' equipment hardpoint",
@@ -249,11 +249,11 @@
   },
   "HARDPOINT_MINING_LASER": {
     "description": "Name for a mining laser mount.",
-    "message": "Mining Hardpoint"
+    "message": "Anclaje de Minado"
   },
   "HARDPOINT_MISSILE": {
     "description": "Name for a generic missile mount",
-    "message": "Missile"
+    "message": "Misil"
   },
   "HARDPOINT_MISSILE_ARRAY": {
     "description": "Name for the 'Missile Array' equipment hardpoint",
@@ -261,43 +261,43 @@
   },
   "HARDPOINT_MISSILE_BAY": {
     "description": "Name for the 'Missile Bay' equipment hardpoint",
-    "message": "Missile Bay"
+    "message": "Bahía de misiles"
   },
   "HARDPOINT_MISSILE_BAY_LEFT": {
     "description": "Name for the 'Missile Bay' equipment hardpoint",
-    "message": "Left Missile Bay"
+    "message": "Bahía de misiles izquierda"
   },
   "HARDPOINT_MISSILE_BAY_RIGHT": {
     "description": "Name for the 'Missile Bay' equipment hardpoint",
-    "message": "Right Missile Bay"
+    "message": "Bahía de misiles derecha"
   },
   "HARDPOINT_PYLON": {
     "description": "Name for a generic missile pylon",
-    "message": "Pylon"
+    "message": "Pilón"
   },
   "HARDPOINT_PYLON_LEFT": {
     "description": "Name for a generic missile pylon",
-    "message": "Left Pylon"
+    "message": "Pilón Izquierdo"
   },
   "HARDPOINT_PYLON_LEFT_WING": {
     "description": "Name for a generic missile pylon",
-    "message": "Left Wing Pylon"
+    "message": "Pilón de Ala Izquierda"
   },
   "HARDPOINT_PYLON_RIGHT": {
     "description": "Name for a generic missile pylon",
-    "message": "Right Pylon"
+    "message": "Pilón Derecho"
   },
   "HARDPOINT_PYLON_RIGHT_WING": {
     "description": "Name for a generic missile pylon",
-    "message": "Right Wing Pylon"
+    "message": "Pilón de Ala Derecha"
   },
   "HARDPOINT_TURRET_BOTTOM": {
     "description": "Slot name for a ventral-mounted turret",
-    "message": "Bottom Turret"
+    "message": "Torreta Inferior"
   },
   "HARDPOINT_TURRET_TOP": {
     "description": "Slot name for a dorsal-mounted turret",
-    "message": "Top Turret"
+    "message": "Torreta Superior"
   },
   "HARDPOINT_UTILITY": {
     "description": "Name for a generic utility hardpoint",
@@ -305,43 +305,43 @@
   },
   "HARDPOINT_WEAPON": {
     "description": "Name for a generic weapon hardpoint",
-    "message": "Weapon"
+    "message": "Arma"
   },
   "HARDPOINT_WEAPON_CHIN": {
     "description": "Name for the 'Chin Mount' equipment hardpoint",
-    "message": "Chin Mount"
+    "message": "Anclaje Delantero"
   },
   "HARDPOINT_WEAPON_FRONT": {
     "description": "Name for a generic front-facing weapon hardpoint",
-    "message": "Front Weapon"
+    "message": "Arma Frontal"
   },
   "HARDPOINT_WEAPON_FRONT_LEFT": {
     "description": "Name for a generic front-facing weapon hardpoint",
-    "message": "Front Left Weapon"
+    "message": "Arma Frontal Izquierda"
   },
   "HARDPOINT_WEAPON_FRONT_RIGHT": {
     "description": "Name for a generic front-facing weapon hardpoint",
-    "message": "Front Right Weapon"
+    "message": "Arma Frontal Derecha"
   },
   "HARDPOINT_WEAPON_LEFT": {
     "description": "Name for a generic weapon hardpoint",
-    "message": "Left Weapon"
+    "message": "Arma Izquierda"
   },
   "HARDPOINT_WEAPON_LEFT_NOSE": {
     "description": "Name for the 'Left Nose' weapon hardpoint",
-    "message": "Left Nose"
+    "message": "Nariz Izquierda"
   },
   "HARDPOINT_WEAPON_REAR": {
     "description": "Name for a generic rear-facing weapon hardpoint",
-    "message": "Rear Weapon"
+    "message": "Arma Trasera"
   },
   "HARDPOINT_WEAPON_RIGHT": {
     "description": "Name for a generic weapon hardpoint",
-    "message": "Right Weapon"
+    "message": "Arma Derecha"
   },
   "HARDPOINT_WEAPON_RIGHT_NOSE": {
     "description": "Name for the 'Right Nose' weapon hardpoint",
-    "message": "Right Nose"
+    "message": "Nariz Derecha"
   },
   "HULL_AUTOREPAIR": {
     "description": "",
@@ -353,7 +353,7 @@
   },
   "HULL_MOUNTS": {
     "description": "Category name for hull-mounted equipment",
-    "message": "Hull Mounts"
+    "message": "Anclajes de Casco"
   },
   "HYPERCLOUD_ANALYZER": {
     "description": "",
@@ -365,7 +365,7 @@
   },
   "INVALID_SLOT": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Invalid slot"
+    "message": "Ranura inválida"
   },
   "ITEM": {
     "description": "A piece of equipment",
@@ -413,7 +413,7 @@
   },
   "MISSILE_GUIDED_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "Standard fire-and-forget guided missiles."
+    "message": "Misiles estándar Dispara-y-olvida"
   },
   "MISSILE_GUIDED_FLAVOURTEXT": {
     "description": "Equipment description",
@@ -521,7 +521,7 @@
   },
   "MISSILE_RAIL_S1_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "External launcher for a single small missile."
+    "message": "Lanzador externo para un misil pequeño"
   },
   "MISSILE_RAIL_S1_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
@@ -533,7 +533,7 @@
   },
   "MISSILE_RAIL_S2_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "External launcher for a single medium missile."
+    "message": "Lanzador externo para un misil mediano"
   },
   "MISSILE_RAIL_S2_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
@@ -545,7 +545,7 @@
   },
   "MISSILE_RAIL_S3_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "External launcher for a single large missile."
+    "message": "Lanzador externo para un misil grande"
   },
   "MISSILE_RAIL_S3_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
@@ -557,7 +557,7 @@
   },
   "MISSILE_RAIL_S4_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "External launcher for a single huge missile."
+    "message": "Lanzador externo para un misil gigante"
   },
   "MISSILE_RAIL_S4_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
@@ -581,7 +581,7 @@
   },
   "MISSILE_UNGUIDED_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "Dumb aim-and-fire missile."
+    "message": "Misil no guiado"
   },
   "MISSILE_UNGUIDED_FLAVOURTEXT": {
     "description": "Equipment description",
@@ -609,7 +609,7 @@
   },
   "OPLI_INTERNAL_MISSILE_RACK_S2_DESCRIPTION": {
     "description": "Short description and tooltip.",
-    "message": "Internal missile bay for 5x medium missiles."
+    "message": "Bahía de misiles interna para llevar 5x misiles medianos"
   },
   "OPLI_INTERNAL_MISSILE_RACK_S3": {
     "description": "Equipment name for an OPLI internal missile rack",
@@ -617,7 +617,7 @@
   },
   "OPLI_INTERNAL_MISSILE_RACK_S3_DESCRIPTION": {
     "description": "Short description and tooltip.",
-    "message": "Internal missile bay for 3x large missiles."
+    "message": "Bahía de misiles interna para llevar 3x misiles grandes"
   },
   "OPLI_INTERNAL_MISSILE_RACK_S4": {
     "description": "Equipment name for an OPLI internal missile rack",
@@ -625,7 +625,7 @@
   },
   "OPLI_INTERNAL_MISSILE_RACK_S4_DESCRIPTION": {
     "description": "Short description and tooltip.",
-    "message": "Internal missile bay mounting 5x large missiles and 4x medium missiles."
+    "message": "Bahía de misiles interna que lleva  5x misiles grandes y 4x misiles medianos"
   },
   "ORBIT_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
@@ -657,7 +657,7 @@
   },
   "PROJECTILE_SPEED": {
     "description": "Stat label for weapon projectile speeds",
-    "message": "Projectile Speed"
+    "message": "Velocidad de Proyectil"
   },
   "PROPULSION": {
     "description": "Category name of propulsion-related equipment",
@@ -701,7 +701,7 @@
   },
   "REINFORCED_STRUCTURE": {
     "description": "Name for an equipment item that reinforces the hull's superstructure",
-    "message": "Reinforced Structure"
+    "message": "Estructura Reforzada"
   },
   "REINFORCED_STRUCTURE_DESCRIPTION": {
     "description": "Description of the Reinforced Structure equipment item",
@@ -709,7 +709,7 @@
   },
   "REQUIRED_SLOT_IS_EMPTY": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Required slot is empty"
+    "message": "La ranura requerida está vacía"
   },
   "SCAN_COMPLETED": {
     "description": "",
@@ -765,35 +765,35 @@
   },
   "SLOT": {
     "description": "",
-    "message": "Slot"
+    "message": "Ranura"
   },
   "SLOTLESS": {
     "description": "",
-    "message": "Slotless"
+    "message": "Sin ranuras"
   },
   "SLOT_CABIN": {
     "description": "Name for a generic room slot inside the pressurized living space",
-    "message": "Cabin"
+    "message": "Cabina"
   },
   "SLOT_CABIN_FORE": {
     "description": "Name for a cabin slot towards the front of the ship",
-    "message": "Fore Cabin"
+    "message": "Cabina delantera"
   },
   "SLOT_CABIN_REAR": {
     "description": "Name for a cabin slot towards the rear of the ship",
-    "message": "Rear Cabin"
+    "message": "Cabina trasera"
   },
   "SLOT_COMPUTER": {
     "description": "Name for a generic computer equipment slot",
-    "message": "Computer"
+    "message": "Computadora"
   },
   "SLOT_ENGINE": {
     "description": "Name for the ship's primary travel engines",
-    "message": "Engines"
+    "message": "Motores"
   },
   "SLOT_HULL": {
     "description": "Name for an equipment slot that augments or modifies the ship hull",
-    "message": "Hull"
+    "message": "Casco"
   },
   "SLOT_HYPERDRIVE": {
     "description": "Name for a ship's singular hyperdrive equipment slot",
@@ -801,7 +801,7 @@
   },
   "SLOT_IS_NOT_EMPTY_REPLACE_THE_EQUIPMENT_QUESTION": {
     "description": "",
-    "message": "Slot is not empty, replace the equipment?"
+    "message": "La ranura no está vacía. ¿Desea reemplazar el equipamiento?"
   },
   "SLOT_SENSOR": {
     "description": "Name for a generic (flight/navigation) sensor slot",
@@ -809,23 +809,23 @@
   },
   "SLOT_SHIELD": {
     "description": "Name for a generic shield slot",
-    "message": "Shield"
+    "message": "Escudo"
   },
   "SLOT_SHIELD_LEFT": {
     "description": "Name for a left-side shield slot",
-    "message": "Shield L"
+    "message": "Escudo I"
   },
   "SLOT_SHIELD_RIGHT": {
     "description": "Name for a right-side shield equipment slot",
-    "message": "Shield R"
+    "message": "Escudo D"
   },
   "SLOT_STRUCTURE": {
     "description": "Name for the ship's internal structure modification slot",
-    "message": "Structure"
+    "message": "Estructura"
   },
   "SLOT_THRUSTER": {
     "description": "Generic name for secondary attitude or maneuvering thrusters",
-    "message": "Thrusters"
+    "message": "Impulsora"
   },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
@@ -837,19 +837,19 @@
   },
   "STAT_ATMO_SHIELD": {
     "description": "Stat name for atmospheric shielding. 'Atmospheric' is abbreviated.",
-    "message": "Atm. Pressure Resistance"
+    "message": "Resistencia a presión Atmo."
   },
   "STAT_HYPERDRIVE_EFFICIENCY": {
     "description": "",
-    "message": "Fuel Efficiency Rating"
+    "message": "Clasificación de eficacia de combustible"
   },
   "STAT_HYPERDRIVE_RESERVOIR": {
     "description": "",
-    "message": "Fuel Reservoir Size"
+    "message": "Tamaño de Combustible de Reserva"
   },
   "STAT_MISSILE_RADIUS": {
     "description": "",
-    "message": "Fuzing Radius"
+    "message": "Radio de espoleta"
   },
   "STAT_MISSILE_WARHEAD": {
     "description": "",
@@ -865,15 +865,15 @@
   },
   "STAT_THRUSTER_POWER": {
     "description": "Stat name for thruster upgrades",
-    "message": "Maximum Thrust Increase"
+    "message": "Aumento Máximo de Impulsor"
   },
   "STAT_VOLUME": {
     "description": "Stat label for equipment volume",
-    "message": "Volume"
+    "message": "Volumen"
   },
   "STAT_WEIGHT": {
     "description": "Stat label for equipment weight",
-    "message": "Weight"
+    "message": "Peso"
   },
   "SURFACE_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude. Model manufacturer name is meant to sound like a cheap brand.",
@@ -905,15 +905,15 @@
   },
   "THE_SAME_EQUIPMENT_HAS_BEEN_ALREADY_INSTALLED": {
     "description": "Message in the start menu when editing equipment",
-    "message": "The same equipment has been already installed."
+    "message": "Un equipamiento del mismo tipo está instalado"
   },
   "THRUSTERS_DEFAULT": {
     "description": "Equipment name for default RCS thrusters",
-    "message": "Default Thrusters"
+    "message": "Impulsores por defecto"
   },
   "THRUSTERS_IMPROVED": {
     "description": "",
-    "message": "Improved Thrusters"
+    "message": "Impulsores Mejorados"
   },
   "THRUSTERS_IMPROVED_DESCRIPTION": {
     "description": "",
@@ -921,7 +921,7 @@
   },
   "THRUSTERS_NAVAL": {
     "description": "",
-    "message": "Naval Thrusters"
+    "message": "Impulsores Navales"
   },
   "THRUSTERS_NAVAL_DESCRIPTION": {
     "description": "",
@@ -957,15 +957,15 @@
   },
   "UNIT_WARHEAD_DAMAGE": {
     "description": "Unit abbreviation for missile warhead damage.",
-    "message": "kg TNT"
+    "message": "Kg TNT"
   },
   "UNOCCUPIED_CABIN": {
     "description": "",
-    "message": "Passenger Cabin"
+    "message": "Cabina de pasajeros"
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",
-    "message": "Required for transporting passengers"
+    "message": "Requerido para el transporte de pasajeros"
   },
   "UTILITY": {
     "description": "Category name of utility equipment",

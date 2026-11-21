@@ -33,7 +33,7 @@
   },
   "ALL_UP_WEIGHT": {
     "description": "",
-    "message": "Current total weight"
+    "message": "Obecna waga całkowita"
   },
   "AMOUNT": {
     "description": "",
@@ -69,7 +69,7 @@
   },
   "AUDIO_BACKEND": {
     "description": "Audio backend label in settings menu",
-    "message": "Audio Backend"
+    "message": "Audio backend"
   },
   "AUTOMATED_MESSAGE": {
     "description": "For comm messages from bots",
@@ -97,11 +97,11 @@
   },
   "BINAURAL_RENDERING": {
     "description": "Label of the binaural rendering checkbox in the audio settings menu",
-    "message": "Binaural Rendering"
+    "message": "Rendering binauralny"
   },
   "BINAURAL_RENDERING_DESC": {
     "description": "Tooltip of the binaural rendering checkbox in the audio settings menu",
-    "message": "When enabled, HRTF filters are applied to the audio output. Works best with headphones."
+    "message": "Gdy włączone, do wyjścia audio stosuje się filtry HRTF. Najlepiej działa ze słuchawkami."
   },
   "BODY_IN_ROUTE": {
     "description": "Label indicating a star is part of a planned hyperjump route",
@@ -137,7 +137,7 @@
   },
   "CABINS": {
     "description": "For passengers",
-    "message": "Berths"
+    "message": "Koje"
   },
   "CABIN_FREE": {
     "description": "Free capacity for passengers",
@@ -365,7 +365,7 @@
   },
   "COULD_NOT_FIND_SYSTEM_BODY_FOR_FRAME": {
     "description": "Message when restoring savegame",
-    "message": "Could not find system body for frame"
+    "message": "Nie można znaleźć ciała systemowego dla układu odniesienia"
   },
   "COULD_NOT_LOAD_GAME": {
     "description": "Label indicating a specific file could not be loaded",
@@ -377,7 +377,7 @@
   },
   "COULD_NOT_READ_THE_SAVE_VERSION": {
     "description": "Message when restoring savegame",
-    "message": "Could not read the save version"
+    "message": "Nie można wczytać zapisanej wersji"
   },
   "COULD_NOT_SAVE_GAME": {
     "description": "Label indicating a specific file could not be saved",
@@ -421,7 +421,7 @@
   },
   "CURRENT_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
-    "message": "Current savegame version: %s"
+    "message": "Obecna zapisana wersja gry: %s"
   },
   "CURRENT_SHIP": {
     "description": "For tooltip comparing current ship specs to one in the shipyard",
@@ -541,7 +541,7 @@
   },
   "DOCKED_TO_A_BODY_THAT_IS_NOT_A_STATION": {
     "description": "Message when restoring savegame",
-    "message": "Docked to a body that is not a station"
+    "message": "Zadokowano do ciała, które nie jest stacją"
   },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
@@ -641,7 +641,7 @@
   },
   "EQUIPMENT_CAPACITY": {
     "description": "The equipment capacity of a ship",
-    "message": "Equipment capacity"
+    "message": "Miejsce na wyposażenie"
   },
   "EQUIPMENT_MARKET": {
     "description": "",
@@ -649,7 +649,7 @@
   },
   "EQUIPMENT_USED": {
     "description": "",
-    "message": "Equipment space used"
+    "message": "Użyte miejsce na wyposażenie"
   },
   "EQUIPPED": {
     "description": "",
@@ -661,7 +661,7 @@
   },
   "ERROR_APPLYING_PATCH": {
     "description": "Message when restoring savegame",
-    "message": "Error applying patch"
+    "message": "Błąd podczas nakładania łaty"
   },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
@@ -757,7 +757,7 @@
   },
   "FILE_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
-    "message": "File savegame version: %s"
+    "message": "Wersja pliku zapisu gry: %s"
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
@@ -1209,7 +1209,7 @@
   },
   "HUD_GRAVITY_INDICATOR": {
     "description": "Tooltip: describe what the gravity indicator shows",
-    "message": "Local gravity acceleration (scale: ship maximum acceleration)"
+    "message": "Lokalne przyspieszenie grawitacyjne (skala: maksymalne przyspieszenie statku)"
   },
   "HUD_HULL_STRENGTH": {
     "description": "Tooltip: Hull Strength.",

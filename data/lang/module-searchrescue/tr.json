@@ -565,7 +565,7 @@
   },
   "PROBLEM_CREW_8": {
     "description": "",
-    "message": "diğer herkesin uzaya fırlamasına sebep olan kötü bir kaza"
+    "message": "a terrible accident that led to the ejection of the others into space"
   },
   "PROBLEM_CREW_9": {
     "description": "",
@@ -729,7 +729,7 @@
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "unoccupied passenger berths"
+    "message": "boş yolcu kabinleri"
   },
   "WHERE_IS_THE_TARGET": {
     "description": "",

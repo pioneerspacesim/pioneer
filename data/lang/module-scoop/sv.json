@@ -57,7 +57,7 @@
   },
   "DEADLINE": {
     "description": "Must be delivered by",
-    "message": "Deadline:"
+    "message": "Frist:"
   },
   "DENY_1": {
     "description": "",

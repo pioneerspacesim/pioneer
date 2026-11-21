@@ -323,7 +323,7 @@ radar3d.draw = function(self, center)
 	end)
 
 	-- Display landing navaid
-	if navTarget and navTarget:GetAssignedBayNumber(Game.player) >= 0 then
+	if navTarget and navTarget:IsStation() and navTarget:GetAssignedBayNumber(Game.player) >= 0 then
 
 		local pos_err = navTarget:GetAssignedBayNavError(Game.player)
 

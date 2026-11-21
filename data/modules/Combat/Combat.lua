@@ -70,16 +70,6 @@ local isQualifiedFor = function(reputation, killcount, ad)
 	)
 end
 
--- Returns the number of flavours of the given string (assuming first flavour has suffix '_1').
-local getNumberOfFlavours = function (str)
-	local num = 1
-
-	while l:get(str .. "_" .. num) do
-		num = num + 1
-	end
-	return num - 1
-end
-
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
@@ -95,7 +85,7 @@ local onChat = function (form, ref, option)
 	form:SetFace(ad.client)
 
 	if not qualified then
-		form:SetMessage(l["DENY_" .. Engine.rand:Integer(1, getNumberOfFlavours("DENY"))])
+		form:SetMessage(l["DENY_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "DENY"))])
 		return
 	end
 
@@ -120,7 +110,7 @@ local onChat = function (form, ref, option)
 		form:SetMessage(string.interp(l["OBJECTIVE_" .. math.ceil(ad.dedication * NUMSUBTYPES)], { area = ad.location:GetSystemBody().name }))
 
 	elseif option == 2 then
-		form:SetMessage(l["RISK_" .. math.ceil(ad.risk * (getNumberOfFlavours("RISK")))])
+		form:SetMessage(l["RISK_" .. math.ceil(ad.risk * (MissionUtils.getNumberOfFlavours(l, "RISK")))])
 
 	elseif option == 3 then
 		form:SetMessage(string.interp(l[ad.flavour.id .. "_IT_MUST_BE_COMPLETED_BY"], { area = ad.location:GetSystemBody().name, date = Format.Date(ad.due) }))
@@ -164,7 +154,7 @@ local onChat = function (form, ref, option)
 		mission = Mission.New(mission)
 		table.insert(missions, mission)
 		MissionUtils.SetupOverdueTimer(mission)
-		form:SetMessage(l["ACCEPTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("ACCEPTED"))])
+		form:SetMessage(l["ACCEPTED_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "ACCEPTED"))])
 		return
 
 	elseif option == 6 then
@@ -241,7 +231,7 @@ local makeAdvert = function (station)
 
 	org = flavour.id == "POLICE" and Game.system.faction.policeName or
 		flavour.id == "MILITARY" and Game.system.faction.militaryName or
-		string.interp(l["CORPORATION_" .. Engine.rand:Integer(1, getNumberOfFlavours("CORPORATION"))], { name = NameGen.Surname() } )
+		string.interp(l["CORPORATION_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "CORPORATION"))], { name = NameGen.Surname() } )
 
 	location = flavour.planets[Engine.rand:Integer(1, #flavour.planets)]
 	dist = location:DistanceTo(Game.system)
@@ -259,8 +249,8 @@ local makeAdvert = function (station)
 		end
 	end
 
-	local titleNum = Engine.rand:Integer(1, getNumberOfFlavours("ADTEXT"))
-	local introtext = l["GREETING_" .. Engine.rand:Integer(1, getNumberOfFlavours("GREETING"))] .. " " .. l[flavour.id .. "_" .. Engine.rand:Integer(1, getNumberOfFlavours(flavour.id))]
+	local titleNum = Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "ADTEXT"))
+	local introtext = l["GREETING_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "GREETING"))] .. " " .. l[flavour.id .. "_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, flavour.id))]
 
 	local ad = {
 		station     = station,
@@ -415,15 +405,15 @@ end
 local finishMission = function (ref, mission)
 	local delta_reputation = 0
 	if Game.time > mission.due then
-		Comms.ImportantMessage(l["FAILUREMSG_" .. Engine.rand:Integer(1, getNumberOfFlavours("FAILUREMSG"))], mission.client.name)
+		Comms.ImportantMessage(l["FAILUREMSG_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "FAILUREMSG"))], mission.client.name)
 		delta_reputation = -2.5
 	elseif mission.complete then
-		Comms.ImportantMessage(l["SUCCESSMSG_" .. Engine.rand:Integer(1, getNumberOfFlavours("SUCCESSMSG"))], mission.client.name)
+		Comms.ImportantMessage(l["SUCCESSMSG_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "SUCCESSMSG"))], mission.client.name)
 		delta_reputation = 2.5
 		PlayerState.AddMoney(mission.reward)
 		if mission.bonus > 0 then
 			local bonus = math.ceil(mission.reward/5 * mission.bonus)
-			local addition = string.interp(l["BONUS_" .. Engine.rand:Integer(1, getNumberOfFlavours("BONUS"))], { cash = Format.Money(bonus, false) })
+			local addition = string.interp(l["BONUS_" .. Engine.rand:Integer(1, MissionUtils.getNumberOfFlavours(l, "BONUS"))], { cash = Format.Money(bonus, false) })
 			Comms.ImportantMessage(addition, mission.client.name)
 			PlayerState.AddMoney(bonus)
 		end
@@ -551,7 +541,7 @@ local buildMissionDescription = function(mission)
 		{ l.AREA, mission.location:GetSystemBody().name },
 		{ l.DISTANCE, dist.." "..lc.UNIT_LY },
 		{ l.TIME_LIMIT, ui.Format.Date(mission.due) },
-		{ l.DANGER, l["RISK_" .. math.ceil(mission.risk * (getNumberOfFlavours("RISK")))] },
+		{ l.DANGER, l["RISK_" .. math.ceil(mission.risk * (MissionUtils.getNumberOfFlavours(l, "RISK")))] },
 		{ l.PAYMENT_LOCATION, paymentLoc }
 	}
 

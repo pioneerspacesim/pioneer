@@ -245,4 +245,24 @@ function MissionUtils.SetupOverdueTimer(mission)
 	end
 end
 
+--
+-- Function: getNumberOfFlavours
+--
+-- Returns the number of flavours of the given string from the language module.
+-- Assuming first flavour has suffix '_1'.
+--
+-- Example:
+--
+-- > local Lang = require 'Lang'
+-- > local l = Lang.GetResource("module-sayings")
+-- > local n = MissionUtils.getNumberOfFlavours(l, "WISDOM")
+--
+function MissionUtils.getNumberOfFlavours(l, str)
+	local num = 1
+	while l:get(str .. "_" .. num) do
+		num = num + 1
+	end
+	return num - 1
+end
+
 return MissionUtils

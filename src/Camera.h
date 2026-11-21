@@ -111,8 +111,8 @@ public:
 
 	struct Shadow {
 		vector3d centre;
-		float srad;
-		float lrad;
+		double srad;
+		double lrad;
 
 		bool operator<(const Shadow &other) const { return srad / lrad < other.srad / other.lrad; }
 	};

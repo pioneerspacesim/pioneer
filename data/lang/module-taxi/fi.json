@@ -1,0 +1,642 @@
+{
+  "CORPORATIONS_0": {
+    "description": "",
+    "message": "Sirius"
+  },
+  "CORPORATIONS_1": {
+    "description": "",
+    "message": "ACME"
+  },
+  "CORPORATIONS_10": {
+    "description": "",
+    "message": "Bulkkilaivat"
+  },
+  "CORPORATIONS_11": {
+    "description": "",
+    "message": "Armin aerodynamiikka"
+  },
+  "CORPORATIONS_2": {
+    "description": "",
+    "message": "Cool Cola"
+  },
+  "CORPORATIONS_3": {
+    "description": "",
+    "message": "Taranis"
+  },
+  "CORPORATIONS_4": {
+    "description": "",
+    "message": "Ahdin varustamo"
+  },
+  "CORPORATIONS_5": {
+    "description": "",
+    "message": "Rockforth"
+  },
+  "CORPORATIONS_6": {
+    "description": "",
+    "message": "Amaliel"
+  },
+  "CORPORATIONS_7": {
+    "description": "",
+    "message": "Marett Space"
+  },
+  "CORPORATIONS_8": {
+    "description": "",
+    "message": "Vega–linja"
+  },
+  "CORPORATIONS_9": {
+    "description": "",
+    "message": "Digital"
+  },
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Voisitteko toistaa alkuperäisen pyynnön?"
+  },
+  "DANGER": {
+    "description": "",
+    "message": "Vaara:"
+  },
+  "DEADLINE": {
+    "description": "",
+    "message": "Määräaika:"
+  },
+  "DENY_0": {
+    "description": "",
+    "message": "Olen pahoillani, mutta en taida voida uskoa turvallisuuteeni liittyviä asioita teille."
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Palatkaa, kun teillä on jonkinlainen pätevyys."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "En usko että olette hakemani pilotti."
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "Ette vaikuta olevan kykenevä kuljettamaan ihmisiä."
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "Ette ole hakemani kaltainen pilotti."
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "Vaikutatte aivan liian kokemattomalta näin tärkeän kuljetuksen hoitamiseen."
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "En ole koskaan kuullutkaan teistä. Tarvitsen jonkun kokeneen tätä matkaa varten."
+  },
+  "DENY_7": {
+    "description": "",
+    "message": "En halua vaarantaa henkeäni yhdenkään epäpätevän tekijän kanssa."
+  },
+  "DISTANCE": {
+    "description": "",
+    "message": "Etäisyys:"
+  },
+  "EXCELLENT": {
+    "description": "",
+    "message": "Mainiota."
+  },
+  "FLAVOUR_0_ADTEXT": {
+    "description": "",
+    "message": "Halutaan: Kuljetus pienelle ryhmälle {system} –järjestelmään. Maksu on {cash}."
+  },
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "HALUTAAN MATKA"
+  },
+  "FLAVOUR_0_DANGER": {
+    "description": "",
+    "message": "Ette."
+  },
+  "FLAVOUR_0_FAILUREMSG": {
+    "description": "",
+    "message": "Sietämätöntä! Teillä kesti iäisyys. Emme aio maksaa."
+  },
+  "FLAVOUR_0_HOWMANY": {
+    "description": "",
+    "message": "Meitä olisi {group}."
+  },
+  "FLAVOUR_0_INTROTEXT": {
+    "description": "",
+    "message": "Hei, olen {name} ja minun sekä pienen ryhmäni olisi päästävä {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmään, jonne on matkaa {dist} valovuotta. Maksan {cash}."
+  },
+  "FLAVOUR_0_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos mukavasta matkasta. Olette saaneet palkkion kokonaisuudessaan."
+  },
+  "FLAVOUR_0_WHEREAREWE": {
+    "description": "",
+    "message": "Missä me olemme? Olemme odottaneet kylliksi, viekää meidät heti lähimmälle asemalle!"
+  },
+  "FLAVOUR_0_WHYSOMUCH": {
+    "description": "",
+    "message": "Vierailemme ystävän luona."
+  },
+  "FLAVOUR_10_ADTEXT": {
+    "description": "",
+    "message": "VIP tarvitsee kiireellistä kulkua nopealla aluksella {system} –järjestelmään. Ei kysymyksiä."
+  },
+  "FLAVOUR_10_ADTITLE": {
+    "description": "",
+    "message": "HALUTAAN HILLITTY ALUS"
+  },
+  "FLAVOUR_10_DANGER": {
+    "description": "",
+    "message": "Luulen jonkun seuraavan minua."
+  },
+  "FLAVOUR_10_FAILUREMSG": {
+    "description": "",
+    "message": "Olette niin kokematon pilotti. En aio maksaa tästä."
+  },
+  "FLAVOUR_10_HOWMANY": {
+    "description": "",
+    "message": "Vain yksi."
+  },
+  "FLAVOUR_10_INTROTEXT": {
+    "description": "",
+    "message": "Minun nimeni on {name}. Haluan nopean lennon {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmään, etäisyys {dist} valovuotta. Maksan {cash}."
+  },
+  "FLAVOUR_10_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos nopeasta kyydistä. Olette saaneet palkkion kokonaisuudessaan."
+  },
+  "FLAVOUR_10_WHEREAREWE": {
+    "description": "",
+    "message": "Missä me olemme? Olen odottanut ja odottanut, nyt viette minut lähimmälle asemalle!"
+  },
+  "FLAVOUR_10_WHYSOMUCH": {
+    "description": "",
+    "message": "En tahdo, että eräs löytää minut."
+  },
+  "FLAVOUR_11_ADTEXT": {
+    "description": "",
+    "message": "Yritystarkastaja tarvitsee kyydin nopealla aluksella {system} –järjestelmään."
+  },
+  "FLAVOUR_11_ADTITLE": {
+    "description": "",
+    "message": "TARVITAAN NOPEA ALUS"
+  },
+  "FLAVOUR_11_DANGER": {
+    "description": "",
+    "message": "Joskus ihmiset eivät halua tulla tarkastetuksi."
+  },
+  "FLAVOUR_11_FAILUREMSG": {
+    "description": "",
+    "message": "Menetän työpaikkani taitamattomuutenne vuoksi. Joten se raha on minulle tärkeämpi, kuin teille."
+  },
+  "FLAVOUR_11_HOWMANY": {
+    "description": "",
+    "message": "Vain yksi."
+  },
+  "FLAVOUR_11_INTROTEXT": {
+    "description": "",
+    "message": "Minun nimeni on {name}. Minun tarvitsisi päästä nopeasti {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmään, etäisyys {dist} vv. Maksaisin {cash}."
+  },
+  "FLAVOUR_11_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos nopeasta kyydistä. Maksoin täyden summan."
+  },
+  "FLAVOUR_11_WHEREAREWE": {
+    "description": "",
+    "message": "Missä me olemme? Olen odottanut tarpeeksi, nyt lennätte lähimmälle asemalle!"
+  },
+  "FLAVOUR_11_WHYSOMUCH": {
+    "description": "",
+    "message": "Olen tehdastarkastaja työssään."
+  },
+  "FLAVOUR_12_ADTEXT": {
+    "description": "",
+    "message": "Kiireellinen kuljetus pakenevalle kansalaiselle {system} –järjestelmään."
+  },
+  "FLAVOUR_12_ADTITLE": {
+    "description": "",
+    "message": "ALUS TARPEEN"
+  },
+  "FLAVOUR_12_DANGER": {
+    "description": "",
+    "message": "Joku jahtaa minua."
+  },
+  "FLAVOUR_12_FAILUREMSG": {
+    "description": "",
+    "message": "Minulla ei ole tarpeeksi rahaa, anteeksi."
+  },
+  "FLAVOUR_12_HOWMANY": {
+    "description": "",
+    "message": "Vain yksi."
+  },
+  "FLAVOUR_12_INTROTEXT": {
+    "description": "",
+    "message": "Minun nimeni on {name}. Minun tarvitsisi päästä {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmään, jonne on matkaa {dist} valovuotta. Maksaisin {cash}."
+  },
+  "FLAVOUR_12_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitoksia kyydistä. Maksoin täyden summan."
+  },
+  "FLAVOUR_12_WHEREAREWE": {
+    "description": "",
+    "message": "Missä olemme nyt? Olen odottanut tarpeeksi, nyt viette minut lähimmälle asemalle!"
+  },
+  "FLAVOUR_12_WHYSOMUCH": {
+    "description": "",
+    "message": "Olen velkaa eräälle, joka ajaa minua nyt takaa."
+  },
+  "FLAVOUR_1_ADTEXT": {
+    "description": "",
+    "message": "Halutaan: Kuljetus pienelle ryhmälle {system} –järjestelmään. Maksetaan {cash}."
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "KYYTIÄ VAILLA"
+  },
+  "FLAVOUR_1_DANGER": {
+    "description": "",
+    "message": "Ette."
+  },
+  "FLAVOUR_1_FAILUREMSG": {
+    "description": "",
+    "message": "Sietämätöntä! Teillä meni iäisyys. Emme tahdo maksaa teille."
+  },
+  "FLAVOUR_1_HOWMANY": {
+    "description": "",
+    "message": "Meitä on kaikkiaan {group}."
+  },
+  "FLAVOUR_1_INTROTEXT": {
+    "description": "",
+    "message": "Hei, olen {name} ja minä ja pieni ryhmä haluaa päästä {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmään, etäisyys {dist} valovuotta. Maksaisin {cash}."
+  },
+  "FLAVOUR_1_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos mukavasta matkasta. Olette saaneet maksun kokonaisuudessaan."
+  },
+  "FLAVOUR_1_WHEREAREWE": {
+    "description": "",
+    "message": "Missä me olemme? Olemme odottaneet odottamasta päästyämme, nyt viette meidät lähimmälle asemalle!"
+  },
+  "FLAVOUR_1_WHYSOMUCH": {
+    "description": "",
+    "message": "Työnantajamme on {corp}, ja he maksavat."
+  },
+  "FLAVOUR_2_ADTEXT": {
+    "description": "",
+    "message": "Halutaan: matka {system} –järjestelmään pienryhmälle. Maksetaan {cash}."
+  },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "PIENRYHMÄMATKA"
+  },
+  "FLAVOUR_2_DANGER": {
+    "description": "",
+    "message": "Ette."
+  },
+  "FLAVOUR_2_FAILUREMSG": {
+    "description": "",
+    "message": "Ei kelpaa! Teillä meni todella kauan. Emme maksa teille mitään."
+  },
+  "FLAVOUR_2_HOWMANY": {
+    "description": "",
+    "message": "Meitä on {group}."
+  },
+  "FLAVOUR_2_INTROTEXT": {
+    "description": "",
+    "message": "Hei, olen {name} ja minun ja ryhmäni tulisi päästä {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmään, jonne on matkaa {dist} valovuotta. Maksaisin {cash}."
+  },
+  "FLAVOUR_2_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos kun toitte meidät tänne. Olemme maksaneet täyden palkkion. Lykkyä tykö!"
+  },
+  "FLAVOUR_2_WHEREAREWE": {
+    "description": "",
+    "message": "Missä mahdamme olla? Olemme odottaneet tarpeeksi, nyt viette meidät lähimpään satamaan!"
+  },
+  "FLAVOUR_2_WHYSOMUCH": {
+    "description": "",
+    "message": "Se on tavallinen liikematka."
+  },
+  "FLAVOUR_3_ADTEXT": {
+    "description": "",
+    "message": "Tarvitaan alus riskialttiiseen kulkuun {system} –järjestelmään. Maksan {cash}."
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "TARVITAAN ALUS"
+  },
+  "FLAVOUR_3_DANGER": {
+    "description": "",
+    "message": "Uskon, että perässäni on palkkamurhaaja, ja varmaan he tulisivat teidänkin peräänne."
+  },
+  "FLAVOUR_3_FAILUREMSG": {
+    "description": "",
+    "message": "Mitä tämä on? Teillä meni iäisyys. En maksa teille."
+  },
+  "FLAVOUR_3_HOWMANY": {
+    "description": "",
+    "message": "Vain minä."
+  },
+  "FLAVOUR_3_INTROTEXT": {
+    "description": "",
+    "message": "Hei, olen {name} ja tarvitsen lennon {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmään, etäisyys {dist} valovuotta. Maksan {cash}."
+  },
+  "FLAVOUR_3_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos mukavasta matkasta. Olette saaneet palkkion kokonaisuudessaan."
+  },
+  "FLAVOUR_3_WHEREAREWE": {
+    "description": "",
+    "message": "Missä me olemme? Olen odottanut kylliksi, nyt viet minut lähimmälle asemalle!"
+  },
+  "FLAVOUR_3_WHYSOMUCH": {
+    "description": "",
+    "message": "Vanha kilpailijani yrittää surmata minut."
+  },
+  "FLAVOUR_4_ADTEXT": {
+    "description": "",
+    "message": "Halutaan alus liikemiesluokan lennolle {system} –järjestelmään. Maksu {cash}."
+  },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "LIIKELENTO"
+  },
+  "FLAVOUR_4_DANGER": {
+    "description": "",
+    "message": "Ette."
+  },
+  "FLAVOUR_4_FAILUREMSG": {
+    "description": "",
+    "message": "Älä edes kuvittele saavasi maksua tästä! Ilmoitan sinut viranomaisille."
+  },
+  "FLAVOUR_4_HOWMANY": {
+    "description": "",
+    "message": "Vain minä."
+  },
+  "FLAVOUR_4_INTROTEXT": {
+    "description": "",
+    "message": "Hei, olen {name} ja tarvitsisin itselleni lennon {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmään, etäisyys {dist} valovuotta. Maksaisin {cash}."
+  },
+  "FLAVOUR_4_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos, että toitte minut tänne. Olen maksanut kaiken. Onnea matkaan!"
+  },
+  "FLAVOUR_4_WHEREAREWE": {
+    "description": "",
+    "message": "Missä me olemme? Olen odottanut vaikka kuinka, nyt viette minut lähimmälle asemalle!"
+  },
+  "FLAVOUR_4_WHYSOMUCH": {
+    "description": "",
+    "message": "Olen kauppamatkustaja."
+  },
+  "FLAVOUR_5_ADTEXT": {
+    "description": "",
+    "message": "Luottamuksellista lentoa haetaan nimettömänä pysyttelevälle VIP:lle. Kohde on {system}. Maksu on {cash}."
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "LUOTTAMUKSELLINEN LENTO"
+  },
+  "FLAVOUR_5_DANGER": {
+    "description": "",
+    "message": "Saanette yhteydenottoja lehdistöltä. Jättäkää ne huomiotta."
+  },
+  "FLAVOUR_5_FAILUREMSG": {
+    "description": "",
+    "message": "Mitä te onneton olette tehnyt! Kiertueeni on täysin pilalla ja puolet faneistani ovat hylänneet minut."
+  },
+  "FLAVOUR_5_HOWMANY": {
+    "description": "",
+    "message": "Vain minä."
+  },
+  "FLAVOUR_5_INTROTEXT": {
+    "description": "",
+    "message": "Hei, olen {name} ja tarvitsen lennon {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmään, etäisyys {dist} vv. Maksan {cash}."
+  },
+  "FLAVOUR_5_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos mukavasta matkasta. Olette saaneet maksun kokonaisuudessaan."
+  },
+  "FLAVOUR_5_WHEREAREWE": {
+    "description": "",
+    "message": "Missä me olemme? Olen odottanut vaikka kuinka, nyt viette minut lähimmälle asemalle!"
+  },
+  "FLAVOUR_5_WHYSOMUCH": {
+    "description": "",
+    "message": "Ettekö tienneet, olen tunnettu unitähti."
+  },
+  "FLAVOUR_6_ADTEXT": {
+    "description": "",
+    "message": "Toimittaja tarvitsee pääsyä {system} –järjestelmässä kehittyvän skuupin ääreen. Maksu on {cash}."
+  },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "ALUS TARPEEN"
+  },
+  "FLAVOUR_6_DANGER": {
+    "description": "",
+    "message": "Ette."
+  },
+  "FLAVOUR_6_FAILUREMSG": {
+    "description": "",
+    "message": "Sietämätöntä! Teillä kesti ja kesti. Enkä maksa."
+  },
+  "FLAVOUR_6_HOWMANY": {
+    "description": "",
+    "message": "Vain minä."
+  },
+  "FLAVOUR_6_INTROTEXT": {
+    "description": "",
+    "message": "Hei, olen {name} ja tarvitsen lennon {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmään, jonne on {dist} valovuotta matkaa. Maksan {cash}."
+  },
+  "FLAVOUR_6_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos mukavasta matkasta. Olette saaneet täyden maksun."
+  },
+  "FLAVOUR_6_WHEREAREWE": {
+    "description": "",
+    "message": "Missä me olemme? Olen ollut liian kärsivällinen, nyt lennätte heti lähimmälle asemalle!"
+  },
+  "FLAVOUR_6_WHYSOMUCH": {
+    "description": "",
+    "message": "Olen vapaa toimittaja."
+  },
+  "FLAVOUR_7_ADTEXT": {
+    "description": "",
+    "message": "Alus halutaan turvalliseen kulkuun {system} –järjestelmään. Vaaditaan turva–alus. Maksu on {cash}."
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "TARVITAAN TURVALLINEN LENTO"
+  },
+  "FLAVOUR_7_DANGER": {
+    "description": "",
+    "message": "Mafia ei pidä ihmisistä, jotka auttavan heidän vihollisiaan."
+  },
+  "FLAVOUR_7_FAILUREMSG": {
+    "description": "",
+    "message": "Sietämätöntä! Tuhlasitte aikaani todella paljon. En maksa."
+  },
+  "FLAVOUR_7_HOWMANY": {
+    "description": "",
+    "message": "Minä ilman muita."
+  },
+  "FLAVOUR_7_INTROTEXT": {
+    "description": "",
+    "message": "Hei, minun nimeni on {name} ja tarvitsisin turvallisen kulun {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmään, jonne on matkaa {dist} valovuotta. Maksaisin {cash}."
+  },
+  "FLAVOUR_7_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos, että toitte minut tänne turvallisesti. Maksoin. Lykkyä tykö!"
+  },
+  "FLAVOUR_7_WHEREAREWE": {
+    "description": "",
+    "message": "Missä me olemme? Olen odottanut kylliksi, nyt viette minut lähimmälle asemalle!"
+  },
+  "FLAVOUR_7_WHYSOMUCH": {
+    "description": "",
+    "message": "Mafia haluaa minut hengiltä."
+  },
+  "FLAVOUR_8_ADTEXT": {
+    "description": "",
+    "message": "Kiireellinen henkilökuljetus {system} –järjestelmään. Maksuun sisältyy lisämaksu."
+  },
+  "FLAVOUR_8_ADTITLE": {
+    "description": "",
+    "message": "NOPEA HENKILÖKULJETUS"
+  },
+  "FLAVOUR_8_DANGER": {
+    "description": "",
+    "message": "Ette."
+  },
+  "FLAVOUR_8_FAILUREMSG": {
+    "description": "",
+    "message": "Sietämätöntä! Teillä meni iäisyys. En maksa tuosta mitään."
+  },
+  "FLAVOUR_8_HOWMANY": {
+    "description": "",
+    "message": "Vain minä."
+  },
+  "FLAVOUR_8_INTROTEXT": {
+    "description": "",
+    "message": "Minun nimeni on {name}. Tarvitsen nopean lennon {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmään, etäisyys {dist} valovuotta. Maksan {cash}."
+  },
+  "FLAVOUR_8_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos nopeasta kyydistä. Olette saaneet täyden palkkion."
+  },
+  "FLAVOUR_8_WHEREAREWE": {
+    "description": "",
+    "message": "Missä me olemme? Olen sietänyt viivytyksiä, mutta nyt viette minut lähimmälle asemalle!"
+  },
+  "FLAVOUR_8_WHYSOMUCH": {
+    "description": "",
+    "message": "Vierailen sairaan sukulaisen luona."
+  },
+  "FLAVOUR_9_ADTEXT": {
+    "description": "",
+    "message": "Tarvitaan nopea kuljetus rehelliselle kansalaiselle. Nopea lento {system} –järjestelmään."
+  },
+  "FLAVOUR_9_ADTITLE": {
+    "description": "",
+    "message": "LAILLINEN LENTO"
+  },
+  "FLAVOUR_9_DANGER": {
+    "description": "",
+    "message": "Poliisi voi yrittää pysäyttää teitä."
+  },
+  "FLAVOUR_9_FAILUREMSG": {
+    "description": "",
+    "message": "Hyödytöntä! Teillä meni iäisyys. En maksa teille."
+  },
+  "FLAVOUR_9_HOWMANY": {
+    "description": "",
+    "message": "Minä vain."
+  },
+  "FLAVOUR_9_INTROTEXT": {
+    "description": "",
+    "message": "Minun nimeni on {name}. Tarvitsisin nopean pääsyn {system} ({sectorx}, {sectory}, {sectorz}) –järjestelmään, jonne on matkaa {dist} valovuotta. Maksaisin {cash}."
+  },
+  "FLAVOUR_9_SUCCESSMSG": {
+    "description": "",
+    "message": "Kiitos nopeasta kyydistä. Maksu on suoritettu."
+  },
+  "FLAVOUR_9_WHEREAREWE": {
+    "description": "",
+    "message": "Missä me olemme? Olen odottanut kylliksi, nyt viette minut lähimmälle asemalle!"
+  },
+  "FLAVOUR_9_WHYSOMUCH": {
+    "description": "",
+    "message": "Poliisi haluaa minun avustavan heitä selvityksissään."
+  },
+  "FROM": {
+    "description": "",
+    "message": "Lähtö:"
+  },
+  "GROUP_DETAILS": {
+    "description": "",
+    "message": "Tietoja ryhmästä:"
+  },
+  "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS": {
+    "description": "",
+    "message": "Hei!?! Tämän sinä maksat!!!"
+  },
+  "HOW_MANY_OF_YOU_ARE_THERE": {
+    "description": "",
+    "message": "Montako teitä on?"
+  },
+  "HOW_SOON_YOU_MUST_BE_THERE": {
+    "description": "",
+    "message": "Kuinka pian teidän tulisi olla siellä?"
+  },
+  "I_MUST_BE_THERE_BEFORE": {
+    "description": "",
+    "message": "Minun pitää olla siellä ennen "
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Selvä, sovittu."
+  },
+  "PIRATE_TAUNTS_0": {
+    "description": "",
+    "message": "Tulette katumaan, että {client} on matkustajananne."
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "Teillä on {client} aluksessanne? Se oli huonompi teille."
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "Tänään ei ole onnenpäiväsi! Valmistaudu kuolemaan."
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "Ette muuten telakoidu tänään!"
+  },
+  "TAXI": {
+    "description": "",
+    "message": "Taksi"
+  },
+  "TO": {
+    "description": "",
+    "message": "Määränpää:"
+  },
+  "WE_WANT_TO_BE_THERE_BEFORE": {
+    "description": "",
+    "message": "Haluamme olla siellä ennen "
+  },
+  "WHY_SO_MUCH_MONEY": {
+    "description": "",
+    "message": "Miksi noin paljon rahaa?"
+  },
+  "WILL_I_BE_IN_ANY_DANGER": {
+    "description": "",
+    "message": "Asetanko itseni vaaraan?"
+  },
+  "WRONG_SYSTEM": {
+    "description": "Shown if system name is right, but coordinates are wrong",
+    "message": "Järjestelmän nimi on oikein, mutta koordinaatit ovat väärin."
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP": {
+    "description": "",
+    "message": "Aluksessasi ei ole tarpeeksi hyttejä."
+  }
+}

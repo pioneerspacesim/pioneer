@@ -3,7 +3,6 @@
 
 local Game = require 'Game'
 local Lang = require 'Lang'
-local Format = require 'Format'
 local Gravity = require 'pigui.libs.gravity'
 local TwrGauge = require 'pigui.libs.twr-gauge'
 local lui = Lang.GetResource("ui-core")
@@ -90,7 +89,7 @@ local function displayMassTwrDisplay()
 	local twrCurrent = localGravity and (upAccel / localGravity) or math.huge
 
 	local rows = {
-		{ label = lui.TOTAL_MASS, value = Format.MassTonnes(totalMass) },
+		{ label = lui.TOTAL_MASS, value = ui.Format.Mass(totalMass * 1000, 2) },
 		{ label = lui.LOCAL_GRAVITY, value = ui.Format.Gravity((localGravity or 0) / EARTH_G) },
 	}
 	if showCurrentTwr then

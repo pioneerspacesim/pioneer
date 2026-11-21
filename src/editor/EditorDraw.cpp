@@ -249,7 +249,7 @@ bool Draw::ToggleButton(const char *label, bool *value, ImVec4 activeColor)
 	return changed;
 }
 
-bool Draw::ColorEdit3(const char *label, Color *color)
+bool Draw::ColorEdit3(const char *label, Color4ub *color)
 {
 	Color4f _c = color->ToColor4f();
 	bool changed = ImGui::ColorEdit3(label, &_c[0]);

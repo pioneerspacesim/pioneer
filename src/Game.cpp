@@ -26,6 +26,7 @@
 #include "Player.h"
 #include "SaveGameManager.h"
 #include "SectorView.h"
+#include "Sensors.h"
 #include "Sfx.h"
 #include "Space.h"
 #include "SpaceStation.h"
@@ -483,6 +484,12 @@ void Game::RemoveHyperspaceCloud(HyperspaceCloud *cloud)
 void Game::SwitchToHyperspace()
 {
 	PROFILE_SCOPED()
+
+	// Drop sensor contacts now so HUD objects are not left pointing at ships
+	// that this function is about to delete.
+	if (Sensors *sensors = m_player->GetSensors())
+		sensors->ClearContacts();
+
 	// remember where we came from so we can properly place the player on exit
 	m_hyperspaceSource = m_space->GetStarSystem()->GetPath();
 	m_hyperspaceDest = m_player->GetHyperspaceDest();

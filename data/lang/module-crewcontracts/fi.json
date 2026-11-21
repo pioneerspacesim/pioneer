@@ -1,0 +1,102 @@
+{
+  "ASK_CANDIDATE_TO_SIT_A_TEST": {
+    "description": "",
+    "message": "Pyydä hakijaa suorittamaan koe"
+  },
+  "CREWDETAILSHEETBB": {
+    "description": "",
+    "message": "Nimi: {name}\nKokemus: {experience}\nPalkkatoive: {wage} viikossa\n\n{response}\n"
+  },
+  "CREWMEMBER_WAGE_PER_WEEK": {
+    "description": "",
+    "message": "{potentialCrewMember} ({wage}/vko)"
+  },
+  "CREWTESTRESULTSBB": {
+    "description": "",
+    "message": "Koetulos:\n\nYleisluontoinen pätevyys: {general}%\nKoneet ja korjaaminen: {engineering}%\nLentäminen: {piloting}%\nNavigointi ja reititys: {navigation}%\nAnturit ja puolustus: {sensors}%\nKokonaisarvosana: {overall}%"
+  },
+  "CREW_FOR_HIRE": {
+    "description": "",
+    "message": "Palvelukseen tarjotaan"
+  },
+  "CREW_FOR_HIRE_DESC": {
+    "description": "",
+    "message": "Miehistöksi palkattavaa väkeä tässä avaruussatamassa."
+  },
+  "CREW_FOR_HIRE_TITLE": {
+    "description": "",
+    "message": "PALVELUKSEEN TARJOTAAN"
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "Palaa"
+  },
+  "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER": {
+    "description": "",
+    "message": "Valitettavasti en voi suostua vähempään."
+  },
+  "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
+    "description": "",
+    "message": "Olen pahoillani, tarjouksenne ei vetoa minuun."
+  },
+  "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
+    "description": "",
+    "message": "Tarjoa komennusta aluksella näillä ehdoilla"
+  },
+  "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
+    "description": "",
+    "message": "Vähän aluksessa suoritettua palvelusta"
+  },
+  "NO_CREW_AVAILABLE": {
+    "description": "",
+    "message": "Valitettavasti kukaan ei nyt hae pestiä {station}:lla"
+  },
+  "NO_EXPERIENCE": {
+    "description": "",
+    "message": "Kokematon"
+  },
+  "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
+    "description": "",
+    "message": "Olkoon menneeksi sitten."
+  },
+  "POTENTIAL_CREW_MEMBERS": {
+    "description": "",
+    "message": "Mahdollisia hakijoita miehistöön {station}:lla:"
+  },
+  "SIMULATOR_TRAINING_ONLY": {
+    "description": "",
+    "message": "Vain simulaattoriharjoituksia"
+  },
+  "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS": {
+    "description": "",
+    "message": "Hieman kokemusta rajoitetuissa ympäristöissä"
+  },
+  "SUGGEST_NEW_WEEKLY_WAGE_OF_N": {
+    "description": "",
+    "message": "Ehdota uutta viikkopalkkaa: {newAmount}"
+  },
+  "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY": {
+    "description": "",
+    "message": "Kiitos, asetun sinne heti."
+  },
+  "THATS_EXTREMELY_GENEROUS_OF_YOU": {
+    "description": "",
+    "message": "Tuo on teiltä todella anteliasta!"
+  },
+  "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER": {
+    "description": "",
+    "message": "Tuo saa tämän tarjouksen tosiaan näyttämään paremmalta!"
+  },
+  "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD": {
+    "description": "",
+    "message": "Aluksella ei vaikuta olevan minulle tilaa!"
+  },
+  "TIME_SERVED_CREW_MEMBER": {
+    "description": "",
+    "message": "Palvellut miehistönjäsen"
+  },
+  "VETERAN_TIME_SERVED_CREW_MEMBER": {
+    "description": "",
+    "message": "Veteraani, palvellut miehistönjäsen"
+  }
+}

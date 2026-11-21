@@ -1,0 +1,82 @@
+{
+  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Lupa myönnetty ennestään. Jatkakaa telakointipisteeseen numero {bay}."
+  },
+  "CLEARANCE_DENIED_NO_BAYS": {
+    "description": "",
+    "message": "Lupa evätty. Kaikki telakointipisteet ovat varattuja."
+  },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Lupa evätty. Aluksenne on liian kaukana rekisterivarmennukseen."
+  },
+  "CLEARANCE_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Lupa myönnetty. Jatkakaa telakointipisteeseen numero {bay}."
+  },
+  "DOCKING_CLEARANCE_EXPIRED": {
+    "description": "",
+    "message": "Lupa vanhentui. Jos tahdotte telakoitua, teidän on toistettava pyyntö."
+  },
+  "STATION_GRAV": {
+    "description": "Like an airline pilot announcing local weather conditions",
+    "message": "Paikallinen painovoima on {grav}."
+  },
+  "STATION_GRAV_PRESS": {
+    "description": "Like an airline pilot announcing local weather conditions",
+    "message": "Paikallinen painovoima on {grav} ja paine {press}."
+  },
+  "WATCH_FOR_TRAFFIC_ON_APPROACH": {
+    "description": "",
+    "message": "Huomioikaa lähestymisessänne muu liikenne."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_1": {
+    "description": "",
+    "message": "{playerShipLabel}, olette saapumassa avaruuteen, jota {station} hallinnoi. Noudattakaa paikallisia säännöksiä."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_2": {
+    "description": "",
+    "message": "{playerShipLabel}, olette tutkassa. Tämä on avaruutta, jota {station} hallinnoi."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_3": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, tämä on {station}–LO. Saavutte ohjattuun avaruuteen."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_4": {
+    "description": "",
+    "message": "{playerShipLabel}, saavutte avaruuteen, jota hallinnoi {station}."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_5": {
+    "description": "",
+    "message": "{playerShipLabel}, tervetuloa, tämä on {station}. Huomaattehan, että säännökset ovat voimassa niin kauan kun lennätte alueemme sisäpuolella."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_6": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, tämä on {station}–LO. Saavutte ohjattuun avaruuteen, ja arvostaisin jos ette tee minulle tänään yhtään paperitöitä."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_1": {
+    "description": "",
+    "message": "{playerShipLabel}, olette poistuneet ohjatusta {station} –avaruudesta."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_2": {
+    "description": "",
+    "message": "{playerShipLabel}, olette poistuneet avaruudesta, jota hallinnoi {station}."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_3": {
+    "description": "",
+    "message": "{playerShipLabel}, olette poistuneet {station}:n avaruudesta. Rajoitukset poissa."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_4": {
+    "description": "",
+    "message": "Lennätte pois avaruudestamme, {playerShipLabel}. {station} kuittaa teidät ulos."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_5": {
+    "description": "",
+    "message": "{playerShipLabel}, lennätte ulos avaruudestamme. {station} toivottaa teille mukavaa matkaa."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_6": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, tämä on {station}–LO. Näen, että poistutte ohjaamastamme avaruudesta, turvallista matkaa."
+  }
+}
