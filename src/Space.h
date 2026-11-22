@@ -85,6 +85,7 @@ public:
 	}
 
 	void DebugDumpFrames(bool details);
+	void EnsureFrameHierarchyContainment();
 
 	struct BodyDist {
 		BodyDist(Body *_body, double _dist) :

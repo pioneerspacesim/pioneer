@@ -264,6 +264,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, S
 	std::vector<vector3d> positionAccumulator;
 	GenBody(m_game->GetTime(), m_starSystem->GetRootBody().Get(), m_rootFrameId, positionAccumulator);
 	Frame::UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
+	EnsureFrameHierarchyContainment();
 
 	GenSectorCache(galaxy, &path);
 }
@@ -814,7 +815,7 @@ static FrameId MakeFramesFor(const double at_time, SystemBody *sbody, Body *b, F
 		(supertype == SystemBody::SUPERTYPE_ROCKY_PLANET)) {
 		// for planets we want an non-rotating frame covering its Hill radius
 		// and a rotating frame with no radius to contain attached objects
-		double hillRadius = sbody->GetSemiMajorAxis() * (1.0 - sbody->GetEccentricity()) * pow(sbody->GetMass() / (3.0 * sbody->GetParent()->GetMass()), 1.0 / 3.0);
+		double hillRadius = sbody->GetSemiMajorAxis() * AU * (1.0 - sbody->GetEccentricity()) * pow(sbody->GetMass() / (3.0 * sbody->GetParent()->GetMass()), 1.0 / 3.0);
 		double frameRadius = std::max(hillRadius, sbody->GetMaxChildOrbitalDistance() * 1.05);
 		frameRadius = std::max(sbody->GetRadius() * 4.0, frameRadius);
 		FrameId orbFrameId = Frame::CreateFrame(fId,
@@ -1206,4 +1207,36 @@ void Space::DebugDumpFrames(bool details)
 	else
 		Output("Frame structure while in hyperspace:\n");
 	DebugDumpFrame(m_rootFrameId, details, 3);
+}
+
+static void EnsureFrameContainmentRecursive(FrameId fId)
+{
+	Frame *parent = Frame::GetFrame(fId);
+
+	for (FrameId kidId : parent->GetChildren()) {
+		EnsureFrameContainmentRecursive(kidId);
+
+		Frame *child = Frame::GetFrame(kidId);
+		// Root frame uses FLT_MAX, so nothing to expand there
+		if (parent->GetRadius() > FLT_MAX / 2.0)
+			continue;
+
+		// Parent FoR must cover the child sphere: centre (current pos or apoapsis) + child radius.
+		double childCenter = child->GetPosition().Length();
+		if (!child->IsRotFrame())
+			childCenter = std::max(childCenter, child->GetSystemBody()->GetOrbMax() * AU);
+
+		const double need = childCenter + child->GetRadius();
+		if (need > parent->GetRadius()) {
+			Output("Expanding frame '%s' radius %.3f km -> %.3f km to contain '%s'%s\n",
+				parent->GetLabel().c_str(), parent->GetRadius() / 1000.0, need / 1000.0,
+				child->GetLabel().c_str(), child->IsRotFrame() ? " [rotating]" : "");
+			parent->SetRadius(need);
+		}
+	}
+}
+
+void Space::EnsureFrameHierarchyContainment()
+{
+	EnsureFrameContainmentRecursive(m_rootFrameId);
 }
