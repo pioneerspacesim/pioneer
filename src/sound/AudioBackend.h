@@ -42,9 +42,7 @@ namespace Sound {
 		virtual void BodyMakeNoise(const Body *b, std::string_view key, float vol) = 0;
 
 		virtual void SetMasterVolume(float vol) = 0;
-		virtual float GetMasterVolume() = 0;
 		virtual void SetSfxVolume(float vol) = 0;
-		virtual float GetSfxVolume() = 0;
 
 		virtual void AddSample(std::string_view key, Sample &&sample) = 0;
 		virtual void Update(float delta_t) {}
