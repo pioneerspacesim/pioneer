@@ -20,6 +20,9 @@
 #include "LuaMusic.h"
 #include "LuaNameGen.h"
 #include "LuaSerializer.h"
+#ifdef ENABLE_SERVER_AGENT
+#include "LuaServerAgent.h"
+#endif // ENABLE_SERVER_AGENT
 #include "LuaShipDef.h"
 #include "LuaSpace.h"
 #include "LuaTimer.h"
