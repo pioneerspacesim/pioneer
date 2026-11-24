@@ -427,53 +427,53 @@ bool Game::UpdateTimeAccel()
 					double bodyRadius = systemBody ? systemBody->GetRadius() : b->GetPhysRadius();
 					double rad = std::max(bodyRadius, 10000.0);
 
-					if (dist < 250.0) {
+					if (dist < 800.0) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
-					} else if (dist < std::min(rad + 0.00001 * AU, rad * 1.01)) {
+					} else if (dist < std::min(rad + 0.00001 * AU, rad * 1.0015)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_2X);
-					} else if (dist < std::min(rad + 0.00002 * AU, rad * 1.02)) {
+					} else if (dist < std::min(rad + 0.00002 * AU, rad * 1.003)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_3X);
-					} else if (dist < std::min(rad + 0.00004 * AU, rad * 1.05)) {
+					} else if (dist < std::min(rad + 0.00004 * AU, rad * 1.006)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_5X);
-					} else if (dist < std::min(rad + 0.00007 * AU, rad * 1.08)) {
+					} else if (dist < std::min(rad + 0.00007 * AU, rad * 1.012)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_7X);
-					} else if (dist < std::min(rad + 0.0001 * AU, rad * 1.10)) {
+					} else if (dist < std::min(rad + 0.0001 * AU, rad * 1.024)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
-					} else if (dist < std::min(rad + 0.0002 * AU, rad * 1.25)) {
+					} else if (dist < std::min(rad + 0.0002 * AU, rad * 1.048)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_15X);
-					} else if (dist < std::min(rad + 0.0003 * AU, rad * 1.40)) {
+					} else if (dist < std::min(rad + 0.0003 * AU, rad * 1.096)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_20X);
-					} else if (dist < std::min(rad + 0.0005 * AU, rad * 1.70)) {
+					} else if (dist < std::min(rad + 0.0005 * AU, rad * 1.2)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_30X);
-					} else if (dist < std::min(rad + 0.0007 * AU, rad * 2.00)) {
+					} else if (dist < std::min(rad + 0.0007 * AU, rad * 1.4)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_50X);
-					} else if (dist < std::min(rad + 0.0009 * AU, rad * 2.30)) {
+					} else if (dist < std::min(rad + 0.0009 * AU, rad * 2.0)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_70X);
-					} else if (dist < std::min(rad + 0.001 * AU, rad * 2.50)) {
+					} else if (dist < std::min(rad + 0.001 * AU, rad * 4.0)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_100X);
-					} else if (dist < std::min(rad + 0.002 * AU, rad * 2.80)) {
+					} else if (dist < std::min(rad + 0.002 * AU, rad * 8.0)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_150X);
-					} else if (dist < std::min(rad + 0.003 * AU, rad * 3.20)) {
+					} else if (dist < std::min(rad + 0.003 * AU, rad * 16.0)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_200X);
-					} else if (dist < std::min(rad + 0.005 * AU, rad * 3.80)) {
+					} else if (dist < std::min(rad + 0.005 * AU, rad * 32.0)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_300X);
-					} else if (dist < std::min(rad + 0.007 * AU, rad * 4.40)) {
+					} else if (dist < std::min(rad + 0.007 * AU, rad * 64.0)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_500X);
-					} else if (dist < std::min(rad + 0.009 * AU, rad * 4.80)) {
+					} else if (dist < std::min(rad + 0.009 * AU, rad * 128.0)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_700X);
-					} else if (dist < std::min(rad + 0.01 * AU, rad * 5.00)) {
+					} else if (dist < std::min(rad + 0.01 * AU, rad * 256.00)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1000X);
-					} else if (dist < std::min(rad + 0.02 * AU, rad * 10.0)) {
+					} else if (dist < std::min(rad + 0.02 * AU, rad * 400.0)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1500X);
-					} else if (dist < std::min(rad + 0.03 * AU, rad * 20.0)) {
+					} else if (dist < std::min(rad + 0.03 * AU, rad * 800.0)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_2000X);
-					} else if (dist < std::min(rad + 0.05 * AU, rad * 40.0)) {
+					} else if (dist < std::min(rad + 0.05 * AU, rad * 1600.0)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_3000X);
-					} else if (dist < std::min(rad + 0.07 * AU, rad * 100.0)) {
+					} else if (dist < std::min(rad + 0.07 * AU, rad * 3200.0)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_5000X);
-					} else if (dist < std::min(rad + 0.09 * AU, rad * 250.0)) {
+					} else if (dist < std::min(rad + 0.09 * AU, rad * 6400.0)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_7000X);
-					} else if (dist < std::min(rad + 0.1 * AU, rad * 500.0)) {
+					} else if (dist < std::min(rad + 0.1 * AU, rad * 12800.0)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10000X);
 					}
 				}
