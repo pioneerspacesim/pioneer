@@ -33,7 +33,7 @@ local Vector2 = _G.Vector2
 local rescaleVector = ui.rescaleUI(Vector2(1, 1), Vector2(1600, 900), true)
 local widgetSizes = ui.rescaleUI({
 	itemSpacing = Vector2(4, 9),
-	faceSize = Vector2(586,565),
+	faceSize = Vector2(220,220),
 	buttonSizeBase = Vector2(72, 48),
 }, Vector2(1600, 900))
 
@@ -275,12 +275,19 @@ local function drawPlayerInfo()
 
 	ui.withFont(pionillium.heading, function()
 		ui.withStyleVars({ItemSpacing = widgetSizes.itemSpacing}, function()
+			-- The width of the right hand column will be the larger of the face image width and the launch button width
+			local launchButtonBaseSize = ui.calcButtonSize(l.REQUEST_LAUNCH, orbiteer.title)
+			local rightColumnWidth = math.max(widgetSizes.faceSize.x, launchButtonBaseSize.x)
 			local buttonSizeSpacing = widgetSizes.buttonLaunchSize.y + widgetSizes.itemSpacing.y
 			local lobbyMenuHeight = widgetSizes.buttonSizeBase.y*2 + widgetSizes.itemSpacing.y*3 -- use an extra itemSpacing to avoid scrollbar
 
 			ui.child("Wrapper", Vector2(0, -lobbyMenuHeight), function()
-				-- face display has 1:1 aspect ratio, and we need size for a launch button underneath
-				local infoColumnWidth = -math.min(ui.getContentRegion().y - buttonSizeSpacing, widgetSizes.faceSize.x) - widgetSizes.itemSpacing.x
+				-- Explicitly right-anchor the portrait/button column to avoid drift.
+				local topStart = ui.getCursorPos()
+				local topWidth = ui.getContentRegion().x
+				local rightColumnX = math.max(0, topWidth - rightColumnWidth - 5)
+				local infoColumnWidth = math.max(0, rightColumnX - widgetSizes.itemSpacing.x)
+
 				ui.child("PlayerShipFuel", Vector2(infoColumnWidth, 0), function()
 					ui.spacing()  -- Extra padding for umlaut and other signs on top of the station label.
 					textTable.withHeading(station.label, orbiteer.title, {
@@ -291,13 +298,22 @@ local function drawPlayerInfo()
 					})
 				end)
 
-				ui.sameLine()
-
-				ui.group(function()
-					if(face ~= nil) then face:render() end
+				ui.setCursorPos(topStart + Vector2(rightColumnX, 0))
+				ui.child("RightColumn", Vector2(rightColumnWidth, 0), function()
+					if face ~= nil then
+						face.style.size = Vector2(rightColumnWidth, 0)
+						face:render()
+						ui.withFont(orbiteer.body, function()
+							ui.textAligned(face.character.name, 0.5)
+							if face.character.title then
+								ui.textAligned(face.character.title, 0.5)
+							end
+						end)
+					end
+					ui.dummy(Vector2(0, ui.getTextLineHeightWithSpacing() / 2))
 
 					ui.withFont(orbiteer.title, function()
-						local size = Vector2(ui.getContentRegion().x, widgetSizes.buttonLaunchSize.y)
+						local size = Vector2(rightColumnWidth, widgetSizes.buttonLaunchSize.y)
 						if ui.button(l.REQUEST_LAUNCH, size) then
 							requestLaunch(station)
 						end
@@ -325,7 +341,11 @@ StationView:registerView({
 			if (stationSeed ~= station.seed) then
 				stationSeed = station.seed
 				local rand = Rand.New(station.seed)
-				face = PiGuiFace.New(Character.New({ title = l.STATION_MANAGER }, rand), {itemSpacing = widgetSizes.itemSpacing})
+				face = PiGuiFace.New(Character.New({ title = l.STATION_MANAGER }, rand), {
+					itemSpacing = widgetSizes.itemSpacing,
+					size = widgetSizes.faceSize
+				})
+				face.style.showCharInfo = false
 			end
 
 			hyperdrive = Game.player:GetInstalledHyperdrive()
