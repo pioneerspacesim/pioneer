@@ -16,6 +16,8 @@
 #include "collider/CollisionSpace.h"
 #include "core/GZipFormat.h"
 #include "galaxy/Economy.h"
+#include "galaxy/GalaxyGenerator.h"
+#include "galaxy/SystemBody.h"
 #include "lua/LuaEvent.h"
 #include "lua/LuaSerializer.h"
 #include "pigui/LuaPiGui.h"
@@ -32,7 +34,6 @@
 #include "SpaceStation.h"
 #include "SystemView.h"
 #include "WorldView.h"
-#include "galaxy/GalaxyGenerator.h"
 #include "ship/PlayerShipController.h"
 
 Game::Game(const SystemPath &path, const double startDateTime, const char *shipType) :
@@ -422,7 +423,9 @@ bool Game::UpdateTimeAccel()
 
 					vector3d toBody = m_player->GetPosition() - b->GetPositionRelTo(m_player->GetFrame());
 					double dist = toBody.Length();
-					double rad = std::max(b->GetPhysRadius(), 10000.0);
+					const SystemBody *systemBody = b->GetSystemBody();
+					double bodyRadius = systemBody ? systemBody->GetRadius() : b->GetPhysRadius();
+					double rad = std::max(bodyRadius, 10000.0);
 
 					if (dist < 250.0) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
