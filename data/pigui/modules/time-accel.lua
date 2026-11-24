@@ -30,7 +30,9 @@ local function displayTimeAccelWindow()
 	window_height = timefont.size + ui.getWindowPadding().y * 2
 	local window_size = Vector2(window_width, window_height)
 	-- position about 300 pixels above the time window (which sits at the bottom of the screen)
-	local window_pos = Vector2(0, ui.screenHeight - 300 - window_height)
+	-- local window_pos = Vector2(0, ui.screenHeight - 300 - window_height)
+	local window_pos = Vector2(ui.screenWidth/2 - 600, ui.screenHeight/2)
+
 	ui.setNextWindowSize(window_size, "Always")
 	ui.setNextWindowPos(window_pos, "Always")
 	ui.window("TimeAccel", windowFlags, function()
