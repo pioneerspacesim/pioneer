@@ -14,7 +14,7 @@
 
 #define Square(x) ((x) * (x))
 
-bool SectorCustomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config)
+bool SectorCustomSystemsGenerator::Apply(Random &rng, Random64& rng64, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config)
 {
 	const int sx = sector->sx;
 	const int sy = sector->sy;
@@ -71,7 +71,7 @@ bool SectorCustomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 	return true;
 }
 
-const std::string SectorRandomSystemsGenerator::GenName(RefCountedPtr<Galaxy> galaxy, const Sector &sec, Sector::System &sys, int si, Random &rng)
+const std::string SectorRandomSystemsGenerator::GenName(RefCountedPtr<Galaxy> galaxy, const Sector &sec, Sector::System &sys, int si, Random &rng, Random64& rng64 )
 {
 	std::string name;
 	const int sx = sec.sx;
@@ -114,7 +114,7 @@ const std::string SectorRandomSystemsGenerator::GenName(RefCountedPtr<Galaxy> ga
 	Uint32 weight = rng.Int32(chance);
 	if (weight < 500 || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, si))) {
 		// well done. you get a "real" name
-		NameGenerator::GetSystemName(name, rng);
+		NameGenerator::GetSystemName(name, rng, rng64);
 		return name;
 	} else if (weight < 800) {
 		char buf[128];
@@ -131,7 +131,7 @@ const std::string SectorRandomSystemsGenerator::GenName(RefCountedPtr<Galaxy> ga
 	}
 }
 
-bool SectorRandomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config)
+bool SectorRandomSystemsGenerator::Apply(Random &rng, Random64 &rng64, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config)
 {
 	/* Always place random systems outside the core custom-only region */
 	if (config->isCustomOnly)
@@ -150,23 +150,18 @@ bool SectorRandomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 	for (int i = 0; i < numSystems; i++) {
 		Sector::System s(sector.Get(), sx, sy, sz, customCount + i);
 
-		switch (rng.Int32(15)) {
-		case 0:
+		cui3 numStarChance = rng.Int32(1000000000);
+		if (numStarChance < 588704) { //0.0588704792849501% chance
 			s.m_numStars = 4;
-			break;
-		case 1:
-		case 2:
-			s.m_numStars = 3;
-			break;
-		case 3:
-		case 4:
-		case 5:
-		case 6:
+		}
+		else if (numStarChance < 98324047) { //9.7735343551% chance
 			s.m_numStars = 2;
-			break;
-		default:
+		}
+		else if (numStarChance < 291311882) { //19.2987835548% chance
+			s.m_numStars = 3;
+		}
+		else {
 			s.m_numStars = 1;
-			break;
 		}
 
 		s.m_pos.x = rng.Double(Sector::SIZE);
@@ -326,7 +321,7 @@ bool SectorRandomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 			//Output("%d: %d%\n", sx, sy);
 		}
 
-		s.m_name = GenName(galaxy, *sector, s, customCount + i, rng);
+		s.m_name = GenName(galaxy, *sector, s, customCount + i, rng, rng64);
 		//Output("%s: \n", s.m_name.c_str());
 
 		s.m_seed = rng.Int32();
@@ -420,7 +415,7 @@ void SectorPersistenceGenerator::SetExplored(Sector::System *sys, StarSystem::Ex
 	}
 }
 
-bool SectorPersistenceGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config)
+bool SectorPersistenceGenerator::Apply(Random &rng, Random64& rng64, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config)
 {
 	if (galaxy->IsInitialized()) {
 		for (Sector::System &secsys : sector->m_systems) {

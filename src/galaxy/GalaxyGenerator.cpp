@@ -175,11 +175,12 @@ RefCountedPtr<Sector> GalaxyGenerator::GenerateSector(RefCountedPtr<Galaxy> gala
 	const Uint32 _init[4] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 
 	Random rng(_init, 4);
+	Random64 rng64(_init, 8);
 	SectorConfig config;
 
 	RefCountedPtr<Sector> sector(new Sector(galaxy, path, cache));
 	for (SectorGeneratorStage *secgen : m_sectorStage)
-		if (!secgen->Apply(rng, galaxy, sector, &config))
+		if (!secgen->Apply(rng, rng64, galaxy, sector, &config))
 			break;
 
 	return sector;
