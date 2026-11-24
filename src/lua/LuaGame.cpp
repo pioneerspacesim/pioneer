@@ -485,9 +485,28 @@ static int pushTimeAccel(lua_State *l, const Game::TimeAccel accel)
 	switch (accel) {
 	case Game::TIMEACCEL_PAUSED: lua_pushstring(l, "paused"); break;
 	case Game::TIMEACCEL_1X: lua_pushstring(l, "1x"); break;
+	case Game::TIMEACCEL_2X: lua_pushstring(l, "2x"); break;
+	case Game::TIMEACCEL_3X: lua_pushstring(l, "3x"); break;
+	case Game::TIMEACCEL_5X: lua_pushstring(l, "5x"); break;
+	case Game::TIMEACCEL_7X: lua_pushstring(l, "7x"); break;
 	case Game::TIMEACCEL_10X: lua_pushstring(l, "10x"); break;
+	case Game::TIMEACCEL_15X: lua_pushstring(l, "15x"); break;
+	case Game::TIMEACCEL_20X: lua_pushstring(l, "20x"); break;
+	case Game::TIMEACCEL_30X: lua_pushstring(l, "30x"); break;
+	case Game::TIMEACCEL_50X: lua_pushstring(l, "50x"); break;
+	case Game::TIMEACCEL_70X: lua_pushstring(l, "70x"); break;
 	case Game::TIMEACCEL_100X: lua_pushstring(l, "100x"); break;
+	case Game::TIMEACCEL_150X: lua_pushstring(l, "150x"); break;
+	case Game::TIMEACCEL_200X: lua_pushstring(l, "200x"); break;
+	case Game::TIMEACCEL_300X: lua_pushstring(l, "300x"); break;
+	case Game::TIMEACCEL_500X: lua_pushstring(l, "500x"); break;
+	case Game::TIMEACCEL_700X: lua_pushstring(l, "700x"); break;
 	case Game::TIMEACCEL_1000X: lua_pushstring(l, "1000x"); break;
+	case Game::TIMEACCEL_1500X: lua_pushstring(l, "1500x"); break;
+	case Game::TIMEACCEL_2000X: lua_pushstring(l, "2000x"); break;
+	case Game::TIMEACCEL_3000X: lua_pushstring(l, "3000x"); break;
+	case Game::TIMEACCEL_5000X: lua_pushstring(l, "5000x"); break;
+	case Game::TIMEACCEL_7000X: lua_pushstring(l, "7000x"); break;
 	case Game::TIMEACCEL_10000X: lua_pushstring(l, "10000x"); break;
 	case Game::TIMEACCEL_HYPERSPACE: lua_pushstring(l, "hyperspace"); break;
 	default:
@@ -517,12 +536,50 @@ static int l_game_set_time_acceleration(lua_State *l)
 		a = Game::TIMEACCEL_PAUSED;
 	else if (!accel.compare("1x"))
 		a = Game::TIMEACCEL_1X;
+	else if (!accel.compare("2x"))
+		a = Game::TIMEACCEL_2X;
+	else if (!accel.compare("3x"))
+		a = Game::TIMEACCEL_3X;
+	else if (!accel.compare("5x"))
+		a = Game::TIMEACCEL_5X;
+	else if (!accel.compare("7x"))
+		a = Game::TIMEACCEL_7X;
 	else if (!accel.compare("10x"))
 		a = Game::TIMEACCEL_10X;
+	else if (!accel.compare("15x"))
+		a = Game::TIMEACCEL_15X;
+	else if (!accel.compare("20x"))
+		a = Game::TIMEACCEL_20X;
+	else if (!accel.compare("30x"))
+		a = Game::TIMEACCEL_30X;
+	else if (!accel.compare("50x"))
+		a = Game::TIMEACCEL_50X;
+	else if (!accel.compare("70x"))
+		a = Game::TIMEACCEL_70X;
 	else if (!accel.compare("100x"))
 		a = Game::TIMEACCEL_100X;
+	else if (!accel.compare("150x"))
+		a = Game::TIMEACCEL_150X;
+	else if (!accel.compare("200x"))
+		a = Game::TIMEACCEL_200X;
+	else if (!accel.compare("300x"))
+		a = Game::TIMEACCEL_300X;
+	else if (!accel.compare("500x"))
+		a = Game::TIMEACCEL_500X;
+	else if (!accel.compare("700x"))
+		a = Game::TIMEACCEL_700X;
 	else if (!accel.compare("1000x"))
 		a = Game::TIMEACCEL_1000X;
+	else if (!accel.compare("1500x"))
+		a = Game::TIMEACCEL_1500X;
+	else if (!accel.compare("2000x"))
+		a = Game::TIMEACCEL_2000X;
+	else if (!accel.compare("3000x"))
+		a = Game::TIMEACCEL_3000X;
+	else if (!accel.compare("5000x"))
+		a = Game::TIMEACCEL_5000X;
+	else if (!accel.compare("7000x"))
+		a = Game::TIMEACCEL_7000X;
 	else if (!accel.compare("10000x"))
 		a = Game::TIMEACCEL_10000X;
 	else if (!accel.compare("hyperspace"))

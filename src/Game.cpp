@@ -701,21 +701,59 @@ void Game::SwitchToNormalSpace()
 const float Game::s_timeAccelRates[] = {
 	0.0f,	  // paused
 	1.0f,	  // 1x
+	2.0f,	  // 2x
+	3.0f,	  // 3x
+	5.0f,	  // 5x
+	7.0f,	  // 7x
 	10.0f,	  // 10x
+	15.0f,	  // 15x
+	20.0f,	  // 20x
+	30.0f,	  // 30x
+	50.0f,	  // 50x
+	70.0f,	  // 70x
 	100.0f,	  // 100x
+	150.0f,	  // 150x
+	200.0f,	  // 200x
+	300.0f,	  // 300x
+	500.0f,	  // 500x
+	700.0f,	  // 700x
 	1000.0f,  // 1000x
+	1500.0f,  // 1500x
+	2000.0f,  // 2000x
+	3000.0f,  // 3000x
+	5000.0f,  // 5000x
+	7000.0f,  // 7000x
 	10000.0f, // 10000x
 	100000.0f // hyperspace
 };
 
 const float Game::s_timeInvAccelRates[] = {
-	0.0f,	 // paused
-	1.0f,	 // 1x
-	0.1f,	 // 10x
-	0.01f,	 // 100x
-	0.001f,	 // 1000x
-	0.0001f, // 10000x
-	0.00001f // hyperspace
+	0.0f,	   // paused
+	1.0f,	   // 1x
+	1.0f / 2.0f,   // 2x
+	1.0f / 3.0f,   // 3x
+	1.0f / 5.0f,   // 5x
+	1.0f / 7.0f,   // 7x
+	0.1f,	   // 10x
+	1.0f / 15.0f,  // 15x
+	0.05f,	   // 20x
+	1.0f / 30.0f,  // 30x
+	0.02f,	   // 50x
+	1.0f / 70.0f,  // 70x
+	0.01f,	   // 100x
+	1.0f / 150.0f, // 150x
+	0.005f,	   // 200x
+	1.0f / 300.0f, // 300x
+	0.002f,	   // 500x
+	1.0f / 700.0f, // 700x
+	0.001f,	   // 1000x
+	1.0f / 1500.0f,// 1500x
+	0.0005f,   // 2000x
+	1.0f / 3000.0f,// 3000x
+	0.0002f,   // 5000x
+	1.0f / 7000.0f,// 7000x
+	0.0001f,   // 10000x
+	0.00001f   // hyperspace
 };
 
 void Game::SetTimeAccel(TimeAccel t)
@@ -766,15 +804,72 @@ void Game::RequestTimeAccelInc(bool force)
 {
 	switch (m_requestedTimeAccel) {
 	case Game::TIMEACCEL_1X:
+		m_requestedTimeAccel = Game::TIMEACCEL_2X;
+		break;
+	case Game::TIMEACCEL_2X:
+		m_requestedTimeAccel = Game::TIMEACCEL_3X;
+		break;
+	case Game::TIMEACCEL_3X:
+		m_requestedTimeAccel = Game::TIMEACCEL_5X;
+		break;
+	case Game::TIMEACCEL_5X:
+		m_requestedTimeAccel = Game::TIMEACCEL_7X;
+		break;
+	case Game::TIMEACCEL_7X:
 		m_requestedTimeAccel = Game::TIMEACCEL_10X;
 		break;
 	case Game::TIMEACCEL_10X:
+		m_requestedTimeAccel = Game::TIMEACCEL_15X;
+		break;
+	case Game::TIMEACCEL_15X:
+		m_requestedTimeAccel = Game::TIMEACCEL_20X;
+		break;
+	case Game::TIMEACCEL_20X:
+		m_requestedTimeAccel = Game::TIMEACCEL_30X;
+		break;
+	case Game::TIMEACCEL_30X:
+		m_requestedTimeAccel = Game::TIMEACCEL_50X;
+		break;
+	case Game::TIMEACCEL_50X:
+		m_requestedTimeAccel = Game::TIMEACCEL_70X;
+		break;
+	case Game::TIMEACCEL_70X:
 		m_requestedTimeAccel = Game::TIMEACCEL_100X;
 		break;
 	case Game::TIMEACCEL_100X:
+		m_requestedTimeAccel = Game::TIMEACCEL_150X;
+		break;
+	case Game::TIMEACCEL_150X:
+		m_requestedTimeAccel = Game::TIMEACCEL_200X;
+		break;
+	case Game::TIMEACCEL_200X:
+		m_requestedTimeAccel = Game::TIMEACCEL_300X;
+		break;
+	case Game::TIMEACCEL_300X:
+		m_requestedTimeAccel = Game::TIMEACCEL_500X;
+		break;
+	case Game::TIMEACCEL_500X:
+		m_requestedTimeAccel = Game::TIMEACCEL_700X;
+		break;
+	case Game::TIMEACCEL_700X:
 		m_requestedTimeAccel = Game::TIMEACCEL_1000X;
 		break;
 	case Game::TIMEACCEL_1000X:
+		m_requestedTimeAccel = Game::TIMEACCEL_1500X;
+		break;
+	case Game::TIMEACCEL_1500X:
+		m_requestedTimeAccel = Game::TIMEACCEL_2000X;
+		break;
+	case Game::TIMEACCEL_2000X:
+		m_requestedTimeAccel = Game::TIMEACCEL_3000X;
+		break;
+	case Game::TIMEACCEL_3000X:
+		m_requestedTimeAccel = Game::TIMEACCEL_5000X;
+		break;
+	case Game::TIMEACCEL_5000X:
+		m_requestedTimeAccel = Game::TIMEACCEL_7000X;
+		break;
+	case Game::TIMEACCEL_7000X:
 		m_requestedTimeAccel = Game::TIMEACCEL_10000X;
 		break;
 	default:
@@ -787,17 +882,74 @@ void Game::RequestTimeAccelInc(bool force)
 void Game::RequestTimeAccelDec(bool force)
 {
 	switch (m_requestedTimeAccel) {
-	case Game::TIMEACCEL_10X:
+	case Game::TIMEACCEL_2X:
 		m_requestedTimeAccel = Game::TIMEACCEL_1X;
 		break;
-	case Game::TIMEACCEL_100X:
+	case Game::TIMEACCEL_3X:
+		m_requestedTimeAccel = Game::TIMEACCEL_2X;
+		break;
+	case Game::TIMEACCEL_5X:
+		m_requestedTimeAccel = Game::TIMEACCEL_3X;
+		break;
+	case Game::TIMEACCEL_7X:
+		m_requestedTimeAccel = Game::TIMEACCEL_5X;
+		break;
+	case Game::TIMEACCEL_10X:
+		m_requestedTimeAccel = Game::TIMEACCEL_7X;
+		break;
+	case Game::TIMEACCEL_15X:
 		m_requestedTimeAccel = Game::TIMEACCEL_10X;
 		break;
-	case Game::TIMEACCEL_1000X:
+	case Game::TIMEACCEL_20X:
+		m_requestedTimeAccel = Game::TIMEACCEL_15X;
+		break;
+	case Game::TIMEACCEL_30X:
+		m_requestedTimeAccel = Game::TIMEACCEL_20X;
+		break;
+	case Game::TIMEACCEL_50X:
+		m_requestedTimeAccel = Game::TIMEACCEL_30X;
+		break;
+	case Game::TIMEACCEL_70X:
+		m_requestedTimeAccel = Game::TIMEACCEL_50X;
+		break;
+	case Game::TIMEACCEL_100X:
+		m_requestedTimeAccel = Game::TIMEACCEL_70X;
+		break;
+	case Game::TIMEACCEL_150X:
 		m_requestedTimeAccel = Game::TIMEACCEL_100X;
 		break;
-	case Game::TIMEACCEL_10000X:
+	case Game::TIMEACCEL_200X:
+		m_requestedTimeAccel = Game::TIMEACCEL_150X;
+		break;
+	case Game::TIMEACCEL_300X:
+		m_requestedTimeAccel = Game::TIMEACCEL_200X;
+		break;
+	case Game::TIMEACCEL_500X:
+		m_requestedTimeAccel = Game::TIMEACCEL_300X;
+		break;
+	case Game::TIMEACCEL_700X:
+		m_requestedTimeAccel = Game::TIMEACCEL_500X;
+		break;
+	case Game::TIMEACCEL_1000X:
+		m_requestedTimeAccel = Game::TIMEACCEL_700X;
+		break;
+	case Game::TIMEACCEL_1500X:
 		m_requestedTimeAccel = Game::TIMEACCEL_1000X;
+		break;
+	case Game::TIMEACCEL_2000X:
+		m_requestedTimeAccel = Game::TIMEACCEL_1500X;
+		break;
+	case Game::TIMEACCEL_3000X:
+		m_requestedTimeAccel = Game::TIMEACCEL_2000X;
+		break;
+	case Game::TIMEACCEL_5000X:
+		m_requestedTimeAccel = Game::TIMEACCEL_3000X;
+		break;
+	case Game::TIMEACCEL_7000X:
+		m_requestedTimeAccel = Game::TIMEACCEL_5000X;
+		break;
+	case Game::TIMEACCEL_10000X:
+		m_requestedTimeAccel = Game::TIMEACCEL_7000X;
 		break;
 	default:
 		// ignore if paused, hyperspace or 1X
