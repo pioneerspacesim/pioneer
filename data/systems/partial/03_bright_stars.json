@@ -1,5 +1,6 @@
 [
-    {"name": "Castor", "stars": ["STAR_A"], "sector": [5, 2, 3], "pos": [0.096, 1.552, 3.232]},
+    {"name": "Castor", "stars": ["STAR_A"], "otherNames": ["Alpha Geminorum", "α Gem", "北河二"], "sector": [5, 2, 3], "pos": [0.096, 1.552, 3.232]},
+    {"name": "Rho Geminorum", "stars": ["STAR_F_SUPER_GIANT" ,"STAR_A_GIANT", "STAR_K"], "otherNames": ["ρ Gem", "Gliese 274", "北河一"], "sector": [6, 2, 3], "pos": [2.152, 3.013, 7.0769]},
     {"name": "Lambda Velorum", "stars": ["STAR_K_SUPER_GIANT"], "sector": [35, 38, -50], "pos": [3.896, 0.432, 5.912]},
     {"name": "Eta Canis Majoris", "stars": ["STAR_B_SUPER_GIANT"], "sector": [325, 125, -196], "pos": [2.888, 0.392, 2.96]},
     {"name": "Diphda", "stars": ["STAR_K_GIANT"], "sector": [2, -12, -4], "pos": [1.232, 6.512, 2.408]},
@@ -126,7 +127,6 @@
     {"name": "9 Librae", "stars": ["STAR_A_GIANT"], "sector": [-7, 6, -3], "pos": [5.664, 6.504, 2.664]},
     {"name": "Adhara", "stars": ["STAR_B_SUPER_GIANT"], "sector": [45, 11, -27], "pos": [4.68, 7.376, 7.296]},
     {"name": "Enif", "stars": ["STAR_K_SUPER_GIANT"], "sector": [-47, -69, 14], "pos": [5.96, 2.432, 3.336]},
-    {"name": "Alpha Geminorum", "stars": ["STAR_A"], "sector": [5, 2, 3], "pos": [0.088, 1.552, 3.232]},
     {"name": "Pi Scorpii", "stars": ["STAR_B"], "sector": [-45, 26, -26], "pos": [3.808, 0.032, 5.8]},
     {"name": "Beta Aquarii", "stars": ["STAR_G_SUPER_GIANT"], "sector": [-46, -61, -8], "pos": [0.528, 2.296, 4.592]},
     {"name": "Arneb", "stars": ["STAR_F_SUPER_GIANT"], "sector": [151, -19, -50], "pos": [5.84, 6.88, 6.976]},
