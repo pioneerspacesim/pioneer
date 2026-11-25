@@ -1765,8 +1765,6 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 
 				sbody->m_children.insert(sbody->m_children.begin(), sp);
 				system->AddSpaceStation(sp);
-				sp->m_orbMin = sp->GetSemiMajorAxisAsFixed();
-				sp->m_orbMax = sp->GetSemiMajorAxisAsFixed();
 
 				sp->m_name = gen_unique_station_name(sp, system, namerand);
 				PopulateStage1(sp, system, totalPop);
