@@ -127,6 +127,9 @@ public:
 	void EndAISequentialThrusters();
 
 private:
+
+	vector3d DiffvelThrustLevels(const vector3d &diffvel, const vector3d &powerLimit);
+
 	// Ship turn angle above which linear thrust is blocked. For angles above this the ship will finish rotating first before firing main thrusters.
 	static constexpr double AI_MAJOR_TURN_ANGLE = 8.0 * DEG2RAD(1.0);
 	bool m_aiSequentialThrusters;
