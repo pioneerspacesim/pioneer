@@ -19,6 +19,12 @@ local font_factor = ui.rescaleFraction(1, Vector2(1920, 1080))
 
 local textBackgroundMarginPixels = 2
 
+-- localise multipliers
+mkilo = lui.MUL_THOUSANDS
+mmil = lui.MUL_MILLIONS
+mbil = lui.MUL_BILLIONS
+mtril = lui.MUL_TRILLIONS
+
 -- apply a subtle bias to prevent fonts from becoming overly tiny at small resolutions
 local function fontScale(size)
 	return math.round(size * (font_factor < 1 and font_factor * 0.8 + 0.2 or font_factor))
@@ -328,10 +334,10 @@ ui.Format = {
 		number = math.abs(number)
 		local fmt = "%." .. (places or '2') .. "f%s"
 		if number < 1e3 then return s .. fmt:format(number, "")
-		elseif number < 1e6 then return s .. fmt:format(number / 1e3, " k")
-		elseif number < 1e9 then return s .. fmt:format(number / 1e6, " mil")
-		elseif number < 1e12 then return s .. fmt:format(number / 1e9, " bil")
-		else return s .. fmt:format(number / 1e12, "trn") end
+		elseif number < 1e6 then return s .. fmt:format(number / 1e3, mkilo)
+		elseif number < 1e9 then return s .. fmt:format(number / 1e6, mmil)
+		elseif number < 1e12 then return s .. fmt:format(number / 1e9, mbil)
+		else return s .. fmt:format(number / 1e12, mtril) end
 	end,
 	-- write the entire number using thousands-place grouping
 	-- Due to bugs with format specifier %03.2f producing 0.00 instead of 000.00,
