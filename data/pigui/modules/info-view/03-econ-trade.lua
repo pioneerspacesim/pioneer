@@ -74,7 +74,7 @@ local function cargolist ()
 		-- count
 		ui.tableNextColumn()
 		ui.alignTextToButtonPadding()
-		ui.text(entry.count .. "t")
+		ui.text(entry.count .. " t")
 
 		-- name
 		ui.tableNextColumn()
