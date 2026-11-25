@@ -68,7 +68,7 @@ void CargoBody::SaveToJson(Json &jsonObj, Space *space)
 void CargoBody::Init()
 {
 	m_hitpoints = 1.0f;
-	std::string cargoname = ScopedTable(m_cargo).CallMethod<std::string>("GetName"); // instead of switching to lua twice for the same value
+	std::string cargoname = ScopedTable(m_cargo).CallMethod<std::string>("GetProperName"); // instead of switching to lua twice for the same value
 	SetLabel(cargoname);
 	SetMassDistributionFromModel();
 
