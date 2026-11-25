@@ -181,6 +181,7 @@ debugView.registerTab("debug-player", {
 			end
 
 			if ui.button("Buy commodity") then
+				if cargo_amount == 0 then return end
 				cargoMgr:AddCommodity(commodities[selected_commodity + 1], cargo_amount)
 			end
 
