@@ -15,6 +15,10 @@
     "description": "",
     "message": "Thank you very much. The crew will appreciate that."
   },
+  "ACCEPTED_SCIENTIFIC_1": {
+    "description": "",
+    "message": "Thank you! We are looking forward to your return."
+  },
   "ADTEXT_ARMS_DEALER": {
     "description": "",
     "message": "Pick-up mission: prompt recovery of drifting container required."
@@ -30,6 +34,10 @@
   "ADTEXT_RESCUE": {
     "description": "",
     "message": "HELP NEEDED: Urgent escape capsule rescue operation."
+  },
+  "ADTEXT_SCIENTIFIC_1": {
+    "description": "",
+    "message": "Recovery of a technical sample."
   },
   "ADTITLE_ARMS_DEALER": {
     "description": "",
@@ -47,9 +55,21 @@
     "description": "",
     "message": "HELP NEEDED"
   },
+  "ADTITLE_SCIENTIFIC_1": {
+    "description": "",
+    "message": "SCIENTIFIC MISSION"
+  },
+  "BIOWEAPON": {
+    "description": "A cargo item",
+    "message": "Bioweapon"
+  },
   "CLIENT": {
     "description": "",
     "message": "Client:"
+  },
+  "CREW": {
+    "description": "",
+    "message": "CREW:"
   },
   "DANGER": {
     "description": "The risk level",
@@ -75,6 +95,10 @@
     "description": "",
     "message": "Nice to meet you. Please approach to within 100m to complete the cargo transfer!"
   },
+  "EXPOSURE_TARGET": {
+    "description": "",
+    "message": "Exposure target"
+  },
   "FAILURE_MSG_ARMS_DEALER": {
     "description": "",
     "message": "You fool. The client's not gonna like this!"
@@ -82,6 +106,10 @@
   "FAILURE_MSG_RESCUE": {
     "description": "",
     "message": "Your unreliability has caused great harm. Get out of my sight!"
+  },
+  "FAILURE_MSG_SCIENTIFIC_1": {
+    "description": "",
+    "message": "Unfortunately the samples are now unusable. We can't pay for your service."
   },
   "HOW_MUCH_TIME": {
     "description": "",
@@ -103,6 +131,10 @@
     "description": "",
     "message": "It would be good if you could reach the location before {date}."
   },
+  "HOW_MUCH_TIME_SCIENTIFIC_1": {
+    "description": "",
+    "message": "The samples need to be retrieved before {date}."
+  },
   "INTROTEXT_ARMS_DEALER": {
     "description": "",
     "message": "Hello Commander. My name is {client}. It would be great if you could help me out. An unreliable freighter captain dropped my cargo near {planet} and has disappeared since. Your task would be to pick up one container and deliver it to ship {shipid} in orbit around {star}. I would pay you {cash}."
@@ -118,6 +150,10 @@
   "INTROTEXT_RESCUE": {
     "description": "",
     "message": "Hi, my name is {client}. The crew of a freighter had to abandon their ship after an incident. The ship owner is willing to pay {cash} for a discreet rescue mission. The accident site is near {planet}. Please pick up the crew and bring them to a station!"
+  },
+  "INTROTEXT_SCIENTIFIC_1": {
+    "description": "",
+    "message": "Good day sir, I'm {client}. We need to recover a scientific sample which has been intentionally left in orbit around {planet}. We're measuring the effects of exposure in that environment."
   },
   "NUCLEAR_MISSILE": {
     "description": "A cargo item",
@@ -138,6 +174,10 @@
   "ROCKET_LAUNCHERS": {
     "description": "",
     "message": "Rocket launchers"
+  },
+  "SAMPLE_CRATE": {
+    "description": "A cargo item.",
+    "message": "Sample crate"
   },
   "SCOOP": {
     "description": "Name of mission type",
@@ -166,6 +206,10 @@
   "SUCCESS_MSG_RESCUE": {
     "description": "",
     "message": "Thank you very much! The crew would also like to express their thanks."
+  },
+  "SUCCESS_MSG_SCIENTIFIC_1": {
+    "description": "",
+    "message": "Fantastic! I'm unloading it right away. We have transferred the money."
   },
   "TOXIC_WASTE": {
     "description": "cargo item",
@@ -198,6 +242,10 @@
   "WHY_NOT_YOURSELF_RESCUE": {
     "description": "",
     "message": "I have no ship available at this time."
+  },
+  "WHY_NOT_YOURSELF_SCIENTIFIC_1": {
+    "description": "",
+    "message": "We have no ship available at this time."
   },
   "YOU_DO_NOT_HAVE_A_SCOOP": {
     "description": "",
