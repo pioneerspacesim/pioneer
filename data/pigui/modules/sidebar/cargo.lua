@@ -204,10 +204,10 @@ function module:drawCargoRow(v, rowWidth, totalSpace)
 		local fontCol = transferAmt > 0 and self.transferMode.color or colors.font
 
 		ui.withStyleColors({ Text = fontCol }, function()
-			ui.text(transferAmt .. "cu")
+			ui.text(transferAmt .. " cu")
 		end)
 	else
-		ui.text(v.count .. "cu")
+		ui.text(v.count .. " cu")
 	end
 
 	-- Draw cargo gauge

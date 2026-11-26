@@ -74,7 +74,7 @@ local function cargolist ()
 		-- count
 		ui.tableNextColumn()
 		ui.alignTextToButtonPadding()
-		ui.text(entry.count .. "t")
+		ui.text(entry.count .. " t")
 
 		-- name
 		ui.tableNextColumn()
@@ -94,9 +94,11 @@ local pumpDown = function (fuel)
 	local player = Game.player
 	---@type CargoManager
 	local cargoMgr = player:GetComponent('CargoManager')
-
-	if player.fuel == 0 or cargoMgr:GetFreeSpace() == 0 then
-		print("No fuel left to pump!")
+	if player.fuelMassLeft < 1.0 then
+		print("Not enough fuel left to pump down!")
+		return
+	elseif cargoMgr:GetFreeSpace() == 0 then
+		print("Not enough room in the cargo bay!")
 		return
 	end
 

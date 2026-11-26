@@ -462,6 +462,7 @@ function CommodityMarketWidget:TradeMenu()
 			ui.addCursorPos(Vector2(0, ui.getContentRegion().y - self.style.widgetSizes.confirmButtonSize.y))
 			ui.withFont(orbiteer.heading, function()
 				if ui.button(self.tradeModeBuy and l.CONFIRM_PURCHASE or l.CONFIRM_SALE, self.style.widgetSizes.confirmButtonSize) then
+					if self.tradeAmount == 0 then return end
 					if self.tradeModeBuy then self:DoBuy()
 					else self:DoSell() end
 				end
