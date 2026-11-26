@@ -14,6 +14,7 @@
 #include <deque>
 
 class Body;
+class Camera;
 class Frame;
 class Space;
 
@@ -46,6 +47,7 @@ namespace SfxParams {
 	inline constexpr float EXHAUST_PARTICLES_PER_SHIP_PER_SEC = 800.0f;
 	inline constexpr float EXHAUST_MIN_REACTION_POWER = 0.02f;
 	inline constexpr float EXHAUST_STREAM_TIMESTEP_CAP = 0.05f;
+	inline constexpr float EXHAUST_ILLUMINATION_DISTANCE = 400.0f;
 	inline constexpr float EXHAUST_DUST_RADIAL_KICK_SPEED = 24.0f;
 	inline constexpr float EXHAUST_DUST_TANGENT_KICK_SPEED = 38.0f;
 	inline constexpr float EXHAUST_DUST_NON_CULL_PROB = 0.05f; // Keep one in 20 particles as dust kick up
@@ -133,7 +135,7 @@ public:
 	static void AddThrustSmoke(const Body *b, float speed, const vector3d &adjustpos);
 	static void AddExhaust(const Body *b, Uint16 exhaustJetIndex, bool exhaustSuppressStreakElongation, const vector3d &startPos, const vector3d &backboneVel, const vector3f &plumeOffset, const vector3f &plumeOffsetVel, float intensity, float dragScale, float opacityScale, const vector3f &windVel, double groundRadius, const Color &dustTint, float baseLifetime = SfxParams::EXHAUST_LIFETIME, float maxSpread = SfxParams::EXHAUST_MAX_SPREAD, float noiseStrength = 0.f);
 	static void TimeStepAll(const float timeStep, FrameId f);
-	static void RenderAll(Graphics::Renderer *r, FrameId f, FrameId camFrame, float illuminationFactor = 1.f);
+	static void RenderAll(Graphics::Renderer *r, FrameId f, FrameId camFrame, float illuminationFactor = 1.f, const Camera *camera = nullptr);
 	static void ToJson(Json &jsonObj, const FrameId f, const Space *space);
 	static void FromJson(const Json &jsonObj, FrameId f);
 
