@@ -393,6 +393,26 @@ fixedf<48> StarSystemLegacyGeneratorBase::CalcHillRadius(SystemBody *sbody) cons
 	}
 }
 
+// Normalized atmosphere top used for starport orbit clearance (planet radii).
+// This must stay as the pre-Rayleigh 10-scale-height formula so randomly-generated
+// body counts/indices remain stable for old saves. 
+static float LegacyStarportAtmosRadius(const SystemBody *sbody)
+{
+	const double radiusPlanet_in_m = sbody->GetRadiusAsFixed().ToDouble() * EARTH_RADIUS;
+	const double massPlanet_in_kg = sbody->GetMassAsFixed().ToDouble() * EARTH_MASS;
+	const double g = G * massPlanet_in_kg / (radiusPlanet_in_m * radiusPlanet_in_m);
+
+	double T = static_cast<double>(sbody->GetAverageTemp());
+	// XXX hack to avoid issues with sysgen giving 0 temps
+	if (T < 1)
+		T = 165;
+
+	const double M = sbody->GetType() == SystemBody::TYPE_PLANET_GAS_GIANT ? 0.0023139903 : 0.02897;
+	const float atmosScaleHeight = static_cast<float>(GAS_CONSTANT_R * T / (M * g));
+
+	return static_cast<float>(1.0f + static_cast<float>(10.0f * atmosScaleHeight) / sbody->GetRadius());
+}
+
 void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *parent,
 	const std::vector<CustomSystemBody *> &children, int *outHumanInfestedness)
 {
@@ -429,7 +449,7 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 
 		if (kid->GetType() != SystemBody::TYPE_STARPORT_SURFACE) {
 			if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
-				const double parentAtmosRadius = 1.0 + parent->GetAtmRadius() / parent->GetRadius();
+				const double parentAtmosRadius = LegacyStarportAtmosRadius(parent);
 
 				fixed lowestOrbit = fixed().FromDouble(parentAtmosRadius + 500000.0 / EARTH_RADIUS);
 				if (kid->GetOrbit().GetSemiMajorAxis() < lowestOrbit.ToDouble()) {
@@ -1666,7 +1686,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 	if (sbody->GetPopulationAsFixed() < fixed(1, 1000)) return;
 	fixed orbMaxS = fixed(1, 4) * fixed(CalcHillRadius(sbody));
 
-	const double sbodyAtmosRadius = 1.0 + sbody->GetAtmRadius() / sbody->GetRadius();
+	const double sbodyAtmosRadius = LegacyStarportAtmosRadius(sbody);
 	fixed orbMinS = fixed().FromDouble((sbodyAtmosRadius + +500000.0 / EARTH_RADIUS)) * AU_EARTH_RADIUS;
 	if (sbody->GetNumChildren() > 0)
 		orbMaxS = std::min(orbMaxS, fixed(1, 2) * sbody->GetChildren()[0]->GetOrbMinAsFixed());
